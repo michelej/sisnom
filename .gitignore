@@ -1,0 +1,8 @@
+/nbproject
+*.htaccess
+/app/tmp
+/plugins
+/vendors
+/cake
+/app/config/core.php
+/app/config/database.php
