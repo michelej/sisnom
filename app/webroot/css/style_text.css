@@ -1,0 +1,62 @@
+html, body {
+    color: #666666;
+    font: 12px/165% arial,sans-serif;
+    text-align: left;
+}
+a, a:link, a:active, a:visited {
+    text-decoration: underline;
+}
+a:hover {
+    color: #656565;
+    text-decoration: none;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 13px 0 0 15px;
+}
+ol {
+    margin: 0;
+    padding: 13px 0 0 30px;
+}
+ol li {
+    margin: 5px 0 0;
+}
+ul li {
+    background-image: url("../img/li.gif");
+    background-position: left 6px;
+    background-repeat: no-repeat;
+    margin: 5px 0 0;
+    padding: 0 0 0 12px;
+}
+h1 {
+
+    font-size: 17px;
+    font-weight: normal;
+    line-height: normal;
+    margin: 0;
+    padding: 0 0 7px;
+}
+h2 {
+	font-family: arial,sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: normal;
+    margin: 0;
+    padding: 0 0 7px;
+}
+.box .title h2 {
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 29px;
+    margin: 0;
+    padding: 0;
+}
+h3 {
+
+    font-size: 12px;
+    font-weight: normal;
+    line-height: normal;
+    margin: 0;
+    padding: 0 0 3px;
+}

@@ -1,0 +1,74 @@
+/* CSS Document */
+
+.box .content.messages {
+    padding: 10px 20px 20px;
+}
+.box .content.error-message {
+    padding: 10px 20px 20px;
+}
+.box .messages {
+}
+.box .content .message {
+    background-position: 8px 10px;
+    background-repeat: no-repeat;
+    border-radius: 4px 4px 4px 4px;
+    clear: both;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 2.3em;
+    margin: 10px 0 0;
+    padding: 0 0 0 25px;
+    position: relative;
+}
+.box .content .message img {
+    cursor: pointer;
+    position: absolute;
+    right: 7px;
+    top: 7px;
+}
+.box .content .red {
+    background-color: #FBF0F0;
+    background-image: url("../img/icon-reddot.gif");
+    border: 1px solid #B80000;
+    color: #B80000;
+    display: block;
+}
+.box .content .green {
+    background-color: #F6FAF0;
+    background-image: url("../img/icon-greendot.gif");
+    border: 1px solid #6AA500;
+    color: #6AA500;
+    display: block;
+}
+.box .content .blue {
+    background-color: #F1F6FC;
+    background-image: url("../img/icon-bluedot.gif");
+    border: 1px solid #136BC5;
+    color: #136BC5;
+    display: block;
+}
+.box .content .orange {
+    background-color: #FEF9F1;
+    background-image: url("../img/icon-orangedot.gif");
+    border: 1px solid #ED9D12;
+    color: #ED9D12;
+    display: block;
+}
+.box .error-message{
+	float:left;
+	background-position: 8px 5px;
+	background-repeat: no-repeat;
+	background-color: #FBF0F0;
+	background-image: url(../img/icon-reddot.gif);
+	border: 1px solid #B80000;
+	color: #B80000;
+	display: block;
+	position: relative;
+	margin-top: 2px;
+	margin-bottom: 0;
+	margin-left: 5px;
+	padding-top: 0;
+	padding-right: 0;
+	padding-bottom: 0;
+	padding-left: 25px;
+}

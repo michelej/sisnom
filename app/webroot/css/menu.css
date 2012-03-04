@@ -1,0 +1,115 @@
+element.style {
+    float: none;
+    width: auto;
+}
+.menu ul, .menu ul * {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.menu ul {
+    line-height: 1;
+}
+.menu ul ul {
+    position: absolute;
+    top: -999em;
+    width: 10em;
+}
+.menu ul ul li {
+    width: 100%;
+}
+.menu ul li:hover {
+    visibility: inherit;
+}
+.menu ul li {
+    float: left;
+    position: relative;
+}
+.menu ul a {
+    display: block;
+    position: relative;
+}
+.menu ul li:hover ul, .menu ul li.sfHover ul {
+    left: 0;
+    top: 31px;
+    z-index: 99;
+}
+.menu ul li:hover li ul, .menu ul li.sfHover li ul {
+    top: -999em;
+}
+.menu ul li li:hover ul, .menu ul li li.sfHover ul {
+    left: 10em;
+    top: 0;
+}
+.menu ul li li:hover li ul, .menu ul li li.sfHover li ul {
+    top: -999em;
+}
+.menu ul li li li:hover ul, .menu ul li li li.sfHover ul {
+    left: 10em;
+    top: 0;
+}
+.menu ul {
+    font-size: 12px;
+    font-weight: bold;
+    line-height: normal;
+    top: 0;
+    z-index: 999;
+}
+.menu ul li {
+    background: none repeat scroll 0 0 transparent;
+}
+.menu ul li.break {
+    background-image: url("../img/menu-break.gif");
+    background-repeat: no-repeat;
+    height: 29px;
+    margin: 1px 0 0;
+    overflow: hidden;
+    width: 2px;
+}
+.menu ul li li.break {
+    border-bottom: 1px dashed #D9D9D9;
+    height: 0;
+    margin: 0;
+    overflow: hidden;
+    width: 100%;
+}
+.menu ul ul {
+    background-color: #FDFDFD;
+    border-bottom: 1px solid #D3D3D3;
+    border-left: 1px solid #D3D3D3;
+    border-radius: 0 0 4px 4px;
+    border-right: 1px solid #D3D3D3;
+    margin: 0 0 0 -2px;
+}
+.menu ul ul ul {
+    background-color: #FDFDFD;
+    border: 1px solid #D3D3D3;
+    border-radius: 0 4px 4px 4px;
+    margin: -1px 0 0;
+}
+.menu ul li a, .menu ul li a:link, .menu ul li a:active, .menu ul li a:visited {
+    padding: 0.7em 20px;
+    position: relative;
+    text-decoration: none;
+    white-space: nowrap;
+    z-index: 999;
+}
+.menu ul li li a, .menu ul li li a:link, .menu ul li li a:active, .menu ul li li a:visited {
+    overflow: hidden;
+    padding: 7px 20px;
+    position: relative;
+    text-decoration: none;
+    white-space: nowrap;
+    z-index: 999;
+}
+.menu ul li.current a, .menu ul li.current a:link, .menu ul li.current a:active, .menu ul li.current a:visited, .menu ul li li.current a, .menu ul li li.current a:link, .menu ul li li.current a:active, .menu ul li li.current a:visited, .menu ul li:hover, .menu ul li.sfHover, .menu ul li a:focus, .menu ul li a:hover, .menu ul li li a:focus, .menu ul li li a:hover {
+    outline: 0 none;
+}
+.menu ul li.current a, .menu ul li.current a:link, .menu ul li.current a:active, .menu ul li.current a:visited, .menu ul li:hover, .menu ul li.sfHover, .menu ul li a:focus, .menu ul li a:hover {
+    background-image: url("../img/menu-active.gif");
+    background-position: left 1px;
+    background-repeat: repeat-x;
+}
+.menu ul li li a, .menu ul li li a:link, .menu ul li li a:active, .menu ul li li a:visited, .menu ul li.current li a, .menu ul li.current li a:link, .menu ul li.current li a:active, .menu ul li.current li a:visited, .menu ul li li.current a, .menu ul li li.current a:link, .menu ul li li.current a:active, .menu ul li li.current a:visited, .menu ul li:hover, .menu ul li.sfHover, .menu ul li li:hover, .menu ul li li.sfHover .menu ul li li a:focus, .menu ul li li a:hover {
+    background-image: none;
+}

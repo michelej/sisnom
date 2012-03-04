@@ -1,0 +1,367 @@
+.tablaf{}
+.rotar{
+display:block;
+-webkit-transform: rotate(-90deg);
+-moz-transform: rotate(-90deg);
+filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+color: #000;
+}
+
+.expander-arrow{
+    background: url("../img/iconos.png") no-repeat scroll -140px -78px  transparent;
+    float: right;
+    height: 16px;
+    margin: 0;
+    vertical-align: middle;
+    width: 16px;
+}
+
+
+.messaget{
+	margin-left:40%;
+	background-color: #F1F6FC;
+	border: 1px solid #136BC5;
+	font-weight: bold;
+	left: 0;
+	padding: 5px;
+	position: absolute;
+	text-align: center;
+	top: 4px;
+	width: 25%;
+	z-index: 1500;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 12px;
+	color: #000;
+}
+    
+.box .forms {
+    padding: 10px 20px 20px;
+}
+.forms form {
+    margin: 10px 0 0;
+    padding: 0;
+}
+.row {
+    border-top: 1px solid #DBDBDB;
+    display: inline-block;
+    padding: 10px 0;
+    width: 100%;
+}
+.row label {
+    color: #1C1C1C;
+    display: block;
+    font-weight: bold;
+    line-height: 9px;
+    padding: 0 0 8px;
+}
+.row span {
+    display: block;
+    float: left;
+    line-height: 20px;
+    margin: 0 20px 0 4px;
+}
+.row span.date {
+    margin: 4px 4px 0 0;
+}
+
+.row input[type="submit"]{
+	background-image: url("../img/grey/btn.gif");
+	border: 1px solid #566F29;
+	width:150px;
+	height:28px;
+	color:#FFF;
+    cursor: pointer;
+ 
+}
+
+.row .boton
+{
+	background-color: transparent;
+    line-height: 1.4em;
+    margin: 0;
+    outline: medium none;
+    padding: 3px 5px;
+	float: left ;
+}
+.row .boton a{
+	background-image: url("../img/grey/btn.gif");
+	cursor: pointer;
+	text-decoration:none;
+	height:28px !important;
+	color:#FFF;
+	padding-top: 5px;
+	padding-right: 10px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	border: 1px solid #566F29;
+	border-radius: 4px 4px 4px 4px;
+	margin-right: 5px;
+}
+.row .boton a:hover {
+	background-position: left bottom;
+	border: 1px solid #2B2B2B;
+}
+.row input {
+    background-color: transparent;
+    background-image: url("../img/input-back.gif");
+    background-repeat: repeat-x;
+    border: 1px solid #CDCDCD;
+    border-radius: 4px 4px 4px 4px;
+    color: #1C1C1C;
+    float: left;
+    height: 18px;
+    line-height: 1.4em;
+    margin: 0;
+    outline: medium none;
+    padding: 3px 5px;
+    width: 886px;
+}
+.row input.small, .row textarea.small {
+    width: 156px;
+}
+.row input.xsmall {
+    width: 80px;
+}
+.row input.medium, .row textarea.medium {
+    width: 406px;
+}
+.row input.big, .row textarea.big {
+    width: 646px;
+}
+.row .sb-custom {
+    float: left;
+    height: 26px;
+    margin: 0 4px 0 0;
+    position: relative;
+}
+.row select {
+    background-color: transparent;
+    background-image: url("../img/input-back.gif");
+    background-repeat: repeat-x;
+    border: 1px solid #CDCDCD;
+    border-radius: 4px 4px 4px 4px;
+    color: #1C1C1C;
+    height:26px;
+}
+.row .multiple{
+    background-color: transparent;
+    background-image: url("../img/input-back.gif");
+    background-repeat: repeat-x;
+    border: 1px solid #CDCDCD;
+    border-radius: 4px 4px 4px 4px;
+    color: #1C1C1C;
+    height:auto;
+	
+}
+/*
+.row select {
+    display: none;
+}
+.row select .no-js {
+    display: none;
+}
+.row input.sb-select {
+    background-color: transparent;
+    background-image: url("../img/select-back.gif");
+    background-position: right top;
+    background-repeat: no-repeat;
+    border: 1px solid #CDCDCD;
+    border-radius: 4px 4px 4px 4px;
+    color: #1C1C1C;
+    cursor: pointer;
+    height: 18px;
+    line-height: 18px;
+    padding: 3px 30px 3px 5px;
+    position: absolute;
+    text-decoration: none;
+    width: 200px;
+}
+.row .sb-overlay {
+    position: relative;
+    z-index: 999;
+}
+.row ul.sb-dropdown {
+    background-color: #FFFFFF;
+    border: 1px solid #CDCDCD;
+    display: none;
+    left: 5px;
+    list-style-type: none;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    top: 25px;
+    width: 225px;
+    z-index: 1400;
+}
+.row ul.sb-dropdown li {
+    background: none repeat scroll 0 0 #FFFFFF;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+.row ul.sb-dropdown a, ul.row .sb-dropdown a:link, ul.row .sb-dropdown a:active, ul.row .sb-dropdown a:visited {
+    background: none repeat scroll 0 0 transparent;
+    color: #1C1C1C;
+    cursor: pointer;
+    display: block;
+    font-family: Arial;
+    font-size: 12px;
+    height: 21px;
+    line-height: 22px;
+    overflow: hidden;
+    padding: 5px 10px;
+    text-decoration: none;
+    width: 205px;
+}
+.row ul.sb-dropdown a:hover, .row ul.sb-dropdown .selected {
+    background-color: #F7F7F7;
+}*/
+.row textarea {
+    background-color: transparent;
+    background-image: url("../img/input-back.gif");
+    background-repeat: repeat-x;
+    border: 1px solid #CDCDCD;
+    border-radius: 4px 4px 4px 4px;
+    color: #1C1C1C;
+    float: left;
+    font-family: Arial;
+    font-size: 12px;
+    height: 80px;
+    line-height: 12px;
+    margin: 0;
+    outline: medium none;
+    overflow: auto;
+    padding: 5px;
+    resize: none;
+    width: 886px;
+}
+.row input.checkbox, .row input.radio {
+    border: 0 none;
+    height: 13px;
+    margin: 3px 0 0;
+    padding: 0;
+    width: 5px;
+}
+.row input.checkbox:focus, .row input.radio:focus {
+    outline: 1px solid #CDCDCD;
+}
+.buttons {
+    padding: 10px 0 0;
+}
+.buttons div {
+    float: left;
+    padding: 5px 0 0 10px;
+}
+.row button::-moz-focus-inner {
+    border: 0 none;
+    margin: 0;
+    padding: 0;
+}
+.row button {
+    background-color: transparent;
+    background-repeat: repeat-x;
+    border: medium none;
+    border-radius: 4px 4px 4px 4px;
+    cursor: pointer;
+    float: left;
+    margin: 0 4px 0 0;
+    outline: medium none;
+    overflow: visible;
+    padding: 0;
+    text-transform: uppercase;
+    width: auto;
+}
+.row button span {
+    background-color: transparent;
+    background-repeat: repeat-x;
+    border-radius: 4px 4px 4px 4px;
+    color: #FFFFFF;
+    float: left;
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1.87em;
+    margin: 0;
+    padding: 0 15px;
+    white-space: nowrap;
+}
+.row button:hover span {
+    background-position: left bottom;
+    border: 1px solid #2B2B2B;
+}
+.box .row input.file {
+    margin: 0 4px 0 0;
+    z-index: 99;
+}
+.box .row div.btn-upload {
+    background-position: right top;
+    background-repeat: no-repeat;
+    border-radius: 4px 4px 4px 4px;
+}
+.box .row div.btn-upload:hover {
+    background-position: right bottom;
+    border: 1px solid #2B2B2B;
+}
+.row input.datepicker {
+    background-color: transparent;
+    background-image: url("../img/date-picker.gif");
+    background-position: right top;
+    background-repeat: no-repeat;
+    border: 1px solid #CDCDCD;
+    border-radius: 4px 4px 4px 4px;
+    cursor: pointer;
+    margin: 0 20px 0 0;
+    width: 92px;
+}
+.tabla {
+ font-family: "Trebuchet MS", sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1.4em;
+    font-style: normal;
+    border-collapse:separate;
+	width: 2800px;
+}
+.tabla thead th {
+
+ padding:5px;
+    color:#fff;
+    text-shadow:1px 1px 1px #568F23;
+    border:1px solid #93CE37;
+    border-bottom:3px solid #9ED929;
+    background-color:#9DD929;
+    background:-webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.02, rgb(123,192,67)),
+        color-stop(0.51, rgb(139,198,66)),
+        color-stop(0.87, rgb(158,217,41))
+        );
+    background: -moz-linear-gradient(
+        center bottom,
+        rgb(123,192,67) 2%,
+        rgb(139,198,66) 51%,
+        rgb(158,217,41) 87%
+        );
+    -webkit-border-top-left-radius:5px;
+    -webkit-border-top-right-radius:5px;
+    -moz-border-radius:5px 5px 0px 0px;
+    border-top-left-radius:5px;
+    border-top-right-radius:5px;
+
+
+}
+.tabla tbody td{
+	padding:2px;
+	text-align:justify;
+ background-color:#DEF3CA;
+	border: 2px solid #E7EFE0;
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+	border-radius:2px;
+ color:#666;
+    text-shadow:1px 1px 1px #fff;
+}
+

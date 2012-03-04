@@ -1,0 +1,56 @@
+/* CSS Document */
+.box .tabs {
+    display: inline-block;
+    padding: 0;
+}
+.box .tabs ul.tabnav {
+    background-image: url("../img/tabs-title.gif");
+    background-position: left top;
+    background-repeat: repeat-x;
+    display: inline-block;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+.box .tabs .tabnav li {
+    background: none repeat scroll 0 0 transparent;
+    border-right: 1px solid #CCCCCC;
+    float: left;
+    height: 30px;
+    margin: 0;
+    padding: 0;
+}
+.box .tabs .tabnav li a {
+    background-image: url("../img/tabs-title-off.gif");
+    background-position: left top;
+    background-repeat: repeat-x;
+    color: #A3A3A3;
+    float: left;
+    font-weight: bold;
+    height: 24px;
+    outline: medium none;
+    padding: 6px 20px 0;
+    text-decoration: none;
+}
+.box .tabs .tabs .tabnav li a:hover, .box .tabs .tabnav li a:active, .box .tabs .tabnav li.ui-tabs-selected a {
+    background-image: url("../img/tabs-title-on.gif");
+    text-decoration: none;
+}
+.box .tabs .tabdiv {
+    float: left;
+    padding: 16px 20px;
+}
+.box .tabs .tabdiv table {
+    border-collapse: collapse;
+    border-right: medium none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+.box .tabs .tabdiv td {
+    width: auto;
+}
+.box .tabs .ui-tabs-hide {
+    display: none;
+}
