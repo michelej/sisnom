@@ -7,6 +7,7 @@
             <li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active">
                 <a href="#tab1">Datos Personales</a>
             </li>
+
             <li class="ui-state-default ui-corner-top">
                 <a href="#tab2">Laboral</a>
             </li>
@@ -26,24 +27,22 @@
             //------------------------------------fila--------------------------------------------------------	
             echo "<div class='row'>";
             
-            echo "<div style='float:left;width:20%'>";
+            echo "<div style='float:left;width:30%'>";
             echo $this->Form->label('Nacionalidad');
             $options = array('VENEZOLANA' => 'VENEZOLANA', 'EXTRANJERA' => 'EXTRANJERA');
             echo $this->Form->select('NACIONALIDAD', array($options), null, array('empty' => "Seleccione una opción"));            
             echo "</div>";
             
-            echo "<div style='float:left;width:30%'>";
+            echo "<div style='float:left;width:40%'>";
             echo $this->Form->label('Cedula');
             echo $this->Form->input('CEDULA', array('div' => false, 'label' => false, 'class' => 'small'));
             echo "</div>";
 
-            echo "<div style='float:left;width:40%'>";
+            echo "<div style='float:left;width:20%'>";
             echo $this->Form->label('Sexo');
             $options = array('MASCULINO' => 'MASCULINO', 'FEMENINO' => 'FEMENINO');
             echo $this->Form->select('SEXO', array($options), null, array('empty' => "Seleccione una opción"));            
-            echo "</div>";
-
-           
+            echo "</div>";            
 
             echo "</div>";
 //-----------------------------------------fila----------------------------------------------------------		
@@ -52,14 +51,17 @@
             echo "<div style='float:left;width:50%'>";
             echo $this->Form->label('Nombres');
             echo $this->Form->input('NOMBRE', array('div' => false, 'label' => false, 'class' => 'medium'));
-            echo "</div>";
+            echo "</div>";            
             
+            echo "</div>";
 //-----------------------------------------fila-----------------------------------------------------------		
             echo "<div class='row'>";
 
             echo "<div style='float:left;width:50%'>";
             echo $this->Form->label('Apellidos');
             echo $this->Form->input('APELLIDO', array('div' => false, 'label' => false, 'class' => 'medium'));            
+            echo "</div>";                        
+
             echo "</div>";
 //---------------------------------------------fila-------------------------------------------------------		
             echo "<div class='row'>";
@@ -67,14 +69,14 @@
             echo "<div style='float:left;width:25%'>";
             echo $this->Form->label('Fecha de Nacimiento');
             echo $this->Form->input('FECHANAC', array('type' => 'text', 'div' => false, 'label' => false, 'class' => 'datepicker dp-applied')) . "</br>";
-            echo "</div>";
-            
+            echo "</div>";            
+
             echo "<div style='float:left;width:25%'>";
             echo $this->Form->label('Estado Civil');
             $options = array('SOLTERO' => 'SOLTERO', 'CASADO' => 'CASADO', 'VIUDO' => 'VIUDO', 'DIVORSIADO' => 'DIVORSIADO', 'COMCUBINATO' => 'COMCUBINATO');
             echo $this->Form->select('EDOCIVIL', array($options), null, array('empty' => "Seleccione una opción"));            
-            echo "</div>";
-                        
+            echo "</div>";                        
+
             echo "</div>";
 //------------------------------------------fila------------------------------------------------------------		
             echo "<div class='row'>";
@@ -85,31 +87,16 @@
             
             echo "<div style='float:left;width:30%'>";
             echo $this->Form->label('Estado');
-            echo $this->Form->input('ESTADO', array('div' => false, 'label' => false, 'class' => 'small'));                        
+            echo $this->Form->input('ESTADO', array('div' => false, 'label' => false, 'class' => 'small'));            
             echo "</div>";
-
 
             echo "<div style='float:left;width:30%'>";
             echo $this->Form->label('Municipio');
-            echo $this->Form->input('MUNICIPIO', array('div' => false, 'label' => false, 'class' => 'small'));                        
+            echo $this->Form->input('MUNICIPIO', array('div' => false, 'label' => false, 'class' => 'small'));
             echo "</div>";
             echo "</div>";
-
-
-            echo "<div class='row'>";            
             
-            echo "<div style='float:left;width:25%'>";
-            echo $this->Form->label('Fecha de Ingreso');
-            echo $this->Form->input('INGRESO', array('type' => 'text', 'div' => false, 'label' => false, 'class' => 'datepicker dp-applied')) . "</br>";
-            echo "</div>";
-            echo "</div>";
-            ?>
-
-        </div>
-
-        <div id="tab2" class="tabdiv ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" style="">
-            <?php
-
+            //-------------------------------------------------------------------------------------
 //---------------------------------------fila-------------------------------------------
             echo "<div class='row'>";
 
@@ -119,8 +106,7 @@
             echo "</div>";
 
             echo "</div>";
-
-//---------------------------------------fila--------------------------------------------------		
+            
             echo "<div class='row'>";
 
             echo "<div style='float:left;width:25%'>";
@@ -139,34 +125,55 @@
             echo "</div>";
 
             echo "</div>";
+            
+            ?>
+
+        </div>
+
+        <div id="tab2" class="tabdiv ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" style="">
+            <?php
+//-----------------------------------------fila---------------------------------------
+            echo "<div class='row'>";
+
+            echo "<div style='float:left;width:25%'>";
+            echo $this->Form->label('Fecha de Ingreso');
+            echo $this->Form->input('INGRESO', array('type' => 'text', 'div' => false, 'label' => false, 'class' => 'datepicker dp-applied')) . "</br>";
+            echo "</div>";
+
+            echo "</div>";
+//---------------------------------------fila--------------------------------------------------		           
 
             echo "<div class='row'>";
             echo "<div style='float:left;width:25%'>";
             echo $this->Form->label('Tipo de Pago');
-            $options = array('C' => 'Cheque', 'E' => 'Efectivo', 'B' => 'Banco');
-            echo $this->Form->select('EMP_TPAGO', array($options), null, array('empty' => "Seleccione una opción"));
+            $options = array('Cheque' => 'Cheque', 'Efectivo' => 'Efectivo', 'Banco' => 'Banco');
+            echo $this->Form->select('TPAGO', array($options), null, array('empty' => "Seleccione una opción"));
             echo "</div>";
+            
             echo "<div style='float:left;width:25%'>";
             echo $this->Form->label('Banco');
-            echo $this->Form->input('EMP_BANCO', array('div' => false, 'label' => false, 'class' => 'small'));
+            echo $this->Form->input('BANCO', array('div' => false, 'label' => false, 'class' => 'small'));
             echo "</div>";
+            
             echo "<div style='float:left;width:25%'>";
             echo $this->Form->label('Número de Cuenta');
-            echo $this->Form->input('EMP_NCUENTA', array('div' => false, 'label' => false, 'class' => 'small'));
+            echo $this->Form->input('NCUENTA', array('div' => false, 'label' => false, 'class' => 'small'));
             echo "</div>";
+            
             echo "</div>";
+            
             echo "<div class='row'>";
             echo "<div style='float:left;width:25%'>";
             echo $this->Form->label('Condición Laboral');
-            echo $this->Form->input('condiciones_id', array('div' => false, 'label' => false, 'empty' => "Seleccione una opción"));
+            //echo $this->Form->input('condiciones_id', array('div' => false, 'label' => false, 'empty' => "Seleccione una opción"));
             echo "</div>";
             echo "<div style='float:left;width:30%'>";
             echo $this->Form->label('Departamento');
-            echo $this->Form->input('dependencias_id', array('div' => false, 'label' => false, 'class' => 'small', 'empty' => "Seleccione una opción"));
+            //echo $this->Form->input('dependencias_id', array('div' => false, 'label' => false, 'class' => 'small', 'empty' => "Seleccione una opción"));
             echo "</div>";
             echo "<div style='float:left;width:25%'>";
             echo $this->Form->label('Cargo');
-            echo $this->Form->input('cargos_id', array('div' => false, 'label' => false, 'class' => 'small', 'empty' => "Seleccione una opción"));
+            //echo $this->Form->input('cargos_id', array('div' => false, 'label' => false, 'class' => 'small', 'empty' => "Seleccione una opción"));
             echo "</div>";
             echo "</div>";
             echo "<div class='row'>";
@@ -182,39 +189,16 @@
 
             echo "<div style='float:left;width:25%'>";
             echo $this->Form->label('Sabe Leer y Escribir');
-            $options = array('0' => 'SI', '1' => 'NO');
-            echo $this->Form->select('EMP_ALFABETA', array($options), null, array('empty' => "Seleccione una opción"));
-            //echo $this->Form->input('EMP_ALFABETA');
-            echo "</div>";
-
-            echo "<div style='float:left;width:25%'>";
-            echo $this->Form->label('Tiene Educacion Primaria');
-            $options = array('0' => 'SI', '1' => 'NO');
-            echo $this->Form->select('EMP_EDUPRIMARIA', array($options), null, array('empty' => "Seleccione una opción"));
-            //echo $this->Form->input('EMP_EDUPRIMARIA');
-            echo "</div>";
-
-            echo "<div style='float:left;width:25%'>";
-            echo $this->Form->label('Tiene Educacion Secundaria');
-            $options = array('0' => 'SI', '1' => 'NO');
-            echo $this->Form->select('EMP_EDUSECUNDARIA', array($options), null, array('empty' => "Seleccione una opción"));
-            //echo $this->Form->input('EMP_EDUSECUNDARIA');
-            echo "</div>";
-
-            echo "<div style='float:left;width:25%'>";
-            echo $this->Form->label('Tiene Educacion Superior');
-            $options = array('0' => 'SI', '1' => 'NO');
-            echo $this->Form->select('EMP_EDUSUPERIOR', array($options), null, array('empty' => "Seleccione una opción"));
-            //echo $this->Form->input('EMP_EDUSUPERIOR');
-            echo "</div>";
+            $options = array('Si' => 'Si', 'No' => 'No');
+            echo $this->Form->select('ALFABETA', array($options), null, array('empty' => "Seleccione una opción"));            
+            echo "</div>";            
 
             echo "</div>";
 //----------------------------------------------fila----------------------------------------		
             echo "<div class='row'>";
             echo "<div style='float:left;width:30%'>";
             echo $this->Form->label('Donde Estudio Primaria');
-            echo $this->Form->input('EMP_PRIMARIA', array('div' => false, 'label' => false, 'class' => 'large'));
-            //echo $this->Form->input('EMP_PRIMARIA');
+            echo $this->Form->input('PRIMARIA', array('div' => false, 'label' => false, 'class' => 'medium'));            
             echo "</div>";
             echo "</div>";
 
@@ -222,16 +206,14 @@
             echo "<div class='row'>";
             echo "<div style='float:left;width:30%'>";
             echo $this->Form->label('Donde Estudio Secundaria');
-            echo $this->Form->input('EMP_SECUNDARIA', array('div' => false, 'label' => false, 'class' => 'large'));
-            //echo $this->Form->input('EMP_SECUNDARIA');
+            echo $this->Form->input('SECUNDARIA', array('div' => false, 'label' => false, 'class' => 'medium'));            
             echo "</div>";
             echo "</div>";
 
             echo "<div class='row'>";
             echo "<div style='float:left;width:30%'>";
             echo $this->Form->label('Donde Estudio Universidad');
-            echo $this->Form->input('EMP_SUPERIOR', array('div' => false, 'label' => false, 'class' => 'large'));
-            //echo $this->Form->input('EMP_SUPERIOR');
+            echo $this->Form->input('SUPERIOR', array('div' => false, 'label' => false, 'class' => 'medium'));            
             echo "</div>";
             echo "</div>";
 //--------------------------------------------------------------------------------------------		
@@ -244,107 +226,94 @@
 
             echo "<div style='float:left;width:25%'>";
             echo $this->Form->label('Tipo de Sangre');
-            $options = array('0' => 'O+', '1' => 'O-', '2' => 'A+', '3' => 'A-', '4' => 'B+', '5' => 'B-', '6' => 'AB+', '7' => 'AB-');
-            echo $this->Form->select('EMP_SANGRE', array($options), null, array('empty' => "Seleccione una opción"));
-//echo $this->Form->input('EMP_SANGRE');
+            $options = array('O+' => 'O+', 'O-' => 'O-', 'A+' => 'A+', 'A-' => 'A-', 'B+' => 'B+', 'B-' => 'B-', 'AB+' => 'AB+', 'AB-' => 'AB-');
+            echo $this->Form->select('SANGRE', array($options), null, array('empty' => "Seleccione una opción"));
             echo "</div>";
 
             echo "<div style='float:left;width:28%'>";
             echo $this->Form->label('Peso en kg');
             echo $this->Form->input('PESO', array('div' => false, 'label' => false, 'class' => 'small'));
-//echo $this->Form->input('EMP_PESO');
             echo "</div>";
 
             echo "<div style='float:left;width:30%'>";
             echo $this->Form->label('Enfermedades');
-            echo $this->Form->input('EMP_EMFERMEDADES', array('div' => false, 'label' => false, 'class' => 'medium'));
-//echo $this->Form->input('EMP_EMFERMEDADES');
+            echo $this->Form->input('EMFERMEDADES', array('div' => false, 'label' => false, 'class' => 'medium'));
             echo "</div>";
+            
             echo "</div>";
 //-----------------------------------------fila--------------------------------------------
             echo "<div class='row'>";
             echo "<div style='float:left;width:50%'>";
             echo $this->Form->label('Operaciones');
-            echo $this->Form->input('EMP_OPERACIONES', array('div' => false, 'label' => false, 'class' => 'medium'));
-//echo $this->Form->input('EMP_OPERACIONES');
+            echo $this->Form->input('OPERACIONES', array('div' => false, 'label' => false, 'class' => 'medium'));
+
             echo "</div>";
             echo "<div style='float:left;width:25%'>";
             echo $this->Form->label('Alergico');
-            echo $this->Form->input('EMP_ALERGICO', array('div' => false, 'label' => false, 'class' => 'small'));
-//echo $this->Form->input('EMP_ALERGICO');
+            echo $this->Form->input('ALERGICO', array('div' => false, 'label' => false, 'class' => 'small'));
             echo "</div>";
+            
             echo "<div style='float:left;width:25%'>";
             echo $this->Form->label('Estatura cms');
-            echo $this->Form->input('EMP_ESTATURA', array('div' => false, 'label' => false, 'class' => 'small'));
-//echo $this->Form->input('EMP_ESTATURA');
+            echo $this->Form->input('ESTATURA', array('div' => false, 'label' => false, 'class' => 'small'));
             echo "</div>";
+            
             echo "</div>";
 //------------------------------------------fila -------------------------------------		
             echo "<div class='row'>";
             echo "<div style='float:left;width:25%'>";
             echo $this->Form->label('Complexion');
-            echo $this->Form->input('EMP_COMPLEXION', array('div' => false, 'label' => false, 'class' => 'small'));
-//echo $this->Form->input('EMP_COMPLEXION');
+            echo $this->Form->input('COMPLEXION', array('div' => false, 'label' => false, 'class' => 'small'));
             echo "</div>";
 
             echo "<div style='float:left;width:25%'>";
             echo $this->Form->label('talla camisa');
-            echo $this->Form->input('EMP_TCAMISA', array('div' => false, 'label' => false, 'class' => 'small'));
-//echo $this->Form->input('EMP_TCAMISA');
+            echo $this->Form->input('TCAMISA', array('div' => false, 'label' => false, 'class' => 'small'));
             echo "</div>";
+            
             echo "<div style='float:left;width:25%'>";
             echo $this->Form->label('talla pantalon');
-            echo $this->Form->input('EMP_TPANTALOM', array('div' => false, 'label' => false, 'class' => 'small'));
-//echo $this->Form->input('EMP_TPANTALOM');
+            echo $this->Form->input('TPANTALOM', array('div' => false, 'label' => false, 'class' => 'small'));
             echo "</div>";
+            
             echo "<div style='float:left;width:25%'>";
             echo $this->Form->label('talla zapatos');
-            echo $this->Form->input('EMP_TCALZADO', array('div' => false, 'label' => false, 'class' => 'small'));
-//echo $this->Form->input('EMP_TCALZADO');
+            echo $this->Form->input('TCALZADO', array('div' => false, 'label' => false, 'class' => 'small'));
             echo "</div>";
+            
             echo "</div>";
 //---------------------------------------------fila----------------------------------------		
             echo "<div class='row'>";
-            echo "<div style='float:left;width:25%'>";
-            echo $this->Form->label('Tine alguna Discapacidad Fisica');
-            $options = array('0' => 'SI', '1' => 'NO');
-            echo $this->Form->select('EMP_DISCAPACIDAD', array($options), null, array('empty' => "Seleccione una opción"));
-//echo $this->Form->input('EMP_DISCAPACIDAD');
+            
+            echo "<div style='float:left;width:45%'>";
+            echo $this->Form->label('Si tiene Discapacidad Breve Descripcion');
+            echo $this->Form->input('DISCAPACIDAD', array('div' => false, 'label' => false, 'class' => 'medium'));
             echo "</div>";
-            echo "<div style='float:left;width:25%'>";
-            echo $this->Form->label(' Descripcion Discapacidad');
-            echo $this->Form->input('EMP_DESCDISCP', array('div' => false, 'label' => false, 'class' => 'medium'));
-//echo $this->Form->input('EMP_DESCDISCP');
-            echo "</div>";
+            
             echo "</div>";
 //---------------------------------------------fila----------------------------------------		
             ?>
         </div>
-        <div id="tab6" class="tabdiv ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" style="">
+        <div id="tab5" class="tabdiv ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" style="">
             <?php
 //--------------------------------------fila--------------------------------------------------
             echo "<div class='row'>";
             echo "<div style='float:left;width:80%'>";
-            echo $this->Form->label('Comunicarse con');
-            echo $this->Form->input('EMP_NOMEMERGENCIA', array('div' => false, 'label' => false, 'class' => 'medium'));
-//echo $this->Form->input('EMP_NOMEMERGENCIA');
+            echo $this->Form->label('Contacto de Emergencia');
+            echo $this->Form->input('NOMEMERGENCIA', array('div' => false, 'label' => false, 'class' => 'medium'));
             echo "</div>";
-            echo "<div style='float:left;width:18%'>";
-            echo $this->Form->label('por el telefono');
-            echo $this->Form->input('EMP_TELEMERGECIA', array('div' => false, 'label' => false, 'class' => 'small'));
-//echo $this->Form->input('EMP_TELEMERGECIA');
+            
             echo "</div>";
+            
+            echo "<div class='row'>";
+            
+            echo "<div style='float:left;width:60%'>";
+            echo $this->Form->label('Telefono de Emergencia');
+            echo $this->Form->input('TELEMERGECIA', array('div' => false, 'label' => false, 'class' => 'small'));
             echo "</div>";
-
-//echo $this->Form->input('cargos_id');
-//echo $this->Form->input('dependencias_id');
-//echo $this->Form->input('Asignacion');
-//echo $this->Form->input('Devolucion');
-//echo $this->Form->input('Titulo');
+            
+            echo "</div>";
             ?>
-
-
-
         </div>
     </div>
 </div>

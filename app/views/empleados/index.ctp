@@ -15,7 +15,7 @@
             echo $this->Form->Input('valor', array('class' => 'small', 'label' => false, 'value' => ''));
             echo "</div>";
             echo "<div style='float:left;width:25%;padding-top:16px'>";
-            echo $this->Form->End('Buscarr');
+            echo $this->Form->End('Buscar');
             echo "</div>";
             echo "</div>";
             ?>
@@ -76,7 +76,7 @@
         <div class="pages-bottom">
             <div class="actionbox">
                 <?php
-                echo $this->Paginator->counter(array('format' => __('Pagina %page% de %pages%, mostrando %current% registro(s) de  %count% en total, comenzando en  %start%, Finalizando en %end%', true)));
+                echo $this->Paginator->counter(array('format' => __('Mostrando %current% Empleado(s), de un total de  %count% Empleados', true)));
                 ?>
             </div>
             <div class="pagination">
