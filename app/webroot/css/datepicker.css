@@ -1,0 +1,148 @@
+/* CSS Document */
+table.jCalendar {
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+}
+table.jCalendar th {
+    color: #1C1C1C;
+    font-weight: bold;
+    padding: 5px;
+}
+table.jCalendar td {
+    border: 1px solid #FFFFFF;
+    padding: 4px 0;
+    text-align: center;
+    width: 25px;
+}
+table.jCalendar td.other-month {
+    background-color: #E0E0E0;
+    color: #8F8F8F;
+}
+table.jCalendar td.today {
+    background-color: #1C1C1C;
+    color: #FFFFFF;
+}
+table.jCalendar td.selected {
+    background-color: #EFEFEF;
+    color: #1C1C1C;
+}
+table.jCalendar td.selected.dp-hover {
+    background-color: #1C1C1C;
+    color: #FFFFFF;
+}
+table.jCalendar td.dp-hover, table.jCalendar tr.activeWeekHover td {
+    background-color: #ECECEC;
+    color: #1C1C1C;
+}
+table.jCalendar tr.selectedWeek td {
+    background-color: #FF6666;
+    color: #FFFFFF;
+}
+table.jCalendar td.disabled, table.jCalendar td.disabled.dp-hover {
+    background-color: #E0E0E0;
+    color: #8F8F8F;
+}
+table.jCalendar td.unselectable, table.jCalendar td.unselectable:hover, table.jCalendar td.unselectable.dp-hover {
+    background: none repeat scroll 0 0 #E0E0E0;
+    color: #8F8F8F;
+}
+.dp-choose-date {
+    display: none;
+}
+div.dp-popup {
+    background-color: #FFFFFF;
+    border: 1px solid #CDCDCD;
+    border-radius: 4px 4px 4px 4px;
+    font-size: 11px;
+    line-height: 1.2em;
+    margin: 25px 0 0;
+    padding: 5px 10px 10px;
+    position: relative;
+    width: 171px;
+}
+div#dp-popup {
+    position: absolute;
+    z-index: 199;
+}
+div.dp-popup h2 {
+    font-size: 12px;
+    margin: 2px 0;
+    padding: 0;
+    text-align: center;
+}
+a#dp-close {
+    display: block;
+    font-size: 11px;
+    padding: 4px 0;
+    text-align: center;
+}
+a#dp-close:hover {
+    text-decoration: underline;
+}
+div.dp-popup a {
+    color: #000000;
+    text-decoration: none;
+}
+div.dp-popup div.dp-nav-prev {
+    left: 10px;
+    position: absolute;
+    top: 11px;
+    width: 100px;
+}
+div.dp-popup div a.dp-nav-prev-month, div.dp-popup div a.dp-prev-next-month:link, div.dp-popup div a.dp-prev-next-month:active, div.dp-popup div a.dp-prev-next-month:visited {
+    background-image: url("../img/date-prev.gif");
+    background-repeat: no-repeat;
+    float: left;
+    height: 7px;
+    margin: 0 0 0 5px;
+    overflow: hidden;
+    width: 5px;
+}
+div.dp-popup div a.dp-nav-prev-year, div.dp-popup div a.dp-nav-prev-year:link, div.dp-popup div a.dp-nav-prev-year:active, div.dp-popup div a.dp-nav-prev-year:visited {
+    background-image: url("../img/date-prev.gif");
+    background-repeat: no-repeat;
+    float: left;
+    height: 7px;
+    overflow: hidden;
+    width: 11px;
+}
+div.dp-popup div.dp-nav-prev a, div.dp-popup div.dp-nav-next a {
+    cursor: pointer;
+}
+div.dp-popup div.dp-nav-prev a.disabled, div.dp-popup div.dp-nav-next a.disabled {
+    cursor: default;
+}
+div.dp-popup div.dp-nav-next {
+    position: absolute;
+    right: 10px;
+    top: 11px;
+    width: 100px;
+}
+div.dp-popup div a.dp-nav-next-month, div.dp-popup div a.dp-nav-next-month:link, div.dp-popup div a.dp-nav-next-month:active, div.dp-popup div a.dp-nav-next-month:visited {
+    background-image: url("../img/date-next.gif");
+    background-repeat: no-repeat;
+    float: right;
+    height: 7px;
+    margin: 0 5px 0 0;
+    overflow: hidden;
+    width: 5px;
+}
+div.dp-popup div a.dp-nav-next-year, div.dp-popup div a.dp-nav-next-year:link, div.dp-popup div a.dp-nav-next-year:active, div.dp-popup div a.dp-nav-next-year:visited {
+    background-image: url("../img/date-next.gif");
+    background-repeat: no-repeat;
+    float: right;
+    height: 7px;
+    overflow: hidden;
+    width: 11px;
+}
+div.dp-popup div a.dp-nav-prev-year:hover, div.dp-popup div a.dp-nav-prev-month:hover, div.dp-popup div a.dp-nav-next-year:hover, div.dp-popup div a.dp-nav-next-month:hover {
+    background-position: left bottom;
+}
+div.dp-popup td {
+    cursor: pointer;
+}
+div.dp-popup td.disabled {
+    cursor: default;
+}
+

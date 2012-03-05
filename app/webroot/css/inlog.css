@@ -1,0 +1,189 @@
+html, body {
+    background-image: url("../img/back-website.gif");
+    background-repeat: repeat;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+img {
+    border: 0 none;
+}
+.wrapper {
+    background-image: url("../img/back-gradient.gif");
+    background-repeat: repeat-x;
+    float: left;
+    min-height: 400px;
+    width: 100%;
+}
+.top {
+    float: left;
+    height: 48px;
+    padding: 80px 0 0;
+    width: 480px;
+}
+.top .split {
+    float: left;
+    font-size: 11px;
+    font-weight: bold;
+    height: 48px;
+    line-height: normal;
+    position: relative;
+    text-align: right;
+    width: 240px;
+}
+.top .split h1 {
+    background-image: url("../img/logo.png");
+    background-repeat: no-repeat;
+    color: #1C1C1C;
+    float: left;
+    font-size: 0;
+    height: 14px;
+    line-height: 0;
+    margin: 18px 0 0;
+    padding: 0;
+    text-align: left;
+    width: 132px;
+}
+.container {
+    margin: 0 auto;
+    position: relative;
+    width: 482px;
+}
+.holder {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #D3D3D3;
+    border-left: 1px solid #D3D3D3;
+    border-right: 1px solid #D3D3D3;
+    float: left;
+    margin: -1px 0 0;
+    padding: 0 0 20px;
+    width: 480px;
+}
+.box {
+    background-image: url("../img/title.gif");
+    background-position: left 1px;
+    background-repeat: repeat-x;
+    display: inline;
+    float: left;
+    width: 480px;
+}
+.box .title {
+    background-image: url("../img/title-arrow.gif");
+    background-position: left top;
+    background-repeat: no-repeat;
+    border: 1px solid #D3D3D3;
+    border-radius: 4px 4px 0 0;
+    height: 29px;
+    padding: 0 0 0 43px;
+    position: relative;
+}
+.box .title h2 {
+    float: left;
+}
+.box .content {
+    background-color: #FDFDFD;
+    background-image: url("../img/content-shadow.gif");
+    background-position: left top;
+    background-repeat: repeat-x;
+    border-bottom: 1px solid #D3D3D3;
+    border-left: 1px solid #D3D3D3;
+    border-right: 1px solid #D3D3D3;
+    padding: 20px 0 20px 20px;
+}
+.container .box .forms {
+    padding: 10px 20px;
+}
+.box .content .logged {
+    padding: 10px 0 0;
+}
+.box .content .logged label {
+    float: left;
+    line-height: 1.05em;
+    padding: 7px 4px 0 0 !important;
+}
+.box .content .logged input.sb-select {
+    background-color: transparent;
+    background-image: url("../img/select-actions.gif");
+    background-position: right top;
+    background-repeat: no-repeat;
+    border: 1px solid #CDCDCD;
+    border-radius: 4px 4px 4px 4px;
+    color: #656565;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+    height: 15px;
+    line-height: 1.05em;
+    margin: 3px 0 0 !important;
+    padding: 3px 17px 0 5px;
+    text-decoration: none;
+    width: 62px;
+    z-index: 1;
+}
+.box .content .logged .sb-dropdown {
+    left: 5px;
+    top: 22px;
+    width: 74px;
+}
+.box .content .logged .sb-dropdown a, .box .content .logged .sb-dropdown a:link, .box .content .logged .sb-dropdown a:active, .box .content .logged .sb-dropdown a:visited {
+    background: none repeat scroll 0 0 transparent;
+    color: #1C1C1C;
+    cursor: pointer;
+    display: block;
+    font-family: Arial;
+    font-size: 11px;
+    height: 13px;
+    line-height: 14px;
+    overflow: hidden;
+    padding: 5px 10px;
+    text-decoration: none;
+    width: 100%;
+}
+.box .content .logged .sb-dropdown a:hover {
+    background-color: #F7F7F7;
+}
+.box .half, .box .half-left {
+    float: left;
+    width: 216px;
+}
+.box .half-left {
+    padding: 0 4px 0 0;
+}
+.box .half-left input, .box .half input {
+    float: left;
+    width: 204px;
+}
+.box .content .buttons {
+    float: right;
+    padding: 0;
+    width: 77px;
+}
+.box .content .buttons button {
+}
+.box .content .buttons button span {
+    height: 20px;
+    line-height: 1.05;
+    padding: 6px 15px 0;
+}
+a.forgot, a.forgot:link, a.forgot:active, a.forgot:visited {
+    background-image: url("../img/forgot.gif");
+    background-position: left top;
+    background-repeat: repeat-x;
+
+    border: 1px solid #2B2B2B;
+    border-radius: 4px 4px 4px 4px;
+    color: #FFFFFF;
+    float: right;
+    font-size: 11px;
+    font-weight: bold;
+    height: 18px;
+    line-height: 1.64em;
+    margin: 15px 0 0;
+    padding: 0 7px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+a.forgot:hover {
+    background-position: left bottom;
+    border: 1px solid #717171;
+}
