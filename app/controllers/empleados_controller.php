@@ -1,5 +1,4 @@
 <?php
-
 class EmpleadosController extends AppController {
 
     var $name = 'Empleados';
@@ -21,6 +20,8 @@ class EmpleadosController extends AppController {
                 $this->redirect(array('action' => 'index'));
             }
         }
+        $cargos = $this->Empleado->Cargo->find('list');
+        $this->set(compact('cargos'));
     }
 
     function delete($id) {
@@ -42,9 +43,10 @@ class EmpleadosController extends AppController {
 
     function edit($id) {
         $this->Empleado->id = $id;
-        if (empty($this->data)) {
-            $this->data = $this->Empleado->read();            
-            $this->data['Empleado']['FECHANAC']=date("d-m-Y",strtotime($this->data['Empleado']['FECHANAC']));
+        if (empty($this->data)) {            
+            $this->data = $this->Empleado->read();                        
+            $cargos = $this->Empleado->Cargo->find('list');
+            $this->set(compact('cargos'));
         } else {
             if ($this->Empleado->save($this->data)) {
                 $this->Session->setFlash('Empleado Guardado.');

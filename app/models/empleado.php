@@ -6,8 +6,8 @@ class Empleado extends AppModel {
     var $validate = array(
         'NACIONALIDAD' => array(
             'rule' => array('multiple', array('in' => array('Venezolano', 'Extranjero'))),
-            'message' => 'Seleccione una opcion'            
-        ),        
+            'message' => 'Seleccione una opcion'
+        ),
         'CEDULA' => array(
             'cedulaRule-1' => array(
                 'rule' => 'notEmpty',
@@ -19,21 +19,38 @@ class Empleado extends AppModel {
                 'message' => 'Cedula Invalida'
             )
         ),
-         'SEXO' => array(
+        'SEXO' => array(
             'rule' => array('multiple', array('in' => array('Masculino', 'Femenino'))),
             'message' => 'Seleccione una opcion'
         ),
-        'NOMBRE'=>array(
-            'rule'=>'notEmpty',
-            'message'=>'Nombres necesarios'
+        'NOMBRE' => array(
+            'rule' => 'notEmpty',
+            'message' => 'Nombres necesarios'
         ),
-        'APELLIDO'=>array(
-            'rule'=>'notEmpty',
-            'message'=>'Apellidos necesarios',
+        'APELLIDO' => array(
+            'rule' => 'notEmpty',
+            'message' => 'Apellidos necesarios',
         ),
-        'FECHANAC'=>array(
-            'rule'=>array('date','dmy'),
-            'message'=>'Fecha incorrecta',
+        'FECHANAC' => array(
+            'rule' => array('date', 'dmy'),
+            'message' => 'Fecha incorrecta',
+        ),
+        'INGRESO' => array(
+            'rule' => array('date', 'dmy'),
+            'message' => 'Fecha incorrecta',
+        ),
+        'cargos_id' => array(
+            'rule' => array('multiple', array('min'=>'1')),
+            'message' => 'Seleccione un cargo',
+        ),
+    );
+    var $belongsTo = array(
+        'Cargo' => array(
+            'className' => 'Cargo',
+            'foreignKey' => 'cargos_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
         ),
     );
 
@@ -46,11 +63,22 @@ class Empleado extends AppModel {
         }
         return true;
     }
-    
-    function beforeFind(){
-        
+
+    function afterFind($results) {
+        foreach ($results as $key => $val) {
+            if (isset($val['Empleado']['FECHANAC'])) {
+                $results[$key]['Empleado']['FECHANAC'] = $this->formatoFechaAfterFind($val['Empleado']['FECHANAC']);
+            }
+            if (isset($val['Empleado']['INGRESO'])) {
+                $results[$key]['Empleado']['INGRESO'] = $this->formatoFechaAfterFind($val['Empleado']['INGRESO']);
+            }
+        }
+        return $results;
     }
-    
+
+    function formatoFechaAfterFind($cadenaFecha) {
+        return date('d-m-Y', strtotime($cadenaFecha));
+    }
 
     function formatoFechaBeforeSave($cadenaFecha) {
         return date('Y-m-d', strtotime($cadenaFecha)); // Direction is from
@@ -58,7 +86,7 @@ class Empleado extends AppModel {
 
     function Edad() {
         $fecha = $this->data['Empleado']['FECHANAC'];
-        list($ano, $mes, $dia) = explode("-", $fecha);
+        list($dia, $mes, $ano) = explode("-", $fecha);
         $ano_diferencia = date("Y") - $ano;
         $mes_diferencia = date("m") - $mes;
         $dia_diferencia = date("d") - $dia;

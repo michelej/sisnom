@@ -89,7 +89,7 @@
         <div class="row">
             <?php echo "<div style='float:left;width:25%'>"; ?>
             <?php echo $this->Form->label('Cargo '); ?>
-            <?php //echo $empleado['Cargo']['DESCRIPCION']; ?>
+            <?php echo $empleado['Cargo']['DESCRIPCION']; ?>
             <?php echo "</div>"; ?>
             <?php echo "<div style='float:left;width:25%'>"; ?>
             <?php echo $this->Form->label('Fecha de Ingreso '); ?>

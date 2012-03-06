@@ -22,7 +22,7 @@
         </div>
         <table cellpadding="0" cellspacing="0">
             <thead>
-                <tr  class="even">
+                <tr>
                     <th></th>  
                     <th style="width:5%"><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>
                     <th style="width:15%"><?php echo $this->Paginator->sort('Nombre(s)', 'NOMBRE'); ?></th>
@@ -48,7 +48,7 @@
                         <td><?php echo $empleado['Empleado']['NOMBRE']; ?></td>
                         <td><?php echo $empleado['Empleado']['APELLIDO']; ?></td>
                         <td><?php //echo strtoupper($empleado['Condicion']['CON_NOMBRE']); ?></td>
-                        <td><?php //echo strtoupper($empleado['Cargo']['CAR_DESCRIPCION']);  ?></td>
+                        <td><?php echo $empleado['Cargo']['DESCRIPCION'];  ?></td>
                         <td><?php //echo strtoupper($empleado['Dependencia']['DEP_NOMBRE']);  ?></td>
                         <td class="actions">
                             <?php
