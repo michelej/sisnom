@@ -1,28 +1,20 @@
 <div class="box">
-    <div class="title"><h2>Datos del Cargo</h2>
+    <div class="title"><h2>Datos del Departamento</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content forms">
         <div class="row">
             <?php echo "<div style='float:left;width:25%'>"; ?>
-            <?php echo $this->Form->label('Nombre del Cargo'); ?>
-            <?php echo $cargo['Cargo']['NOMBRE']; ?>
+            <?php echo $this->Form->label('Nombre del Departamento'); ?>
+            <?php echo $departamento['Departamento']['NOMBRE']; ?>
             <?php echo "</div>"; ?>
         </div>
         <div class="row">
             <?php echo "<div style='float:left;width:25%'>"; ?>
-            <?php echo $this->Form->label('Descripcion del Cargo'); ?>
-            <?php echo $cargo['Cargo']['DESCRIPCION']; ?>
+            <?php echo $this->Form->label('Codigo'); ?>
+            <?php echo $departamento['Departamento']['CODIGO']; ?>
             <?php echo "</div>"; ?>
-        </div>
-        <div class="row">
-            <?php echo "<div style='float:left;width:25%'>"; ?>
-            <?php echo $this->Form->label('Estado del Cargo'); ?>       
-            <?php echo $cargo['Cargo']['ESTADO']; ?>
-            <?php echo "</div>"; ?>
-        </div>
-
-
+        </div>        
     </div>
 </div>
 

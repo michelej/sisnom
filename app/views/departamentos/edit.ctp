@@ -1,10 +1,10 @@
 <div class="box">
-    <div class="title"><h2>Datos del Cargo</h2>
+    <div class="title"><h2>Modificar Departamento</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content form">
         <?php
-        echo $this->Form->create('Cargo');
+        echo $this->Form->create('Departamento');
         echo "<div class='row'>";
         echo "<div style='float:left;width:25%'>";
         echo $this->Form->label('Nombre');
@@ -13,19 +13,10 @@
         echo "</div>";
         echo "<div class='row'>";
         echo "<div style='float:left;width:25%'>";
-        echo $this->Form->label('Breve Descripcion');
-        echo $this->Form->input('DESCRIPCION', array('div' => false, 'label' => false, 'class' => 'medium'));
+        echo $this->Form->label('Codigo');
+        echo $this->Form->input('CODIGO', array('div' => false, 'label' => false, 'class' => 'medium'));
         echo "</div>";
         echo "</div>";        
-        echo "<div class='row'>";
-        echo "<div class='row'>";
-        echo "<div style='float:left;width:25%'>";
-        echo $this->Form->label('Sueldo');
-        echo $this->Form->input('Sueldos.SUELDO_BASE', array('div' => false, 'label' => false, 'class' => 'medium'));
-        echo "</div>";
-        echo "</div>";
-        
-        echo "</div>";
         ?>
     </div>
 </div>
@@ -36,7 +27,7 @@
     </div>
     <div class="content form">
         <div class="row">
-            <?php echo $this->Form->end(__('Agregar Cargo', true)); ?>
+            <?php echo $this->Form->end(__('Modificar', true)); ?>
 
         </div>
     </div>

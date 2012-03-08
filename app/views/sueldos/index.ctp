@@ -1,21 +1,20 @@
 <div class="box">
-    <div class="title"><h2><?php __('Cargos'); ?></h2></div>
+    <div class="title"><h2><?php __('Sueldos'); ?></h2></div>
     <div class="content pages">
         <div class="row"></div>
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
                     <th></th>  
-                    <th style="width:40%"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>                    
-                    <th style="width:35%">><?php echo $this->Paginator->sort('Descripcion', 'DESCRIPCION'); ?></th>
-                    <th style="width:10%">><?php echo $this->Paginator->sort('Estado', 'ESTADO'); ?></th>			
+                    <th style="width:40%"><?php echo $this->Paginator->sort('Cargo', 'Cargo.NOMBRE'); ?></th>                    
+                    <th style="width:35%">><?php echo $this->Paginator->sort('Sueldo Base', 'SUELDO BASE'); ?></th>                    
                     <th style="width:15%;text-align: center" class="actions"><?php __('Actions'); ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                 $i = 0;
-                foreach ($cargos as $cargo):
+                foreach ($sueldos as $sueldo):
                     $class = ' class="even"';
                     if ($i++ % 2 == 0) {
                         $class = ' class="odd"';
@@ -23,9 +22,8 @@
                     ?>
                     <tr<?php echo $class; ?>>
                         <td></td>
-                        <td><?php echo $cargo['Cargo']['NOMBRE']; ?></td>                        
-                        <td><?php echo $cargo['Cargo']['DESCRIPCION']; ?></td>
-                        <td><?php echo $cargo['Cargo']['ESTADO']; ?></td>		
+                        <td><?php echo $sueldo['Cargo']['NOMBRE']; ?></td>                        
+                        <td><?php echo $sueldo['Sueldo']['SUELDO_BASE']; ?></td>                                         
                         <td class="actions">
                             <?php
                             echo $this->Html->image("file_search.png", array("alt" => "consultar", 'width' => '18', 'heigth' => '18', 'title' => 'Consultar', 'url' => array('action' => 'view', $cargo['Cargo']['id'])));
@@ -40,7 +38,7 @@
         <div class="pages-bottom">
             <div class="actionbox">
                 <?php
-                echo $this->Paginator->counter(array('format' => __('Actualmente existen %count% cargo(s) en el sistema', true)));
+                echo $this->Paginator->counter(array('format' => __('Actualmente existen %count% sueldo(s) en el sistema', true)));
                 ?>
             </div>
             <div class="pagination">
@@ -59,7 +57,7 @@
     <div class="content form">
         <div class="row boton">
             <div class="boton">
-                <?php echo $this->Html->link(__('Nuevo Cargo', true), array('action' => 'add')); ?>
+                <?php echo $this->Html->link(__('Nuevo Sueldo', true), array('action' => 'add')); ?>
 
             </div>
         </div>

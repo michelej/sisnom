@@ -1,1 +1,0 @@
-<?php echo Inflector::pluralize('asignacion') ?>
