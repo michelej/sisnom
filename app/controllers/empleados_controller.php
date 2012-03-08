@@ -4,26 +4,40 @@ class EmpleadosController extends AppController {
     var $name = 'Empleados';
     var $components = array('RequestHandler');
     var $helpers = array('Ajax', 'Javascript');
-
-    function index() {
+    var $uses = array('Empleado','Asignacion');
+    
+    function index() {        
         $this->Empleado->recursive = 0;
         $this->paginate = array('limit' => '20');
-        $this->set('empleados', $this->paginate());                
+        $this->set('empleados', $this->paginate());        
     }
 
     function add() {
-        if (!empty($this->data)) {
-            if ($this->Empleado->save($this->data)) {
-                $this->Session->setFlash('Empleado agregado');
-                $this->redirect(array('action' => 'index'));
+        if (!empty($this->data)) {                        
+            $this->Asignacion->data['Asignaciones']=$this->data['Asignaciones'];            
+            $this->Asignacion->data['Asignaciones']['FECHA_INI']=$this->data['Empleado']['INGRESO'];            
+            $this->loadModel('Cargo');
+            $sueldo=$this->Cargo->find($this->Asignacion->data['Asignaciones']['cargo_id']);                        
+            $this->Asignacion->data['Asignaciones']['SUELDO_BASE']=$sueldo['Cargo']['SUELDO_BASE'];
+                   
+            if ($this->Empleado->save($this->data['Empleado'])) {                
+                $this->Asignacion->data['Asignaciones']['empleado_id']=$this->Empleado->getLastInsertID();                
+                if($this->Asignacion->save($this->Asignacion->data['Asignaciones'])){
+                    $this->Session->setFlash('Empleado agregado');                
+                    $this->redirect(array('action' => 'index'));
+                }                
+                
             }
-        }
-        $cargos = $this->Empleado->Cargo->find('list');
-        $this->set(compact('cargos'));
+        }        
+        $this->loadModel('Cargo');
+        $this->loadModel('Departamento');
+        $cargos=$this->Cargo->find('list');
+        $departamentos=$this->Departamento->find('list');
+        $this->set(compact('cargos','departamentos'));
     }
 
     function delete($id) {
-        if ($this->Empleado->delete($id)) {
+        if ($this->Empleado->delete($id,true)) {
             $this->Session->setFlash('Empleado ' . $id . ' eliminado');
             $this->redirect(array('action' => 'index'));
         }

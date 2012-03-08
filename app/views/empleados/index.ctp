@@ -1,3 +1,4 @@
+<?php echo debug($empleados); ?>
 <div class="box">
     <div class="title"></div>
     <div class="content pages">
@@ -48,7 +49,7 @@
                         <td><?php echo $empleado['Empleado']['NOMBRE']; ?></td>
                         <td><?php echo $empleado['Empleado']['APELLIDO']; ?></td>
                         <td><?php //echo strtoupper($empleado['Condicion']['CON_NOMBRE']); ?></td>
-                        <td><?php echo $empleado['Cargo']['DESCRIPCION'];  ?></td>
+                        <td><?php //echo $empleado['Cargo']['DESCRIPCION'];  ?></td>
                         <td><?php //echo strtoupper($empleado['Dependencia']['DEP_NOMBRE']);  ?></td>
                         <td class="actions">
                             <?php

@@ -158,23 +158,19 @@
         echo "</div>";
 
         echo "<div class='row'>";
-        echo "<div style='float:left;width:25%'>";
+        echo "<div style='float:left;width:30%'>";
         echo $this->Form->label('Condición Laboral');
         $options = array('Fijo' => 'Fijo', 'Contratado' => 'Contratado', 'Temporal' => 'Temporal');
-        echo $this->Form->select('CONDICION', array($options), null, array('empty' => "Seleccione una opción"));
+        echo $this->Form->select('Asignaciones.MODALIDAD', array($options), null, array('empty' => "Seleccione una opción"));
         echo "</div>";
-        echo "<div style='float:left;width:25%'>";
+        echo "<div style='float:left;width:30%'>";
         echo $this->Form->label('Departamento');
-        //echo $this->Form->input('dependencias_id', array('div' => false, 'label' => false, 'class' => 'small', 'empty' => "Seleccione una opción"));
+        echo $this->Form->input('Asignaciones.departamento_id', array('div' => false, 'label' => false, 'class' => 'small', 'empty' => "Seleccione una opción"));
         echo "</div>";
-        echo "<div style='float:left;width:25%'>";
+        echo "<div style='float:left;width:30%'>";
         echo $this->Form->label('Cargo');
-        echo $this->Form->input('cargos_id', array('div' => false, 'label' => false, 'class' => 'small', 'empty' => "Seleccione una opción"));
-        echo "</div>";
-        echo "</div>";
-        echo "<div class='row'>";
-
-        echo "</div>";
+        echo $this->Form->input('Asignaciones.cargo_id', array('div' => false, 'label' => false, 'class' => 'small', 'empty' => "Seleccione una opción"));
+        echo "</div>";                
         ?>
     </div>   
 

@@ -40,8 +40,7 @@
                         <li><a href="#"><?php echo $this->Html->image('file1.png', array("alt" => "Definiciones", 'width' => '18', 'heigth' => '18', 'title' => 'Definiciones')); ?>Definiciones</a>     
                             <ul>
                                 <li><?php echo $this->Html->link($this->Html->image("Finder.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Personal", array('controller' => 'empleados', 'action' => 'index'), array('escape' => false)); ?></li> 
-                                <li><?php echo $this->Html->link($this->Html->image("User.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Cargos", array('controller' => 'cargos', 'action' => 'index'), array('escape' => false)); ?></li>                                  
-                                <li><?php echo $this->Html->link($this->Html->image("Money.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Sueldos", array('controller' => 'sueldos', 'action' => 'index'), array('escape' => false)); ?></li>
+                                <li><?php echo $this->Html->link($this->Html->image("User.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Cargos", array('controller' => 'cargos', 'action' => 'index'), array('escape' => false)); ?></li>                                                                  
                                 <li><?php echo $this->Html->link($this->Html->image("Cog.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Departamentos", array('controller' => 'departamentos', 'action' => 'index'), array('escape' => false)); ?></li>                                
                                 <li><?php echo $this->Html->link($this->Html->image("Link.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Basicas", array('controller' => 'dependencias', 'action' => 'index'), array('escape' => false)); ?>
                                     <ul> 

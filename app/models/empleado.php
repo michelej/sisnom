@@ -1,11 +1,13 @@
 <?php
+
 class Empleado extends AppModel {
 
     var $name = 'Empleado';
     var $displayField = 'CEDULA';
+
     /**
      *  Validaciones
-     */    
+     */
     var $validate = array(
         'NACIONALIDAD' => array(
             'rule' => array('multiple', array('in' => array('Venezolano', 'Extranjero'))),
@@ -43,14 +45,18 @@ class Empleado extends AppModel {
             'message' => 'Fecha incorrecta',
         ),
         'cargos_id' => array(
-            'rule' => array('multiple', array('min'=>'1')),
+            'rule' => array('multiple', array('min' => '1')),
             'message' => 'Seleccione un cargo',
         ),
     );
-    /**     
+
+    /**
      *  Relaciones
      */
-    var $hasMany = 'Asignacion';
+    var $hasMany = array(
+        'Asignacion' => array(            
+            'dependent' => true
+            ));
 
     function beforeSave() {
         if (!empty($this->data['Empleado']['FECHANAC'])) {

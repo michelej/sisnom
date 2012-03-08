@@ -8,8 +8,7 @@ class Cargo extends AppModel {
     /**
      *  Relaciones
      */
-    var $hasMany = 'Asignacion';
-    var $belongsTo = 'Sueldo';
+    var $hasMany = 'Asignacion';    
 
 }
 

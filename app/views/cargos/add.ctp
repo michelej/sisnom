@@ -16,16 +16,14 @@
         echo $this->Form->label('Breve Descripcion');
         echo $this->Form->input('DESCRIPCION', array('div' => false, 'label' => false, 'class' => 'medium'));
         echo "</div>";
-        echo "</div>";        
-        echo "<div class='row'>";
+        echo "</div>";               
         echo "<div class='row'>";
         echo "<div style='float:left;width:25%'>";
-        echo $this->Form->label('Sueldo');
-        echo $this->Form->input('Sueldos.SUELDO_BASE', array('div' => false, 'label' => false, 'class' => 'medium'));
+        echo $this->Form->label('Sueldo Base');
+        echo $this->Form->input('SUELDO_BASE', array('div' => false, 'label' => false, 'class' => 'medium'));
         echo "</div>";
-        echo "</div>";
+        echo "</div>";       
         
-        echo "</div>";
         ?>
     </div>
 </div>

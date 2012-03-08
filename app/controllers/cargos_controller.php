@@ -13,9 +13,8 @@ class CargosController extends AppController {
     }
 
     function add() {
-        if (!empty($this->data)) {
-            debug($this->data);
-            if ($this->Cargo->saveAll($this->data)) {
+        if (!empty($this->data)) {            
+            if ($this->Cargo->save($this->data)) {
                 $this->Session->setFlash('Cargo agregado');
                 $this->redirect(array('action' => 'index'));
             }

@@ -18,9 +18,15 @@
         echo "</div>";
         echo "</div>";
         echo "<div class='row'>";
+        echo "<div style='float:left;width:25%'>";
+        echo $this->Form->label('Sueldo Base');
+        echo $this->Form->input('SUELDO_BASE', array('div' => false, 'label' => false, 'class' => 'medium'));
+        echo "</div>";
+        echo "</div>";
+        echo "<div class='row'>";
         $options = array('0' => 'Seleccion una opcion', 'Activo' => 'Activo', 'Inactivo' => 'Inactivo');
         echo $this->Form->input('ESTADO', array('div' => false, 'label' => false, 'class' => 'small', 'type' => 'select', 'options' => $options));
-        echo "</div>";
+        echo "</div>";        
         ?>
     </div>
 </div>
