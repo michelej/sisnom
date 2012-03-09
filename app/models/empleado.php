@@ -88,9 +88,9 @@ class Empleado extends AppModel {
         return date('Y-m-d', strtotime($cadenaFecha)); // Direction is from
     }
 
-    function Edad() {
-        $fecha = $this->data['Empleado']['FECHANAC'];
-        list($dia, $mes, $ano) = explode("-", $fecha);
+    function Edad($fechanac) {        
+        //$fecha = $this->data['Empleado']['FECHANAC'];
+        list($dia, $mes, $ano) = explode("-", $fechanac);
         $ano_diferencia = date("Y") - $ano;
         $mes_diferencia = date("m") - $mes;
         $dia_diferencia = date("d") - $dia;

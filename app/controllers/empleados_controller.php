@@ -6,15 +6,11 @@ class EmpleadosController extends AppController {
     var $components = array('RequestHandler');
     var $helpers = array('Ajax', 'Javascript');
     var $uses = array('Empleado', 'Asignacion');
-    var $paginate= array(        
-        'Asignacion'=>array('conditions' => array('Asignacion.MODALIDAD LIKE' => 'Fijo')),        
-        );
     
-
     function index() {
-        //$this->Empleado->recursive = 0;                         
-
-        $this->set('empleados', $this->paginate());
+        $this->Empleado->recursive = 1;
+        $data=$this->paginate('Asignacion', array('Asignacion.FECHA_FIN' => null));
+        $this->set('empleados',$data);
     }
 
     function add() {
@@ -51,18 +47,19 @@ class EmpleadosController extends AppController {
         if (!$id) {
             $this->Session->setFlash(__('Empleado Invalido', true));
             $this->redirect(array('action' => 'index'));
-        }
-        $empleado = $this->Empleado->read(null, $id);
-        $edad = $this->Empleado->Edad();
+        }        
+        $empleado=$this->Empleado->Asignacion->find('first',array(
+            'conditions'=>array('Asignacion.FECHA_FIN'=>null,'Asignacion.empleado_id'=>$id)));                
+        $edad = $this->Empleado->Edad($empleado['Empleado']['FECHANAC']);
         $this->set(compact('empleado', 'edad'));
     }
 
     function edit($id) {
         $this->Empleado->id = $id;
-        if (empty($this->data)) {
-            $this->data = $this->Empleado->read();
-            $cargos = $this->Empleado->Cargo->find('list');
-            $this->set(compact('cargos'));
+        
+        if (empty($this->data)) {                                    
+            $this->data = $this->Empleado->Asignacion->find('first',array('conditions'=>array('Asignacion.FECHA_FIN'=>null)));
+            echo debug($this->data);
         } else {
             if ($this->Empleado->save($this->data)) {
                 $this->Session->setFlash('Empleado Guardado.');

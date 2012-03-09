@@ -1,4 +1,3 @@
-<?php echo debug($empleados); ?>
 <div class="box">
     <div class="title"></div>
     <div class="content pages">
@@ -28,10 +27,10 @@
                     <th style="width:5%"><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>
                     <th style="width:15%"><?php echo $this->Paginator->sort('Nombre(s)', 'NOMBRE'); ?></th>
                     <th style="width:15%"><?php echo $this->Paginator->sort('Apellido(s)', 'APELLIDO'); ?></th>
-                    <th style="width:15%"><?php echo $this->Paginator->sort('Condición Laboral', 'MODALIDAD'); ?></th>
-                    <th style="width:15%"><?php echo $this->Paginator->sort('cargos_id'); ?></th>
-                    <th style="width:15%"><?php echo $this->Paginator->sort('dependencias_id'); ?></th>
-                    <th style="width:25%"class="actions"><?php __('Acciones'); ?></th>
+                    <th style="width:15%"><?php echo $this->Paginator->sort('Condición Laboral', 'Asignacion.MODALIDAD'); ?></th>
+                    <th style="width:15%"><?php echo $this->Paginator->sort('cargo_id'); ?></th>
+                    <th style="width:20%"><?php echo $this->Paginator->sort('departamento_id'); ?></th>
+                    <th style="width:20%"class="actions"><?php __('Acciones'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -48,9 +47,9 @@
                         <td><?php echo $empleado['Empleado']['CEDULA']; ?></td>
                         <td><?php echo $empleado['Empleado']['NOMBRE']; ?></td>
                         <td><?php echo $empleado['Empleado']['APELLIDO']; ?></td>
-                        <td><?php //echo strtoupper($empleado['Condicion']['CON_NOMBRE']); ?></td>
-                        <td><?php //echo $empleado['Cargo']['DESCRIPCION'];  ?></td>
-                        <td><?php //echo strtoupper($empleado['Dependencia']['DEP_NOMBRE']);  ?></td>
+                        <td><?php echo $empleado['Asignacion']['MODALIDAD']; ?></td>
+                        <td><?php echo $empleado['Cargo']['NOMBRE'];  ?></td>
+                        <td><?php echo $empleado['Departamento']['NOMBRE'];  ?></td>
                         <td class="actions">
                             <?php
                             echo $this->Html->image("file_search.png", array("alt" => "consultar", 'width' => '18', 'heigth' => '18', 'title' => 'Consultar', 'url' => array('action' => 'view', $empleado['Empleado']['id'])));
@@ -101,4 +100,3 @@
         </div>
     </div>
 </div>
-
