@@ -1,7 +1,7 @@
 <?php
-class Asignacion extends AppModel{
+class Contrato extends AppModel{
     
-    var $name='Asignacion';
+    var $name='Contrato';
     var $displayField = 'MODALIDAD';
     
     /**     
@@ -12,8 +12,8 @@ class Asignacion extends AppModel{
     );
     
     function beforeSave() {
-        if (!empty($this->data['Asignacion']['FECHA_INI'])) {
-            $this->data['Asignacion']['FECHA_INI'] = $this->formatoFechaBeforeSave($this->data['Asignacion']['FECHA_INI']);
+        if (!empty($this->data['Contrato']['FECHA_INI'])) {
+            $this->data['Contrato']['FECHA_INI'] = $this->formatoFechaBeforeSave($this->data['Contrato']['FECHA_INI']);
         }        
         return true;
     }

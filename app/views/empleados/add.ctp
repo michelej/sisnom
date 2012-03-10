@@ -132,40 +132,43 @@
             echo "</div>";
             // END ROW
             // INI ROW
-            echo "<div class='row'>";
-            echo "<div style='float:left;width:25%'>";
+            echo "<div class='row'>";            
+            echo "<div style='float:left;width:50%'>";
+            echo $this->Form->label('Banco');
+            echo $this->Form->input('BANCO', array('div' => false, 'label' => false, 'class' => 'medium'));
+            echo "</div>";
+            
+            echo "<div style='float:left;width:20%'>";
             echo $this->Form->label('Tipo de Pago');
             $options = array('Cheque' => 'Cheque', 'Efectivo' => 'Efectivo', 'Banco' => 'Banco');
             echo $this->Form->select('TPAGO', array($options), null, array('empty' => "Seleccione una opción"));
             echo "</div>";
-
-            echo "<div style='float:left;width:25%'>";
-            echo $this->Form->label('Banco');
-            echo $this->Form->input('BANCO', array('div' => false, 'label' => false, 'class' => 'small'));
-            echo "</div>";
-
-            echo "<div style='float:left;width:25%'>";
+            echo "</div>";            
+            // END ROW
+            // INI ROW
+            echo "<div class='row'>";
+            echo "<div style='float:left;width:20%'>";
             echo $this->Form->label('Número de Cuenta');
-            echo $this->Form->input('NCUENTA', array('div' => false, 'label' => false, 'class' => 'small'));
-            echo "</div>";
-            echo "</div>";
+            echo $this->Form->input('NCUENTA', array('div' => false, 'label' => false, 'class' => 'medium'));
+            echo "</div>";            
+            echo "</div>"; 
             // END ROW
             // INI ROW
             echo "<div class='row'>";
             echo "<div style='float:left;width:30%'>";
             echo $this->Form->label('Condición Laboral');
             $options = array('Fijo' => 'Fijo', 'Contratado' => 'Contratado', 'Temporal' => 'Temporal');
-            echo $this->Form->select('Asignaciones.MODALIDAD', array($options), null, array('empty' => "Seleccione una opción"));
+            echo $this->Form->select('Contratos.MODALIDAD', array($options), null, array('empty' => "Seleccione una opción"));
             echo "</div>";
 
             echo "<div style='float:left;width:30%'>";
             echo $this->Form->label('Departamento');
-            echo $this->Form->input('Asignaciones.departamento_id', array('div' => false, 'label' => false, 'class' => 'small', 'empty' => "Seleccione una opción"));
+            echo $this->Form->input('Contratos.departamento_id', array('div' => false, 'label' => false, 'class' => 'small', 'empty' => "Seleccione una opción"));
             echo "</div>";
 
             echo "<div style='float:left;width:30%'>";
             echo $this->Form->label('Cargo');
-            echo $this->Form->input('Asignaciones.cargo_id', array('div' => false, 'label' => false, 'class' => 'small', 'empty' => "Seleccione una opción"));
+            echo $this->Form->input('Contratos.cargo_id', array('div' => false, 'label' => false, 'class' => 'small', 'empty' => "Seleccione una opción"));
             echo "</div>";
             echo "</div>";
             // END ROW

@@ -7,6 +7,6 @@ class Departamento extends AppModel{
     /**     
      *  Relaciones
      */
-    var $hasMany = 'Asignacion';
+    var $hasMany = 'Contrato';
 }
 ?>

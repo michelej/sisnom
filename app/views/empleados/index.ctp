@@ -47,7 +47,7 @@
                         <td><?php echo $empleado['Empleado']['CEDULA']; ?></td>
                         <td><?php echo $empleado['Empleado']['NOMBRE']; ?></td>
                         <td><?php echo $empleado['Empleado']['APELLIDO']; ?></td>
-                        <td><?php echo $empleado['Asignacion']['MODALIDAD']; ?></td>
+                        <td><?php echo $empleado['Contrato']['MODALIDAD']; ?></td>
                         <td><?php echo $empleado['Cargo']['NOMBRE'];  ?></td>
                         <td><?php echo $empleado['Departamento']['NOMBRE'];  ?></td>
                         <td class="actions">

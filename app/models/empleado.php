@@ -54,7 +54,7 @@ class Empleado extends AppModel {
      *  Relaciones
      */
     var $hasMany = array(
-        'Asignacion' => array(            
+        'Contrato' => array(            
             'dependent' => true
             ));
 
