@@ -24,13 +24,13 @@
             <thead>
                 <tr>
                     <th></th>  
-                    <th style="width:5%"><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>
-                    <th style="width:15%"><?php echo $this->Paginator->sort('Nombre(s)', 'NOMBRE'); ?></th>
-                    <th style="width:15%"><?php echo $this->Paginator->sort('Apellido(s)', 'APELLIDO'); ?></th>
-                    <th style="width:15%"><?php echo $this->Paginator->sort('Condición Laboral', 'Asignacion.MODALIDAD'); ?></th>
-                    <th style="width:15%"><?php echo $this->Paginator->sort('cargo_id'); ?></th>
-                    <th style="width:20%"><?php echo $this->Paginator->sort('departamento_id'); ?></th>
-                    <th style="width:20%"class="actions"><?php __('Acciones'); ?></th>
+                    <th style="width:5%; text-align: center"><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>
+                    <th style="width:15%; text-align: center"><?php echo $this->Paginator->sort('Nombre(s)', 'NOMBRE'); ?></th>
+                    <th style="width:15%; text-align: center"><?php echo $this->Paginator->sort('Apellido(s)', 'APELLIDO'); ?></th>
+                    <th style="width:15%; text-align: center"><?php echo $this->Paginator->sort('Condición Laboral', 'Contrato.MODALIDAD'); ?></th>
+                    <th style="width:15%; text-align: center"><?php echo $this->Paginator->sort('cargo_id'); ?></th>
+                    <th style="width:20%; text-align: center"><?php echo $this->Paginator->sort('departamento_id'); ?></th>
+                    <th style="width:20%; text-align: center"class="actions"><?php __('Acciones'); ?></th>
                 </tr>
             </thead>
             <tbody>

@@ -29,8 +29,7 @@
                         <td><?php echo $cargo['Cargo']['SUELDO_BASE']; ?></td>
                         <td><?php echo $cargo['Cargo']['ESTADO']; ?></td>		
                         <td class="actions">
-                            <?php
-                            echo $this->Html->image("file_search.png", array("alt" => "consultar", 'width' => '18', 'heigth' => '18', 'title' => 'Consultar', 'url' => array('action' => 'view', $cargo['Cargo']['id'])));
+                            <?php                            
                             echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $cargo['Cargo']['id'])));
                             echo $this->Html->image("file_delete.png", array("alt" => "Borrar", 'title' => 'Eliminar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'delete', $cargo['Cargo']['id'])));
                             ?>                            

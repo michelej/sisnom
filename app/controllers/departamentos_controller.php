@@ -27,15 +27,7 @@ class DepartamentosController extends AppController {
             $this->redirect(array('action' => 'index'));
         }
     }
-
-    function view($id = null) {
-        if (!$id) {
-            $this->Session->setFlash(__('Departamento invalido', true));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->set('departamento', $this->Departamento->read(null, $id));
-    }
-    
+   
     function edit($id) {
         $this->Departamento->id = $id;
         if (empty($this->data)) {

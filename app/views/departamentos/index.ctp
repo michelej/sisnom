@@ -6,8 +6,8 @@
             <thead>
                 <tr>
                     <th></th>  
-                    <th style="width:60%"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>                    
-                    <th style="width:25%">><?php echo $this->Paginator->sort('Codigo', 'CODIGO'); ?></th>                    
+                    <th style="width:70%"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>                    
+                    <th style="width:15%">><?php echo $this->Paginator->sort('Codigo', 'CODIGO'); ?></th>                    
                     <th style="width:15%;text-align: center" class="actions"><?php __('Actions'); ?></th>
                 </tr>
             </thead>
@@ -25,8 +25,7 @@
                         <td><?php echo $departamento['Departamento']['NOMBRE']; ?></td>                        
                         <td><?php echo $departamento['Departamento']['CODIGO']; ?></td>
                         <td class="actions">
-                            <?php
-                            echo $this->Html->image("file_search.png", array("alt" => "consultar", 'width' => '18', 'heigth' => '18', 'title' => 'Consultar', 'url' => array('action' => 'view', $departamento['Departamento']['id'])));
+                            <?php                            
                             echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $departamento['Departamento']['id'])));
                             echo $this->Html->image("file_delete.png", array("alt" => "Borrar", 'title' => 'Eliminar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'delete', $departamento['Departamento']['id'])));
                             ?>                            
