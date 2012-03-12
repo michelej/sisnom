@@ -8,7 +8,7 @@ class EmpleadosController extends AppController {
     var $uses = array('Empleado', 'Contrato');
     
     function index() {
-        $this->Empleado->recursive = 1;
+        $this->Empleado->recursive = 1;        
         $data=$this->paginate('Contrato', array('Contrato.FECHA_FIN' => null));        
         $this->set('empleados',$data);
     }

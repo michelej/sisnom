@@ -50,15 +50,19 @@
  */
 
     Inflector::rules('singular', array(
-    'rules' => array('/(.*)res$/i' => '\1r', '/(.*)nes$/i' => '\1n', '/(.*)des$/i' => '\1d', '/(.*)ses$/i' => '\1s'),
+    'rules' => array('/(.*)res$/i' => '\1r', '/(.*)nes$/i' => '\1n', '/(.*)des$/i' => '\1d', '/(.*)ses$/i' => '\1s',
+        '/(.*)les$/i' => '\1l'),
     'irregular' => array(),
     'uninflected' => array()
     )
     );
 
     Inflector::rules('plural', array(
-    'rules' => array('/(.*)r$/i' => '\1res', '/(.*)n$/i' => '\1nes', '/(.*)d$/i' => '\1des', '/(.*)s$/i' => '\1ses'),
+    'rules' => array('/(.*)r$/i' => '\1res', '/(.*)n$/i' => '\1nes', '/(.*)d$/i' => '\1des', '/(.*)s$/i' => '\1ses',
+        '/(.*)l$/i' => '\1les'),
     'irregular' => array(),
     'uninflected' => array()
     )
     );
+    
+    Configure::write('FECHA_INICIO', '2000-01-01'); // Fecha de inicio

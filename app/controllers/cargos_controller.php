@@ -13,12 +13,12 @@ class CargosController extends AppController {
     );
 
     function index() {
-        $this->Cargo->recursive = 0;        
+        $this->Cargo->recursive = 0;
         $this->set('cargos', $this->paginate());
     }
 
     function add() {
-        if (!empty($this->data)) {
+        if (!empty($this->data)) {            
             if ($this->Cargo->save($this->data)) {
                 $this->Session->setFlash('Cargo agregado');
                 $this->redirect(array('action' => 'index'));
@@ -43,7 +43,7 @@ class CargosController extends AppController {
                 $this->redirect(array('action' => 'index'));
             }
         }
-    }
+    }   
 
 }
 
