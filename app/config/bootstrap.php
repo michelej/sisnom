@@ -65,4 +65,4 @@
     )
     );
     
-    Configure::write('FECHA_INICIO', '2000-01-01'); // Fecha de inicio
+    Configure::write('FECHA_INICIO', '2006-01-01'); // Fecha de inicio

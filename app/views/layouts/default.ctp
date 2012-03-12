@@ -81,7 +81,7 @@
                 </div> 
                 <!-- END MENU -->  
                 <!-- INICIO HOLDER -->  
-                <div class="holder">
+                <div class="holder">                    
                     <?php echo $content_for_layout; ?>
                 </div>
                 <!-- FIN HOLDER -->  

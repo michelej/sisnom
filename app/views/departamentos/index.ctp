@@ -7,7 +7,7 @@
                 <tr>
                     <th></th>  
                     <th style="width:70%"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>                    
-                    <th style="width:15%">><?php echo $this->Paginator->sort('Codigo', 'CODIGO'); ?></th>                    
+                    <th style="width:15%"><?php echo $this->Paginator->sort('Codigo', 'CODIGO'); ?></th>                    
                     <th style="width:15%;text-align: center" class="actions"><?php __('Actions'); ?></th>
                 </tr>
             </thead>

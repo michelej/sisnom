@@ -7,7 +7,7 @@
                 <tr>
                     <th></th>  
                     <th style="width:30%"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>                    
-                    <th style="width:45%">><?php echo $this->Paginator->sort('Descripcion', 'DESCRIPCION'); ?></th>                                        
+                    <th style="width:55%"><?php echo $this->Paginator->sort('Descripcion', 'DESCRIPCION'); ?></th>                                        
                     <th style="width:15%;text-align: center" class="actions"><?php __('Actions'); ?></th>
                 </tr>
             </thead>
@@ -45,19 +45,5 @@
                 <?php echo $this->Paginator->next(null, array(), null, array('class' => 'disabled')); ?>
             </div>
         </div>        
-    </div>
-</div>
-
-
-
-<div class="box">
-    <div class="title">	<h2><?php __('Acciones'); ?></h2></div>
-    <div class="content form">
-        <div class="row boton">
-            <div class="boton">
-                <?php echo $this->Html->link(__('Nuevo Cargo', true), array('action' => 'add')); ?>
-
-            </div>
-        </div>
     </div>
 </div>
