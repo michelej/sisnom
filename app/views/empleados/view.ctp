@@ -87,11 +87,7 @@
 <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content forms">
-        <div class="row">
-            <?php echo "<div style='float:left;width:25%'>"; ?>
-            <?php echo $this->Form->label('Cargo '); ?>
-            <?php echo $empleado['Cargo']['NOMBRE']; ?>
-            <?php echo "</div>"; ?>
+        <div class="row">            
             <?php echo "<div style='float:left;width:25%'>"; ?>
             <?php echo $this->Form->label('Fecha de Ingreso '); ?>
             <?php echo $empleado['Empleado']['INGRESO']; ?>

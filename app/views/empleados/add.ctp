@@ -154,7 +154,7 @@
             echo "</div>"; 
             // END ROW
             // INI ROW
-            echo "<div class='row'>";
+            /*echo "<div class='row'>";
             echo "<div style='float:left;width:30%'>";
             echo $this->Form->label('Condición Laboral');
             $options = array('Fijo' => 'Fijo', 'Contratado' => 'Contratado', 'Temporal' => 'Temporal');
@@ -170,7 +170,7 @@
             echo $this->Form->label('Cargo');
             echo $this->Form->input('Contratos.cargo_id', array('div' => false, 'label' => false, 'class' => 'small', 'empty' => "Seleccione una opción"));
             echo "</div>";
-            echo "</div>";
+            echo "</div>";*/
             // END ROW
             ?>
         </div>   
