@@ -92,8 +92,7 @@
         $fechaLegible = $dia . "-".$month."-".$anio; //Spanish 
         /* $fechaLegible = $month.' '.$dia.", ".$anio; */ //English 
         return $fechaLegible;
-    }
-    
+    }    
     /**
      * Verifica que una fecha esté dentro del rango de fechas establecidas
      * @param $start_date fecha de inicio
@@ -106,4 +105,22 @@
         $end_ts = strtotime($end_date);
         $user_ts = strtotime($evaluame);
         return (($user_ts >= $start_ts) && ($user_ts <= $end_ts));
+    }
+    /**
+     * Transforma una fecha del formato Y-m-d (BD) a d-m-Y 
+     * se usa cuando se carga de la BD y se quiere mostrar en un vista
+     * @param type $cadenaFecha fecha en formato Y-m-d
+     * @return type fecha en formato d-m-Y
+     */
+    function formatoFechaAfterFind($cadenaFecha) {
+        return date('d-m-Y', strtotime($cadenaFecha));
+    }
+    /**
+     * Transforma una fecha del formato d-m-Y  a  Y-m-d (BD)
+     * se usa cuando se va a guardar en la BD
+     * @param type $cadenaFecha
+     * @return type 
+     */
+    function formatoFechaBeforeSave($cadenaFecha) {
+        return date('Y-m-d', strtotime($cadenaFecha)); // Direction is from
     }
