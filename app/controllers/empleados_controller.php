@@ -58,8 +58,7 @@ class EmpleadosController extends AppController {
         $this->Empleado->id = $id;
         
         if (empty($this->data)) {                                    
-            $this->data = $this->Empleado->Contrato->find('first',array('conditions'=>array('Contrato.FECHA_FIN'=>null)));
-            //echo debug($this->data);
+            $this->data = $this->Empleado->Contrato->find('first',array('conditions'=>array('Contrato.FECHA_FIN'=>null)));            
         } else {
             if ($this->Empleado->save($this->data)) {
                 $this->Session->setFlash('Empleado Guardado.');

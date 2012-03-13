@@ -33,8 +33,11 @@ class HistorialesController extends AppController {
         if (empty($this->data)) {
             $this->Historial->recursive = -1;
             $this->Historial->Cargo->recursive = -1;
-
-            $historiales = $this->Historial->findAllByCargoId($id);
+            
+            $historiales = $this->Historial->find('all',array(
+                'conditions'=>array('cargo_id'=>$id),
+                'order'=>'Historial.FECHA_INI'
+                ));
             $cargo = $this->Historial->Cargo->findById($id);
             $this->set(compact('historiales', 'cargo'));
         } else {            

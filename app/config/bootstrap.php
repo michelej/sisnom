@@ -65,4 +65,45 @@
     )
     );
     
-    Configure::write('FECHA_INICIO', '2006-01-01'); // Fecha de inicio
+    Configure::write('FECHA_INICIO', '2006-01-01'); // Fecha de inicio    
+    
+    
+    /*
+     * Funciones Globales     * 
+     * 
+     */
+    
+    
+    /**
+     * Funcion para convertir fechas a un formato elegible en español 
+     * @param type $date La fecha en formato d-m-Y (Ojo)
+     * @return string La fecha en formato d-M-Y en español ejm: 1-Ene-2001
+     */
+    function fechaElegible($date) {
+        if ($date == '' || empty($date))
+            return '';
+        $meses = array("Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct",
+            "Nov", "Dic"); //Spanish
+        /* $meses = array("Jan" , "Feb" , "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", 
+          "Nov", "Dec"); */ //English
+
+        list($dia, $mes, $anio) = preg_split('/-/', $date);
+        $month = $meses[((int) $mes) - 1];
+        $fechaLegible = $dia . "-".$month."-".$anio; //Spanish 
+        /* $fechaLegible = $month.' '.$dia.", ".$anio; */ //English 
+        return $fechaLegible;
+    }
+    
+    /**
+     * Verifica que una fecha esté dentro del rango de fechas establecidas
+     * @param $start_date fecha de inicio
+     * @param $end_date fecha final
+     * @param $evaluame fecha a comparar
+     * @return true si esta en el rango, false si no lo está
+     */
+    function check_in_range($start_date, $end_date, $evaluame) {
+        $start_ts = strtotime($start_date);
+        $end_ts = strtotime($end_date);
+        $user_ts = strtotime($evaluame);
+        return (($user_ts >= $start_ts) && ($user_ts <= $end_ts));
+    }
