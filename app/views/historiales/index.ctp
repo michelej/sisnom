@@ -7,7 +7,7 @@
                 <tr>
                     <th></th>  
                     <th style="width:30%"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>                    
-                    <th style="width:55%"><?php echo $this->Paginator->sort('Descripcion', 'DESCRIPCION'); ?></th>                                        
+                    <th style="width:55%"><?php echo $this->Paginator->sort('Descripcion', 'DESCRIPCION'); ?></th>                                                            
                     <th style="width:15%;text-align: center" class="actions"><?php __('Actions'); ?></th>
                 </tr>
             </thead>
@@ -23,7 +23,7 @@
                     <tr<?php echo $class; ?>>
                         <td></td>
                         <td><?php echo $cargo['Cargo']['NOMBRE']; ?></td>                        
-                        <td><?php echo $cargo['Cargo']['DESCRIPCION']; ?></td>                                                
+                        <td><?php echo $cargo['Cargo']['DESCRIPCION']; ?></td>                        
                         <td class="actions">
                             <?php                            
                             echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $cargo['Cargo']['id'])));                            

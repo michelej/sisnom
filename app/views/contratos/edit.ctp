@@ -25,11 +25,11 @@
             <thead>
                 <tr>
                     <th></th>  
-                    <th style="width:15%">Fecha Inicio</th>                    
-                    <th style="width:15%">Fecha Final</th>                                        
-                    <th style="width:15%">Modalidad</th>
-                    <th style="width:20%">Cargo</th>
-                    <th style="width:20%">Departamento</th>
+                    <th style="width:15%"><?php echo $this->Paginator->sort('Fecha Inicio', 'FECHA_INI') ?></th>                    
+                    <th style="width:15%"><?php echo $this->Paginator->sort('Fecha Final', 'FECHA_FIN') ?></th>                                        
+                    <th style="width:15%"><?php echo $this->Paginator->sort('Modalidad', 'MODELIDAD') ?></th>
+                    <th style="width:20%"><?php echo $this->Paginator->sort('Cargo', 'FECHA_INI') ?></th>
+                    <th style="width:20%"><?php echo $this->Paginator->sort('Departamento', 'FECHA_INI') ?></th>
                     <th style="width:15%; text-align: center" class="actions"><?php __('Actions'); ?></th>
                 </tr>
             </thead>

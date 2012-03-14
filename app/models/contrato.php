@@ -12,6 +12,20 @@ class Contrato extends AppModel{
     );
     
     function beforeSave() {
+        $fecha_ini=$this->data['Contrato']['FECHA_INI'];
+        $fecha_fin=$this->data['Contrato']['FECHA_FIN'];        
+        if($fecha_fin==NULL){
+            $this->data['Contrato']['FECHA_FIN']=NULL;
+        }
+        
+        $this->recursive = -1;
+        $contratos = $this->findAllByCargoId($this->data['Contrato']['cargo_id']);        
+        $result = Set::combine($contratos, '{n}.Contrato.id', '{n}.Contrato');
+                
+        if (!$this->validacionFechas($fecha_ini,$fecha_fin,$result,"contratos")) {
+            return false;
+        }
+        
         if (!empty($this->data['Contrato']['FECHA_INI'])) {
             $this->data['Contrato']['FECHA_INI'] = formatoFechaBeforeSave($this->data['Contrato']['FECHA_INI']);
         }        

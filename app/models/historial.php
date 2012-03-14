@@ -15,8 +15,18 @@ class Historial extends AppModel {
      *
      * @return boolean 
      */
-    function beforeSave() {        
-        if (!$this->validacionFechas()) {
+    function beforeSave() { 
+        $fecha_ini=$this->data['Historial']['FECHA_INI'];
+        $fecha_fin=$this->data['Historial']['FECHA_FIN'];        
+        if($fecha_fin==NULL){
+            $this->data['Historial']['FECHA_FIN']=NULL;
+        }
+        
+        $this->recursive = -1;
+        $historiales = $this->findAllByCargoId($this->data['Historial']['cargo_id']);        
+        $result = Set::combine($historiales, '{n}.Historial.id', '{n}.Historial');
+                
+        if (!$this->validacionFechas($fecha_ini,$fecha_fin,$result,"historiales")) {
             return false;
         }
 
@@ -24,7 +34,7 @@ class Historial extends AppModel {
         if (!empty($this->data['Historial']['FECHA_INI'])) {
             $this->data['Historial']['FECHA_INI'] = formatoFechaBeforeSave($this->data['Historial']['FECHA_INI']);
         }
-        if (!empty($this->data['Historial']['FECHA_FIN'])) {
+        if (!empty($this->data['Historial']['FECHA_FIN'])) {           
             $this->data['Historial']['FECHA_FIN'] = formatoFechaBeforeSave($this->data['Historial']['FECHA_FIN']);
         }
 
@@ -48,7 +58,7 @@ class Historial extends AppModel {
         return $results;
     }
 
-    function validacionFechas() {
+    /*function validacionFechas() {
         // Ojo las fechas que terminan en NULL se consideran como PRESENTE solo existe una ,
         // ademas no se permite crear rangos futuros a la fecha obtenida con date()
         // 
@@ -130,8 +140,8 @@ class Historial extends AppModel {
         }
         // si pasamos todos las verificaciones damos la luz verde
         return true;
-    }
-
+    }*/
+    
 }
 
 ?>

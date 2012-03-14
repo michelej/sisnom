@@ -6,10 +6,19 @@ class HistorialesController extends AppController {
     var $components = array('RequestHandler');
     var $helpers = array('Ajax', 'Javascript');
     var $uses = array('Historial', 'Cargo');
+    
+    var $paginate = array(
+        'Historial' => array(
+            'limit' => 20,            
+            'order' => array(
+                'Historial.FECHA_INI' => 'asc')
+        )
+    );
 
     function index() {
-        $this->Historial->Cargo->recursive = -1;
-        $this->set('cargos', $this->paginate('Cargo'));
+        $this->Historial->Cargo->recursive = 1;
+        $data = $this->paginate('Cargo');
+        $this->set('cargos', $data);
     }
 
     function add() {
@@ -21,32 +30,32 @@ class HistorialesController extends AppController {
         }
     }
 
-    function delete($id) { 
-        $cargoid=$this->Historial->find('first',array('conditions'=>array('Historial.id'=>$id),'fields'=>array('Historial.cargo_id')));        
-        if ($this->Historial->delete($id)) {            
-            $this->Session->setFlash(__('Historial ' . $id . ' eliminado',true));
-            $this->redirect('edit/'.$cargoid['Historial']['cargo_id']);
+    function delete($id) {
+        $cargoid = $this->Historial->find('first', array('conditions' => array('Historial.id' => $id), 'fields' => array('Historial.cargo_id')));
+        if ($this->Historial->delete($id)) {
+            $this->Session->setFlash(__('Historial ' . $id . ' eliminado', true));
+            $this->redirect('edit/' . $cargoid['Historial']['cargo_id']);
         }
     }
 
-    function edit($id=null) {        
+    function edit($id = null) {
         if (empty($this->data)) {
             $this->Historial->recursive = -1;
-            $this->Historial->Cargo->recursive = -1;
+            $this->Historial->Cargo->recursive = -1;            
             
-            $historiales = $this->Historial->find('all',array(
-                'conditions'=>array('cargo_id'=>$id),
-                'order'=>'Historial.FECHA_INI'
-                ));
+            $historiales = $this->paginate('Historial', array(
+                'cargo_id' => $id,
+                    ));
+
             $cargo = $this->Historial->Cargo->findById($id);
             $this->set(compact('historiales', 'cargo'));
-        } else {            
+        } else {
             if ($this->Historial->save($this->data)) {
-                $this->Session->setFlash('Historial Guardado.');                
-                $this->redirect('edit/'.$this->data['Historial']['cargo_id']);
+                $this->Session->setFlash('Historial Guardado.');
+                $this->redirect('edit/' . $this->data['Historial']['cargo_id']);
             }
             $this->Session->setFlash('Error en las FECHAS');  // Mostrar Error
-            $this->redirect('edit/'.$this->data['Historial']['cargo_id']);
+            $this->redirect('edit/' . $this->data['Historial']['cargo_id']);
         }
     }
 
