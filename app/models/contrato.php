@@ -13,13 +13,29 @@ class Contrato extends AppModel{
     
     function beforeSave() {
         if (!empty($this->data['Contrato']['FECHA_INI'])) {
-            $this->data['Contrato']['FECHA_INI'] = $this->formatoFechaBeforeSave($this->data['Contrato']['FECHA_INI']);
+            $this->data['Contrato']['FECHA_INI'] = formatoFechaBeforeSave($this->data['Contrato']['FECHA_INI']);
         }        
+        if (!empty($this->data['Contrato']['FECHA_FIN'])) {
+            $this->data['Contrato']['FECHA_FIN'] = formatoFechaBeforeSave($this->data['Contrato']['FECHA_FIN']);
+        }
         return true;
-    }
+    }   
     
-    function formatoFechaBeforeSave($cadenaFecha) {
-        return date('Y-m-d', strtotime($cadenaFecha)); // Direction is from
+    /**
+     *
+     * @param type $results
+     * @return type 
+     */
+    function afterFind($results) {
+        foreach ($results as $key => $val) {
+            if (isset($val['Contrato']['FECHA_INI'])) {
+                $results[$key]['Contrato']['FECHA_INI'] = formatoFechaAfterFind($val['Contrato']['FECHA_INI']);
+            }
+            if (isset($val['Contrato']['FECHA_FIN'])) {
+                $results[$key]['Contrato']['FECHA_FIN'] = formatoFechaAfterFind($val['Contrato']['FECHA_FIN']);
+            }
+        }
+        return $results;
     }
 }
 ?>

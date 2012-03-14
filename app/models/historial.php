@@ -61,12 +61,14 @@ class Historial extends AppModel {
                             $this->query("update historiales set FECHA_FIN='" . $fecha_new . "' where id='" . $id . "'");
                         }
                     } else {
-                        $fecha = formatoFechaBeforeSave($fecha_ini);
-                        // buscamos la fecha inicial y le restamos 1 day para formar la nueva fecha final
-                        // del historial anterior
-                        $fecha_new = date("Y-m-d", strtotime($fecha . "-1 days"));
-                        $id = $historial['Historial']['id'];
-                        $this->query("update historiales set FECHA_FIN='" . $fecha_new . "' where id='" . $id . "'");
+                        if ($fecha_ini>$fecha_i && $fecha_ini>$fecha_f) {
+                            $fecha = formatoFechaBeforeSave($fecha_ini);
+                            // buscamos la fecha inicial y le restamos 1 day para formar la nueva fecha final
+                            // del historial anterior
+                            $fecha_new = date("Y-m-d", strtotime($fecha . "-1 days"));
+                            $id = $historial['Historial']['id'];
+                            $this->query("update historiales set FECHA_FIN='" . $fecha_new . "' where id='" . $id . "'");
+                        }
                     }
                 } else {
                     if (check_in_range($fecha_i, $fecha_f, $fecha_ini)) {
@@ -78,7 +80,7 @@ class Historial extends AppModel {
                 }
             }
         }
-        
+
         //Tratamos las fechas
         if (!empty($this->data['Historial']['FECHA_INI'])) {
             $this->data['Historial']['FECHA_INI'] = formatoFechaBeforeSave($this->data['Historial']['FECHA_INI']);
@@ -89,6 +91,7 @@ class Historial extends AppModel {
 
         return true;
     }
+
     /**
      *
      * @param type $results
