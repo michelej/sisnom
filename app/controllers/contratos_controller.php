@@ -14,8 +14,19 @@ class ContratosController extends AppController {
     );
 
     function index() {
-
-        $this->set('empleados', $this->paginate('Empleado'));
+        $filtro=array();
+        if(!empty($this->data)){            
+            if($this->data['Empleado']['Fopcion']==1){
+               $filtro=array('Empleado.CEDULA LIKE'=>$this->data['Empleado']['valor']); 
+            }
+            if($this->data['Empleado']['Fopcion']==2){
+               $filtro=array('Empleado.NOMBRE LIKE'=>$this->data['Empleado']['valor']); 
+            }
+            if($this->data['Empleado']['Fopcion']==3){
+               $filtro=array('Empleado.APELLIDO LIKE'=>$this->data['Empleado']['valor']); 
+            }
+        }
+        $this->set('empleados', $this->paginate('Empleado',$filtro));
     }
 
     function add() {
@@ -38,13 +49,7 @@ class ContratosController extends AppController {
     function edit($id = null) {
         if (empty($this->data)) {
             $this->Contrato->Empleado->recursive = -1;
-
-            /*$contratos = $this->Contrato->find('all', array(
-                'conditions' => array('empleado_id' => $id),
-                'order' => 'Contrato.FECHA_INI',
-                'recursive' => '0',
-                    ));*/
-            
+                        
             $contratos = $this->paginate('Contrato', array(
                 'empleado_id' => $id,
                     ));

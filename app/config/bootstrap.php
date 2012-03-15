@@ -125,7 +125,9 @@ function formatoFechaBeforeSave($cadenaFecha) {
     return date('Y-m-d', strtotime($cadenaFecha)); // Direction is from
 }
 /**
- * < 0 f1<f2   >0 f1>f2   ==0 f1=f2
+ * <0  f1<f2
+ * >0  f1>f2   
+ * =0  f1=f2
  * @param type $fecha1
  * @param type $fecha2
  * @return type 

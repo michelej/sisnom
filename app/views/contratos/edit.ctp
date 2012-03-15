@@ -53,8 +53,8 @@
                 }
                     ?></td>                                                
                         <td><?php echo $contrato['Contrato']['MODALIDAD']; ?></td>
-                        <td><?php echo $contrato['Cargo']['NOMBRE'];   ?></td>
-                        <td><?php echo $contrato['Departamento']['NOMBRE'];  ?></td>
+                        <td><?php echo $contrato['Cargo']['NOMBRE']; ?></td>
+                        <td><?php echo $contrato['Departamento']['NOMBRE']; ?></td>
                         <td class="actions">
                             <?php
                             echo $this->Html->image("file_delete.png", array("alt" => "Borrar", 'title' => 'Eliminar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'delete', $contrato['Contrato']['id'])));
@@ -64,6 +64,18 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <div class="pages-bottom">
+            <div class="actionbox">
+                <?php
+                echo $this->Paginator->counter(array('format' => __('Este empleado tiene %count% contrato(s)', true)));
+                ?>
+            </div>
+            <div class="pagination">
+                <?php echo $this->Paginator->prev(null, array(), null, array('class' => 'disabled')); ?>
+                <?php echo $this->Paginator->numbers(array('class' => 'disabled', 'separator' => '')); ?>
+                <?php echo $this->Paginator->next(null, array(), null, array('class' => 'disabled')); ?>
+            </div>
+        </div>         
     </div>
 </div>
 

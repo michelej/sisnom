@@ -6,7 +6,7 @@ class CargosController extends AppController {
     var $components = array('RequestHandler');
     var $helpers = array('Ajax', 'Javascript');
     var $paginate = array(
-        'limit' => 25,
+        'limit' => 20,
         'order' => array(
             'Cargo.NOMBRE' => 'asc'
         )

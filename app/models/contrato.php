@@ -12,8 +12,21 @@ class Contrato extends AppModel{
     );
     
     function beforeSave() {
+        // fecha de ingreso del empleado
+        $empleadoingreso=$this->Empleado->find('first',array(
+            'conditions'=>array('id'=>$this->data['Contrato']['empleado_id']),
+            'recursive'=>'-1',
+            'fields'=>array('Empleado.INGRESO'),
+            ));        
+        $ingreso=$empleadoingreso['Empleado']['INGRESO'];
         $fecha_ini=$this->data['Contrato']['FECHA_INI'];
-        $fecha_fin=$this->data['Contrato']['FECHA_FIN'];        
+        $fecha_fin=$this->data['Contrato']['FECHA_FIN'];
+        
+        // el rango de fechas no puede ser menor a la fecha de ingreso
+        if(compara_fechas($ingreso, $fecha_ini)>0){
+            return false;
+        }
+        
         if($fecha_fin==NULL){
             $this->data['Contrato']['FECHA_FIN']=NULL;
         }

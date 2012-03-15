@@ -5,14 +5,14 @@
             <?php
             echo $this->Form->create('Empleado');
             echo "<div>";
-            echo "<div style='float:left;width:20%;'>";
-            $opciones = array('1' => 'Cedula', '2' => 'Nombre', '3' => 'Apellido', '4' => 'Condicion', '0' => 'Estado');
-            echo $this->Form->label('Opción');
-            echo $this->Form->select('Fopcion', array($opciones), null, array('empty' => "Seleccione una opción"));
+            echo "<div style='float:left;width:25%;'>";
+            $options = array('0' => 'Seleccione una opcion', '1' => 'Cedula', '2' => 'Nombre','3'=>'Apellido');
+            echo $this->Form->label('Opción');                        
+            echo $this->Form->input('Fopcion', array('div' => false, 'label' => false, 'class' => 'small', 'type' => 'select', 'options' => $options));
             echo "</div>";
             echo "<div style='float:left;width:32%'>";
-            echo $this->Form->label('Descripción');
-            echo $this->Form->Input('valor', array('class' => 'small', 'label' => false, 'value' => ''));
+            echo $this->Form->label('Descripción');            
+            echo $this->Form->input('valor', array('div' => false, 'label' => false, 'class' => 'small'));
             echo "</div>";
             echo "<div style='float:left;width:25%;padding-top:16px'>";
             echo $this->Form->End('Buscar');

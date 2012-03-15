@@ -54,7 +54,7 @@ class Empleado extends AppModel {
      *  Relaciones
      */
     var $hasMany = array(
-        'Contrato' => array(            
+        'Contrato' => array(
             'dependent' => true
             ));
 
@@ -88,7 +88,7 @@ class Empleado extends AppModel {
         return date('Y-m-d', strtotime($cadenaFecha)); // Direction is from
     }
 
-    function Edad($fechanac) {        
+    function Edad($fechanac) {
         //$fecha = $this->data['Empleado']['FECHANAC'];
         list($dia, $mes, $ano) = explode("-", $fechanac);
         $ano_diferencia = date("Y") - $ano;

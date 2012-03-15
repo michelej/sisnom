@@ -5,10 +5,15 @@ class DepartamentosController extends AppController {
     var $name = 'Departamentos';
     var $components = array('RequestHandler');
     var $helpers = array('Ajax', 'Javascript');
-
+    var $paginate = array(
+        'limit' => 20,
+        'order' => array(
+            'Departamento.NOMBRE' => 'asc'
+        )
+    );
+    
     function index() {
-        $this->Departamento->recursive = 0;
-        $this->paginate = array('limit' => '20');
+        $this->Departamento->recursive = 0;        
         $this->set('departamentos', $this->paginate());        
     }
 

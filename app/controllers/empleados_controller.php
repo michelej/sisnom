@@ -8,8 +8,21 @@ class EmpleadosController extends AppController {
     var $uses = array('Empleado', 'Contrato');
     
     function index() {
+        $filtro=array();
+        if(!empty($this->data)){
+            if($this->data['Empleado']['Fopcion']==1){
+               $filtro=array('Empleado.CEDULA LIKE'=>$this->data['Empleado']['valor']); 
+            }
+            if($this->data['Empleado']['Fopcion']==2){
+               $filtro=array('Empleado.NOMBRE LIKE'=>$this->data['Empleado']['valor']); 
+            }
+            if($this->data['Empleado']['Fopcion']==3){
+               $filtro=array('Empleado.APELLIDO LIKE'=>$this->data['Empleado']['valor']); 
+            }
+        }
+        
         $this->Empleado->recursive = -1;        
-        $data=$this->paginate('Empleado');                
+        $data=$this->paginate('Empleado',$filtro);                
         $this->set('empleados',$data);
     }
 

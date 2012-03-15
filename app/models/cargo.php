@@ -8,8 +8,8 @@ class Cargo extends AppModel {
     /**
      *  Relaciones
      */
-    var $hasMany = array('Contrato','Historial');    
-        
+    var $hasMany = array('Contrato', 'Historial');
+
 }
 
 ?>
