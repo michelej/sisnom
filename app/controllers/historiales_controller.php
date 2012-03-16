@@ -19,16 +19,7 @@ class HistorialesController extends AppController {
         $this->Historial->Cargo->recursive = 1;
         $data = $this->paginate('Cargo');
         $this->set('cargos', $data);
-    }
-
-    function add() {
-        if (!empty($this->data)) {
-            if ($this->Cargo->save($this->data)) {
-                $this->Session->setFlash('Cargo agregado');
-                $this->redirect(array('action' => 'index'));
-            }
-        }
-    }
+    }    
 
     function delete($id) {
         $cargoid = $this->Historial->find('first', array('conditions' => array('Historial.id' => $id), 'fields' => array('Historial.cargo_id')));

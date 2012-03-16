@@ -3,8 +3,15 @@
 class Empleado extends AppModel {
 
     var $name = 'Empleado';
-    var $displayField = 'CEDULA';
+    var $displayField = 'CEDULA';      
 
+    /**
+     *  Relaciones
+     */
+    var $hasMany = array(
+        'Contrato' => array(
+            'dependent' => true
+            ));
     /**
      *  Validaciones
      */
@@ -49,14 +56,6 @@ class Empleado extends AppModel {
             'message' => 'Seleccione un cargo',
         ),
     );
-
-    /**
-     *  Relaciones
-     */
-    var $hasMany = array(
-        'Contrato' => array(
-            'dependent' => true
-            ));
 
     function beforeSave() {
         if (!empty($this->data['Empleado']['FECHANAC'])) {

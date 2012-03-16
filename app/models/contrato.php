@@ -12,7 +12,7 @@ class Contrato extends AppModel{
     );
     
     function beforeSave() {
-        // fecha de ingreso del empleado
+        // fecha de ingreso del empleado        
         $empleadoingreso=$this->Empleado->find('first',array(
             'conditions'=>array('id'=>$this->data['Contrato']['empleado_id']),
             'recursive'=>'-1',
@@ -32,9 +32,10 @@ class Contrato extends AppModel{
         }
         
         $this->recursive = -1;
-        $contratos = $this->findAllByCargoId($this->data['Contrato']['cargo_id']);        
-        $result = Set::combine($contratos, '{n}.Contrato.id', '{n}.Contrato');
-                
+        // buscamos los contratos de este empleado
+        $contratos = $this->findAllByEmpleadoId($this->data['Contrato']['empleado_id']);        
+        $result = Set::combine($contratos, '{n}.Contrato.id', '{n}.Contrato');        
+        
         if (!$this->validacionFechas($fecha_ini,$fecha_fin,$result,"contratos")) {
             return false;
         }

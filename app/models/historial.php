@@ -23,6 +23,7 @@ class Historial extends AppModel {
         }
         
         $this->recursive = -1;
+        // buscamos los historiales de sueldo de este cargo
         $historiales = $this->findAllByCargoId($this->data['Historial']['cargo_id']);        
         $result = Set::combine($historiales, '{n}.Historial.id', '{n}.Historial');
                 
