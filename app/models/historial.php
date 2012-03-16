@@ -4,7 +4,8 @@ class Historial extends AppModel {
 
     var $name = 'Historial';
     var $displayField = 'SUELDO_BASE';
-
+    var $errorMessage='';
+    
     /**
      *  Relaciones
      */
@@ -27,7 +28,7 @@ class Historial extends AppModel {
         $historiales = $this->findAllByCargoId($this->data['Historial']['cargo_id']);        
         $result = Set::combine($historiales, '{n}.Historial.id', '{n}.Historial');
                 
-        if (!$this->validacionFechas($fecha_ini,$fecha_fin,$result,"historiales")) {
+        if (!$this->validacionFechas($fecha_ini,$fecha_fin,$result,"historiales")) {                        
             return false;
         }
 

@@ -3,6 +3,7 @@
 class AppModel extends Model {
 
     protected $sYourPropery = 'property';
+    var $errorMessage='';
 
     /**
      * Es usado por el modelo historial y el de contrato
@@ -23,18 +24,18 @@ class AppModel extends Model {
         } else {
             $actual = FALSE;  // es un rango de fechas normal
         }
-
+        
+        // No se permiten fechas futuras
+        if (compara_fechas($fecha_ini, $hoy) > 0) {
+            $this->errorMessage='No se permiten fechas futuras, la fecha inicial no puede ser mayor al dia de hoy';
+            return false;
+        }
         // Verificar que fecha final sea mayor a fecha inicial , valides del rango
         if ($fecha_ini > $fecha_fin) {
+            $this->errorMessage='Ingrese un rango de fechas valido, la fecha final debe ser mayor a la fecha inicial';
             return false;
-        }
-        // No se permiten fechas futuras
-
-        if (compara_fechas($fecha_ini, $hoy) > 0) {
-            return false;
-        }
+        }        
         // Si existe algun historial se hacen varios chequeos 
-
         if (!empty($fechas)) {
             foreach ($fechas as $data) {
                 $fecha_i = $data['FECHA_INI'];
@@ -52,6 +53,7 @@ class AppModel extends Model {
                             $this->updateFecha($tabla,$data['id'],$fecha_ini);                            
                             return true; // listo OJO idealmente el ultimo rango es el que tiene NULL en su fecha final
                         } else {
+                            $this->errorMessage='La fecha inicial debe estar dentro del rango  '.$fecha_i." y ".$fecha_f."  (hoy)";
                             return false;
                         }
                         // si no estoy creando un rango actual , osea un rango normal
@@ -59,6 +61,7 @@ class AppModel extends Model {
                         //  la fecha final no puede ser mayor al dia de hoy  para que
                         //  no se puedan definir rangos hacia el futuro
                         if(compara_fechas($fecha_fin, $hoy) > 0){
+                            $this->errorMessage='No se permiten rangos hacia una fecha futura, la fecha final no puede ser mayor al dia de hoy';
                             return false;
                         }
                         
@@ -70,12 +73,14 @@ class AppModel extends Model {
                 } else {
                     // simplemente no se pueden solapar los rangos
                     if (check_in_range($fecha_i, $fecha_f, $fecha_ini) || check_in_range($fecha_i, $fecha_f, $fecha_fin)) {
+                        $this->errorMessage='El rango de fechas no puede solapar a otro rango ya existente';
                         return false;
                     }
                 }
 
                 // el nuevo rango de fechas no puede contener a ninguno de los rangos que ya existen
                 if (check_in_range($fecha_ini, $fecha_fin, $fecha_i) || check_in_range($fecha_ini, $fecha_fin, $fecha_f)) {
+                    $this->errorMessage='El rango de fechas no puede solapar a otro rango ya existente';
                     return false;
                 }
             }

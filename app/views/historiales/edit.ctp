@@ -78,10 +78,14 @@
 </div>
 
 <div class="box">
+<?php echo $this->Session->flash(); ?>
+</div>
+
+<div class="box">    
     <div class="title"><h2>Nuevo Sueldo</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
-    <div class="content form">
+    <div class="content form">                
         <?php
         echo $this->Form->create('Historial');
         echo $this->Form->input('cargo_id', array('value' => $cargo['Cargo']['id'], 'type' => 'hidden'));
@@ -101,7 +105,7 @@
         echo $this->Form->label('Sueldo Base');
         echo $this->Form->input('SUELDO_BASE', array('div' => false, 'label' => false, 'class' => 'small'));
         echo "</div>";
-        echo "</div>";
+        echo "</div>";        
         ?>
     </div>    
 </div>

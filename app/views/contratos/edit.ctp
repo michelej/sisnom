@@ -9,7 +9,7 @@
             <?php echo $empleado['Empleado']['NOMBRE']; ?>
             <?php echo "</div>"; ?>
             <?php echo "<div style='float:left;width:50%'>"; ?>
-            <?php echo $this->Form->label('Descripcion'); ?>
+            <?php echo $this->Form->label('Apellido'); ?>
             <?php echo $empleado['Empleado']['APELLIDO']; ?>
             <?php echo "</div>"; ?>
         </div>
@@ -77,6 +77,10 @@
             </div>
         </div>         
     </div>
+</div>
+
+<div class="box">
+<?php echo $this->Session->flash(); ?>
 </div>
 
 <div class="box">

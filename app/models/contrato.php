@@ -24,6 +24,7 @@ class Contrato extends AppModel{
         
         // el rango de fechas no puede ser menor a la fecha de ingreso
         if(compara_fechas($ingreso, $fecha_ini)>0){
+            $this->errorMessage='Las fechas no pueden preceder a la de ingreso del empleado '.$ingreso;
             return false;
         }
         

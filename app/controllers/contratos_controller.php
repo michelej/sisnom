@@ -32,7 +32,7 @@ class ContratosController extends AppController {
     function delete($id) {
         $empleadoid = $this->Contrato->find('first', array('conditions' => array('Contrato.id' => $id), 'fields' => array('Contrato.empleado_id')));
         if ($this->Contrato->delete($id)) {
-            $this->Session->setFlash('Contrato ' . $id . ' eliminado');
+            $this->Session->setFlash('Se ha eliminado con exito','flash_success');
             $this->redirect('edit/' . $empleadoid['Contrato']['empleado_id']);
         }
     }
@@ -51,10 +51,10 @@ class ContratosController extends AppController {
             $this->set(compact('contratos', 'empleado', 'cargos', 'departamentos'));
         } else {
             if ($this->Contrato->save($this->data)) {
-                $this->Session->setFlash('Contrato Guardado.');
+                $this->Session->setFlash('Se ha agregado con exito','flash_success');
                 $this->redirect('edit/' . $this->data['Contrato']['empleado_id']);
             }
-            $this->Session->setFlash('Error en las FECHAS');  // Mostrar Error
+            $this->Session->setFlash($this->Contrato->errorMessage,'flash_error');  // Mostrar Error
             $this->redirect('edit/' . $this->data['Contrato']['empleado_id']);
         }
     }
