@@ -4,23 +4,21 @@ class EmpleadosController extends AppController {
 
     var $name = 'Empleados';
     var $components = array('RequestHandler');
-    var $helpers = array('Ajax', 'Javascript');
-    var $uses = array('Empleado', 'Contrato');
+    var $helpers = array('Ajax', 'Javascript');    
     
     function index() {
         $filtro=array();
-        if(!empty($this->data)){
-            if($this->data['Empleado']['Fopcion']==1){
-               $filtro=array('Empleado.CEDULA LIKE'=>$this->data['Empleado']['valor']); 
+        if(!empty($this->data)){            
+            if($this->data['Fopcion']==1){
+               $filtro=array('Empleado.CEDULA LIKE'=>$this->data['valor']); 
             }
-            if($this->data['Empleado']['Fopcion']==2){
-               $filtro=array('Empleado.NOMBRE LIKE'=>$this->data['Empleado']['valor']); 
+            if($this->data['Fopcion']==2){
+               $filtro=array('Empleado.NOMBRE LIKE'=>$this->data['valor']); 
             }
-            if($this->data['Empleado']['Fopcion']==3){
-               $filtro=array('Empleado.APELLIDO LIKE'=>$this->data['Empleado']['valor']); 
+            if($this->data['Fopcion']==3){
+               $filtro=array('Empleado.APELLIDO LIKE'=>$this->data['valor']); 
             }
-        }
-        
+        }        
         $this->Empleado->recursive = -1;        
         $data=$this->paginate('Empleado',$filtro);                
         $this->set('empleados',$data);

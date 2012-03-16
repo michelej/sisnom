@@ -3,15 +3,15 @@
     <div class="content pages">
         <div class="row">
             <?php
-            echo $this->Form->create('Empleado');
+            echo $this->Form->create(false);
             echo "<div>";
-            echo "<div style='float:left;width:25%;'>";
+            echo "<div style='float:left;width:30%;'>";
             $options = array('0' => 'Seleccione una opcion', '1' => 'Cedula', '2' => 'Nombre','3'=>'Apellido');
             echo $this->Form->label('Opción');                        
             echo $this->Form->input('Fopcion', array('div' => false, 'label' => false, 'class' => 'small', 'type' => 'select', 'options' => $options));
             echo "</div>";
-            echo "<div style='float:left;width:32%'>";
-            echo $this->Form->label('Descripción');            
+            echo "<div style='float:left;width:35%'>";
+            echo $this->Form->label('Busqueda');            
             echo $this->Form->input('valor', array('div' => false, 'label' => false, 'class' => 'small'));
             echo "</div>";
             echo "<div style='float:left;width:25%;padding-top:16px'>";

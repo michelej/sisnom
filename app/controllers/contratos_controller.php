@@ -5,28 +5,33 @@ class ContratosController extends AppController {
     var $name = 'Contratos';
     var $components = array('RequestHandler');
     var $helpers = array('Ajax', 'Javascript');
-    var $paginate = array(
-        'Contrato' => array(
-            'limit' => 20,
-            'order' => array(
-                'Contrato.FECHA_INI' => 'asc')
-        )
-    );
-
+    
     function index() {
         $filtro = array();
-        if (!empty($this->data)) {
-            if ($this->data['Empleado']['Fopcion'] == 1) {
-                $filtro = array('Empleado.CEDULA LIKE' => $this->data['Empleado']['valor']);
+        if (!empty($this->data)) {            
+            if ($this->data['Fopcion'] == 1) {
+                $filtro = array('Empleado.CEDULA LIKE' => $this->data['valor']);
             }
-            if ($this->data['Empleado']['Fopcion'] == 2) {
-                $filtro = array('Empleado.NOMBRE LIKE' => $this->data['Empleado']['valor']);
+            if ($this->data['Fopcion'] == 2) {
+                $filtro = array('Empleado.NOMBRE LIKE' => $this->data['valor']);
             }
-            if ($this->data['Empleado']['Fopcion'] == 3) {
-                $filtro = array('Empleado.APELLIDO LIKE' => $this->data['Empleado']['valor']);
+            if ($this->data['Fopcion'] == 3) {
+                $filtro = array('Empleado.APELLIDO LIKE' => $this->data['valor']);
             }
         }
-        $this->set('empleados', $this->paginate('Empleado', $filtro));
+        $this->Contrato->Empleado->Behaviors->attach('Containable');
+        $this->paginate = array(
+            'limit'=>20,            
+            'contain' => array(
+                'Contrato' => array(
+                    'Cargo','Departamento',
+                    'conditions' => array(
+                        'FECHA_FIN' => NULL),
+                    )                
+            ));
+        
+        $data=$this->paginate('Empleado',$filtro);
+        $this->set('empleados', $data);
     }
 
     function delete($id) {
@@ -40,10 +45,16 @@ class ContratosController extends AppController {
     function edit($id=null) {        
         if (empty($this->data)) {
             $this->Contrato->Empleado->recursive = -1;
-
-            $contratos = $this->paginate('Contrato', array(
-                'empleado_id' => $id,
-                    ));
+            $this->paginate=array(
+                'Historial' => array(                    
+                    'conditions'=>array(
+                        'empleado_id' => $id),
+                    'limit' => 20,
+                    'order' => array(
+                        'Contrato.FECHA_INI' => 'asc')
+                )
+            );
+            $contratos = $this->paginate('Contrato');
 
             $empleado = $this->Contrato->Empleado->findById($id);
             $cargos = $this->Contrato->Cargo->find('list');
