@@ -48,11 +48,7 @@ class Empleado extends AppModel {
         'INGRESO' => array(
             'rule' => array('date', 'dmy'),
             'message' => 'Fecha incorrecta',
-        ),
-        'cargos_id' => array(
-            'rule' => array('multiple', array('min' => '1')),
-            'message' => 'Seleccione un cargo',
-        ),
+        ),        
     );
 
     function beforeSave() {

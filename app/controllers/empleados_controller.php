@@ -27,7 +27,7 @@ class EmpleadosController extends AppController {
     function add() {
         if (!empty($this->data)) {
             if ($this->Empleado->save($this->data['Empleado'])) {
-                $this->Session->setFlash('Empleado agregado');
+                $this->Session->setFlash('Empleado agregado con exito','flash_success');
                 $this->redirect(array('action' => 'index'));                
             }
         }
@@ -35,14 +35,14 @@ class EmpleadosController extends AppController {
 
     function delete($id) {
         if ($this->Empleado->delete($id, true)) {
-            $this->Session->setFlash('Empleado ' . $id . ' eliminado');
+            $this->Session->setFlash('Empleado eliminado','flash_success');
             $this->redirect(array('action' => 'index'));
         }
     }
 
     function view($id) {
         if (!$id) {
-            $this->Session->setFlash(__('Empleado Invalido', true));
+            $this->Session->setFlash('Empleado Invalido', 'flash_error');
             $this->redirect(array('action' => 'index'));
         }        
         $empleado=$this->Empleado->findById($id);                
@@ -51,13 +51,12 @@ class EmpleadosController extends AppController {
     }
 
     function edit($id) {
-        $this->Empleado->id = $id;
-        
-        if (empty($this->data)) {                                    
-            $this->data = $this->Empleado->Contrato->find('first',array('conditions'=>array('Contrato.FECHA_FIN'=>null)));            
-        } else {
+        $this->Empleado->id = $id;        
+        if (empty($this->data)) {                                                
+            $this->data = $this->Empleado->read();
+        } else {            
             if ($this->Empleado->save($this->data)) {
-                $this->Session->setFlash('Empleado Guardado.');
+                $this->Session->setFlash('Empleado Modificado','flash_success');
                 $this->redirect(array('action' => 'index'));
             }
         }

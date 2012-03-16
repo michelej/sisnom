@@ -6,12 +6,12 @@
             echo $this->Form->create(false);
             echo "<div>";
             echo "<div style='float:left;width:30%;'>";
-            $options = array('0' => 'Seleccione una opcion', '1' => 'Cedula', '2' => 'Nombre','3'=>'Apellido');
-            echo $this->Form->label('Opción');                        
+            $options = array('0' => 'Seleccione una opcion', '1' => 'Cedula', '2' => 'Nombre', '3' => 'Apellido');
+            echo $this->Form->label('Opción');
             echo $this->Form->input('Fopcion', array('div' => false, 'label' => false, 'class' => 'small', 'type' => 'select', 'options' => $options));
             echo "</div>";
             echo "<div style='float:left;width:35%'>";
-            echo $this->Form->label('Busqueda');            
+            echo $this->Form->label('Busqueda');
             echo $this->Form->input('valor', array('div' => false, 'label' => false, 'class' => 'small'));
             echo "</div>";
             echo "<div style='float:left;width:25%;padding-top:16px'>";
@@ -28,8 +28,8 @@
                     <th style="width:15%;"><?php echo $this->Paginator->sort('Nombre(s)', 'NOMBRE'); ?></th>
                     <th style="width:15%;"><?php echo $this->Paginator->sort('Apellido(s)', 'APELLIDO'); ?></th>
                     <th style="width:15%;"><?php echo $this->Paginator->sort('Fecha Ingreso', 'INGRESO'); ?></th>
-                    <th style="width:15%;"><?php echo $this->Paginator->sort('Sexo','SEXO'); ?></th>
-                    <th style="width:20%;"><?php echo $this->Paginator->sort('Correo Electronico','EMAIL'); ?></th>
+                    <th style="width:15%;"><?php echo $this->Paginator->sort('Sexo', 'SEXO'); ?></th>
+                    <th style="width:20%;"><?php echo $this->Paginator->sort('Correo Electronico', 'EMAIL'); ?></th>
                     <th style="width:20%; text-align: center"class="actions"><?php __('Acciones'); ?></th>
                 </tr>
             </thead>
@@ -48,8 +48,8 @@
                         <td><?php echo $empleado['Empleado']['NOMBRE']; ?></td>
                         <td><?php echo $empleado['Empleado']['APELLIDO']; ?></td>
                         <td><?php echo fechaElegible($empleado['Empleado']['INGRESO']); ?></td>
-                        <td><?php echo $empleado['Empleado']['SEXO'];  ?></td>
-                        <td><?php echo $empleado['Empleado']['EMAIL'];  ?></td>
+                        <td><?php echo $empleado['Empleado']['SEXO']; ?></td>
+                        <td><?php echo $empleado['Empleado']['EMAIL']; ?></td>
                         <td class="actions">
                             <?php
                             echo $this->Html->image("file_search.png", array("alt" => "consultar", 'width' => '18', 'heigth' => '18', 'title' => 'Consultar', 'url' => array('action' => 'view', $empleado['Empleado']['id'])));
@@ -59,19 +59,7 @@
                         </td>
                     </tr>
                 <?php endforeach; ?>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>            
-                </tr>
-            </tfoot>
+            </tbody>            
         </table>
         <div class="pages-bottom">
             <div class="actionbox">
@@ -87,6 +75,10 @@
         </div>
 
     </div>
+</div>
+
+<div class="box">
+    <?php echo $this->Session->flash(); ?>
 </div>
 
 <div class="box">
