@@ -1,3 +1,11 @@
+<?php if (!empty($this->validationErrors)) { ?>
+    <div class="box">  
+        <div class="flash_error">        
+            <?php echo $this->Html->image('test-fail-icon.png', array('alt' => 'flash_error')) ?>   
+            <?php echo "Existen errores en la forma corrigalos antes de continuar" ?>
+        </div>
+    </div>
+<?php } ?>
 <div class="box">
     <div class="title"><h2>Datos del Cargo</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
@@ -16,7 +24,7 @@
         echo $this->Form->label('Breve Descripcion');
         echo $this->Form->input('DESCRIPCION', array('div' => false, 'label' => false, 'class' => 'medium'));
         echo "</div>";
-        echo "</div>";                               
+        echo "</div>";
         ?>
     </div>
 </div>
@@ -25,10 +33,9 @@
     <div class="title"><h2>Acciones</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
-    <div class="content form">
-        <div class="row">
+    <div class="content form">            
+        <div class="row">                        
             <?php echo $this->Form->end(__('Agregar Cargo', true)); ?>
-
         </div>
     </div>
 </div>

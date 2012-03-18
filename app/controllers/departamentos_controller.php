@@ -5,22 +5,23 @@ class DepartamentosController extends AppController {
     var $name = 'Departamentos';
     var $components = array('RequestHandler');
     var $helpers = array('Ajax', 'Javascript');
-    var $paginate = array(
-        'limit' => 20,
-        'order' => array(
-            'Departamento.NOMBRE' => 'asc'
-        )
-    );
     
     function index() {
-        $this->Departamento->recursive = 0;        
-        $this->set('departamentos', $this->paginate());        
+        $this->paginate=array(
+            'recursive'=>0,
+            'limit'=>20,
+            'order'=>array(
+                'Departamento.NOMBRE'=>'asc'
+            )
+        );
+        $data=$this->paginate();
+        $this->set('departamentos', $data);        
     }
 
     function add() {
         if (!empty($this->data)) {            
             if ($this->Departamento->save($this->data)) {
-                $this->Session->setFlash('Departamento agregado');
+                $this->Session->setFlash('Departamento agregado con exito','flash_success');
                 $this->redirect(array('action' => 'index'));
             }
         }
@@ -28,7 +29,7 @@ class DepartamentosController extends AppController {
 
     function delete($id) {
         if ($this->Departamento->delete($id)) {
-            $this->Session->setFlash('Departamento ' . $id . ' eliminado');
+            $this->Session->setFlash('Departamento eliminado','flash_success');
             $this->redirect(array('action' => 'index'));
         }
     }
@@ -39,7 +40,7 @@ class DepartamentosController extends AppController {
             $this->data = $this->Departamento->read();                        
         } else {
             if ($this->Departamento->save($this->data)) {
-                $this->Session->setFlash('Departamento Guardado.');
+                $this->Session->setFlash('Departamento Modificado','flash_success');
                 $this->redirect(array('action' => 'index'));
             }
         }

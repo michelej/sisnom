@@ -1,3 +1,11 @@
+<?php if (!empty($this->validationErrors)) { ?>
+    <div class="box">  
+        <div class="flash_error">        
+            <?php echo $this->Html->image('test-fail-icon.png', array('alt' => 'flash_error')) ?>   
+            <?php echo "Existen errores en la forma corrigalos antes de continuar" ?>
+        </div>
+    </div>
+<?php } ?>
 <div class="box">
     <div class="title"><h2>Modificar Cargo</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
@@ -5,6 +13,7 @@
     <div class="content form">
         <?php
         echo $this->Form->create('Cargo');
+        echo $this->Form->input('id', array('type' => 'hidden'));
         echo "<div class='row'>";
         echo "<div style='float:left;width:25%'>";
         echo $this->Form->label('Nombre');
@@ -16,11 +25,7 @@
         echo $this->Form->label('Breve Descripcion');
         echo $this->Form->input('DESCRIPCION', array('div' => false, 'label' => false, 'class' => 'medium'));
         echo "</div>";
-        echo "</div>";        
-        echo "<div class='row'>";
-        $options = array('0' => 'Seleccion una opcion', 'Activo' => 'Activo', 'Inactivo' => 'Inactivo');
-        echo $this->Form->input('ESTADO', array('div' => false, 'label' => false, 'class' => 'small', 'type' => 'select', 'options' => $options));
-        echo "</div>";        
+        echo "</div>";                        
         ?>
     </div>
 </div>

@@ -6,10 +6,9 @@
             <thead>
                 <tr>
                     <th></th>  
-                    <th style="width:30%"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>                    
-                    <th style="width:40%"><?php echo $this->Paginator->sort('Descripcion', 'DESCRIPCION'); ?></th>                    
-                    <th style="width:15%"><?php echo $this->Paginator->sort('Estado', 'ESTADO'); ?></th>			
-                    <th style="width:15%;text-align: center" class="actions"><?php __('Actions'); ?></th>
+                    <th style="width:40%"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>                    
+                    <th style="width:45%"><?php echo $this->Paginator->sort('Descripcion', 'DESCRIPCION'); ?></th>                    
+                    <th style="width:15%;text-align: center" class="actions"><?php __('Acciones'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -25,7 +24,6 @@
                         <td></td>
                         <td><?php echo $cargo['Cargo']['NOMBRE']; ?></td>                        
                         <td><?php echo $cargo['Cargo']['DESCRIPCION']; ?></td>                        
-                        <td><?php echo $cargo['Cargo']['ESTADO']; ?></td>		
                         <td class="actions">
                             <?php                            
                             echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $cargo['Cargo']['id'])));
@@ -51,7 +49,9 @@
     </div>
 </div>
 
-
+<div class="box">
+    <?php echo $this->Session->flash(); ?>
+</div>
 
 <div class="box">
     <div class="title">	<h2><?php __('Acciones'); ?></h2></div>
@@ -59,7 +59,6 @@
         <div class="row boton">
             <div class="boton">
                 <?php echo $this->Html->link(__('Nuevo Cargo', true), array('action' => 'add')); ?>
-
             </div>
         </div>
     </div>

@@ -10,8 +10,21 @@ class Historial extends AppModel {
      *  Relaciones
      */
     var $belongsTo = 'Cargo';
-
-    // TODO : Faltan los errores
+     /**
+     *  Validaciones
+     */
+   /* var $validate = array(
+        'FECHA_INI' => array(
+            'rule' => array('date', 'dmy'),
+            'message' => 'Fecha incorrecta',
+        ),
+        'SUELDO_BASE' => array(        
+            'rule' => array('decimal', 2),
+            'message' => 'Sueldo base invalido',
+        )
+     );*/
+    
+    
     /**
      *
      * @return boolean 

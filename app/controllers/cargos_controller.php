@@ -4,23 +4,25 @@ class CargosController extends AppController {
 
     var $name = 'Cargos';
     var $components = array('RequestHandler');
-    var $helpers = array('Ajax', 'Javascript');
-    var $paginate = array(
-        'limit' => 20,
-        'order' => array(
-            'Cargo.NOMBRE' => 'asc'
-        )
-    );
+    var $helpers = array('Ajax', 'Javascript');    
 
     function index() {
-        $this->Cargo->recursive = 0;
-        $this->set('cargos', $this->paginate());
+        $this->paginate=array(
+            'recursive'=>0,
+            'limit'=>20,
+            'order'=>array(
+                'Cargo.NOMBRE'=>'asc'
+            )
+        );
+        
+        $data=$this->paginate();        
+        $this->set('cargos', $data);
     }
 
     function add() {
         if (!empty($this->data)) {            
             if ($this->Cargo->save($this->data)) {
-                $this->Session->setFlash('Cargo agregado');
+                $this->Session->setFlash('Cargo agregado con exito','flash_success');
                 $this->redirect(array('action' => 'index'));
             }
         }
@@ -28,7 +30,7 @@ class CargosController extends AppController {
 
     function delete($id) {
         if ($this->Cargo->delete($id)) {
-            $this->Session->setFlash('Cargo ' . $id . ' eliminado');
+            $this->Session->setFlash('Cargo eliminado','flash_success');
             $this->redirect(array('action' => 'index'));
         }
     }
@@ -39,7 +41,7 @@ class CargosController extends AppController {
             $this->data = $this->Cargo->read();
         } else {
             if ($this->Cargo->save($this->data)) {
-                $this->Session->setFlash('Cargo Guardado.');
+                $this->Session->setFlash('Cargo Modificado','flash_success');
                 $this->redirect(array('action' => 'index'));
             }
         }

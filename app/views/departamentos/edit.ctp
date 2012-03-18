@@ -1,3 +1,11 @@
+<?php if (!empty($this->validationErrors)) { ?>
+    <div class="box">  
+        <div class="flash_error">        
+            <?php echo $this->Html->image('test-fail-icon.png', array('alt' => 'flash_error')) ?>   
+            <?php echo "Existen errores en la forma corrigalos antes de continuar" ?>
+        </div>
+    </div>
+<?php } ?>
 <div class="box">
     <div class="title"><h2>Modificar Departamento</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
@@ -5,6 +13,7 @@
     <div class="content form">
         <?php
         echo $this->Form->create('Departamento');
+        echo $this->Form->input('id', array('type' => 'hidden'));
         echo "<div class='row'>";
         echo "<div style='float:left;width:25%'>";
         echo $this->Form->label('Nombre');

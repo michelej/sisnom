@@ -30,7 +30,7 @@
                     <th style="width:30%"><?php echo $this->Paginator->sort('Fecha Inicio', 'FECHA_INI') ?></th>                    
                     <th style="width:30%"><?php echo $this->Paginator->sort('Fecha Final', 'FECHA_FIN') ?></th>                                        
                     <th style="width:25%"><?php echo $this->Paginator->sort('Sueldo Base', 'SUELDO_BASE') ?></th>                                        
-                    <th style="width:15%; text-align: center" class="actions"><?php __('Actions'); ?></th>
+                    <th style="width:15%; text-align: center" class="actions"><?php __('Acciones'); ?></th>
                 </tr>
             </thead>
             <tbody>
