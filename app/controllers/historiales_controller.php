@@ -62,7 +62,15 @@ class HistorialesController extends AppController {
             if ($this->Historial->save($this->data)) {
                 $this->Session->setFlash('Se ha agregado con exito', 'flash_success');
                 $this->redirect('edit/' . $this->data['Historial']['cargo_id']);
-            }            
+            } 
+            if(!empty($this->Historial->validationErrors)){                
+                $error="";
+                foreach ($this->Historial->validationErrors as $value) {
+                    $error=$error."* ".$value;
+                    $error=$error."<br />";
+                }
+                $this->Historial->errorMessage=$error;
+            }
             $this->Session->setFlash($this->Historial->errorMessage, 'flash_error');
             $this->redirect('edit/' . $this->data['Historial']['cargo_id']);
         }

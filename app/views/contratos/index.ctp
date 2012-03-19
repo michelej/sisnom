@@ -30,6 +30,7 @@
                     <th style="width:10%"><?php echo $this->Paginator->sort('Fecha Ingreso', 'INGRESO'); ?></th>                    
                     <th style="width:20%"><?php echo $this->Paginator->sort('Cargo', 'Contrato.Cargo.NOMBRE'); ?></th>
                     <th style="width:20%"><?php echo $this->Paginator->sort('Departamento', 'Contrato.Departamento.NOMBRE'); ?></th>
+                    <th style="width:20%"><?php echo $this->Paginator->sort('Modalidad', 'Contrato.MODALIDAD'); ?></th>
                     <th style="width:10%;text-align: center" class="actions"><?php __('Actions'); ?></th>
                 </tr>
             </thead>
@@ -52,14 +53,20 @@
                                     echo $empleado['Contrato']['0']['Cargo']['NOMBRE'];
                                   }else{
                                     echo "Inactivo o sin Asignar";  
-                                  }
-                            ?></td>
+                                  }?>
+                        </td>
                         <td><?php if(!empty($empleado['Contrato']['0'])){
                                     echo $empleado['Contrato']['0']['Departamento']['NOMBRE'];
                                   }else{
                                     echo "Inactivo o sin Asignar";  
-                                  }
-                            ?></td>
+                                  }?>
+                        </td>
+                        <td><?php if(!empty($empleado['Contrato']['0'])){
+                                    echo $empleado['Contrato']['0']['MODALIDAD'];
+                                  }else{
+                                    echo "Inactivo o sin Asignar";  
+                                  }?>
+                        </td>
                         <td class="actions">
                             <?php                            
                             echo $this->Html->image("file_edit.png", array("alt" => "Contrato", 'title' => 'Contrato', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $empleado['Empleado']['id'])));                            

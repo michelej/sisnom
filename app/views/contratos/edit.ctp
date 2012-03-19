@@ -4,14 +4,18 @@
     </div>
     <div class="content forms">
         <div class="row">
-            <?php echo "<div style='float:left;width:50%'>"; ?>
-            <?php echo $this->Form->label('Nombre'); ?>
-            <?php echo $empleado['Empleado']['NOMBRE']; ?>
+            <?php echo "<div style='float:left;width:10%'>"; ?>
+            <?php echo $this->Form->label('Cedula'); ?>
+            <?php echo $empleado['Empleado']['CEDULA']; ?>
             <?php echo "</div>"; ?>
-            <?php echo "<div style='float:left;width:50%'>"; ?>
-            <?php echo $this->Form->label('Apellido'); ?>
-            <?php echo $empleado['Empleado']['APELLIDO']; ?>
-            <?php echo "</div>"; ?>
+            <?php echo "<div style='float:left;width:30%'>"; ?>
+            <?php echo $this->Form->label('Nombre Completo'); ?>
+            <?php echo $empleado['Empleado']['APELLIDO']." ".$empleado['Empleado']['NOMBRE']; ?>
+            <?php echo "</div>"; ?>            
+            <?php echo "<div style='float:left;width:35%'>"; ?>
+            <?php echo $this->Form->label('Fecha de Ingreso'); ?>
+            <?php echo fechaElegible($empleado['Empleado']['INGRESO']); ?>
+            <?php echo "</div>"; ?>            
         </div>
     </div>
 </div>
@@ -105,8 +109,8 @@
 
         echo "<div style='float:left;width:60%'>";
         echo $this->Form->label('Modalidad');
-        $options = array('0' => 'Seleccione una opcion', 'Fijo' => 'Fijo', 'Contratado' => 'Contratado');
-        echo $this->Form->input('MODALIDAD', array('div' => false, 'label' => false, 'class' => 'small', 'type' => 'select', 'options' => $options));
+        $options = array('Fijo' => 'Fijo', 'Contratado' => 'Contratado');
+        echo $this->Form->input('MODALIDAD', array('div' => false, 'label' => false, 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una opcion'));
         echo "</div>";
         echo "</div>";
 

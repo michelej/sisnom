@@ -55,15 +55,22 @@ class ContratosController extends AppController {
                 )
             );
             $contratos = $this->paginate('Contrato');
-
             $empleado = $this->Contrato->Empleado->findById($id);
             $cargos = $this->Contrato->Cargo->find('list');
             $departamentos = $this->Contrato->Departamento->find('list');
             $this->set(compact('contratos', 'empleado', 'cargos', 'departamentos'));
-        } else {
+        } else {                                               
             if ($this->Contrato->save($this->data)) {
                 $this->Session->setFlash('Se ha agregado con exito','flash_success');
                 $this->redirect('edit/' . $this->data['Contrato']['empleado_id']);
+            }            
+            if(!empty($this->Contrato->validationErrors)){                
+                $error="";
+                foreach ($this->Contrato->validationErrors as $value) {
+                    $error=$error."* ".$value;
+                    $error=$error."<br />";
+                }
+                $this->Contrato->errorMessage=$error;
             }
             $this->Session->setFlash($this->Contrato->errorMessage,'flash_error');  // Mostrar Error
             $this->redirect('edit/' . $this->data['Contrato']['empleado_id']);

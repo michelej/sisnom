@@ -13,18 +13,18 @@ class Historial extends AppModel {
      /**
      *  Validaciones
      */
-   /* var $validate = array(
+    var $validate = array(
         'FECHA_INI' => array(
             'rule' => array('date', 'dmy'),
-            'message' => 'Fecha incorrecta',
+            'message' => 'Fecha Inicial incorrecta',
         ),
         'SUELDO_BASE' => array(        
-            'rule' => array('decimal', 2),
-            'message' => 'Sueldo base invalido',
-        )
-     );*/
-    
-    
+            'rule' => array('decimal'),
+            'message' => 'Sueldo Base invalido ( ejm: 1500.00)',
+        ),        
+     );
+   
+    // TODO: Falta validar la fecha final 
     /**
      *
      * @return boolean 

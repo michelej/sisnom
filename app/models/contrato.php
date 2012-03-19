@@ -11,6 +11,28 @@ class Contrato extends AppModel{
         'Cargo','Departamento','Empleado'
     );
     
+    /**
+     *  Validaciones     
+     */
+    var $validate = array(                
+        'FECHA_INI' => array(
+            'rule' => array('date', 'dmy'),
+            'message' => 'Fecha Inicial incorrecta',
+        ),
+        'cargo_id' => array(
+            'rule'=> array('notEmpty'),
+            'message'=>'Seleccione un Cargo',
+        ),
+        'departamento_id' => array(
+            'rule'=> array('notEmpty'),
+            'message'=>'Seleccione un Departamento',
+        ),
+        'MODALIDAD' => array(
+            'rule'=> array('notEmpty'),
+            'message'=>'Seleccione una Modalidad',
+        )
+    );
+    
     function beforeSave() {
         // fecha de ingreso del empleado        
         $empleadoingreso=$this->Empleado->find('first',array(
