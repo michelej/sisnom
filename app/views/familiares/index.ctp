@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="title"><h2><?php __('Administrar Empleados'); ?></h2></div>
+    <div class="title"><h2><?php __('Administrar Familiares'); ?></h2></div>
     <div class="content pages">
         <div class="row">
             <?php
@@ -30,7 +30,7 @@
                     <th style="width:15%;"><?php echo $this->Paginator->sort('Fecha Ingreso', 'INGRESO'); ?></th>
                     <th style="width:15%;"><?php echo $this->Paginator->sort('Sexo', 'SEXO'); ?></th>
                     <th style="width:20%;"><?php echo $this->Paginator->sort('Correo Electronico', 'EMAIL'); ?></th>
-                    <th style="width:20%; text-align: center"class="actions"><?php __('Acciones'); ?></th>
+                    <th style="width:20%; text-align: center"class="actions"><?php __('Familiares'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -51,10 +51,8 @@
                         <td><?php echo $empleado['Empleado']['SEXO']; ?></td>
                         <td><?php echo $empleado['Empleado']['EMAIL']; ?></td>
                         <td class="actions">
-                            <?php
-                            echo $this->Html->image("file_search.png", array("alt" => "consultar", 'width' => '18', 'heigth' => '18', 'title' => 'Consultar', 'url' => array('action' => 'view', $empleado['Empleado']['id'])));
-                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $empleado['Empleado']['id'])));
-                            echo $this->Html->image("file_delete.png", array("alt" => "Borrar", 'title' => 'Eliminar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'delete', $empleado['Empleado']['id'])));
+                            <?php                            
+                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $empleado['Empleado']['id'])));                            
                             ?>
                         </td>
                     </tr>
@@ -74,21 +72,5 @@
             </div>
         </div>
 
-    </div>
-</div>
-
-<div class="box">
-    <?php echo $this->Session->flash(); ?>
-</div>
-
-<div class="box">
-    <div class="title">	<h2><?php __('Acciones'); ?></h2></div>
-    <div class="content form">
-        <div class="row boton">
-            <div class="boton">
-                <?php echo $this->Html->link(__('Nuevo Empleado', true), array('action' => 'add')); ?>
-
-            </div>
-        </div>
     </div>
 </div>

@@ -8,7 +8,7 @@ class Empleado extends AppModel {
     /**
      *  Relaciones
      */
-    var $hasMany = 'Contrato';
+    var $hasMany = array('Contrato','Familiar');
     
     /**
      *  Validaciones

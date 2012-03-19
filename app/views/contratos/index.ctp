@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="title"><h2><?php __('Empleados'); ?></h2></div>
+    <div class="title"><h2><?php __('Administrar Contratos'); ?></h2></div>
     <div class="content pages">        
         <div class="row">
             <?php

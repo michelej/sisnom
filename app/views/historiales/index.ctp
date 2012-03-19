@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="title"><h2><?php __('Cargos'); ?></h2></div>
+    <div class="title"><h2><?php __('Administrar Historial de Sueldos'); ?></h2></div>
     <div class="content pages">
         <div class="row"></div>
         <table cellpadding="0" cellspacing="0">
