@@ -27,19 +27,7 @@ class FamiliaresController extends AppController {
     
     function edit($id=null){
         $this->Familiar->Empleado->Behaviors->attach('Containable');
-        if (empty($this->data)) {
-            /*$this->paginate=array(
-                'Empleado' => array(
-                    'type'=>'first',
-                    'conditions'=>array(
-                        'id' => $id),
-                    'contain'=>array(
-                        'Familiar'=>array(
-                            'limit'=>1,
-                        )
-                    ),                                          
-                )
-            );*/
+        if (empty($this->data)) {           
             $this->paginate=array(
                 'Familiar' => array(  
                     'recursive'=>-1,

@@ -110,19 +110,19 @@
         echo "<div style='float:left;width:60%'>";
         echo $this->Form->label('Modalidad');
         $options = array('Fijo' => 'Fijo', 'Contratado' => 'Contratado');
-        echo $this->Form->input('MODALIDAD', array('div' => false, 'label' => false, 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una opcion'));
+        echo $this->Form->input('MODALIDAD', array('div' => false, 'label' => false, 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Selecione una opcion'));
         echo "</div>";
         echo "</div>";
 
         echo "<div class='row'>";
         echo "<div style='float:left;width:40%'>";
         echo $this->Form->label('Departamento');
-        echo $this->Form->input('departamento_id', array('div' => false, 'label' => false, 'class' => 'small', 'empty' => "Seleccione una opción"));
+        echo $this->Form->input('departamento_id', array('div' => false, 'label' => false, 'class' => 'small', 'empty' => "Selecione una opción"));
         echo "</div>";
 
         echo "<div style='float:left;width:60%'>";
         echo $this->Form->label('Cargo');
-        echo $this->Form->input('cargo_id', array('div' => false, 'label' => false, 'class' => 'small', 'empty' => "Seleccione una opción"));
+        echo $this->Form->input('cargo_id', array('div' => false, 'label' => false, 'class' => 'small', 'empty' => "Selecione una opción"));
         echo "</div>";
         echo "</div>";
         ?>

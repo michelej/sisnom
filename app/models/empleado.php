@@ -8,7 +8,7 @@ class Empleado extends AppModel {
     /**
      *  Relaciones
      */
-    var $hasMany = array('Contrato','Familiar');
+    var $hasMany = array('Contrato','Familiar','Titulo');
     
     /**
      *  Validaciones
@@ -16,7 +16,7 @@ class Empleado extends AppModel {
     var $validate = array(
         'NACIONALIDAD' => array(
             'rule' => array('multiple', array('in' => array('Venezolano', 'Extranjero'))),
-            'message' => 'Seleccione una opcion'
+            'message' => 'Selecione una opcion'
         ),
         'CEDULA' => array(
             'cedulaRule-1' => array(
@@ -31,7 +31,7 @@ class Empleado extends AppModel {
         ),
         'SEXO' => array(
             'rule' => array('multiple', array('in' => array('Masculino', 'Femenino'))),
-            'message' => 'Seleccione una opcion'
+            'message' => 'Selecione una opcion'
         ),
         'NOMBRE' => array(
             'rule' => 'notEmpty',
@@ -53,10 +53,10 @@ class Empleado extends AppModel {
 
     function beforeSave() {
         if (!empty($this->data['Empleado']['FECHANAC'])) {
-            $this->data['Empleado']['FECHANAC'] = $this->formatoFechaBeforeSave($this->data['Empleado']['FECHANAC']);
+            $this->data['Empleado']['FECHANAC'] = formatoFechaBeforeSave($this->data['Empleado']['FECHANAC']);
         }
         if (!empty($this->data['Empleado']['INGRESO'])) {
-            $this->data['Empleado']['INGRESO'] = $this->formatoFechaBeforeSave($this->data['Empleado']['INGRESO']);
+            $this->data['Empleado']['INGRESO'] = formatoFechaBeforeSave($this->data['Empleado']['INGRESO']);
         }
         return true;
     }
@@ -64,22 +64,14 @@ class Empleado extends AppModel {
     function afterFind($results) {
         foreach ($results as $key => $val) {
             if (isset($val['Empleado']['FECHANAC'])) {
-                $results[$key]['Empleado']['FECHANAC'] = $this->formatoFechaAfterFind($val['Empleado']['FECHANAC']);
+                $results[$key]['Empleado']['FECHANAC'] = formatoFechaAfterFind($val['Empleado']['FECHANAC']);
             }
             if (isset($val['Empleado']['INGRESO'])) {
-                $results[$key]['Empleado']['INGRESO'] = $this->formatoFechaAfterFind($val['Empleado']['INGRESO']);
+                $results[$key]['Empleado']['INGRESO'] = formatoFechaAfterFind($val['Empleado']['INGRESO']);
             }
         }
         return $results;
-    }
-
-    function formatoFechaAfterFind($cadenaFecha) {
-        return date('d-m-Y', strtotime($cadenaFecha));
-    }
-
-    function formatoFechaBeforeSave($cadenaFecha) {
-        return date('Y-m-d', strtotime($cadenaFecha)); // Direction is from
-    }
+    }   
 
     function Edad($fechanac) {
         //$fecha = $this->data['Empleado']['FECHANAC'];

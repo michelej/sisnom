@@ -39,17 +39,22 @@
                         <li class="break"></li> 
                         <li><a href="#"><?php echo $this->Html->image('file1.png', array("alt" => "Definiciones", 'width' => '18', 'heigth' => '18', 'title' => 'Definiciones')); ?>Definiciones</a>     
                             <ul>
-                                <li><?php echo $this->Html->link($this->Html->image("Finder.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Personal", array('controller' => 'empleados', 'action' => 'index'), array('escape' => false)); ?></li> 
-                                <li><?php echo $this->Html->link($this->Html->image("User.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Cargos", array('controller' => 'cargos', 'action' => 'index'), array('escape' => false)); ?></li>                                                                  
+                                <li><?php echo $this->Html->link($this->Html->image("Finder.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Personal", array('controller' => 'empleados', 'action' => 'index'), array('escape' => false)); ?>
+                                    <ul>
+                                        <li><?php echo $this->Html->link($this->Html->image("Contact.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Contrataciones", array('controller' => 'contratos', 'action' => 'index'), array('escape' => false)); ?></li>
+                                        <li><?php echo $this->Html->link($this->Html->image("users.jpg", array('alt' => '', 'height' => '18', 'width' => '18')) . " Familiares", array('controller' => 'familiares', 'action' => 'index'), array('escape' => false)); ?></li>                                        
+                                        <li><?php echo $this->Html->link($this->Html->image("Bookmarks.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Nivel Educativo", array('controller' => 'titulos', 'action' => 'index'), array('escape' => false)); ?></li>
+                                    </ul>                                
+                                </li>                                 
+                                <li><?php echo $this->Html->link($this->Html->image("User.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Cargos", array('controller' => 'cargos', 'action' => 'index'), array('escape' => false)); ?>
+                                    <ul>
+                                        <li><?php echo $this->Html->link($this->Html->image("Money.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Sueldos", array('controller' => 'historiales', 'action' => 'index'), array('escape' => false)); ?></li>
+                                    </ul>                                                                            
+                                </li>                                                                  
                                 <li><?php echo $this->Html->link($this->Html->image("Cog.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Departamentos", array('controller' => 'departamentos', 'action' => 'index'), array('escape' => false)); ?></li>                                
-                                <li><?php echo $this->Html->link($this->Html->image("Money.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Sueldos", array('controller' => 'historiales', 'action' => 'index'), array('escape' => false)); ?></li>                           
-                                <li><?php echo $this->Html->link($this->Html->image("Contact.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Contrataciones", array('controller' => 'contratos', 'action' => 'index'), array('escape' => false)); ?></li>
+
                                 <li><a href="#"><?php echo $this->Html->image('Contacts.png', array("alt" => "Basicas", 'width' => '18', 'heigth' => '18', 'title' => 'Basicas')); ?>Basicas</a>
-                                    <ul> 
-                                        <li><?php echo $this->Html->link($this->Html->image("users.jpg", array('alt' => '', 'height' => '18', 'width' => '18')) . " Familiares", array('controller' => 'familiares', 'action' => 'index'), array('escape' => false)); ?></li>
-                                        <li><?php echo $this->Html->link($this->Html->image("file1.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Nivel Educativo", array('controller' => 'titulos', 'action' => 'index'), array('escape' => false)); ?></li>
-                                        <li><?php echo $this->Html->link($this->Html->image("file1.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Islr", array('controller' => 'islrs', 'action' => 'index'), array('escape' => false)); ?></li>
-                                        <li><?php echo $this->Html->link($this->Html->image("file1.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Desc Tribunales", array('controller' => 'tribunales', 'action' => 'index'), array('escape' => false)); ?></li>
+                                    <ul>                                        
                                         <li><?php echo $this->Html->link($this->Html->image("file1.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Dias Feriados", array('controller' => 'feriados', 'action' => 'index'), array('escape' => false)); ?></li>
                                     </ul>
                                 </li>                                
@@ -62,7 +67,7 @@
                                 <li><?php echo $this->Html->link($this->Html->image("Finder.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Fechas Nomina", array('controller' => 'fechanominas', 'action' => 'index'), array('escape' => false)); ?></li>
                                 <li><?php echo $this->Html->link($this->Html->image("Button Remove.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Cargar Inasistencias", array('controller' => 'ausencias', 'action' => 'index'), array('escape' => false)); ?></li>         
                                 <li><?php echo $this->Html->link($this->Html->image("Button White Add.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Cargar Horas Extras", array('controller' => 'extras', 'action' => 'index'), array('escape' => false)); ?></li>  
-                                <li><?php echo $this->Html->link($this->Html->image("Drawer Closed.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Calculo de Nomina", array('controller' => 'nominas', 'action' => 'calcularNomina'), array('escape' => false)); ?></li>                 
+                                <li><?php echo $this->Html->link($this->Html->image("Drawer Closed.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Calculo de Nomina", array('controller' => 'nominas', 'action' => 'calcularNomina'), array('escape' => false)); ?></li>                                                
                         </li> 
                     </ul>             
                     <li>     

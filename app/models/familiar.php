@@ -23,15 +23,15 @@ class Familiar extends AppModel {
         ),
         'DISCAPACIDAD' => array(
             'rule' => 'notEmpty',
-            'message' => 'Seleccione una Opcion'
+            'message' => 'Selecione una Opcion'
         ),
         'INSTRUCCION' => array(
             'rule' => 'notEmpty',
-            'message' => 'Seleccione una Opcion'
+            'message' => 'Selecione una Opcion'
         ),
         'PARENTESCO' => array(
             'rule' => 'notEmpty',
-            'message' => 'Seleccione una Opcion'
+            'message' => 'Selecione una Opcion'
         ),
         
     );
