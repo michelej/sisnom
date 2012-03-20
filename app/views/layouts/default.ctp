@@ -55,7 +55,7 @@
 
                                 <li><a href="#"><?php echo $this->Html->image('Contacts.png', array("alt" => "Basicas", 'width' => '18', 'heigth' => '18', 'title' => 'Basicas')); ?>Basicas</a>
                                     <ul>                                        
-                                        <li><?php echo $this->Html->link($this->Html->image("file1.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Dias Feriados", array('controller' => 'feriados', 'action' => 'index'), array('escape' => false)); ?></li>
+                                        <li><?php echo $this->Html->link($this->Html->image("calendar_today.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Dias Feriados", array('controller' => 'feriados', 'action' => 'index'), array('escape' => false)); ?></li>
                                     </ul>
                                 </li>                                
                             </ul>

@@ -16,7 +16,7 @@ class Empleado extends AppModel {
     var $validate = array(
         'NACIONALIDAD' => array(
             'rule' => array('multiple', array('in' => array('Venezolano', 'Extranjero'))),
-            'message' => 'Selecione una opcion'
+            'message' => 'Seleccione una opcion'
         ),
         'CEDULA' => array(
             'cedulaRule-1' => array(
@@ -31,7 +31,7 @@ class Empleado extends AppModel {
         ),
         'SEXO' => array(
             'rule' => array('multiple', array('in' => array('Masculino', 'Femenino'))),
-            'message' => 'Selecione una opcion'
+            'message' => 'Seleccione una opcion'
         ),
         'NOMBRE' => array(
             'rule' => 'notEmpty',
