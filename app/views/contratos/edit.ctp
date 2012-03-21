@@ -32,9 +32,10 @@
                     <th style="width:15%"><?php echo $this->Paginator->sort('Fecha Inicio', 'FECHA_INI') ?></th>                    
                     <th style="width:15%"><?php echo $this->Paginator->sort('Fecha Final', 'FECHA_FIN') ?></th>                                        
                     <th style="width:15%"><?php echo $this->Paginator->sort('Modalidad', 'MODELIDAD') ?></th>
-                    <th style="width:20%"><?php echo $this->Paginator->sort('Cargo', 'FECHA_INI') ?></th>
-                    <th style="width:20%"><?php echo $this->Paginator->sort('Departamento', 'FECHA_INI') ?></th>
-                    <th style="width:15%; text-align: center" class="actions"><?php __('Actions'); ?></th>
+                    <th style="width:15%"><?php echo $this->Paginator->sort('Grupo', 'GRUPO') ?></th>
+                    <th style="width:20%"><?php echo $this->Paginator->sort('Cargo', 'cargo_id') ?></th>
+                    <th style="width:20%"><?php echo $this->Paginator->sort('Departamento', 'departamento_id') ?></th>
+                    <th style="width:15%; text-align: center" class="actions"><?php __('Acciones'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -57,6 +58,7 @@
                 }
                     ?></td>                                                
                         <td><?php echo $contrato['Contrato']['MODALIDAD']; ?></td>
+                        <td><?php echo $contrato['Contrato']['GRUPO']; ?></td>
                         <td><?php echo $contrato['Cargo']['NOMBRE']; ?></td>
                         <td><?php echo $contrato['Departamento']['NOMBRE']; ?></td>
                         <td class="actions">
@@ -95,22 +97,26 @@
         <?php
         echo $this->Form->create('Contrato');
         echo $this->Form->input('empleado_id', array('value' => $empleado['Empleado']['id'], 'type' => 'hidden'));
-
+        
         echo "<div class='row'>";
-        echo "<div style='float:left;width:20%'>";
-        echo $this->Form->label('Fecha Inicio');
-        echo $this->Form->input('FECHA_INI', array('type' => 'text', 'div' => false, 'label' => false, 'class' => 'datepicker dp-applied')) . "</br>";
+        echo "<div style='float:left;width:20%'>";        
+        echo $this->Form->input('FECHA_INI', array('type' => 'text', 'div' => false, 'label' => 'Fecha de Inicio', 'class' => 'datepicker dp-applied')) . "</br>";
         echo "</div>";
 
-        echo "<div style='float:left;width:20%'>";
-        echo $this->Form->label('Fecha Fin');
-        echo $this->Form->input('FECHA_FIN', array('type' => 'text', 'div' => false, 'label' => false, 'class' => 'datepicker dp-applied')) . "</br>";
+        echo "<div style='float:left;width:20%'>";        
+        echo $this->Form->input('FECHA_FIN', array('type' => 'text', 'div' => false, 'label' => 'Fecha de Finalizacion', 'class' => 'datepicker dp-applied')) . "</br>";
         echo "</div>";
-
-        echo "<div style='float:left;width:60%'>";
-        echo $this->Form->label('Modalidad');
+        echo "</div>";                
+        
+        echo "<div class='row'>";
+        echo "<div style='float:left;width:40%'>";        
         $options = array('Fijo' => 'Fijo', 'Contratado' => 'Contratado');
-        echo $this->Form->input('MODALIDAD', array('div' => false, 'label' => false, 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una opcion'));
+        echo $this->Form->input('MODALIDAD', array('div' => false, 'label' => 'Modalidad del Contrato', 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una opcion'));
+        echo "</div>";
+        
+        echo "<div style='float:left;width:60%'>";        
+        $options = array('Administrativo' => 'Administrativo', 'Obrero' => 'Obrero');
+        echo $this->Form->input('GRUPO', array('div' => false, 'label' => 'Grupo', 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una opcion'));
         echo "</div>";
         echo "</div>";
 

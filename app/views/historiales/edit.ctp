@@ -27,8 +27,9 @@
             <thead>
                 <tr>
                     <th></th>  
-                    <th style="width:30%"><?php echo $this->Paginator->sort('Fecha Inicio', 'FECHA_INI') ?></th>                    
-                    <th style="width:30%"><?php echo $this->Paginator->sort('Fecha Final', 'FECHA_FIN') ?></th>                                        
+                    <th style="width:20%"><?php echo $this->Paginator->sort('Fecha Retroactiva', 'FECHA_RET') ?></th>
+                    <th style="width:20%"><?php echo $this->Paginator->sort('Fecha Inicio', 'FECHA_INI') ?></th>                       
+                    <th style="width:20%"><?php echo $this->Paginator->sort('Fecha Final', 'FECHA_FIN') ?></th>
                     <th style="width:25%"><?php echo $this->Paginator->sort('Sueldo Base', 'SUELDO_BASE') ?></th>                                        
                     <th style="width:15%; text-align: center" class="actions"><?php __('Acciones'); ?></th>
                 </tr>
@@ -44,14 +45,21 @@
                     ?>
                     <tr<?php echo $class; ?>>
                         <td></td>
-                        <td><?php echo fechaElegible($historia['Historial']['FECHA_INI']); ?></td>                        
                         <td><?php
-                if ($historia['Historial']['FECHA_FIN'] == NULL) {
-                    echo "Actual";
-                } else {
-                    echo fechaElegible($historia['Historial']['FECHA_FIN']);
-                }
-                    ?></td>                                                
+                            if ($historia['Historial']['FECHA_RET'] == NULL) {
+                                echo "";
+                            } else {
+                                echo fechaElegible($historia['Historial']['FECHA_RET']);
+                            }?>
+                        </td>
+                        <td><?php echo fechaElegible($historia['Historial']['FECHA_INI']); ?></td>                         
+                        <td><?php
+                            if ($historia['Historial']['FECHA_FIN'] == NULL) {
+                                echo "Actual";
+                            } else {
+                                echo fechaElegible($historia['Historial']['FECHA_FIN']);
+                            }?>
+                        </td>                                                
                         <td><?php echo $historia['Historial']['SUELDO_BASE']; ?></td>                        
                         <td class="actions">
                             <?php
@@ -78,7 +86,7 @@
 </div>
 
 <div class="box">
-<?php echo $this->Session->flash(); ?>
+    <?php echo $this->Session->flash(); ?>
 </div>
 
 <div class="box">    
@@ -91,10 +99,14 @@
         echo $this->Form->input('cargo_id', array('value' => $cargo['Cargo']['id'], 'type' => 'hidden'));
 
         echo "<div class='row'>";
+        
         echo "<div style='float:left;width:20%'>";
-        echo $this->Form->label('Fecha Inicio');
-        echo $this->Form->input('FECHA_INI', array('type' => 'text', 'div' => false, 'label' => false, 'class' => 'datepicker dp-applied')) . "</br>";
+        echo $this->Form->input('FECHA_RET', array('type' => 'text', 'div' => false, 'label' => 'Fecha Retroactiva', 'class' => 'datepicker dp-applied')) . "</br>";
         echo "</div>";
+        
+        echo "<div style='float:left;width:20%'>";
+        echo $this->Form->input('FECHA_INI', array('type' => 'text', 'div' => false, 'label' => 'Fecha de Inicio', 'class' => 'datepicker dp-applied')) . "</br>";
+        echo "</div>";        
 
         echo "<div style='float:left;width:20%'>";
         echo $this->Form->label('Fecha Fin');
@@ -105,7 +117,7 @@
         echo $this->Form->label('Sueldo Base');
         echo $this->Form->input('SUELDO_BASE', array('div' => false, 'label' => false, 'class' => 'small'));
         echo "</div>";
-        echo "</div>";        
+        echo "</div>";
         ?>
     </div>    
 </div>

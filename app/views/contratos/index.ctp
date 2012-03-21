@@ -28,10 +28,11 @@
                     <th style="width:15%"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>                    
                     <th style="width:15%"><?php echo $this->Paginator->sort('Apellidos', 'APELLIDO'); ?></th>                    
                     <th style="width:10%"><?php echo $this->Paginator->sort('Fecha Ingreso', 'INGRESO'); ?></th>                    
-                    <th style="width:20%"><?php echo $this->Paginator->sort('Cargo', 'Contrato.Cargo.NOMBRE'); ?></th>
-                    <th style="width:20%"><?php echo $this->Paginator->sort('Departamento', 'Contrato.Departamento.NOMBRE'); ?></th>
-                    <th style="width:20%"><?php echo $this->Paginator->sort('Modalidad', 'Contrato.MODALIDAD'); ?></th>
-                    <th style="width:10%;text-align: center" class="actions"><?php __('Actions'); ?></th>
+                    <th style="width:15%"><?php echo $this->Paginator->sort('Cargo', 'Contrato.Cargo.NOMBRE'); ?></th>
+                    <th style="width:10%"><?php echo $this->Paginator->sort('Departamento', 'Contrato.Departamento.NOMBRE'); ?></th>
+                    <th style="width:10%"><?php echo $this->Paginator->sort('Modalidad', 'Contrato.MODALIDAD'); ?></th>
+                    <th style="width:10%"><?php echo $this->Paginator->sort('Grupo', 'Contrato.GRUPO'); ?></th>
+                    <th style="width:5%;text-align: center" class="actions"><?php __('Actions'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -63,6 +64,12 @@
                         </td>
                         <td><?php if(!empty($empleado['Contrato']['0'])){
                                     echo $empleado['Contrato']['0']['MODALIDAD'];
+                                  }else{
+                                    echo "Inactivo o sin Asignar";  
+                                  }?>
+                        </td>
+                        <td><?php if(!empty($empleado['Contrato']['0'])){
+                                    echo $empleado['Contrato']['0']['GRUPO'];
                                   }else{
                                     echo "Inactivo o sin Asignar";  
                                   }?>
