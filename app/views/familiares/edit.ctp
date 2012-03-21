@@ -32,7 +32,7 @@
                     <th></th>  
                     <th style="width:25%"><?php echo $this->Paginator->sort('Nombre', 'Familiar.NOMBRE') ?></th>
                     <th style="width:15%"><?php echo $this->Paginator->sort('Parentesco', 'PARENTESCO') ?></th>
-                    <th style="width:15%"><?php echo $this->Paginator->sort('Fecha de Nacimiento', 'FECHA_NAC') ?></th>                                        
+                    <th style="width:15%"><?php echo $this->Paginator->sort('Fecha', 'FECHA') ?></th>                                        
                     <th style="width:10%"><?php echo $this->Paginator->sort('Discapacidad', 'DISCAPACIDAD') ?></th>                                        
                     <th style="width:20%"><?php echo $this->Paginator->sort('Instruccion', 'INSTRUCCION') ?></th>                                        
                     <th style="width:15%; text-align: center" class="actions"><?php __('Acciones'); ?></th>
@@ -51,7 +51,7 @@
                         <td></td>
                         <td><?php echo $familiar['Familiar']['NOMBRE']; ?></td>                        
                         <td><?php echo $familiar['Familiar']['PARENTESCO']; ?></td>
-                        <td><?php echo fechaElegible($familiar['Familiar']['FECHA_NAC']); ?></td>
+                        <td><?php echo fechaElegible($familiar['Familiar']['FECHA']); ?></td>
                         <td><?php echo $familiar['Familiar']['DISCAPACIDAD']; ?></td>
                         <td><?php echo $familiar['Familiar']['INSTRUCCION']; ?></td>                        
                         <td class="actions">

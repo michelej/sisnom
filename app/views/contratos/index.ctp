@@ -32,7 +32,7 @@
                     <th style="width:10%"><?php echo $this->Paginator->sort('Departamento', 'Contrato.Departamento.NOMBRE'); ?></th>
                     <th style="width:10%"><?php echo $this->Paginator->sort('Modalidad', 'Contrato.MODALIDAD'); ?></th>
                     <th style="width:10%"><?php echo $this->Paginator->sort('Grupo', 'Contrato.GRUPO'); ?></th>
-                    <th style="width:5%;text-align: center" class="actions"><?php __('Actions'); ?></th>
+                    <th style="width:5%;text-align: center" class="actions"><?php __('Acciones'); ?></th>
                 </tr>
             </thead>
             <tbody>

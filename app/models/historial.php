@@ -38,6 +38,15 @@ class Historial extends AppModel {
         if ($fecha_fin == NULL) {
             $this->data['Historial']['FECHA_FIN'] = NULL;            
         }
+        
+        if ($fecha_ret == null) {
+            $this->data['Historial']['FECHA_RET'] = NULL;
+        } else {
+            if (compara_fechas($fecha_ini, $fecha_ret) < 0) {
+                $this->errorMessage = "La fecha retroactiva debe ser menor a la fecha inicial";
+                return false;
+            }                        
+        }
 
         $this->recursive = -1;
         // buscamos los historiales de sueldo de este cargo
@@ -48,14 +57,7 @@ class Historial extends AppModel {
             return false;
         }
         
-        if ($fecha_ret == null) {
-            $this->data['Historial']['FECHA_RET'] = NULL;
-        } else {
-            if (compara_fechas($fecha_ini, $fecha_ret) < 0) {
-                $this->errorMessage = "La fecha retroactiva debe ser menor a la fecha inicial";
-                return false;
-            }                        
-        }
+        
 
 
         //Tratamos las fechas

@@ -17,7 +17,7 @@ class Familiar extends AppModel {
             'rule' => 'notEmpty',
             'message' => 'Ingrese el Nombre'
         ),
-        'FECHA_NAC' => array(
+        'FECHA' => array(
             'rule' => array('date', 'dmy'),
             'message' => 'Fecha incorrecta',
         ),
