@@ -71,10 +71,10 @@
                         </li> 
                     </ul>             
                     <li>     
-                        <a href="#"><?php echo $this->Html->image('Cog.png', array("alt" => "consultar", 'width' => '18', 'heigth' => '18', 'title' => 'Conceptos')); ?>Conceptos</a>     
+                        <?php echo $this->Html->link($this->Html->image("Cog.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Conceptos", array('controller' => 'Pages', 'action' => 'display'), array('escape' => false)); ?>     
                         <ul>          
-                            <li><?php echo $this->Html->link($this->Html->image("News Add.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Asignaciones de Ley", array('controller' => 'asignaciones', 'action' => 'view'), array('escape' => false)); ?></li>
-                            <li><?php echo $this->Html->link($this->Html->image("News Remove.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Deducciones de Ley", array('controller' => 'deducciones', 'action' => 'view'), array('escape' => false)); ?></li>
+                            <li><?php echo $this->Html->link($this->Html->image("News Add.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Asignaciones", array('controller' => 'asignaciones', 'action' => 'index'), array('escape' => false)); ?></li>
+                            <li><?php echo $this->Html->link($this->Html->image("News Remove.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Deducciones", array('controller' => 'deducciones', 'action' => 'index'), array('escape' => false)); ?></li>
                         </ul> 
                     </li>
                     <li>     
