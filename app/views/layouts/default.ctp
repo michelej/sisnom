@@ -61,7 +61,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#"><?php echo $this->Html->image('disc.png', array("alt" => "consultar", 'width' => '18', 'heigth' => '18', 'title' => 'Inicio')); ?>   Procesos</a> 
+                              <?php echo $this->Html->link($this->Html->image("disc.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Procesos", array('controller' => 'Pages', 'action' => 'display'), array('escape' => false)); ?> 
                             <ul>                             
                                 <li><?php echo $this->Html->link($this->Html->image("Drawer Closed.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Administrar Conceptos", array('controller' => 'administrarconceptos', 'action' => 'index'), array('escape' => false)); ?></li>     
                                 <li><?php echo $this->Html->link($this->Html->image("Finder.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Fechas Nomina", array('controller' => 'fechanominas', 'action' => 'index'), array('escape' => false)); ?></li>

@@ -5,40 +5,56 @@ class Deduccion extends AppModel {
     var $name = 'Deduccion';
     var $displayField = 'DESCRIPCION';
 
-    
-    
-    function beforeFind(){
-        $this->verificarDeducciones();
+    function beforeFind($queryData) {
+        $this->verificar();
         return true;
     }
 
-    
-    function verificarDeducciones() {
+    /**
+     *  Verifica si los datos en la tabla son iguales a los que estan aqui declarados
+     *  la idea es trabajar todo desde aqui (el Modelo) si se quiere agregar algo se hace 
+     *  desde aqui. 
+     *            
+     *  El (id) es importante se usa para saber que tipo se va a usar
+     */
+    function verificar() {
         $this->data = array(
-            'Deduccion' => array(
-                '0' => array('CODIGO' => 'S.S.O', 'DESCRIPCION' => 'Seguro Social Obligatorio', 'PORCENTAJE' => '4'),
-                '1' => array('CODIGO' => 'R.P.E', 'DESCRIPCION' => 'Régimen Prestacional de Empleo ', 'PORCENTAJE' => '0.5'),
-                '2' => array('CODIGO' => 'FAOV', 'DESCRIPCION' => 'Fondo de Ahorro Obligatirio de Vivienda', 'PORCENTAJE' => '1'),
-                '3' => array('CODIGO' => 'F.P', 'DESCRIPCION' => 'Fondo de Pensiones', 'PORCENTAJE' => '3'),
-                '4' => array('CODIGO' => 'C.A', 'DESCRIPCION' => 'Caja de Ahorros', 'PORCENTAJE' => '10'),
-                '5' => array('CODIGO' => 'T', 'DESCRIPCION' => 'Tribunales', 'PORCENTAJE' => '0'),
-                '6' => array('CODIGO' => 'DC', 'DESCRIPCION' => 'Deducciones Comerciales', 'PORCENTAJE' => '0'),
-                '7' => array('CODIGO' => 'PC', 'DESCRIPCION' => 'Prestamo Caja de Ahorros', 'PORCENTAJE' => '0'),
-                '8' => array('CODIGO' => 'ISLR', 'DESCRIPCION' => 'Declaracion impuesto sobre la renta', 'PORCENTAJE' => '0'),                
-            ),
+            '1' => array('id' => '1', 'CODIGO' => 'S.S.O', 'DESCRIPCION' => 'Seguro Social Obligatorio', 'PORCENTAJE' => '4%'),
+            '2' => array('id' => '2', 'CODIGO' => 'R.P.E', 'DESCRIPCION' => 'Régimen Prestacional de Empleo ', 'PORCENTAJE' => '0.5%'),
+            '3' => array('id' => '3', 'CODIGO' => 'FAOV', 'DESCRIPCION' => 'Fondo de Ahorro Obligatirio de Vivienda', 'PORCENTAJE' => '1%'),
+            '4' => array('id' => '4', 'CODIGO' => 'F.P', 'DESCRIPCION' => 'Fondo de Pensiones', 'PORCENTAJE' => '3%'),
+            '5' => array('id' => '5', 'CODIGO' => 'C.A', 'DESCRIPCION' => 'Caja de Ahorros', 'PORCENTAJE' => '10%'),
+            '6' => array('id' => '6', 'CODIGO' => 'T', 'DESCRIPCION' => 'Tribunales', 'PORCENTAJE' => '0'),
+            '7' => array('id' => '7', 'CODIGO' => 'DC', 'DESCRIPCION' => 'Deducciones Comerciales', 'PORCENTAJE' => '0'),
+            '8' => array('id' => '8', 'CODIGO' => 'PC', 'DESCRIPCION' => 'Prestamo Caja de Ahorros', 'PORCENTAJE' => '0'),
+            '9' => array('id' => '9', 'CODIGO' => 'ISLR', 'DESCRIPCION' => 'Declaracion impuesto sobre la renta', 'PORCENTAJE' => '0'),
         );
 
-        $data = $this->find('all');       
+        // Para que esto funcione debemos de convertir lo que traigamos del query
+        // en algo parecido a lo que tenemos arriba
+        // no podemos usar find aqui porque se crea un loop infinito ya que esta funcion
+        // es invocada desde el beforeFind
+        $data = $this->query("SELECT * FROM deducciones as Deduccion");
+        $result = Set::combine($data, '{n}.Deduccion.id', '{n}.Deduccion');
+        // buscamos las diferencias
+        $diff = array_diff_key($result, $this->data);
+        // si no encuentro nada lo creamos con los valores default
         if (empty($data)) {
-            $this->saveAll($this->data['Deduccion']);            
-        } else {            
-            // Si son diferentes alguien se metio con la tabla!! 
-            if ($data!=$this->data) { 
-              // truncamos la tabla para poder usar los id como identificadores OJO
-              $this->query('TRUNCATE deducciones'); 
-              $this->saveAll($this->data['Deduccion']);  
+            $this->saveAll($this->data);
+        } else {
+            // Si son diferentes los regrabamos            
+            if ($result != $this->data) {
+                $this->saveAll($this->data);
+                if (!empty($diff)) {
+                    foreach ($diff as $value) {
+                        // Borramos aquellos que hayan sido agregados en la BD y no esten declaradas aqui
+                        $this->delete($id = $value['id']);
+                    }
+                }
             }
         }
     }
+
 }
+
 ?>

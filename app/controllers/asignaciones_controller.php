@@ -6,7 +6,7 @@ class AsignacionesController extends AppController {
     var $components = array('RequestHandler');
     var $helpers = array('Ajax', 'Javascript');
 
-    function index() {
+    function index() {        
         $this->paginate=array(
             'limit'=>25,
         );
