@@ -3,8 +3,18 @@
 class Asignacion extends AppModel {
 
     var $name = 'Asignacion';
-    var $displayField = 'DESCRIPCION';
-
+    var $displayField = 'DESCRIPCION';    
+    
+    /**
+     *  Relaciones
+     */    
+    
+    var $hasAndBelongsToMany = 'Empleado';
+    
+    /**
+     *
+     *      
+     */    
     function beforeFind($queryData) {
         $this->verificar();
         return true;
@@ -19,27 +29,17 @@ class Asignacion extends AppModel {
      */
     function verificar() {
         $this->data = array(
-            '1' => array('id' => '1', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Hijo menor a 18', 'VALOR' => '12'),
-            '2' => array('id' => '2', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Hijo mayor a 18 estudiando T.S.U', 'VALOR' => '15'),
-            '3' => array('id' => '3', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Hijo mayor 18 Estudiando Pre-grado', 'VALOR' => '18'),
-            '4' => array('id' => '4', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Hijos Invalidez', 'VALOR' => '15'),
-            '5' => array('id' => '5', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Transporte', 'VALOR' => '60'),
-            '6' => array('id' => '6', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Antiguedad', 'VALOR' => '12.3'),
-            '7' => array('id' => '7', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima Profesionalización T.S.U', 'VALOR' => '100'),
-            '8' => array('id' => '8', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima Profesionalización Universitario', 'VALOR' => '200'),
-            '9' => array('id' => '9', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima Profesionalización Post-Grado', 'VALOR' => '100'),
-            '10' => array('id' => '10', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima Profesionalización Maestria', 'VALOR' => '200'),
-            '11' => array('id' => '11', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima Profesionalización Doctorado', 'VALOR' => '300'),
-            '12' => array('id' => '12', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Reconocimiento', 'VALOR' => '12'),
-            '13' => array('id' => '13', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima Hogar', 'VALOR' => '12'),
-            '14' => array('id' => '14', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Hijo menor a 18', 'VALOR' => '1.8'),
-            '15' => array('id' => '15', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Hijo mayor a 18 estudiando T.S.U', 'VALOR' => '2.5'),
-            '16' => array('id' => '16', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Hijo mayor a 18 estudiando Pre-Grado', 'VALOR' => '3.5'),
-            '17' => array('id' => '17', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Hijo Invalidez', 'VALOR' => '5'),
-            '18' => array('id' => '18', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Transporte (Diarios)', 'VALOR' => '0.26'),
-            '19' => array('id' => '19', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Transporte Mensajeros(Diarios)', 'VALOR' => '4.16'),
-            '20' => array('id' => '20', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Antiguedad', 'VALOR' => '0.5'),
-            '21' => array('id' => '21', 'GRUPO' => 'Todos', 'DESCRIPCION' => 'Bono Nocturno', 'VALOR' => '0.3'),
+            '1' => array('id' => '1', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Hijo'),            
+            '2' => array('id' => '2', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Transporte'),
+            '3' => array('id' => '3', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Antiguedad'),
+            '4' => array('id' => '4', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Reconocimiento'),
+            '5' => array('id' => '5', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima Nivelacion Profesional'),                        
+            '6' => array('id' => '6', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima Hogar'),
+            '7' => array('id' => '7', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Hijo'),            
+            '8' => array('id' => '8', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Transporte'),            
+            '9' => array('id' => '9', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Antiguedad'),
+            '10' => array('id' => '10', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Reconocimiento'),
+            '11' => array('id' => '11', 'GRUPO' => 'Todos', 'DESCRIPCION' => 'Bono Nocturno'),
         );
 
         // Para que esto funcione debemos de convertir lo que traigamos del query
@@ -56,10 +56,10 @@ class Asignacion extends AppModel {
         } else {
             // Si son diferentes los regrabamos            
             if ($result != $this->data) {
-                $this->saveAll($this->data);
+                $this->saveAll($this->data);                
                 if (!empty($diff)) {
-                    foreach ($diff as $value) {
-                        // Borramos aquellos que hayan sido agregados en la BD y no esten declaradas aqui
+                    // Borramos aquellos que hayan sido agregados en la BD y no esten declaradas aqui
+                    foreach ($diff as $value) {                        
                         $this->delete($id = $value['id']);
                     }
                 }

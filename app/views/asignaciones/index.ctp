@@ -6,9 +6,9 @@
             <thead>
                 <tr>
                     <th></th>                      
-                    <th style="width:30%"><?php echo $this->Paginator->sort('Grupo', 'GRUPO'); ?></th>
-                    <th style="width:50%"><?php echo $this->Paginator->sort('Descripcion', 'DESCRIPCION'); ?></th>
-                    <th style="width:20%; text-align: center"><?php echo $this->Paginator->sort('Valor', 'VALOR'); ?></th>
+                    <th style="width:40%"><?php echo $this->Paginator->sort('Grupo', 'GRUPO'); ?></th>
+                    <th style="width:60%"><?php echo $this->Paginator->sort('Descripcion', 'DESCRIPCION'); ?></th>                    
+                    <th></th>                      
                 </tr>
             </thead>
             <tbody>
@@ -23,8 +23,8 @@
                     <tr<?php echo $class; ?>>
                         <td></td>
                         <td><?php echo $asignacion['Asignacion']['GRUPO']; ?></td>
-                        <td><?php echo $asignacion['Asignacion']['DESCRIPCION']; ?></td>
-                        <td><?php echo $asignacion['Asignacion']['VALOR']; ?></td>
+                        <td><?php echo $asignacion['Asignacion']['DESCRIPCION']; ?></td>                        
+                        <td></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

@@ -4,15 +4,18 @@ class Empleado extends AppModel {
 
     var $name = 'Empleado';
     var $displayField = 'CEDULA';      
-
+    var $actsAs = 'ExtendAssociations';
     /**
      *  Relaciones
      */
     var $hasMany = array('Contrato','Familiar','Titulo');
     
+    var $hasAndBelongsToMany = array('Asignacion','Deduccion');
     /**
      *  Validaciones
      */
+    
+    
     var $validate = array(
         'NACIONALIDAD' => array(
             'rule' => array('multiple', array('in' => array('Venezolano', 'Extranjero'))),
