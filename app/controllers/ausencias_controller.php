@@ -1,0 +1,82 @@
+<?php 
+
+class AusenciasController extends AppController {
+    
+    var $name = 'Ausencias';
+    var $components = array('RequestHandler');
+    var $helpers = array('Ajax', 'Javascript');    
+    
+    function index(){
+        $filtro=array();
+        if(!empty($this->data)){            
+            if($this->data['Fopcion']==1){
+               $filtro=array('Empleado.CEDULA LIKE'=>$this->data['valor']); 
+            }
+            if($this->data['Fopcion']==2){
+               $filtro=array('Empleado.NOMBRE LIKE'=>$this->data['valor']); 
+            }
+            if($this->data['Fopcion']==3){
+               $filtro=array('Empleado.APELLIDO LIKE'=>$this->data['valor']); 
+            }
+        }  
+        
+        $this->Ausencia->Empleado->recursive = -1;         
+        $data=$this->paginate('Empleado',$filtro);                
+        $this->set('empleados',$data);
+    }
+    
+    function edit($id=null){        
+        if (empty($this->data)) {           
+            $this->paginate=array(
+                'Ausencia' => array(  
+                    'recursive'=>-1,
+                    'limit'=>20,                                            
+                    'conditions'=>array(
+                        'empleado_id' => $id,                         
+                    )                                          
+                )
+            );
+            $this->Ausencia->Empleado->recursive=-1;
+            $empleado=$this->Ausencia->Empleado->findById($id);            
+            $ausencias = $this->paginate('Ausencia');                        
+            $this->set(compact('empleado','ausencias'));
+        } 
+    }
+    
+    function add($id=null){        
+        $this->set("id",$id);
+        if (!empty($this->data)) {            
+            if ($this->Ausencia->save($this->data['Ausencia'])) {
+                $this->Session->setFlash('Ausencia agregada con exito','flash_success');                                
+                $this->redirect('edit/' . $this->data['Ausencia']['empleado_id']);
+            }
+        }        
+    }
+    
+    function delete($id) {
+         $empleadoid = $this->Ausencia->find('first', array(
+            'conditions' => array(
+                'Ausencia.id' => $id),
+            'fields' => array(
+                'Ausencia.empleado_id')
+                ));
+        if ($this->Ausencia->delete($id)) {
+            $this->Session->setFlash('Se ha eliminado con exito', 'flash_success');
+            $this->redirect('edit/' . $empleadoid['Ausencia']['empleado_id']);
+        }
+    }
+    
+    function editause($id){
+        $this->set("id",$id);        
+        if (empty($this->data)) {
+            $this->data = $this->Ausencia->read();
+        }else {
+            if ($this->Ausencia->save($this->data)) {
+                $this->Session->setFlash('Ausencia Modificada','flash_success');
+                $this->redirect('edit/'.$this->data['Ausencia']['empleado_id']);
+            }
+        }
+    }
+    
+}
+?>
