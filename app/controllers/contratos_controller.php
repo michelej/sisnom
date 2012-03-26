@@ -13,10 +13,10 @@ class ContratosController extends AppController {
                 $filtro = array('Empleado.CEDULA LIKE' => $this->data['valor']);
             }
             if ($this->data['Fopcion'] == 2) {
-                $filtro = array('Empleado.NOMBRE LIKE' => $this->data['valor']);
+                $filtro = array('Empleado.NOMBRE LIKE' => "%".$this->data['valor']."%");
             }
             if ($this->data['Fopcion'] == 3) {
-                $filtro = array('Empleado.APELLIDO LIKE' => $this->data['valor']);
+                $filtro = array('Empleado.APELLIDO LIKE' => "%".$this->data['valor']."%");
             }
         }
         $this->Contrato->Empleado->Behaviors->attach('Containable');
@@ -46,7 +46,7 @@ class ContratosController extends AppController {
         if (empty($this->data)) {
             $this->Contrato->Empleado->recursive = -1;
             $this->paginate=array(
-                'Historial' => array(                    
+                'Contrato' => array(                    
                     'conditions'=>array(
                         'empleado_id' => $id),
                     'limit' => 20,
@@ -55,28 +55,29 @@ class ContratosController extends AppController {
                 )
             );
             $contratos = $this->paginate('Contrato');
-            $empleado = $this->Contrato->Empleado->findById($id);
-            $cargos = $this->Contrato->Cargo->find('list');
-            $departamentos = $this->Contrato->Departamento->find('list');
-            $this->set(compact('contratos', 'empleado', 'cargos', 'departamentos'));
+            $empleado = $this->Contrato->Empleado->findById($id);            
+            $this->set(compact('contratos', 'empleado'));
         } else {                                               
             if ($this->Contrato->save($this->data)) {
                 $this->Session->setFlash('Se ha agregado con exito','flash_success');
                 $this->redirect('edit/' . $this->data['Contrato']['empleado_id']);
-            }            
-            if(!empty($this->Contrato->validationErrors)){                
-                $error="";
-                foreach ($this->Contrato->validationErrors as $value) {
-                    $error=$error."* ".$value;
-                    $error=$error."<br />";
-                }
-                $this->Contrato->errorMessage=$error;
-            }
+            }                        
             $this->Session->setFlash($this->Contrato->errorMessage,'flash_error');  // Mostrar Error
             $this->redirect('edit/' . $this->data['Contrato']['empleado_id']);
         }
     }
-
+    
+    function add($id=null){        
+        $this->set("id",$id);
+        if (!empty($this->data)) {            
+            if ($this->Contrato->save($this->data['Contrato'])) {
+                $this->Session->setFlash('Contrato agregado con exito','flash_success');                                
+                $this->redirect('edit/' . $this->data['Contrato']['empleado_id']);
+            }
+        } 
+        $cargos = $this->Contrato->Cargo->find('list');
+        $departamentos = $this->Contrato->Departamento->find('list');
+        $this->set(compact('cargos', 'departamentos'));
+    }
 }
-
 ?>

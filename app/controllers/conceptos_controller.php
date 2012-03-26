@@ -14,14 +14,24 @@ class ConceptosController extends AppController {
                 $filtro = array('Empleado.CEDULA LIKE' => $this->data['valor']);
             }
             if ($this->data['Fopcion'] == 2) {
-                $filtro = array('Empleado.NOMBRE LIKE' => $this->data['valor']);
+                $filtro = array('Empleado.NOMBRE LIKE' => "%".$this->data['valor']."%");
             }
             if ($this->data['Fopcion'] == 3) {
-                $filtro = array('Empleado.APELLIDO LIKE' => $this->data['valor']);
+                $filtro = array('Empleado.APELLIDO LIKE' => "%".$this->data['valor']."%");
             }
-        }
-        $this->Empleado->recursive = -1;
-        $data = $this->paginate('Empleado', $filtro);
+        }                
+        $this->Empleado->Behaviors->attach('Containable');
+        $this->paginate = array(
+            'limit'=>20,            
+            'contain' => array(
+                'Contrato' => array(
+                    'Cargo','Departamento',
+                    'conditions' => array(
+                        'FECHA_FIN' => NULL),
+                    )                
+            ));
+        
+        $data=$this->paginate('Empleado',$filtro);
         $this->set('empleados', $data);
     }
 
@@ -42,6 +52,7 @@ class ConceptosController extends AppController {
                     $this->Empleado->habtmDelete('Deduccion', $id, $key);  
                 }
             }
+            $this->Session->setFlash('Se ha modificado con exito','flash_success');
             $this->redirect('index'); 
         }
         $this->Empleado->Behaviors->attach('Containable');
@@ -59,5 +70,4 @@ class ConceptosController extends AppController {
     }
 
 }
-
 ?>

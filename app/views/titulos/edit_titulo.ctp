@@ -7,11 +7,11 @@
     </div>
 <?php } ?>
 <div class="box">
-    <div class="title"><h2><?php __('Datos del Titulo'); ?></h2>
+    <div class="title"><h2>Datos del Titulo</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content pages">
-        <?php echo $this->Form->create('Titulo',array('url' => array('controller' => 'titulos', 'action' => 'edittitu',$this->data['Titulo']['id']))); ?>        
+        <?php echo $this->Form->create('Titulo',array('url' => array('controller' => 'titulos', 'action' => 'edit_titulo',$this->data['Titulo']['id']))); ?>        
         <?php
         echo $this->Form->input('id', array('type' => 'hidden'));
         echo $this->Form->input('empleado_id', array('type' => 'hidden'));
@@ -50,7 +50,12 @@
     </div>
     <div class="content form">
         <div class="row">
-            <?php echo $this->Form->end(__('Agregar', true)); ?>            
+            <?php echo $this->Form->end('Guardar Cambios'); ?>            
+        </div>
+        <div class="row boton">
+            <div class="boton">
+                <?php echo $this->Html->link('Regresar', array('action' => 'edit',$this->data['Titulo']['empleado_id'])); ?>
+            </div>
         </div>
     </div>
 </div>

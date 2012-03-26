@@ -5,9 +5,7 @@ class HistorialesController extends AppController {
     var $name = 'Historiales';
     var $components = array('RequestHandler');
     var $helpers = array('Ajax', 'Javascript');    
-    /**
-     * 
-     */
+    
     function index() {
         $this->Historial->Cargo->Behaviors->attach('Containable');
 
@@ -22,10 +20,7 @@ class HistorialesController extends AppController {
         $data = $this->paginate('Cargo');
         $this->set('cargos', $data);
     }
-    /**
-     * 
-     * @param type $id 
-     */
+        
     function delete($id) {
         $cargoid = $this->Historial->find('first', array(
             'conditions' => array(
@@ -38,10 +33,7 @@ class HistorialesController extends AppController {
             $this->redirect('edit/' . $cargoid['Historial']['cargo_id']);
         }
     }
-    /**
-     *
-     * @param type $id 
-     */
+    
     function edit($id = null) {
         if (empty($this->data)) {                                    
             $this->paginate=array(
@@ -62,20 +54,21 @@ class HistorialesController extends AppController {
             if ($this->Historial->save($this->data)) {
                 $this->Session->setFlash('Se ha agregado con exito', 'flash_success');
                 $this->redirect('edit/' . $this->data['Historial']['cargo_id']);
-            } 
-            if(!empty($this->Historial->validationErrors)){                
-                $error="";
-                foreach ($this->Historial->validationErrors as $value) {
-                    $error=$error."* ".$value;
-                    $error=$error."<br />";
-                }
-                $this->Historial->errorMessage=$error;
-            }
+            }             
             $this->Session->setFlash($this->Historial->errorMessage, 'flash_error');
             $this->redirect('edit/' . $this->data['Historial']['cargo_id']);
         }
     }
+    
+    function add($id=null){        
+        $this->set("id",$id);
+        if (!empty($this->data)) {            
+            if ($this->Historial->save($this->data['Historial'])) {
+                $this->Session->setFlash('Historial agregado con exito','flash_success');
+                $this->redirect('edit/' . $this->data['Historial']['cargo_id']);
+            }                
+        }        
+    }
 
 }
-
 ?>

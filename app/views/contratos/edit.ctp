@@ -35,7 +35,7 @@
                     <th style="width:15%"><?php echo $this->Paginator->sort('Grupo', 'GRUPO') ?></th>
                     <th style="width:20%"><?php echo $this->Paginator->sort('Cargo', 'cargo_id') ?></th>
                     <th style="width:20%"><?php echo $this->Paginator->sort('Departamento', 'departamento_id') ?></th>
-                    <th style="width:15%; text-align: center" class="actions"><?php __('Acciones'); ?></th>
+                    <th style="width:15%; text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -73,7 +73,7 @@
         <div class="pages-bottom">
             <div class="actionbox">
                 <?php
-                echo $this->Paginator->counter(array('format' => __('Este empleado tiene %count% contrato(s)', true)));
+                echo $this->Paginator->counter(array('format' => 'Este empleado tiene %count% contrato(s)'));
                 ?>
             </div>
             <div class="pagination">
@@ -90,59 +90,15 @@
 </div>
 
 <div class="box">
-    <div class="title"><h2>Nuevo Contrato</h2>
-        <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
-    </div>
+    <div class="title">	<h2>Acciones</h2></div>
     <div class="content form">
-        <?php
-        echo $this->Form->create('Contrato');
-        echo $this->Form->input('empleado_id', array('value' => $empleado['Empleado']['id'], 'type' => 'hidden'));
-        
-        echo "<div class='row'>";
-        echo "<div style='float:left;width:20%'>";        
-        echo $this->Form->input('FECHA_INI', array('type' => 'text', 'div' => false, 'label' => 'Fecha de Inicio', 'class' => 'datepicker dp-applied')) . "</br>";
-        echo "</div>";
-
-        echo "<div style='float:left;width:20%'>";        
-        echo $this->Form->input('FECHA_FIN', array('type' => 'text', 'div' => false, 'label' => 'Fecha de Finalizacion', 'class' => 'datepicker dp-applied')) . "</br>";
-        echo "</div>";
-        echo "</div>";                
-        
-        echo "<div class='row'>";
-        echo "<div style='float:left;width:40%'>";        
-        $options = array('Fijo' => 'Fijo', 'Contratado' => 'Contratado');
-        echo $this->Form->input('MODALIDAD', array('div' => false, 'label' => 'Modalidad del Contrato', 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una opcion'));
-        echo "</div>";
-        
-        echo "<div style='float:left;width:60%'>";        
-        $options = array('Administrativo' => 'Administrativo', 'Obrero' => 'Obrero');
-        echo $this->Form->input('GRUPO', array('div' => false, 'label' => 'Grupo', 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una opcion'));
-        echo "</div>";
-        echo "</div>";
-
-        echo "<div class='row'>";
-        echo "<div style='float:left;width:40%'>";
-        echo $this->Form->label('Departamento');
-        echo $this->Form->input('departamento_id', array('div' => false, 'label' => false, 'class' => 'small', 'empty' => "Seleccione una opción"));
-        echo "</div>";
-
-        echo "<div style='float:left;width:60%'>";
-        echo $this->Form->label('Cargo');
-        echo $this->Form->input('cargo_id', array('div' => false, 'label' => false, 'class' => 'small', 'empty' => "Seleccione una opción"));
-        echo "</div>";
-        echo "</div>";
-        ?>
-    </div>    
-</div>
-
-<div class="box">
-    <div class="title"><h2>Acciones</h2>
-        <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
-    </div>
-    <div class="content form">
-        <div class="row">
-            <?php echo $this->Form->end(__('Nuevo', true)); ?>
-
+        <div class="row boton">
+            <div class="boton">
+                <?php echo $this->Html->link('Nuevo Contrato', array('action' => 'add',$empleado['Empleado']['id'])); ?>
+            </div>
+            <div class="boton">
+                <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
+            </div>
         </div>
     </div>
 </div>

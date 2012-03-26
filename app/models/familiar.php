@@ -58,3 +58,4 @@ class Familiar extends AppModel {
     }
 
 }
+?>

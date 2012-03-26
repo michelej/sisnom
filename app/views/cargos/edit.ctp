@@ -36,8 +36,12 @@
     </div>
     <div class="content form">
         <div class="row">
-            <?php echo $this->Form->end(__('Modificar', true)); ?>
-
+            <?php echo $this->Form->end('Guardar Cambios'); ?>
         </div>
+        <div class="row boton">
+            <div class="boton">
+                <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
+            </div>              
+        </div>  
     </div>
 </div>

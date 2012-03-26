@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="title"><h2><?php __('Dias Feriados'); ?></h2></div>
+    <div class="title"><h2>Dias Feriados</h2></div>
     <div class="content pages">
         <div class="row"></div>
         <table cellpadding="0" cellspacing="0">
@@ -8,7 +8,7 @@
                     <th></th>  
                     <th style="width:25%"><?php echo $this->Paginator->sort('Fecha', 'FECHA'); ?></th>                    
                     <th style="width:60%"><?php echo $this->Paginator->sort('Descripcion', 'DESCRIPCION'); ?></th>                    
-                    <th style="width:15%;text-align: center" class="actions"><?php __('Acciones'); ?></th>
+                    <th style="width:15%;text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,7 +37,7 @@
         <div class="pages-bottom">
             <div class="actionbox">
                 <?php
-                echo $this->Paginator->counter(array('format' => __('Actualmente existen %count% dia(s) feriado(s) en el sistema', true)));
+                echo $this->Paginator->counter(array('format' => 'Actualmente existen %count% dia(s) feriado(s) en el sistema'));
                 ?>
             </div>
             <div class="pagination">
@@ -54,11 +54,11 @@
 </div>
 
 <div class="box">
-    <div class="title">	<h2><?php __('Acciones'); ?></h2></div>
+    <div class="title">	<h2>Acciones</h2></div>
     <div class="content form">
         <div class="row boton">
             <div class="boton">
-                <?php echo $this->Html->link(__('Nuevo Dia Feriado', true), array('action' => 'add')); ?>
+                <?php echo $this->Html->link('Nuevo Dia Feriado', array('action' => 'add')); ?>
             </div>
         </div>
     </div>

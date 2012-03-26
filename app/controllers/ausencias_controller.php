@@ -13,10 +13,10 @@ class AusenciasController extends AppController {
                $filtro=array('Empleado.CEDULA LIKE'=>$this->data['valor']); 
             }
             if($this->data['Fopcion']==2){
-               $filtro=array('Empleado.NOMBRE LIKE'=>$this->data['valor']); 
+               $filtro=array('Empleado.NOMBRE LIKE'=>"%".$this->data['valor']."%"); 
             }
             if($this->data['Fopcion']==3){
-               $filtro=array('Empleado.APELLIDO LIKE'=>$this->data['valor']); 
+               $filtro=array('Empleado.APELLIDO LIKE'=>"%".$this->data['valor']."%"); 
             }
         }  
         
@@ -66,7 +66,7 @@ class AusenciasController extends AppController {
         }
     }
     
-    function editause($id){
+    function edit_ausencia($id){
         $this->set("id",$id);        
         if (empty($this->data)) {
             $this->data = $this->Ausencia->read();

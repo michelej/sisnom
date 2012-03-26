@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="title"><h2><?php __('Empleados'); ?></h2></div>
+    <div class="title"><h2>Empleados</h2></div>
     <div class="content pages">
         <div class="row">
             <?php
@@ -10,7 +10,7 @@
             echo $this->Form->label('Opción');
             echo $this->Form->input('Fopcion', array('div' => false, 'label' => false, 'class' => 'small', 'type' => 'select', 'options' => $options));
             echo "</div>";
-            echo "<div style='float:left;width:35%'>";
+            echo "<div style='float:left;width:20%'>";
             echo $this->Form->label('Busqueda');
             echo $this->Form->input('valor', array('div' => false, 'label' => false, 'class' => 'small'));
             echo "</div>";
@@ -25,13 +25,14 @@
             <thead>
                 <tr>
                     <th></th>  
-                    <th style="width:5%;"><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>
-                    <th style="width:15%;"><?php echo $this->Paginator->sort('Nombre(s)', 'NOMBRE'); ?></th>
-                    <th style="width:15%;"><?php echo $this->Paginator->sort('Apellido(s)', 'APELLIDO'); ?></th>
-                    <th style="width:15%;"><?php echo $this->Paginator->sort('Fecha Ingreso', 'INGRESO'); ?></th>
-                    <th style="width:15%;"><?php echo $this->Paginator->sort('Sexo', 'SEXO'); ?></th>
-                    <th style="width:20%;"><?php echo $this->Paginator->sort('Edad', 'EDAD'); ?></th>
-                    <th style="width:15%; text-align: center"class="actions"><?php __('Acciones'); ?></th>
+                    <th style="width:10%; text-align: center"><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>
+                    <th style="width:20%;"><?php echo $this->Paginator->sort('Nombre(s)', 'NOMBRE'); ?></th>
+                    <th style="width:20%;"><?php echo $this->Paginator->sort('Apellido(s)', 'APELLIDO'); ?></th>
+                    <th style="width:10%;"><?php echo $this->Paginator->sort('Fecha Ingreso', 'INGRESO'); ?></th>
+                    <th style="width:10%;"><?php echo $this->Paginator->sort('Sexo', 'SEXO'); ?></th>
+                    <th style="width:5%;"><?php echo $this->Paginator->sort('Edad', 'FECHANAC'); ?></th>
+                    <th style="width:10%;"><?php echo $this->Paginator->sort('Nacionalidad', 'NACIONALIDAD'); ?></th>
+                    <th style="width:15%; text-align: center"class="actions">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,12 +46,13 @@
                     ?>
                     <tr<?php echo $class; ?>>
                         <td></td>
-                        <td><?php echo $empleado['Empleado']['CEDULA']; ?></td>
+                        <td style="text-align: right"><?php echo $empleado['Empleado']['CEDULA']; ?></td>
                         <td><?php echo $empleado['Empleado']['NOMBRE']; ?></td>
                         <td><?php echo $empleado['Empleado']['APELLIDO']; ?></td>
                         <td><?php echo fechaElegible($empleado['Empleado']['INGRESO']); ?></td>
                         <td><?php echo $empleado['Empleado']['SEXO']; ?></td>
                         <td><?php echo $empleado['Empleado']['EDAD']; ?></td>
+                        <td><?php echo $empleado['Empleado']['NACIONALIDAD']; ?></td>
                         <td class="actions">
                             <?php
                             echo $this->Html->image("file_search.png", array("alt" => "consultar", 'width' => '18', 'heigth' => '18', 'title' => 'Consultar', 'url' => array('action' => 'view', $empleado['Empleado']['id'])));
@@ -65,7 +67,7 @@
         <div class="pages-bottom">
             <div class="actionbox">
                 <?php
-                echo $this->Paginator->counter(array('format' => __('Mostrando %current% Empleado(s), de un total de  %count% Empleados', true)));
+                echo $this->Paginator->counter(array('format' => 'Mostrando %current% Empleado(s), de un total de  %count% Empleados'));
                 ?>
             </div>
             <div class="pagination">
@@ -83,12 +85,11 @@
 </div>
 
 <div class="box">
-    <div class="title">	<h2><?php __('Acciones'); ?></h2></div>
+    <div class="title">	<h2>Acciones</h2></div>
     <div class="content form">
         <div class="row boton">
             <div class="boton">
-                <?php echo $this->Html->link(__('Nuevo Empleado', true), array('action' => 'add')); ?>
-
+                <?php echo $this->Html->link('Nuevo Empleado', array('action' => 'add')); ?>
             </div>
         </div>
     </div>

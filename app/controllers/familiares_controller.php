@@ -13,10 +13,10 @@ class FamiliaresController extends AppController {
                $filtro=array('Empleado.CEDULA LIKE'=>$this->data['valor']); 
             }
             if($this->data['Fopcion']==2){
-               $filtro=array('Empleado.NOMBRE LIKE'=>$this->data['valor']); 
+               $filtro=array('Empleado.NOMBRE LIKE'=>"%".$this->data['valor']."%"); 
             }
             if($this->data['Fopcion']==3){
-               $filtro=array('Empleado.APELLIDO LIKE'=>$this->data['valor']); 
+               $filtro=array('Empleado.APELLIDO LIKE'=>"%".$this->data['valor']."%"); 
             }
         }  
         
@@ -67,7 +67,7 @@ class FamiliaresController extends AppController {
         }
     }
     
-    function editfami($id){
+    function edit_familiar($id){
         $this->set("id",$id);        
         if (empty($this->data)) {
             $this->data = $this->Familiar->read();
@@ -77,7 +77,6 @@ class FamiliaresController extends AppController {
                 $this->redirect('edit/'.$this->data['Familiar']['empleado_id']);
             }
         }
-    }
-    
-
+    }   
 }
+?>

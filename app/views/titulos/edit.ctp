@@ -31,10 +31,10 @@
                 <tr>
                     <th></th>  
                     <th style="width:20%"><?php echo $this->Paginator->sort('Titulo', 'TITULO') ?></th>
-                    <th style="width:20%"><?php echo $this->Paginator->sort('Especialidad', 'ESPECIALIDAD') ?></th>
-                    <th style="width:25%"><?php echo $this->Paginator->sort('Institucion', 'INSTITUCION') ?></th>                                        
-                    <th style="width:15%"><?php echo $this->Paginator->sort('Fecha', 'FECHA') ?></th>                                                            
-                    <th style="width:15%; text-align: center" class="actions"><?php __('Acciones'); ?></th>
+                    <th style="width:30%"><?php echo $this->Paginator->sort('Especialidad', 'ESPECIALIDAD') ?></th>
+                    <th style="width:30%"><?php echo $this->Paginator->sort('Institucion', 'INSTITUCION') ?></th>                                        
+                    <th style="width:10%"><?php echo $this->Paginator->sort('Fecha', 'FECHA') ?></th>                                                            
+                    <th style="width:10%; text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -54,7 +54,7 @@
                         <td><?php echo fechaElegible($titulo['Titulo']['FECHA']); ?></td>
                         <td class="actions">
                             <?php
-                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edittitu', $titulo['Titulo']['id'])));
+                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit_titulo', $titulo['Titulo']['id'])));
                             echo $this->Html->image("file_delete.png", array("alt" => "Borrar", 'title' => 'Eliminar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'delete', $titulo['Titulo']['id'])));
                             ?>                            
                         </td>
@@ -65,7 +65,7 @@
         <div class="pages-bottom">
             <div class="actionbox">
                 <?php
-                echo $this->Paginator->counter(array('format' => __('Este empleado tiene %count% Titulo(s)', true)));
+                echo $this->Paginator->counter(array('format' => 'Este empleado tiene %count% Titulo(s)'));
                 ?>
             </div>
             <div class="pagination">
@@ -88,7 +88,10 @@
     <div class="content form">
         <div class="row boton">
             <div class="boton">
-                <?php echo $this->Html->link(__('Nuevo Titulo', true), array('action' => 'add',$empleado['Empleado']['id'])); ?>
+                <?php echo $this->Html->link('Nuevo Titulo', array('action' => 'add',$empleado['Empleado']['id'])); ?>
+            </div>
+            <div class="boton">
+                <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
             </div>
         </div>
     </div>

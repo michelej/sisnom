@@ -7,7 +7,7 @@
     </div>
 <?php } ?>
 <div class="box">
-    <div class="title"><h2><?php __('Datos del Titulo'); ?></h2>
+    <div class="title"><h2>Datos del Titulo</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content pages">
@@ -48,7 +48,12 @@
     </div>
     <div class="content form">
         <div class="row">
-            <?php echo $this->Form->end(__('Agregar', true)); ?>            
+            <?php echo $this->Form->end('Agregar'); ?>            
+        </div>
+        <div class="row boton">
+            <div class="boton">
+                <?php echo $this->Html->link('Regresar', array('action' => 'edit',$id)); ?>
+            </div>
         </div>
     </div>
 </div>

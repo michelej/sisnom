@@ -33,7 +33,7 @@
                     <th style="width:35%"><?php echo $this->Paginator->sort('Tipo', 'TIPO') ?></th>
                     <th style="width:25%"><?php echo $this->Paginator->sort('Fecha Inicio', 'FECHA_INI') ?></th>
                     <th style="width:25%"><?php echo $this->Paginator->sort('Fecha Fin', 'FECHA_FIN') ?></th>                                                            
-                    <th style="width:15%; text-align: center" class="actions"><?php __('Acciones'); ?></th>
+                    <th style="width:15%; text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,7 +52,7 @@
                         <td><?php echo fechaElegible($ausencia['Ausencia']['FECHA_FIN']); ?></td>                        
                         <td class="actions">
                             <?php
-                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'editause', $ausencia['Ausencia']['id'])));
+                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit_ausencia', $ausencia['Ausencia']['id'])));
                             echo $this->Html->image("file_delete.png", array("alt" => "Borrar", 'title' => 'Eliminar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'delete', $ausencia['Ausencia']['id'])));
                             ?>                            
                         </td>
@@ -63,7 +63,7 @@
         <div class="pages-bottom">
             <div class="actionbox">
                 <?php
-                echo $this->Paginator->counter(array('format' => __('Este empleado tiene %count% ausencia(s)', true)));
+                echo $this->Paginator->counter(array('format' => 'Este empleado tiene %count% ausencia(s)'));
                 ?>
             </div>
             <div class="pagination">
@@ -87,7 +87,10 @@
         <div class="row boton">
             <div class="boton">
                 <?php echo $this->Html->link('Nuevo Ausencia', array('action' => 'add',$empleado['Empleado']['id'])); ?>
-            </div>
+            </div>            
+            <div class="boton">
+                <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
+            </div>        
         </div>
     </div>
 </div>

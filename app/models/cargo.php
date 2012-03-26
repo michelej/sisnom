@@ -27,5 +27,4 @@ class Cargo extends AppModel {
         )         
      );
 }
-
 ?>

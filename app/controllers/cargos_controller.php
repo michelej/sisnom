@@ -46,7 +46,5 @@ class CargosController extends AppController {
             }
         }
     }   
-
 }
-
 ?>

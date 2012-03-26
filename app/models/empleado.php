@@ -18,7 +18,7 @@ class Empleado extends AppModel {
     
     var $validate = array(
         'NACIONALIDAD' => array(
-            'rule' => array('multiple', array('in' => array('Venezolano', 'Extranjero'))),
+            'rule' => 'notEmpty',
             'message' => 'Seleccione una opcion'
         ),
         'CEDULA' => array(
@@ -72,7 +72,7 @@ class Empleado extends AppModel {
             }
             if (isset($val['Empleado']['INGRESO'])) {
                 $results[$key]['Empleado']['INGRESO'] = formatoFechaAfterFind($val['Empleado']['INGRESO']);
-            }                        
+            }            
         }
         return $results;
     }   
@@ -85,7 +85,7 @@ class Empleado extends AppModel {
         if ($dia_diferencia < 0 || $mes_diferencia < 0)
             $ano_diferencia--;
         return $ano_diferencia;
-    }
+    }        
 
 }
-
+?>

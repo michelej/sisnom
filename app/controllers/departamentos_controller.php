@@ -47,5 +47,4 @@ class DepartamentosController extends AppController {
     }
 
 }
-
 ?>

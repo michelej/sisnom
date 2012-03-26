@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="title"><h2><?php __('Asignaciones'); ?></h2></div>
+    <div class="title"><h2>Asignaciones</h2></div>
     <div class="content pages">
         <div class="row"></div>
         <table cellpadding="0" cellspacing="0">
@@ -32,7 +32,7 @@
         <div class="pages-bottom">
             <div class="actionbox">
                 <?php
-                echo $this->Paginator->counter(array('format' => __('Actualmente existen %count% asignacion(es) en el sistema', true)));
+                echo $this->Paginator->counter(array('format' => 'Actualmente existen %count% asignacion(es) en el sistema'));
                 ?>
             </div>
             <div class="pagination">

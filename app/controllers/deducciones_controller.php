@@ -15,5 +15,4 @@ class DeduccionesController extends AppController {
     }
 
 }
-
 ?>

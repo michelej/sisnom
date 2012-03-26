@@ -1,20 +1,17 @@
-<?php //debug($empleado);?>
-<?php //debug($asignaciones);?>
-<?php //debug($deducciones);?>
 <div class="box">
     <div class="title"><h2>Empleado</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>        
     </div>
     <div class="content forms">
         <div class="row">
-            <?php echo $this->Form->create(false,array('url'=>array('controller'=>'conceptos','action'=>'edit',$empleado['Empleado']['id']))); ?> 
+            <?php echo $this->Form->create(false, array('url' => array('controller' => 'conceptos', 'action' => 'edit', $empleado['Empleado']['id']))); ?> 
             <?php echo "<div style='float:left;width:10%'>"; ?>
             <?php echo $this->Form->label('Cedula'); ?>
             <?php echo $empleado['Empleado']['CEDULA']; ?>
             <?php echo "</div>"; ?>
             <?php echo "<div style='float:left;width:30%'>"; ?>
             <?php echo $this->Form->label('Nombre Completo'); ?>
-            <?php echo $empleado['Empleado']['APELLIDO']." ".$empleado['Empleado']['NOMBRE']; ?>
+            <?php echo $empleado['Empleado']['APELLIDO'] . " " . $empleado['Empleado']['NOMBRE']; ?>
             <?php echo "</div>"; ?>            
             <?php echo "<div style='float:left;width:35%'>"; ?>
             <?php echo $this->Form->label('Fecha de Ingreso'); ?>
@@ -39,26 +36,26 @@
                 </tr>
             </thead>
             <tbody>                
-                <?php                                
+                <?php
                 $i = 0;
-                foreach ($asignaciones as $asignacion):                    
+                foreach ($asignaciones as $asignacion):
                     $class = ' class="even"';
                     if ($i++ % 2 == 0) {
                         $class = ' class="odd"';
                     }
-                    $id=$asignacion['Asignacion']['id'];
-                    $checked=false;
+                    $id = $asignacion['Asignacion']['id'];
+                    $checked = false;
                     foreach ($empleado['Asignacion'] as $value) {
-                        if($value['id']==$id){
-                            $checked=true;
+                        if ($value['id'] == $id) {
+                            $checked = true;
                         }
-                    }                    
+                    }
                     ?>
                     <tr<?php echo $class; ?>>
                         <td></td>
                         <td><?php echo $asignacion['Asignacion']['GRUPO']; ?></td>                        
                         <td><?php echo $asignacion['Asignacion']['DESCRIPCION']; ?></td>                                                
-                        <td><?php echo $this->Form->input('Asignacion.'.$id, array('type' => 'checkbox','label'=>false,'checked'=>$checked)); ?></td>                        
+                        <td><?php echo $this->Form->input('Asignacion.' . $id, array('type' => 'checkbox', 'label' => false, 'checked' => $checked)); ?></td>                        
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -89,20 +86,20 @@
                     if ($i++ % 2 == 0) {
                         $class = ' class="odd"';
                     }
-                    $id=$deduccion['Deduccion']['id'];
-                    $checked=false;
+                    $id = $deduccion['Deduccion']['id'];
+                    $checked = false;
                     foreach ($empleado['Deduccion'] as $value) {
-                        if($value['id']==$id){
-                            $checked=true;
+                        if ($value['id'] == $id) {
+                            $checked = true;
                         }
-                    } 
+                    }
                     ?>
                     <tr<?php echo $class; ?>>
                         <td></td>
                         <td><?php echo $deduccion['Deduccion']['CODIGO']; ?></td>                        
                         <td><?php echo $deduccion['Deduccion']['DESCRIPCION']; ?></td>                        
                         <td><?php echo $deduccion['Deduccion']['PORCENTAJE']; ?></td>                        
-                        <td><?php echo $this->Form->input('Deduccion.'.$id, array('type' => 'checkbox','label'=>false,'checked'=>$checked)); ?></td>                                              
+                        <td><?php echo $this->Form->input('Deduccion.' . $id, array('type' => 'checkbox', 'label' => false, 'checked' => $checked)); ?></td>                                              
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -111,7 +108,7 @@
 </div>
 
 <div class="box">
-<?php echo $this->Session->flash(); ?>
+    <?php echo $this->Session->flash(); ?>
 </div>
 
 <div class="box">
@@ -121,9 +118,10 @@
     <div class="content form">
         <div class="row boton">
             <div class="boton">
-                <?php echo $this->Form->end("Guardar Cambios"); ?>
-                
-            </div>
+                <?php echo $this->Form->end("Guardar Cambios"); ?>                
+            </div>            
+        </div>
+        <div class="row boton">
             <div class="boton">
                 <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
             </div>

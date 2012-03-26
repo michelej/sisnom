@@ -1,4 +1,3 @@
-<?php //debug($empleado);?>
 <div class="box big ">
     <div class="title"><h2>Datos Personales</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
@@ -101,5 +100,19 @@
             <?php echo $empleado['Empleado']['NCUENTA']; ?>
 <?php echo "</div>"; ?>
         </div>   
+    </div>
+</div>
+
+<div class="box">
+    <div class="title"><h2>Acciones</h2>
+        <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
+    </div>
+    <div class="content form">       
+        <div class="row boton">
+            <div class="boton">
+                <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
+
+            </div>
+        </div>
     </div>
 </div>

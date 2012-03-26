@@ -15,15 +15,13 @@
         echo $this->Form->create('Feriado');
         echo $this->Form->input('id', array('type' => 'hidden'));
         echo "<div class='row'>";
-        echo "<div style='float:left;width:20%'>";
-        echo $this->Form->label('Dia Feriado');
-        echo $this->Form->input('FECHA', array('type' => 'text', 'div' => false, 'label' => false, 'class' => 'datepicker dp-applied')) . "</br>";
+        echo "<div style='float:left;width:20%'>";        
+        echo $this->Form->input('FECHA', array('type' => 'text', 'div' => false, 'label' => 'Dia Feriado', 'class' => 'datepicker dp-applied')) . "</br>";
         echo "</div>";
         echo "</div>";
         echo "<div class='row'>";
-        echo "<div style='float:left;width:25%'>";
-        echo $this->Form->label('Breve Descripcion');
-        echo $this->Form->input('DESCRIPCION', array('div' => false, 'label' => false, 'class' => 'medium'));
+        echo "<div style='float:left;width:25%'>";        
+        echo $this->Form->input('DESCRIPCION', array('div' => false, 'label' => 'Breve Descripcion', 'class' => 'medium'));
         echo "</div>";
         echo "</div>";                        
         ?>
@@ -36,8 +34,12 @@
     </div>
     <div class="content form">
         <div class="row">
-            <?php echo $this->Form->end(__('Modificar', true)); ?>
-
+            <?php echo $this->Form->end('Guardar Cambios'); ?>
         </div>
+        <div class="row boton">
+            <div class="boton">
+                <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
+            </div>              
+        </div> 
     </div>
 </div>

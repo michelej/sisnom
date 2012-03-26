@@ -13,10 +13,10 @@ class EmpleadosController extends AppController {
                $filtro=array('Empleado.CEDULA LIKE'=>$this->data['valor']); 
             }
             if($this->data['Fopcion']==2){
-               $filtro=array('Empleado.NOMBRE LIKE'=>$this->data['valor']); 
+               $filtro=array('Empleado.NOMBRE LIKE'=>"%".$this->data['valor']."%"); 
             }
             if($this->data['Fopcion']==3){
-               $filtro=array('Empleado.APELLIDO LIKE'=>$this->data['valor']); 
+               $filtro=array('Empleado.APELLIDO LIKE'=>"%".$this->data['valor']."%"); 
             }
         }        
         $this->Empleado->recursive = -1;        
@@ -60,5 +60,5 @@ class EmpleadosController extends AppController {
             }
         }
     }
-
 }
+?>

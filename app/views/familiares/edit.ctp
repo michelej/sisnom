@@ -35,7 +35,7 @@
                     <th style="width:15%"><?php echo $this->Paginator->sort('Fecha', 'FECHA') ?></th>                                        
                     <th style="width:10%"><?php echo $this->Paginator->sort('Discapacidad', 'DISCAPACIDAD') ?></th>                                        
                     <th style="width:20%"><?php echo $this->Paginator->sort('Instruccion', 'INSTRUCCION') ?></th>                                        
-                    <th style="width:15%; text-align: center" class="actions"><?php __('Acciones'); ?></th>
+                    <th style="width:15%; text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -56,7 +56,7 @@
                         <td><?php echo $familiar['Familiar']['INSTRUCCION']; ?></td>                        
                         <td class="actions">
                             <?php
-                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'editfami', $familiar['Familiar']['id'])));
+                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit_familiar', $familiar['Familiar']['id'])));
                             echo $this->Html->image("file_delete.png", array("alt" => "Borrar", 'title' => 'Eliminar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'delete', $familiar['Familiar']['id'])));
                             ?>                            
                         </td>
@@ -67,7 +67,7 @@
         <div class="pages-bottom">
             <div class="actionbox">
                 <?php
-                echo $this->Paginator->counter(array('format' => __('Este empleado tiene %count% familiar(es)', true)));
+                echo $this->Paginator->counter(array('format' => 'Este empleado tiene %count% familiar(es)'));
                 ?>
             </div>
             <div class="pagination">
@@ -90,8 +90,11 @@
     <div class="content form">
         <div class="row boton">
             <div class="boton">
-                <?php echo $this->Html->link(__('Nuevo Familiar', true), array('action' => 'add',$empleado['Empleado']['id'])); ?>
+                <?php echo $this->Html->link('Nuevo Familiar', array('action' => 'add',$empleado['Empleado']['id'])); ?>
             </div>
-        </div>
+              <div class="boton">
+                <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
+            </div>
+        </div>        
     </div>
 </div>

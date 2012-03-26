@@ -66,7 +66,5 @@ class Asignacion extends AppModel {
             }
         }
     }
-
 }
-
 ?>

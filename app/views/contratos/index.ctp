@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="title"><h2><?php __('Contratos'); ?></h2></div>
+    <div class="title"><h2>Contratos</h2></div>
     <div class="content pages">        
         <div class="row">
             <?php
@@ -10,7 +10,7 @@
             echo $this->Form->label('Opción');                        
             echo $this->Form->input('Fopcion', array('div' => false, 'label' => false, 'class' => 'small', 'type' => 'select', 'options' => $options));
             echo "</div>";
-            echo "<div style='float:left;width:35%'>";
+            echo "<div style='float:left;width:20%'>";
             echo $this->Form->label('Busqueda');            
             echo $this->Form->input('valor', array('div' => false, 'label' => false, 'class' => 'small'));
             echo "</div>";
@@ -25,15 +25,13 @@
             <thead>
                 <tr>
                     <th></th>  
-                    <th style="width:10%"><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>
-                    <th style="width:15%"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>                    
-                    <th style="width:15%"><?php echo $this->Paginator->sort('Apellidos', 'APELLIDO'); ?></th>                    
+                    <th style="width:10%; text-align: center"><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>
+                    <th style="width:20%"><?php echo $this->Paginator->sort('Nombre(s)', 'NOMBRE'); ?></th>                    
+                    <th style="width:20%"><?php echo $this->Paginator->sort('Apellido(s)', 'APELLIDO'); ?></th>                    
                     <th style="width:10%"><?php echo $this->Paginator->sort('Fecha Ingreso', 'INGRESO'); ?></th>                    
                     <th style="width:15%"><?php echo $this->Paginator->sort('Cargo', 'Contrato.Cargo.NOMBRE'); ?></th>
-                    <th style="width:10%"><?php echo $this->Paginator->sort('Departamento', 'Contrato.Departamento.NOMBRE'); ?></th>
-                    <th style="width:10%"><?php echo $this->Paginator->sort('Modalidad', 'Contrato.MODALIDAD'); ?></th>
-                    <th style="width:10%"><?php echo $this->Paginator->sort('Grupo', 'Contrato.GRUPO'); ?></th>
-                    <th style="width:5%;text-align: center" class="actions"><?php __('Contratos'); ?></th>
+                    <th style="width:20%"><?php echo $this->Paginator->sort('Departamento', 'Contrato.Departamento.NOMBRE'); ?></th>
+                    <th style="width:5%;text-align: center" class="actions">Contratos</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,7 +45,7 @@
                     ?>
                     <tr<?php echo $class; ?>>
                         <td></td>
-                        <td><?php echo $empleado['Empleado']['CEDULA']; ?></td>                        
+                        <td style="text-align: right;"><?php echo $empleado['Empleado']['CEDULA']; ?></td>                        
                         <td><?php echo $empleado['Empleado']['NOMBRE']; ?></td>                        
                         <td><?php echo $empleado['Empleado']['APELLIDO']; ?></td>
                         <td><?php echo $empleado['Empleado']['INGRESO']; ?></td>                                                
@@ -62,22 +60,10 @@
                                   }else{
                                     echo "Inactivo";  
                                   }?>
-                        </td>
-                        <td><?php if(!empty($empleado['Contrato']['0'])){
-                                    echo $empleado['Contrato']['0']['MODALIDAD'];
-                                  }else{
-                                    echo "Inactivo";  
-                                  }?>
-                        </td>
-                        <td><?php if(!empty($empleado['Contrato']['0'])){
-                                    echo $empleado['Contrato']['0']['GRUPO'];
-                                  }else{
-                                    echo "Inactivo";  
-                                  }?>
-                        </td>
+                        </td>                        
                         <td class="actions">
                             <?php                            
-                            echo $this->Html->image("file_edit.png", array("alt" => "Contrato", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $empleado['Empleado']['id'])));                            
+                            echo $this->Html->image("Button Add.png", array("alt" => "Agregar", 'title' => 'Agregar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $empleado['Empleado']['id'])));                            
                             ?>                            
                         </td>
                     </tr>
@@ -87,7 +73,7 @@
         <div class="pages-bottom">
             <div class="actionbox">
                 <?php
-                echo $this->Paginator->counter(array('format' => __('Actualmente existen %count% empleado(s) en el sistema', true)));
+                echo $this->Paginator->counter(array('format' => 'Actualmente existen %count% empleado(s) en el sistema'));
                 ?>
             </div>
             <div class="pagination">
