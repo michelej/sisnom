@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="title"><h2><?php __('Administrar Contratos'); ?></h2></div>
+    <div class="title"><h2><?php __('Contratos'); ?></h2></div>
     <div class="content pages">        
         <div class="row">
             <?php
@@ -20,6 +20,7 @@
             echo "</div>";
             ?>
         </div>
+        <div class="box"></div>
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
@@ -32,7 +33,7 @@
                     <th style="width:10%"><?php echo $this->Paginator->sort('Departamento', 'Contrato.Departamento.NOMBRE'); ?></th>
                     <th style="width:10%"><?php echo $this->Paginator->sort('Modalidad', 'Contrato.MODALIDAD'); ?></th>
                     <th style="width:10%"><?php echo $this->Paginator->sort('Grupo', 'Contrato.GRUPO'); ?></th>
-                    <th style="width:5%;text-align: center" class="actions"><?php __('Acciones'); ?></th>
+                    <th style="width:5%;text-align: center" class="actions"><?php __('Contratos'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -53,30 +54,30 @@
                         <td><?php if(!empty($empleado['Contrato']['0'])){
                                     echo $empleado['Contrato']['0']['Cargo']['NOMBRE'];
                                   }else{
-                                    echo "Inactivo o sin Asignar";  
+                                    echo "Inactivo";  
                                   }?>
                         </td>
                         <td><?php if(!empty($empleado['Contrato']['0'])){
                                     echo $empleado['Contrato']['0']['Departamento']['NOMBRE'];
                                   }else{
-                                    echo "Inactivo o sin Asignar";  
+                                    echo "Inactivo";  
                                   }?>
                         </td>
                         <td><?php if(!empty($empleado['Contrato']['0'])){
                                     echo $empleado['Contrato']['0']['MODALIDAD'];
                                   }else{
-                                    echo "Inactivo o sin Asignar";  
+                                    echo "Inactivo";  
                                   }?>
                         </td>
                         <td><?php if(!empty($empleado['Contrato']['0'])){
                                     echo $empleado['Contrato']['0']['GRUPO'];
                                   }else{
-                                    echo "Inactivo o sin Asignar";  
+                                    echo "Inactivo";  
                                   }?>
                         </td>
                         <td class="actions">
                             <?php                            
-                            echo $this->Html->image("file_edit.png", array("alt" => "Contrato", 'title' => 'Contrato', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $empleado['Empleado']['id'])));                            
+                            echo $this->Html->image("file_edit.png", array("alt" => "Contrato", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $empleado['Empleado']['id'])));                            
                             ?>                            
                         </td>
                     </tr>

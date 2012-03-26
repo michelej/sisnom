@@ -30,7 +30,7 @@
             <?php echo "</div>"; ?>
             <?php echo "<div style='float:left;width:25%'>"; ?>
             <?php echo $this->Form->label('Edad '); ?>
-            <?php echo $edad; ?>
+            <?php echo $empleado['Empleado']['EDAD']; ?>
             <?php echo "</div>"; ?>
         </div>
         <div class="row">

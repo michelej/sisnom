@@ -20,6 +20,7 @@
             echo "</div>";
             ?>
         </div>
+        <div class="box"></div>
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>

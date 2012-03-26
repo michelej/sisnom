@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="title"><h2>Empleado</h2>
+    <div class="title"><h2>Datos del Empleado</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content forms">
@@ -63,7 +63,7 @@
         <div class="pages-bottom">
             <div class="actionbox">
                 <?php
-                echo $this->Paginator->counter(array('format' => __('Este empleado tiene %count% familiar(es)', true)));
+                echo $this->Paginator->counter(array('format' => __('Este empleado tiene %count% ausencia(s)', true)));
                 ?>
             </div>
             <div class="pagination">

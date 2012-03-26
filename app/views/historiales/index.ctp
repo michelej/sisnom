@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="title"><h2><?php __('Administrar Historial de Sueldos'); ?></h2></div>
+    <div class="title"><h2><?php __('Historial de Sueldos'); ?></h2></div>
     <div class="content pages">
         <div class="row"></div>
         <table cellpadding="0" cellspacing="0">
@@ -9,7 +9,7 @@
                     <th style="width:30%"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>                    
                     <th style="width:35%"><?php echo $this->Paginator->sort('Descripcion', 'DESCRIPCION'); ?></th>
                     <th style="width:30%"><?php echo $this->Paginator->sort('Sueldo Actual', 'Historial.SUELDO_BASE'); ?></th>
-                    <th style="width:5%;text-align: center" class="actions"><?php __('Actions'); ?></th>
+                    <th style="width:5%;text-align: center" class="actions"><?php __('Sueldos'); ?></th>
                 </tr>
             </thead>
             <tbody>

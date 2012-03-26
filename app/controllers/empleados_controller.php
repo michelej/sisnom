@@ -25,7 +25,7 @@ class EmpleadosController extends AppController {
     }
 
     function add() {
-        if (!empty($this->data)) {
+        if (!empty($this->data)) {             
             if ($this->Empleado->save($this->data['Empleado'])) {
                 $this->Session->setFlash('Empleado agregado con exito','flash_success');
                 $this->redirect(array('action' => 'index'));                
@@ -45,9 +45,8 @@ class EmpleadosController extends AppController {
             $this->Session->setFlash('Empleado Invalido', 'flash_error');
             $this->redirect(array('action' => 'index'));
         }        
-        $empleado=$this->Empleado->findById($id);                
-        $edad = $this->Empleado->Edad($empleado['Empleado']['FECHANAC']);
-        $this->set(compact('empleado', 'edad'));
+        $empleado=$this->Empleado->findById($id);                        
+        $this->set('empleado',$empleado);
     }
 
     function edit($id) {

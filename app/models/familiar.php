@@ -37,8 +37,8 @@ class Familiar extends AppModel {
     );
 
     function beforeSave() {
-        if (!empty($this->data['Familiar']['FECHA_NAC'])) {
-            $this->data['Familiar']['FECHA_NAC'] = formatoFechaBeforeSave($this->data['Familiar']['FECHA_NAC']);
+        if (!empty($this->data['Familiar']['FECHA'])) {
+            $this->data['Familiar']['FECHA'] = formatoFechaBeforeSave($this->data['Familiar']['FECHA']);
         }
         return true;
     }
@@ -46,12 +46,12 @@ class Familiar extends AppModel {
     function afterFind($results) {        
         foreach ($results as $key => $val) {
             if (!isset($val['Familiar'])) {
-                if (isset($val['FECHA_NAC'])) {
-                    $results[$key]['FECHA_NAC'] = formatoFechaAfterFind($val['FECHA_NAC']);
+                if (isset($val['FECHA'])) {
+                    $results[$key]['FECHA'] = formatoFechaAfterFind($val['FECHA']);
                 }
             }
-            if (isset($val['Familiar']['FECHA_NAC'])) {
-                $results[$key]['Familiar']['FECHA_NAC'] = formatoFechaAfterFind($val['Familiar']['FECHA_NAC']);
+            if (isset($val['Familiar']['FECHA'])) {
+                $results[$key]['Familiar']['FECHA'] = formatoFechaAfterFind($val['Familiar']['FECHA']);
             }
         }
         return $results;

@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="title"><h2>Empleado</h2>
+    <div class="title"><h2>Datos del Empleado</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content forms">
@@ -22,7 +22,7 @@
 </div>
 
 <div class="box">
-    <div class="title"><h2>Familiares del Empleado</h2>
+    <div class="title"><h2>Titulos del Empleado</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content pages">

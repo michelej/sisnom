@@ -7,7 +7,7 @@
     </div>
 <?php } ?>
 <div class="box">
-    <div class="title"><h2><?php __('Datos Personales'); ?></h2>
+    <div class="title"><h2><?php __('Datos del Empleado'); ?></h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content tabs ui-tabs ui-widget ui-widget-content ui-corner-all">

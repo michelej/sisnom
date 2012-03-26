@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="title"><h2><?php __('Administrar Familiares'); ?></h2></div>
+    <div class="title"><h2><?php __('Familiares'); ?></h2></div>
     <div class="content pages">
         <div class="row">
             <?php
@@ -20,6 +20,7 @@
             echo "</div>";
             ?>
         </div>
+        <div class="box"></div>
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>

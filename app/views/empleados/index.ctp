@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="title"><h2><?php __('Administrar Empleados'); ?></h2></div>
+    <div class="title"><h2><?php __('Empleados'); ?></h2></div>
     <div class="content pages">
         <div class="row">
             <?php
@@ -20,17 +20,18 @@
             echo "</div>";
             ?>
         </div>
+        <div class="box"></div>
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
                     <th></th>  
-                    <th style="width:5%; "><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>
+                    <th style="width:5%;"><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>
                     <th style="width:15%;"><?php echo $this->Paginator->sort('Nombre(s)', 'NOMBRE'); ?></th>
                     <th style="width:15%;"><?php echo $this->Paginator->sort('Apellido(s)', 'APELLIDO'); ?></th>
                     <th style="width:15%;"><?php echo $this->Paginator->sort('Fecha Ingreso', 'INGRESO'); ?></th>
                     <th style="width:15%;"><?php echo $this->Paginator->sort('Sexo', 'SEXO'); ?></th>
-                    <th style="width:20%;"><?php echo $this->Paginator->sort('Correo Electronico', 'EMAIL'); ?></th>
-                    <th style="width:20%; text-align: center"class="actions"><?php __('Acciones'); ?></th>
+                    <th style="width:20%;"><?php echo $this->Paginator->sort('Edad', 'EDAD'); ?></th>
+                    <th style="width:15%; text-align: center"class="actions"><?php __('Acciones'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -49,7 +50,7 @@
                         <td><?php echo $empleado['Empleado']['APELLIDO']; ?></td>
                         <td><?php echo fechaElegible($empleado['Empleado']['INGRESO']); ?></td>
                         <td><?php echo $empleado['Empleado']['SEXO']; ?></td>
-                        <td><?php echo $empleado['Empleado']['EMAIL']; ?></td>
+                        <td><?php echo $empleado['Empleado']['EDAD']; ?></td>
                         <td class="actions">
                             <?php
                             echo $this->Html->image("file_search.png", array("alt" => "consultar", 'width' => '18', 'heigth' => '18', 'title' => 'Consultar', 'url' => array('action' => 'view', $empleado['Empleado']['id'])));

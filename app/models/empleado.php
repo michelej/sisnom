@@ -66,18 +66,18 @@ class Empleado extends AppModel {
 
     function afterFind($results) {
         foreach ($results as $key => $val) {
-            if (isset($val['Empleado']['FECHANAC'])) {
-                $results[$key]['Empleado']['FECHANAC'] = formatoFechaAfterFind($val['Empleado']['FECHANAC']);
+            if (isset($val['Empleado']['FECHANAC'])) {                
+                $results[$key]['Empleado']['FECHANAC'] = formatoFechaAfterFind($val['Empleado']['FECHANAC']);                
+                $results[$key]['Empleado']['EDAD'] = $this->Edad($results[$key]['Empleado']['FECHANAC']);                
             }
             if (isset($val['Empleado']['INGRESO'])) {
                 $results[$key]['Empleado']['INGRESO'] = formatoFechaAfterFind($val['Empleado']['INGRESO']);
-            }
+            }                        
         }
         return $results;
     }   
 
-    function Edad($fechanac) {
-        //$fecha = $this->data['Empleado']['FECHANAC'];
+    function Edad($fechanac) {        
         list($dia, $mes, $ano) = explode("-", $fechanac);
         $ano_diferencia = date("Y") - $ano;
         $mes_diferencia = date("m") - $mes;
