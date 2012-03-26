@@ -176,5 +176,4 @@ class ExtendAssociationsBehavior extends ModelBehavior {
             $model->unbindModel($unbind); 
         } 
     } 
-} 
-?> 
+}
