@@ -10,11 +10,10 @@ class Empleado extends AppModel {
      */
     var $hasMany = array('Contrato','Familiar','Titulo');
     
-    var $hasAndBelongsToMany = array('Asignacion','Deduccion');
+    var $hasAndBelongsToMany = array('Asignacion','Deduccion','Nomina');
     /**
      *  Validaciones
-     */
-    
+     */    
     
     var $validate = array(
         'NACIONALIDAD' => array(

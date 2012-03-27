@@ -7,6 +7,10 @@
     </div>
 <?php } ?>
 <div class="box">
+    <?php echo $this->Session->flash(); ?>
+</div>
+
+<div class="box">
     <div class="title"><h2>Nuevo Contrato</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>

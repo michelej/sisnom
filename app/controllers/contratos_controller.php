@@ -74,6 +74,7 @@ class ContratosController extends AppController {
                 $this->Session->setFlash('Contrato agregado con exito','flash_success');                                
                 $this->redirect('edit/' . $this->data['Contrato']['empleado_id']);
             }
+            $this->Session->setFlash($this->Contrato->errorMessage,'flash_error');
         } 
         $cargos = $this->Contrato->Cargo->find('list');
         $departamentos = $this->Contrato->Departamento->find('list');

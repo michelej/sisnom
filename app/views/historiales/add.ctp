@@ -5,12 +5,10 @@
             <?php echo "Existen errores en la forma corrigalos antes de continuar" ?>
         </div>
     </div>
-<?php }else{ ?>
+<?php }?>
 <div class="box">
     <?php echo $this->Session->flash(); ?>
 </div>
-
-<?php }?>
 
 <div class="box">    
     <div class="title"><h2>Nuevo Sueldo</h2>

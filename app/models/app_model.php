@@ -30,11 +30,13 @@ class AppModel extends Model {
             $this->errorMessage='No se permiten fechas futuras, la fecha inicial no puede ser mayor al dia de hoy';
             return false;
         }
-        // Verificar que fecha final sea mayor a fecha inicial , valides del rango
-        if ($fecha_ini > $fecha_fin) {
+        // Verificar que fecha final sea mayor a fecha inicial , valides del rango        
+        if(compara_fechas($fecha_ini, $fecha_fin)>0){
             $this->errorMessage='Ingrese un rango de fechas valido, la fecha final debe ser mayor a la fecha inicial';
             return false;
-        }        
+        }
+        
+        
         // Si existe algun historial se hacen varios chequeos 
         if (!empty($fechas)) {
             foreach ($fechas as $data) {
