@@ -22,12 +22,8 @@
         echo "</div>";
         
         echo "<div style='float:left;width:30%'>";
-        echo $this->Form->input('FECHA_INI', array('type' => 'text', 'div' => false, 'label' => 'Fecha de Inicio', 'class' => 'datepicker dp-applied')) . "</br>";
-        echo "</div>";
-        
-        echo "<div style='float:left;width:30%'>";
-        echo $this->Form->input('FECHA_FIN', array('type' => 'text', 'div' => false, 'label' => 'Fecha de Finalizacion', 'class' => 'datepicker dp-applied')) . "</br>";
-        echo "</div>";
+        echo $this->Form->input('FECHA', array('type' => 'text', 'div' => false, 'label' => 'Fecha', 'class' => 'datepicker dp-applied')) . "</br>";
+        echo "</div>";                
         echo "</div>";
         // END ROW
 

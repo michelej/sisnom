@@ -17,44 +17,28 @@ class Ausencia extends AppModel {
             'rule' => 'notEmpty',
             'message' => 'Seleccion una Opcion'
         ),
-        'FECHA_INI' => array(
+        'FECHA' => array(
             'rule' => array('date', 'dmy'),
             'message' => 'Fecha incorrecta',
-        ),
-        'FECHA_FIN' => array(
-            'rule' => array('date', 'dmy'),
-            'message' => 'Fecha incorrecta',
-        )        
+        )                
     );
     function beforeSave() {
-        if (!empty($this->data['Ausencia']['FECHA_INI'])) {
-            $this->data['Ausencia']['FECHA_INI'] = formatoFechaBeforeSave($this->data['Ausencia']['FECHA_INI']);
-        }
-        if (!empty($this->data['Ausencia']['FECHA_FIN'])) {
-            $this->data['Ausencia']['FECHA_FIN'] = formatoFechaBeforeSave($this->data['Ausencia']['FECHA_FIN']);
-        }
+        if (!empty($this->data['Ausencia']['FECHA'])) {
+            $this->data['Ausencia']['FECHA'] = formatoFechaBeforeSave($this->data['Ausencia']['FECHA']);
+        }        
         return true;
     }
 
     function afterFind($results) {
         foreach ($results as $key => $val) {
             if (!isset($val['Ausencia'])) {
-                if (isset($val['FECHA_INI'])) {
-                    $results[$key]['FECHA_INI'] = formatoFechaAfterFind($val['FECHA_INI']);
+                if (isset($val['FECHA'])) {
+                    $results[$key]['FECHA'] = formatoFechaAfterFind($val['FECHA']);
                 }
             }
-            if (isset($val['Ausencia']['FECHA_INI'])) {
-                $results[$key]['Ausencia']['FECHA_INI'] = formatoFechaAfterFind($val['Ausencia']['FECHA_INI']);
-            }
-
-            if (!isset($val['Ausencia'])) {
-                if (isset($val['FECHA_FIN'])) {
-                    $results[$key]['FECHA_FIN'] = formatoFechaAfterFind($val['FECHA_FIN']);
-                }
-            }
-            if (isset($val['Ausencia']['FECHA_FIN'])) {
-                $results[$key]['Ausencia']['FECHA_FIN'] = formatoFechaAfterFind($val['Ausencia']['FECHA_FIN']);
-            }            
+            if (isset($val['Ausencia']['FECHA'])) {
+                $results[$key]['Ausencia']['FECHA'] = formatoFechaAfterFind($val['Ausencia']['FECHA']);
+            }                       
         }
         return $results;
     }

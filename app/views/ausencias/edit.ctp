@@ -30,9 +30,9 @@
             <thead>
                 <tr>
                     <th></th>  
-                    <th style="width:35%"><?php echo $this->Paginator->sort('Tipo', 'TIPO') ?></th>
-                    <th style="width:25%"><?php echo $this->Paginator->sort('Fecha Inicio', 'FECHA_INI') ?></th>
-                    <th style="width:25%"><?php echo $this->Paginator->sort('Fecha Fin', 'FECHA_FIN') ?></th>                                                            
+                    <th style="width:20%"><?php echo $this->Paginator->sort('Tipo', 'TIPO') ?></th>
+                    <th style="width:20%"><?php echo $this->Paginator->sort('Fecha', 'FECHA') ?></th>
+                    <th style="width:45%"></th>
                     <th style="width:15%; text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
@@ -48,8 +48,8 @@
                     <tr<?php echo $class; ?>>
                         <td></td>
                         <td><?php echo $ausencia['Ausencia']['TIPO']; ?></td>                                                
-                        <td><?php echo fechaElegible($ausencia['Ausencia']['FECHA_INI']); ?></td>
-                        <td><?php echo fechaElegible($ausencia['Ausencia']['FECHA_FIN']); ?></td>                        
+                        <td><?php echo fechaElegible($ausencia['Ausencia']['FECHA']); ?></td>                        
+                        <td></td>
                         <td class="actions">
                             <?php
                             echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit_ausencia', $ausencia['Ausencia']['id'])));
