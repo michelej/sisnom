@@ -23,7 +23,7 @@ class NominasController extends AppController {
                 $this->Session->setFlash('Nomina creada con exito','flash_success');                                
                 $this->redirect('index');
             }
-            $this->Session->setFlash($this->Nomina->errorMessage,'flash_error');
+            $this->Session->setFlash("Existen errores corrigalos antes de continuar", 'flash_error');
         }                 
     }
     

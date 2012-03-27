@@ -50,6 +50,7 @@ class HorasExtrasController extends AppController {
                 $this->Session->setFlash('Hora Extra agregada con exito','flash_success');                                
                 $this->redirect('edit/' . $this->data['HorasExtra']['empleado_id']);
             }
+            $this->Session->setFlash("Existen errores corrigalos antes de continuar", 'flash_error');
         }        
     }
     
@@ -75,6 +76,7 @@ class HorasExtrasController extends AppController {
                 $this->Session->setFlash('Hora Extra Modificada','flash_success');
                 $this->redirect('edit/'.$this->data['HorasExtra']['empleado_id']);
             }
+            $this->Session->setFlash("Existen errores corrigalos antes de continuar", 'flash_error');
         }
     }
     

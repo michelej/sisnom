@@ -64,6 +64,7 @@ class TitulosController extends AppController {
                 $this->Session->setFlash('Titulo agregado con exito','flash_success');                                
                 $this->redirect('edit/' . $this->data['Titulo']['empleado_id']);
             }
+            $this->Session->setFlash('Existen errores corrigalos antes de continuar','flash_error');
         }        
     }
     
@@ -76,6 +77,7 @@ class TitulosController extends AppController {
                 $this->Session->setFlash('Titulo Modificado','flash_success');
                 $this->redirect('edit/'.$this->data['Titulo']['empleado_id']);
             }
+            $this->Session->setFlash('Existen errores corrigalos antes de continuar','flash_error');
         }
     }
 }

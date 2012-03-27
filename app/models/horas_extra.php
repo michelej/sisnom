@@ -12,20 +12,16 @@ class HorasExtra extends AppModel {
     /**
      *   Validaciones   
      */
-    /*var $validate = array( 
+    var $validate = array( 
         'TIPO' => array(
             'rule' => 'notEmpty',
             'message' => 'Seleccion una Opcion'
         ),
-        'FECHA_INI' => array(
+        'FECHA' => array(
             'rule' => array('date', 'dmy'),
             'message' => 'Fecha incorrecta',
-        ),
-        'FECHA_FIN' => array(
-            'rule' => array('date', 'dmy'),
-            'message' => 'Fecha incorrecta',
-        )        
-    );*/
+        )                
+    );
     function beforeSave() {
         if (!empty($this->data['HorasExtra']['FECHA'])) {
             $this->data['HorasExtra']['FECHA'] = formatoFechaBeforeSave($this->data['HorasExtra']['FECHA']);

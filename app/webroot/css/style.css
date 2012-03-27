@@ -577,7 +577,7 @@ img {
     background: #eccecf;
     border:2px solid #9e0b0f;
     padding:10px;
-    font-weight:bold;
+    font-weight:bold;    
 }
 .flash_success img, .flash_error img {
     float:right;

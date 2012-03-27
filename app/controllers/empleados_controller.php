@@ -30,6 +30,7 @@ class EmpleadosController extends AppController {
                 $this->Session->setFlash('Empleado agregado con exito','flash_success');
                 $this->redirect(array('action' => 'index'));                
             }
+            $this->Session->setFlash('Existen errores corrigalos antes de continuar','flash_error');
         }
     }
 
@@ -58,6 +59,7 @@ class EmpleadosController extends AppController {
                 $this->Session->setFlash('Empleado Modificado','flash_success');
                 $this->redirect(array('action' => 'index'));
             }
+            $this->Session->setFlash('Existen errores corrigalos antes de continuar','flash_error');
         }
     }
 }

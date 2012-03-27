@@ -50,6 +50,7 @@ class AusenciasController extends AppController {
                 $this->Session->setFlash('Ausencia agregada con exito','flash_success');                                
                 $this->redirect('edit/' . $this->data['Ausencia']['empleado_id']);
             }
+            $this->Session->setFlash("Existen errores corrigalos antes de continuar", 'flash_error');
         }        
     }
     
@@ -75,6 +76,7 @@ class AusenciasController extends AppController {
                 $this->Session->setFlash('Ausencia Modificada','flash_success');
                 $this->redirect('edit/'.$this->data['Ausencia']['empleado_id']);
             }
+            $this->Session->setFlash("Existen errores corrigalos antes de continuar", 'flash_error');
         }
     }
     

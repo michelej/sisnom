@@ -24,6 +24,7 @@ class FeriadosController extends AppController {
                 $this->Session->setFlash('Feriado agregado con exito','flash_success');
                 $this->redirect(array('action' => 'index'));
             }
+            $this->Session->setFlash("Existen errores corrigalos antes de continuar", 'flash_error');
         }
     }
 
@@ -43,6 +44,7 @@ class FeriadosController extends AppController {
                 $this->Session->setFlash('Feriado Modificado','flash_success');
                 $this->redirect(array('action' => 'index'));
             }
+            $this->Session->setFlash("Existen errores corrigalos antes de continuar", 'flash_error');
         }
     }   
 }

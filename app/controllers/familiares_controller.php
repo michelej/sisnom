@@ -51,6 +51,7 @@ class FamiliaresController extends AppController {
                 $this->Session->setFlash('Familiar agregado con exito','flash_success');                                
                 $this->redirect('edit/' . $this->data['Familiar']['empleado_id']);
             }
+            $this->Session->setFlash('Existen errores corrigalos antes de continuar','flash_error');
         }        
     }
     
@@ -76,6 +77,7 @@ class FamiliaresController extends AppController {
                 $this->Session->setFlash('Familiar Modificado','flash_success');
                 $this->redirect('edit/'.$this->data['Familiar']['empleado_id']);
             }
+            $this->Session->setFlash('Existen errores corrigalos antes de continuar','flash_error');
         }
     }   
 }

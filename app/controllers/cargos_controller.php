@@ -25,6 +25,7 @@ class CargosController extends AppController {
                 $this->Session->setFlash('Cargo agregado con exito','flash_success');
                 $this->redirect(array('action' => 'index'));
             }
+            $this->Session->setFlash('Existen errores corrigalos antes de continuar','flash_error');
         }
     }
 
@@ -44,6 +45,7 @@ class CargosController extends AppController {
                 $this->Session->setFlash('Cargo Modificado','flash_success');
                 $this->redirect(array('action' => 'index'));
             }
+            $this->Session->setFlash('Existen errores corrigalos antes de continuar','flash_error');
         }
     }   
 }

@@ -1,11 +1,3 @@
-<?php if (!empty($this->validationErrors)) { ?>
-    <div class="box">  
-        <div class="flash_error">        
-            <?php echo $this->Html->image('test-fail-icon.png', array('alt' => 'flash_error')) ?>   
-            <?php echo "Existen errores en la forma corrigalos antes de continuar" ?>
-        </div>
-    </div>
-<?php }?>
 <div class="box">
     <?php echo $this->Session->flash(); ?>
 </div>

@@ -111,6 +111,7 @@
         <?php echo $this->Html->script('jquery.datepicker.js'); ?>
         <?php echo $this->Html->script('jquery.filestyle.mini.js'); ?>
         <?php echo $this->Html->script('jquery.price_format.1.5'); ?>
-        <?php echo $this->Html->script('inline1.js'); ?>         
+        <?php echo $this->Html->script('inline1.js'); ?>
+        <?php echo $this->Html->script('common.js'); ?>
     </body> 
 </html> 

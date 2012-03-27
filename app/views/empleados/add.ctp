@@ -1,11 +1,9 @@
 <?php if (!empty($this->validationErrors)) { ?>
-    <div class="box">  
-        <div class="flash_error">        
-            <?php echo $this->Html->image('test-fail-icon.png', array('alt' => 'flash_error')) ?>   
-            <?php echo "Existen errores en la forma corrigalos antes de continuar" ?>
-        </div>
+    <div class="box">
+        <?php echo $this->Session->flash(); ?>
     </div>
 <?php } ?>
+
 <div class="box">
     <div class="title"><h2>Datos del Empleado</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
@@ -35,7 +33,7 @@
             echo "<div class='row'>";
             echo "<div style='float:left;width:30%'>";
             $options = array('Venezolano' => 'Venezolano', 'Extranjero' => 'Extranjero');
-            echo $this->Form->input('NACIONALIDAD', array('div' => false, 'label' => 'Nacionalidad (*)', 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una Opcion'));
+            echo $this->Form->input('NACIONALIDAD', array('div' => false, 'label' => 'Nacionalidad (*)', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
             echo "</div>";
 
             echo "<div style='float:left;width:30%'>";
@@ -44,7 +42,7 @@
 
             echo "<div style='float:left;width:20%'>";
             $options = array('Masculino' => 'Masculino', 'Femenino' => 'Femenino');
-            echo $this->Form->input('SEXO', array('div' => false, 'label' => 'Sexo (*)', 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una Opcion'));
+            echo $this->Form->input('SEXO', array('div' => false, 'label' => 'Sexo (*)', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
             echo "</div>";
             echo "</div>";
             // END ROW
@@ -70,7 +68,7 @@
 
             echo "<div style='float:left;width:25%'>";
             $options = array('Soltero' => 'Soltero', 'Casado' => 'Casado', 'Viudo' => 'Viudo', 'Divorciado' => 'Divorciado', 'Comcubinato' => 'Comcubinato');
-            echo $this->Form->input('EDOCIVIL', array('div' => false, 'label' => 'Estado Civil', 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una Opcion'));
+            echo $this->Form->input('EDOCIVIL', array('div' => false, 'label' => 'Estado Civil', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
             echo "</div>";
             echo "</div>";
             // END ROW
@@ -91,7 +89,7 @@
             // END ROW
             // INI ROW
             echo "<div class='row'>";
-            echo "<div style='float:left;width:20%'>";            
+            echo "<div style='float:left;width:20%'>";
             echo $this->Form->input('DIRECCION', array('div' => false, 'label' => 'Direccion', 'class' => 'large'));
             echo "</div>";
             echo "</div>";
@@ -131,7 +129,7 @@
 
             echo "<div style='float:left;width:20%'>";
             $options = array('Cheque' => 'Cheque', 'Efectivo' => 'Efectivo', 'Banco' => 'Banco');
-            echo $this->Form->input('TPAGO', array('div' => false, 'label' => 'Tipo de Pago', 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una Opcion'));
+            echo $this->Form->input('TPAGO', array('div' => false, 'label' => 'Tipo de Pago', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
             echo "</div>";
             echo "</div>";
             // END ROW
@@ -151,7 +149,7 @@
             echo "<div class='row'>";
             echo "<div style='float:left;width:25%'>";
             $options = array('Si' => 'Si', 'No' => 'No');
-            echo $this->Form->input('ALFABETA', array('div' => false, 'label' => 'Sabe leer y escribir', 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una Opcion'));
+            echo $this->Form->input('ALFABETA', array('div' => false, 'label' => 'Sabe leer y escribir', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
             echo "</div>";
             echo "</div>";
             // FIN ROW
@@ -184,7 +182,7 @@
             echo "<div class='row'>";
             echo "<div style='float:left;width:30%'>";
             $options = array('O+' => 'O+', 'O-' => 'O-', 'A+' => 'A+', 'A-' => 'A-', 'B+' => 'B+', 'B-' => 'B-', 'AB+' => 'AB+', 'AB-' => 'AB-');
-            echo $this->Form->input('SANGRE', array('div' => false, 'label' => 'Tipo de Sangre', 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una Opcion'));
+            echo $this->Form->input('SANGRE', array('div' => false, 'label' => 'Tipo de Sangre', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
             echo "</div>";
 
             echo "<div style='float:left;width:30%'>";
