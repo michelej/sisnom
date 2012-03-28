@@ -85,5 +85,22 @@ class Nomina extends AppModel{
         list($dia, $mes, $anio) = preg_split('/-/', $date);
         return $anio;
     }
+    
+    function generarNomina($id){
+        $nomina = $this->find('first', array(
+            'recursive' => -1,
+            'conditions' => array(
+                'id' => $id),
+            'fields' => array(
+                'FECHA_INI',
+                'FECHA_FIN')
+                ));
+        // Buscamos los contratos que se encontraban activos en esa fecha
+        $contrato = ClassRegistry::init('Contrato');
+        $listado_contratos=$contrato->buscarPorFecha($nomina['Nomina']['FECHA_INI'],$nomina['Nomina']['FECHA_FIN']);        
+        foreach ($listado_contratos as $contrato) {                
+                $this->habtmAdd('Empleado', $id, $contrato['Contrato']['empleado_id']);
+        }
+    }
 }
 ?>

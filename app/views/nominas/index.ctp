@@ -35,7 +35,7 @@
                         <td><?php echo fechaElegible($nomina['Nomina']['FECHA_ELA']); ?></td>                        
                         <td class="actions">
                             <?php
-                            echo $this->Html->image("file_search.png", array("alt" => "consultar", 'width' => '18', 'heigth' => '18', 'title' => 'Consultar', 'url' => array('action' => 'view', $nomina['Nomina']['id'])));                            
+                            echo $this->Html->image("file_edit.png", array("alt" => "modificar", 'width' => '18', 'heigth' => '18', 'title' => 'Modificar', 'url' => array('action' => 'edit', $nomina['Nomina']['id'])));                            
                             echo $this->Html->image("file_delete.png", array("alt" => "Borrar", 'title' => 'Eliminar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'delete', $nomina['Nomina']['id'])));
                             ?>
                         </td>
