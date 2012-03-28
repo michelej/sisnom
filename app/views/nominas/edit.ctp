@@ -51,11 +51,7 @@
 
                     <th style="width:10%;text-align: center"><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>
                     <th style="width:20%;"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>
-                    <th style="width:20%;"><?php echo $this->Paginator->sort('Apellido', 'APELLIDO'); ?></th>
-                    <th style="width:15%">Cargo</th>
-                    <th style="width:15%;"><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>
-                    <th style="width:15%;"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>
-                    <th style="width:15%;"><?php echo $this->Paginator->sort('Apellido', 'APELLIDO'); ?></th>
+                    <th style="width:20%;"><?php echo $this->Paginator->sort('Apellido', 'APELLIDO'); ?></th>                    
                     <th style="width:20%">Cargo</th>
                     <th style="width:20%">Departamento</th>
                     <th style="width:10%">Grupo</th>
