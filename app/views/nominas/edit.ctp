@@ -42,17 +42,19 @@
     </div>
     <div class="content pages">
         <?php if(empty($empleados)){
-            echo "VACIO";
+            echo "NO SE ENCONTRO A NINGUN EMPLEADO PARA ESTE PERIODO";
         }else{?>        
             <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
                     <th></th>  
-                    <th style="width:20%;"><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>
+                    <th style="width:10%;text-align: center"><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>
                     <th style="width:20%;"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>
                     <th style="width:20%;"><?php echo $this->Paginator->sort('Apellido', 'APELLIDO'); ?></th>
                     <th style="width:15%">Cargo</th>
                     <th style="width:20%">Departamento</th>
+                    <th style="width:10%">Grupo</th>
+                    <th style="width:5%">Modalidad</th>
                     <th></th>  
                 </tr>
             </thead>
@@ -67,11 +69,13 @@
                     ?>
                     <tr<?php echo $class; ?>>
                         <td></td>
-                        <td><?php echo $empleado['Empleado']['CEDULA']; ?></td>
+                        <td style="text-align: right"><?php echo $empleado['Empleado']['CEDULA']; ?></td>
                         <td><?php echo $empleado['Empleado']['NOMBRE']; ?></td>
                         <td><?php echo $empleado['Empleado']['APELLIDO']; ?></td>
                         <td><?php echo $empleado['Contrato']['0']['Cargo']['NOMBRE']; ?></td>
                         <td><?php echo $empleado['Contrato']['0']['Departamento']['NOMBRE']; ?></td>
+                        <td><?php echo $empleado['Contrato']['0']['GRUPO']; ?></td>
+                        <td><?php echo $empleado['Contrato']['0']['MODALIDAD']; ?></td>
                         <td></td>
                     </tr>
                 <?php endforeach; ?>
@@ -80,7 +84,7 @@
         <div class="pages-bottom">
             <div class="actionbox">
                 <?php
-                echo $this->Paginator->counter(array('format' => 'Mostrando %current% Nomina(s), de un total de  %count% Nominas'));
+                echo $this->Paginator->counter(array('format' => 'Mostrando %current% Empleado(s), de un total de  %count% en esta nomina'));
                 ?>
             </div>
             <div class="pagination">
@@ -101,13 +105,13 @@
 <div class="box">
     <div class="title">	<h2>Acciones</h2></div>
     <div class="content form">
-        <div class="row boton">
+        <div class="row boton">            
             <div class="boton">
-                <?php echo $this->Html->link('Generar Nomina', array('action' => 'generar',$nomina['Nomina']['id'])); ?>
+                <?php echo $this->Html->link('Generar Nomina', array('action' => 'generar',$nomina['Nomina']['id']),array('target' => '_blank')); ?>
             </div>
             <div class="boton">
                 <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
-            </div>
-        </div>
+            </div>            
+        </div>        
     </div>
 </div>
