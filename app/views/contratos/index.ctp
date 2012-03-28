@@ -26,11 +26,11 @@
                 <tr>
                     <th></th>  
                     <th style="width:10%; text-align: center"><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>
-                    <th style="width:20%"><?php echo $this->Paginator->sort('Nombre(s)', 'NOMBRE'); ?></th>                    
-                    <th style="width:20%"><?php echo $this->Paginator->sort('Apellido(s)', 'APELLIDO'); ?></th>                    
-                    <th style="width:10%"><?php echo $this->Paginator->sort('Fecha Ingreso', 'INGRESO'); ?></th>                    
-                    <th style="width:15%"><?php echo $this->Paginator->sort('Cargo', 'Contrato.Cargo.NOMBRE'); ?></th>
-                    <th style="width:20%"><?php echo $this->Paginator->sort('Departamento', 'Contrato.Departamento.NOMBRE'); ?></th>
+                    <th style="width:20%"><?php echo $this->Paginator->sort('Nombre(s)', 'Empleado.NOMBRE'); ?></th>                    
+                    <th style="width:20%"><?php echo $this->Paginator->sort('Apellido(s)', 'Empleado.APELLIDO'); ?></th>                    
+                    <th style="width:10%"><?php echo $this->Paginator->sort('Fecha Ingreso', 'Empleado.INGRESO'); ?></th>                    
+                    <th style="width:15%">Cargo</th>
+                    <th style="width:20%">Departamento</th>
                     <th style="width:5%;text-align: center" class="actions">Contratos</th>
                 </tr>
             </thead>

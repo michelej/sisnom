@@ -8,7 +8,7 @@
                     <th></th>  
                     <th style="width:30%"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>                    
                     <th style="width:35%"><?php echo $this->Paginator->sort('Descripcion', 'DESCRIPCION'); ?></th>
-                    <th style="width:30%"><?php echo $this->Paginator->sort('Sueldo Actual', 'Historial.SUELDO_BASE'); ?></th>
+                    <th style="width:30%">Sueldo Base</th>
                     <th style="width:5%;text-align: center" class="actions">Sueldos</th>
                 </tr>
             </thead>

@@ -23,10 +23,10 @@ class ContratosController extends AppController {
         $this->paginate = array(
             'limit' => 20,
             'contain' => array(
-                'Contrato' => array(
+                'Contrato' => array(                    
                     'Cargo', 'Departamento',
                     'conditions' => array(
-                        'FECHA_FIN' => NULL),
+                        'FECHA_FIN' => NULL),                    
                 )
                 ));
 

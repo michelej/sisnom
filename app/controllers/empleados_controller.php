@@ -4,7 +4,7 @@ class EmpleadosController extends AppController {
 
     var $name = 'Empleados';
     var $components = array('RequestHandler');
-    var $helpers = array('Ajax', 'Javascript');    
+    var $helpers = array('Ajax','Javascript');    
     
     function index() {
         $filtro=array();
