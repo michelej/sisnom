@@ -48,11 +48,13 @@
             <thead>
                 <tr>
                     <th></th>  
-                    <th style="width:20%;"><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>
-                    <th style="width:20%;"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>
-                    <th style="width:20%;"><?php echo $this->Paginator->sort('Apellido', 'APELLIDO'); ?></th>
-                    <th style="width:15%">Cargo</th>
+                    <th style="width:15%;"><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>
+                    <th style="width:15%;"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>
+                    <th style="width:15%;"><?php echo $this->Paginator->sort('Apellido', 'APELLIDO'); ?></th>
+                    <th style="width:20%">Cargo</th>
                     <th style="width:20%">Departamento</th>
+                    <th style="width:10%">Grupo</th>
+                    <th style="width:5%">Modalidad</th>
                     <th></th>  
                 </tr>
             </thead>
@@ -72,6 +74,8 @@
                         <td><?php echo $empleado['Empleado']['APELLIDO']; ?></td>
                         <td><?php echo $empleado['Contrato']['0']['Cargo']['NOMBRE']; ?></td>
                         <td><?php echo $empleado['Contrato']['0']['Departamento']['NOMBRE']; ?></td>
+                        <td><?php echo $empleado['Contrato']['0']['GRUPO']; ?></td>
+                        <td><?php echo $empleado['Contrato']['0']['MODALIDAD']; ?></td>
                         <td></td>
                     </tr>
                 <?php endforeach; ?>
@@ -80,7 +84,7 @@
         <div class="pages-bottom">
             <div class="actionbox">
                 <?php
-                echo $this->Paginator->counter(array('format' => 'Mostrando %current% Nomina(s), de un total de  %count% Nominas'));
+                echo $this->Paginator->counter(array('format' => 'Mostrando %current% Empleado(s), de un total de  %count% en esta nomina'));
                 ?>
             </div>
             <div class="pagination">

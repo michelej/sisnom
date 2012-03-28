@@ -57,7 +57,7 @@ class NominasController extends AppController {
                         )
                     )
                 ),
-                'limit' => 20,
+                'limit' => 10,
                 'contain' => array(
                     'Contrato' => array(
                         'Cargo','Departamento',
