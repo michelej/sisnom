@@ -100,8 +100,12 @@ class Nomina extends AppModel {
             $this->habtmAdd('Empleado', $id, $contrato['Contrato']['empleado_id']);
         }
     }
-
-    function buscarEmpleados($id) {
+    /**
+     * Devuelve informacion asociada a cada empleado que se encuentra en esta nomina 
+     * @param type $id ID de la Nomina
+     * @return type Informacion de los empleados  
+     */
+    function buscarInformacionEmpleados($id) {
         $this->Empleado->Behaviors->attach('Containable');
         $nomina = $this->find('first', array(
             'recursive' => -1,
@@ -125,7 +129,7 @@ class Nomina extends AppModel {
                 )
             ),
             'limit' => 10,
-            'contain' => array(
+            'contain' => array(                
                 'Contrato' => array(                    
                     'Cargo' => array(
                         'Historial' => array(
@@ -140,7 +144,7 @@ class Nomina extends AppModel {
                             )
                         )
                     ),
-                    'Departamento',
+                    'Departamento',                    
                     'conditions' => array(
                         'OR' => array(
                             'FECHA_FIN > ' => $fecha_ini,
@@ -154,6 +158,29 @@ class Nomina extends AppModel {
             )
         );
         return $this->Empleado->find('all', $conditions);
+    }
+    /**
+     * Realizamos los Calculos de la Nomina
+     * @param type $id 
+     */    
+    function calcularNomina($id){
+        $asignacion=ClassRegistry::init('Asignacion');
+
+        $empleados=$this->buscarInformacionEmpleados($id);
+        foreach ($empleados as $key=>$empleado) {
+            $empleados[$key]['Nomina_Empleado']['CARGO']=$empleado['Contrato']['0']['Cargo']['NOMBRE'];
+            $empleados[$key]['Nomina_Empleado']['DEPARTAMENTO']=$empleado['Contrato']['0']['Departamento']['NOMBRE'];
+            $empleados[$key]['Nomina_Empleado']['MODALIDAD']=$empleado['Contrato']['0']['MODALIDAD'];
+            $empleados[$key]['Nomina_Empleado']['GRUPO']=$empleado['Contrato']['0']['GRUPO'];
+            $empleados[$key]['Nomina_Empleado']['SUELDO_BASE']=$empleado['Contrato']['0']['Cargo']['Historial']['0']['SUELDO_BASE'];            
+            $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO']=$empleados[$key]['Nomina_Empleado']['SUELDO_BASE']/30;
+            $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO']=$empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO']*15; // QUINCENA
+            $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS']='15';
+            $empleados[$key]['Nomina_Empleado']['Asignaciones']=$asignacion->calcularAsignaciones($id,$empleado['Empleado']['id']);            
+            unset($empleados[$key]['Contrato']);            
+        }
+        debug($empleados);
+        return $empleados;
     }
 
 }

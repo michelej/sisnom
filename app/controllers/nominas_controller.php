@@ -59,13 +59,13 @@ class NominasController extends AppController {
         $this->set('nomina', $nomina);
     }
 
-    function generar($id) {
-        $empleados = $this->Nomina->buscarEmpleados($id);
+    function generar($id) {        
         $nomina = $this->Nomina->find('first', array(
             'recursive' => -1,
             'conditions' => array(
                 'id' => $id)
                 ));
+        $empleados=$this->Nomina->calcularNomina($id);        
         $this->set(compact('empleados','nomina'));
         $this->render('pantalla', 'nomina');
     }

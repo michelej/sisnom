@@ -4,7 +4,7 @@ class Empleado extends AppModel {
 
     var $name = 'Empleado';
     var $displayField = 'CEDULA';      
-    var $actsAs = 'ExtendAssociations';
+    var $actsAs = array('ExtendAssociations','Containable');
     /**
      *  Relaciones
      */

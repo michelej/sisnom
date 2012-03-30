@@ -56,9 +56,6 @@ class Historial extends AppModel {
         if (!$this->validacionFechas($fecha_ini, $fecha_fin, $result, "historiales")) {
             return false;
         }
-        
-        
-
 
         //Tratamos las fechas
         if (!empty($this->data['Historial']['FECHA_INI'])) {

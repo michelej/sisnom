@@ -87,31 +87,6 @@ class Contrato extends AppModel{
             }
         }
         return $results;
-    }
-    /**
-     *  Buscamos los contratos que se encuentren en el rango de fechas dado
-     * @param type $fecha_ini Fecha inicial
-     * @param type $fecha_fin Fecha final
-     * @return type Contratos que caen en ese rango
-     */
-    function buscarPorFecha($fecha_ini,$fecha_fin){
-        $fecha_ini=formatoFechaBeforeSave($fecha_ini);
-        $fecha_fin=formatoFechaBeforeSave($fecha_fin);        
-        
-        // PURA MAGIA CUIDADO 
-        $data=$this->find('all',array(
-            'recursive'=>-1,
-            'conditions'=>array(
-                'OR'=>array(
-                    'FECHA_FIN > '=> $fecha_ini,
-                    'FECHA_FIN'=> NULL,
-                ),
-                'AND'=>array(
-                    'FECHA_INI < '=> $fecha_fin,
-                )
-            )
-        ));        
-        return $data;
-    }
+    }    
 }
 ?>

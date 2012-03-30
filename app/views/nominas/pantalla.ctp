@@ -16,7 +16,7 @@
                     <th  rowspan="2">Sub Total Sueldo Basico</th>
                     <th colspan="6">Asignaciones</th>
                     <th  rowspan="2">Total de Asignaciones</th>
-                    <th  rowspan="2">Total  Suseldo +Asignaciones</th>
+                    <th  rowspan="2">Total  Sueldo +Asignaciones</th>
                     <th colspan="9">Deducciones</th>
                     <th  rowspan="2">Total de Deducciones</th>
                     <th  rowspan="2">TOTAL A CANCELAR</th>
@@ -56,14 +56,14 @@
                     echo '<td>' . $i++ . '</td>';
                     echo '<td>' . $empleado['Empleado']['APELLIDO'] ." ".$empleado['Empleado']['NOMBRE'] .'</td>';
                     echo '<td style="text-align:right;">' . $empleado['Empleado']['CEDULA'] . '</td>';
-                    echo '<td>' . $empleado['Contrato']['0']['Cargo']['NOMBRE'] . '</td>';
-                    echo '<td>' . number_format($empleado['Contrato']['0']['Cargo']['Historial']['0']['SUELDO_BASE'],2,',','.'). '</td>';
+                    echo '<td>' . $empleado['Nomina_Empleado']['CARGO'] . '</td>';
+                    echo '<td>' . number_format($empleado['Nomina_Empleado']['SUELDO_BASE'],2,',','.'). '</td>';
                     echo '<td>' . $empleado['Empleado']['INGRESO'] . '</td>';
-                    echo '<td>' . 'asdf' . '</td>';
+                    echo '<td>' . number_format($empleado['Nomina_Empleado']['SUELDO_DIARIO'],2,',','.') . '</td>';
                     echo '<td>' . $nomina['Nomina']['FECHA_INI'] . '</td>';
                     echo '<td>' . $nomina['Nomina']['FECHA_FIN'] . '</td>';
-                    echo '<td>' . 'asdf' . '</td>';
-                    echo '<td>' . 'asdf' . '</td>';
+                    echo '<td>' . $empleado['Nomina_Empleado']['DIAS_LABORADOS'] . '</td>';
+                    echo '<td>' . number_format($empleado['Nomina_Empleado']['SUELDO_BASICO'],2,',','.') . '</td>';
                     echo '<td>' . 'asdf' . '</td>';
                     echo '<td>' . 'asdf' . '</td>';
                     echo '<td>' . 'asdf' . '</td>';
