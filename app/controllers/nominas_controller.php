@@ -49,91 +49,24 @@ class NominasController extends AppController {
 
     function edit($id = null) {
         // TODO: Verificar si existen cambios depues de creada la nomina ??????
-        // quitar esto de aqui
-        $this->Nomina->Empleado->Behaviors->attach('Containable');
+        // quitar esto de aqui        
         $nomina = $this->Nomina->find('first', array(
             'recursive' => -1,
             'conditions' => array(
                 'id' => $id)
                 ));
 
-        $fecha_ini = formatoFechaBeforeSave($nomina['Nomina']['FECHA_INI']);
-        $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);
-        // PURA MAGIA!!!
-        $this->paginate = array(
-            'Empleado' => array(
-                'joins' => array(
-                    array(
-                        'table' => 'empleados_nominas',
-                        'alias' => 'EmpleadosNominas',
-                        'type' => 'INNER',
-                        'conditions' => array(
-                            'EmpleadosNominas.empleado_id = Empleado.id'
-                        )
-                    )
-                ),
-                'limit' => 10,
-                'contain' => array(
-                    'Contrato' => array(
-                        'Cargo', 'Departamento',
-                        'conditions' => array(
-                            'OR' => array(
-                                'FECHA_FIN > ' => $fecha_ini,
-                                'FECHA_FIN' => NULL,
-                            ),
-                            'AND' => array(
-                                'FECHA_INI < ' => $fecha_fin,
-                            )
-                        )
-                    )
-                )
-            )
-        );
-        $empleados = $this->paginate('Empleado', array('EmpleadosNominas.nomina_id' => $id));
-        $this->set(compact('empleados', 'nomina'));
+        $this->set('nomina', $nomina);
     }
 
     function generar($id) {
-        $this->Nomina->Empleado->Behaviors->attach('Containable');
+        $empleados = $this->Nomina->buscarEmpleados($id);
         $nomina = $this->Nomina->find('first', array(
             'recursive' => -1,
             'conditions' => array(
                 'id' => $id)
                 ));
-
-        $fecha_ini = formatoFechaBeforeSave($nomina['Nomina']['FECHA_INI']);
-        $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);
-        // PURA MAGIA!!!
-        $conditions = array(
-            'joins' => array(
-                array(
-                    'table' => 'empleados_nominas',
-                    'alias' => 'EmpleadosNominas',
-                    'type' => 'INNER',
-                    'conditions' => array(
-                        'EmpleadosNominas.empleado_id = Empleado.id',
-                        'EmpleadosNominas.nomina_id' => $id
-                    )
-                )
-            ),
-            'limit' => 10,
-            'contain' => array(
-                'Contrato' => array(
-                    'Cargo', 'Departamento',
-                    'conditions' => array(
-                        'OR' => array(
-                            'FECHA_FIN > ' => $fecha_ini,
-                            'FECHA_FIN' => NULL,
-                        ),
-                        'AND' => array(
-                            'FECHA_INI < ' => $fecha_fin,
-                        )
-                    )
-                )
-            )
-        );
-        $empleados = $this->Nomina->Empleado->find('all', $conditions);        
-        $this->set('empleados', $empleados);
+        $this->set(compact('empleados','nomina'));
         $this->render('pantalla', 'nomina');
     }
 

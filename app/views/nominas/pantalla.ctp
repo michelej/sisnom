@@ -1,10 +1,11 @@
+<?php //debug($empleados); ?>
 <div class="box2">
     <div class="content2" >
         <table  class="tabla">
             <thead>
                 <tr>
                     <th ></th>
-                    <th style="width:8%; overflow:scroll"></th>
+                    <th style="width:8%"></th>
                     <th style="width:2%"></th>
                     <th ></th>
                     <th ></th>
@@ -48,20 +49,19 @@
                 </tr>
             </thead>
             <tbody>	
-                <?php
-                //debug($personas);
+                <?php                
                 $i = 1;
                 foreach ($empleados as $empleado):
                     echo '<tr class="modo1">';
                     echo '<td>' . $i++ . '</td>';
                     echo '<td>' . $empleado['Empleado']['APELLIDO'] ." ".$empleado['Empleado']['NOMBRE'] .'</td>';
+                    echo '<td style="text-align:right;">' . $empleado['Empleado']['CEDULA'] . '</td>';
+                    echo '<td>' . $empleado['Contrato']['0']['Cargo']['NOMBRE'] . '</td>';
+                    echo '<td>' . number_format($empleado['Contrato']['0']['Cargo']['Historial']['0']['SUELDO_BASE'],2,',','.'). '</td>';
+                    echo '<td>' . $empleado['Empleado']['INGRESO'] . '</td>';
                     echo '<td>' . 'asdf' . '</td>';
-                    echo '<td>' . 'asdf' . '</td>';
-                    echo '<td>' . 'asdf' . '</td>';
-                    echo '<td>' . 'asdf' . '</td>';
-                    echo '<td>' . 'asdf' . '</td>';
-                    echo '<td>' . 'asdf' . '</td>';
-                    echo '<td>' . 'asdf' . '</td>';
+                    echo '<td>' . $nomina['Nomina']['FECHA_INI'] . '</td>';
+                    echo '<td>' . $nomina['Nomina']['FECHA_FIN'] . '</td>';
                     echo '<td>' . 'asdf' . '</td>';
                     echo '<td>' . 'asdf' . '</td>';
                     echo '<td>' . 'asdf' . '</td>';

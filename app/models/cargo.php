@@ -4,7 +4,7 @@ class Cargo extends AppModel {
 
     var $name = 'Cargo';
     var $displayField = 'NOMBRE';
-
+    var $actsAs = array('Containable');
     /**
      *  Relaciones
      */

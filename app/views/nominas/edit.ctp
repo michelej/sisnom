@@ -37,64 +37,10 @@
 </div>
 
 <div class="box">
-    <div class="title"><h2>Empleados</h2>
+    <div class="title"><h2></h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content pages">
-        <?php if(empty($empleados)){
-            echo "NO SE ENCONTRO A NINGUN EMPLEADO PARA ESTE PERIODO";
-        }else{?>        
-            <table cellpadding="0" cellspacing="0">
-            <thead>
-                <tr>
-                    <th></th>  
-
-                    <th style="width:10%;text-align: center"><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>
-                    <th style="width:20%;"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>
-                    <th style="width:20%;"><?php echo $this->Paginator->sort('Apellido', 'APELLIDO'); ?></th>                    
-                    <th style="width:20%">Cargo</th>
-                    <th style="width:20%">Departamento</th>
-                    <th style="width:10%">Grupo</th>
-                    <th style="width:5%">Modalidad</th>
-                    <th></th>  
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $i = 0;
-                foreach ($empleados as $empleado):                                        
-                    $class = ' class="even"';
-                    if ($i++ % 2 == 0) {
-                        $class = ' class="odd"';
-                    }
-                    ?>
-                    <tr<?php echo $class; ?>>
-                        <td></td>
-                        <td style="text-align: right"><?php echo $empleado['Empleado']['CEDULA']; ?></td>
-                        <td><?php echo $empleado['Empleado']['NOMBRE']; ?></td>
-                        <td><?php echo $empleado['Empleado']['APELLIDO']; ?></td>
-                        <td><?php echo $empleado['Contrato']['0']['Cargo']['NOMBRE']; ?></td>
-                        <td><?php echo $empleado['Contrato']['0']['Departamento']['NOMBRE']; ?></td>
-                        <td><?php echo $empleado['Contrato']['0']['GRUPO']; ?></td>
-                        <td><?php echo $empleado['Contrato']['0']['MODALIDAD']; ?></td>
-                        <td></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>            
-        </table>        
-        <div class="pages-bottom">
-            <div class="actionbox">
-                <?php
-                echo $this->Paginator->counter(array('format' => 'Mostrando %current% Empleado(s), de un total de  %count% en esta nomina'));
-                ?>
-            </div>
-            <div class="pagination">
-                <?php echo $this->Paginator->prev(null, array(), null, array('class' => 'disabled')); ?>
-                <?php echo $this->Paginator->numbers(array('class' => 'disabled', 'separator' => '')); ?>
-                <?php echo $this->Paginator->next(null, array(), null, array('class' => 'disabled')); ?>
-            </div>
-        </div>
-        <?php } ?>
         
     </div>
 </div>
