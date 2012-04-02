@@ -35,7 +35,7 @@
         echo "</div>";
         
         echo "<div style='float:left;width:40%'>";
-        $options = array('Ninguna' => 'Ninguna', 'T.S.U' => 'T.S.U');
+        $options = array('Ninguna' => 'Ninguna', 'T.S.U' => 'T.S.U','Pregrado'=>'Pregrado');
         echo $this->Form->input('INSTRUCCION', array('div' => false, 'label' => 'Instruccion', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
         echo "</div>";
         echo "</div>";

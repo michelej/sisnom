@@ -183,7 +183,17 @@ class Nomina extends AppModel {
             $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] * 15; // QUINCENA
             $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS'] = '15';
             $empleados[$key]['Nomina_Empleado']['Asignaciones'] = $asignacion->calcularAsignaciones($id,$grupo, $empleado['Empleado']['id']);
+            $totalasig=0;
+            foreach ($empleados[$key]['Nomina_Empleado']['Asignaciones'] as $value) {
+                $totalasig=$totalasig+$value;
+            }
+            $empleados[$key]['Nomina_Empleado']['TOTAL_ASIGNACIONES'] = $totalasig;
+            $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO']+$totalasig;
+            
             unset($empleados[$key]['Contrato']);
+            unset($empleados[$key]['Cargo']);
+            unset($empleados[$key]['Departamento']);
+            //debug($empleados[$key]);
         }
 
         return $empleados;

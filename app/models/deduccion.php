@@ -65,6 +65,10 @@ class Deduccion extends AppModel {
             }
         }
     }
+    
+    function calcularDeducciones($id_nomina, $grupo, $id_empleado){
+        
+    }
 
 }
 ?>
