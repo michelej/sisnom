@@ -59,15 +59,28 @@ class NominasController extends AppController {
         $this->set('nomina', $nomina);
     }
 
-    function generar($id) {        
-        $nomina = $this->Nomina->find('first', array(
-            'recursive' => -1,
-            'conditions' => array(
-                'id' => $id)
-                ));
-        $empleados=$this->Nomina->calcularNomina($id);        
-        $this->set(compact('empleados','nomina'));
-        $this->render('pantalla', 'nomina');
+    function generar() {
+        $this->autoRender = false;
+        if (!empty($this->data)) {            
+            $id = $this->data['nomina_id'];
+            $nomina = $this->Nomina->find('first', array(
+                'recursive' => -1,
+                'conditions' => array(
+                    'id' => $id)
+                    ));
+            $empleados = $this->Nomina->calcularNomina($id, $this->data['GRUPO']);
+            $this->set(compact('empleados', 'nomina'));
+            if ($this->data['GRUPO'] == 'Administrativo') {
+                $this->render('pantalla_adm', 'nomina');
+            }
+            if ($this->data['GRUPO'] == 'Obrero') {
+                $this->render('pantalla_obr', 'nomina');
+            }
+            if (empty($this->data['GRUPO'])) {
+                $this->render('error', 'nomina');
+                $this->Session->setFlash('Debe seleccionar el tipo de Personal','flash_error');
+            }
+        }
     }
 
 }

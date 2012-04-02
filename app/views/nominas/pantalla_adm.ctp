@@ -1,6 +1,7 @@
 <?php //debug($empleados); ?>
 <div class="box2">
     <div class="content2" >
+        Personal Administrativo
         <table  class="tabla">
             <thead>
                 <tr>

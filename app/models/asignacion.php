@@ -28,17 +28,16 @@ class Asignacion extends AppModel {
      */
     function verificar() {
         $this->data = array(
-            '1' => array('id' => '1', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Hijo'),
-            '2' => array('id' => '2', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Transporte'),
+            '1' => array('id' => '1', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Reconocimiento'),
+            '2' => array('id' => '2', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima Hogar'),
             '3' => array('id' => '3', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Antiguedad'),
-            '4' => array('id' => '4', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Reconocimiento'),
-            '5' => array('id' => '5', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima Nivelacion Profesional'),
-            '6' => array('id' => '6', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima Hogar'),
-            '7' => array('id' => '7', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Hijo'),
-            '8' => array('id' => '8', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Transporte'),
-            '9' => array('id' => '9', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Antiguedad'),
-            '10' => array('id' => '10', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Reconocimiento'),
-            '11' => array('id' => '11', 'GRUPO' => 'Todos', 'DESCRIPCION' => 'Bono Nocturno'),
+            '4' => array('id' => '4', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Transporte'),
+            '5' => array('id' => '5', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Hijos'),
+            '6' => array('id' => '6', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Nivelacion Profesional'),
+            '7' => array('id' => '7', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Reconocimiento'),
+            '8' => array('id' => '8', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Antiguedad'),
+            '9' => array('id' => '9', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Transporte'),
+            '10' => array('id' => '10', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Hijos'),
         );
 
         // Para que esto funcione debemos de convertir lo que traigamos del query
@@ -70,58 +69,100 @@ class Asignacion extends AppModel {
      * Calcular las Asignaciones de un Empleado para una Nomina especifica
      * @param type 
      */
-    function calcularAsignaciones($id_nomina, $id_empleado) {
+    function calcularAsignaciones($id_nomina, $grupo, $id_empleado) {
+        // Buscamos todas las asignaciones de este grupo
+        $data = $this->find('all', array(
+            'recursive' => -1,
+            'conditions' => array(
+                'GRUPO' => $grupo
+            )
+                ));        
+
+        // Revisamos a ver si el empleado tiene cada una de las asignaciones
+        foreach ($data as $value) {
+            if($this->empleadoTieneAsignacion($id_empleado,$value['Asignacion']['id'])){
+                echo "BIEN-".$value['Asignacion']['id'];
+            }else{
+                echo "MAL-".$value['Asignacion']['id'];
+            }
+                
+        }
+
+
+        
+        foreach ($empleado['Asignacion'] as $asignacion) {
+            switch ($asignacion['id']) {
+                case "1":
+                    $asignaciones[] = array('id' => 1, 'VALOR' => 111);
+                    break;
+                case "2":
+                    $asignaciones[] = array('id' => 2, 'VALOR' => 222);
+                    break;
+                case "3":
+                    $asignaciones[] = array('id' => 3, 'VALOR' => 333);
+                    break;
+                case "4":
+                    $asignaciones[] = array('id' => 4, 'VALOR' => 444);
+                    break;
+                case "5":
+                    $asignaciones[] = array('id' => 5, 'VALOR' => 555);
+                    break;
+                case "6":
+                    $asignaciones[] = array('id' => 6, 'VALOR' => 666);
+                    break;
+                case "7":
+                    $asignaciones[] = array('id' => 7, 'VALOR' => 777);
+                    break;
+                case "8":
+                    $asignaciones[] = array('id' => 8, 'VALOR' => 888);
+                    break;
+                case "9":
+                    $asignaciones[] = array('id' => 9, 'VALOR' => 999);
+                    break;
+                case "10":
+                    $asignaciones[] = array('id' => 10, 'VALOR' => 101010);
+                    break;
+
+                default:
+                    $asignaciones[] = array();
+                    break;
+            }
+        }
+        return $asignaciones;
+    }
+
+    /**
+     * Verificamos si un Empleado posee una Asignacion
+     * @param type $empleado
+     * @param type $asignacion 
+     */
+    function empleadoTieneAsignacion($id_empleado, $id_asignacion) {
         $empleado = $this->Empleado->find("first", array(
             'conditions' => array(
                 'id' => $id_empleado
             ),
             'contain' => array(
-                'Asignacion'
+                'Asignacion' => array(
+                    'conditions' => array(
+                        'id' => $id_asignacion
+                    )
+                )
             )
                 ));
-                
-        foreach ($empleado['Asignacion'] as $asignacion) {            
-            switch ($asignacion['id']) {
-                case "1":
-                        $asignaciones[]=array('id'=>1,'VALOR'=>111);
-                    break;
-                case "2":
-                        $asignaciones[]=array('id'=>2,'VALOR'=>222);
-                    break;
-                case "3":
-                        $asignaciones[]=array('id'=>3,'VALOR'=>333);
-                    break;
-                case "4":
-                        $asignaciones[]=array('id'=>4,'VALOR'=>444);
-                    break;
-                case "5":
-                        $asignaciones[]=array('id'=>5,'VALOR'=>555);
-                    break;
-                case "6":
-                        $asignaciones[]=array('id'=>6,'VALOR'=>666);
-                    break;
-                case "7":
-                        $asignaciones[]=array('id'=>7,'VALOR'=>777);
-                    break;
-                case "8":
-                        $asignaciones[]=array('id'=>8,'VALOR'=>888);
-                    break;
-                case "9":
-                        $asignaciones[]=array('id'=>9,'VALOR'=>999);
-                    break;
-                case "10":
-                        $asignaciones[]=array('id'=>10,'VALOR'=>101010);
-                    break;
-                case "11":
-                        $asignaciones[]=array('id'=>11,'VALOR'=>111111);
-                    break;
-
-                default:
-                        $asignaciones[]=array();
-                    break;
-            }
+        if(empty($empleado)){
+            return false;
+        }else{
+            return true;
         }
-        return $asignaciones;
+    }
+    /**
+     * Realiza el calculo de una asignacion especifica para un empleado
+     * @param type $id_empleado
+     * @param type $id_asignacion 
+     */
+    
+    function realizarCalculo($id_empleado,$id_asignacion){
+        
     }
 
 }

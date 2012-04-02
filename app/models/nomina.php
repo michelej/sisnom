@@ -4,7 +4,7 @@ class Nomina extends AppModel {
 
     var $name = 'Nomina';
     var $displayField = 'CODIGO';
-    var $actsAs = 'ExtendAssociations';
+    var $actsAs = array('ExtendAssociations', 'Containable');
 
     /**
      *  Relaciones
@@ -84,6 +84,11 @@ class Nomina extends AppModel {
         return $anio;
     }
 
+    /**
+     * Buscamos los contratos que se encuentran activos en el rango de fechas
+     * de la nomina (QUINCENA) y agregamos sus respectivos empleados
+     * @param type $id ID de la Nomina
+     */
     function generarNomina($id) {
         $nomina = $this->find('first', array(
             'recursive' => -1,
@@ -95,91 +100,92 @@ class Nomina extends AppModel {
                 ));
         // Buscamos los contratos que se encontraban activos en esa fecha
         $contrato = ClassRegistry::init('Contrato');
-        $listado_contratos = $contrato->buscarPorFecha($nomina['Nomina']['FECHA_INI'], $nomina['Nomina']['FECHA_FIN']);
+        $listado_contratos = $contrato->buscarContratosPorFecha($nomina['Nomina']['FECHA_INI'], $nomina['Nomina']['FECHA_FIN']);
         foreach ($listado_contratos as $contrato) {
             $this->habtmAdd('Empleado', $id, $contrato['Contrato']['empleado_id']);
         }
     }
+
     /**
      * Devuelve informacion asociada a cada empleado que se encuentra en esta nomina 
      * @param type $id ID de la Nomina
      * @return type Informacion de los empleados  
      */
-    function buscarInformacionEmpleados($id) {
-        $this->Empleado->Behaviors->attach('Containable');
-        $nomina = $this->find('first', array(
-            'recursive' => -1,
+    function buscarInformacionEmpleados($id, $grupo) {        
+        $nomina = $this->find("first", array(
             'conditions' => array(
-                'id' => $id)
+                'id' => $id),
+            'contain' => array(
+                'Empleado' => array(
+                    'fields' => array(
+                        'id',
+                    )
+                )
+            )
                 ));
 
         $fecha_ini = formatoFechaBeforeSave($nomina['Nomina']['FECHA_INI']);
-        $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);
-        // PURA MAGIA!!!
-        $conditions = array(
-            'joins' => array(
-                array(
-                    'table' => 'empleados_nominas',
-                    'alias' => 'EmpleadosNominas',
-                    'type' => 'INNER',
-                    'conditions' => array(
-                        'EmpleadosNominas.empleado_id = Empleado.id',
-                        'EmpleadosNominas.nomina_id' => $id
-                    )
+        $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);        
+        $empleados = Set::extract('/Empleado/id', $nomina);
+                
+        // Buscamos los contratos de acuerdo a la fecha de la nomina
+        // y el grupo indicado , tambien buscamos el historial de sueldos del
+        // cargo correspondiente en la fecha de la nomina
+        $contratos = $this->Empleado->Contrato->find('all', array(
+            'conditions' => array(
+                'OR' => array(
+                    'FECHA_FIN > ' => $fecha_ini,
+                    'FECHA_FIN' => NULL,
+                ),
+                'AND' => array(
+                    'FECHA_INI < ' => $fecha_fin,
+                    'empleado_id' => $empleados,
+                    'GRUPO' => $grupo
                 )
             ),
-            'limit' => 10,
-            'contain' => array(                
-                'Contrato' => array(                    
-                    'Cargo' => array(
-                        'Historial' => array(
-                            'conditions' => array(
-                                'OR' => array(
-                                    'FECHA_FIN > ' => $fecha_ini,
-                                    'FECHA_FIN' => NULL,
-                                ),
-                                'AND' => array(
-                                    'FECHA_INI < ' => $fecha_fin,
-                                )
+            'contain' => array(
+                'Empleado',
+                'Departamento',
+                'Cargo' => array(
+                    'Historial' => array(
+                        'conditions' => array(
+                            'OR' => array(
+                                'FECHA_FIN > ' => $fecha_ini,
+                                'FECHA_FIN' => NULL,
+                            ),
+                            'AND' => array(
+                                'FECHA_INI < ' => $fecha_fin,
                             )
-                        )
-                    ),
-                    'Departamento',                    
-                    'conditions' => array(
-                        'OR' => array(
-                            'FECHA_FIN > ' => $fecha_ini,
-                            'FECHA_FIN' => NULL,
-                        ),
-                        'AND' => array(
-                            'FECHA_INI < ' => $fecha_fin,
                         )
                     )
                 )
             )
-        );
-        return $this->Empleado->find('all', $conditions);
+                ));
+
+        return $contratos;
     }
+
     /**
      * Realizamos los Calculos de la Nomina
      * @param type $id 
-     */    
-    function calcularNomina($id){
-        $asignacion=ClassRegistry::init('Asignacion');
+     */
+    function calcularNomina($id, $grupo) {
+        $asignacion = ClassRegistry::init('Asignacion');
+        $empleados = $this->buscarInformacionEmpleados($id, $grupo);
 
-        $empleados=$this->buscarInformacionEmpleados($id);
-        foreach ($empleados as $key=>$empleado) {
-            $empleados[$key]['Nomina_Empleado']['CARGO']=$empleado['Contrato']['0']['Cargo']['NOMBRE'];
-            $empleados[$key]['Nomina_Empleado']['DEPARTAMENTO']=$empleado['Contrato']['0']['Departamento']['NOMBRE'];
-            $empleados[$key]['Nomina_Empleado']['MODALIDAD']=$empleado['Contrato']['0']['MODALIDAD'];
-            $empleados[$key]['Nomina_Empleado']['GRUPO']=$empleado['Contrato']['0']['GRUPO'];
-            $empleados[$key]['Nomina_Empleado']['SUELDO_BASE']=$empleado['Contrato']['0']['Cargo']['Historial']['0']['SUELDO_BASE'];            
-            $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO']=$empleados[$key]['Nomina_Empleado']['SUELDO_BASE']/30;
-            $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO']=$empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO']*15; // QUINCENA
-            $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS']='15';
-            $empleados[$key]['Nomina_Empleado']['Asignaciones']=$asignacion->calcularAsignaciones($id,$empleado['Empleado']['id']);            
-            unset($empleados[$key]['Contrato']);            
+        foreach ($empleados as $key => $empleado) {            
+            $empleados[$key]['Nomina_Empleado']['CARGO'] = $empleado['Cargo']['NOMBRE'];
+            $empleados[$key]['Nomina_Empleado']['DEPARTAMENTO'] = $empleado['Departamento']['NOMBRE'];
+            $empleados[$key]['Nomina_Empleado']['MODALIDAD'] = $empleado['Contrato']['MODALIDAD'];
+            $empleados[$key]['Nomina_Empleado']['GRUPO'] = $empleado['Contrato']['GRUPO'];
+            $empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] = $empleado['Cargo']['Historial']['0']['SUELDO_BASE'];
+            $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] / 30;
+            $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] * 15; // QUINCENA
+            $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS'] = '15';
+            $empleados[$key]['Nomina_Empleado']['Asignaciones'] = $asignacion->calcularAsignaciones($id,$grupo, $empleado['Empleado']['id']);
+            unset($empleados[$key]['Contrato']);
         }
-        debug($empleados);
+
         return $empleados;
     }
 

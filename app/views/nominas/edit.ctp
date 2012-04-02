@@ -37,25 +37,36 @@
 </div>
 
 <div class="box">
-    <div class="title"><h2></h2>
-        <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
-    </div>
-    <div class="content pages">
-        
-    </div>
+    <?php echo $this->Session->flash(); ?>
 </div>
 
 <div class="box">
-<?php echo $this->Session->flash(); ?>
-</div>
-
-<div class="box">
-    <div class="title">	<h2>Acciones</h2></div>
+    <div class="title">	<h2></h2></div>
     <div class="content form">
-        <div class="row boton">            
-            <div class="boton">
-                <?php echo $this->Html->link('Generar Nomina', array('action' => 'generar',$nomina['Nomina']['id']),array('target' => '_blank')); ?>
-            </div>
+        
+        <div class="row">
+            <?php
+            echo $this->Form->create(false, array('target' => '_blank','url' => array('controller' => 'nominas', 'action' => 'generar')));            
+            echo "<div style='float:left;width:30%;'>";
+            $options = array('Administrativo' => 'Administrativo', 'Obrero' => 'Obrero');
+            echo $this->Form->label('Personal');
+            echo $this->Form->input('nomina_id', array('type' => 'hidden','value'=>$nomina['Nomina']['id']));
+            echo $this->Form->input('GRUPO', array('div' => false, 'label' => false, 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una Opcion'));
+            echo "</div>";
+            echo "<div style='float:left;width:20%'>";
+            $options2 = array('Fijo' => 'Fijo', 'Contratado' => 'Contratado');
+            echo $this->Form->label('Tipo');
+            echo $this->Form->input('MODALIDAD', array('div' => false, 'label' => false, 'class' => 'small','type'=>'select','options'=>$options2,'empty'=>'Seleccione una Opcion'));
+            echo "</div>";
+            echo "</div>";
+            echo "<div class='row'>";
+            echo "<div style='float:left;width:25%;padding-top:16px'>";
+            echo $this->Form->End('Generar Nomina');
+            echo "</div>";            
+            ?>
+        </div>       
+        
+        <div class="row boton">                        
             <div class="boton">
                 <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
             </div>            
