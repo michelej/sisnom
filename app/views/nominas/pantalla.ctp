@@ -1,7 +1,5 @@
-<?php //debug($empleados); ?>
 <div class="box2">
-    <div class="content2" >
-        Personal Administrativo
+    <div class="content2" >        
         <table  class="tabla">
             <thead>
                 <tr>
@@ -15,10 +13,12 @@
                     <th colspan="2">Periodo Laborado</th>
                     <th  rowspan="2">DiasLaborados</th>
                     <th  rowspan="2">Sub Total Sueldo Basico</th>
-                    <th colspan="6">Asignaciones</th>
+                    <?php $count=count(array_keys($empleados['0']['Nomina_Empleado']['Asignaciones'])); ?>
+                    <th colspan=<?php echo '"'.$count.'"'?>>Asignaciones</th>
                     <th  rowspan="2">Total de Asignaciones</th>
                     <th  rowspan="2">Total  Sueldo +Asignaciones</th>
-                    <th colspan="9">Deducciones</th>
+                    <?php $count=count(array_keys($empleados['0']['Nomina_Empleado']['Deducciones'])); ?>
+                    <th colspan=<?php echo '"'.$count.'"'?>>Deducciones</th>                    
                     <th  rowspan="2">Total de Deducciones</th>
                     <th  rowspan="2">TOTAL A CANCELAR</th>
                 </tr>
@@ -38,15 +38,12 @@
                             echo '<th style="width:5%">'.$asignacion."</td>";
                         }
                     ?>                    
-                    <th style="width:5%">SSO(4%)</th>
-                    <th style="width:5%">Regimen Prestacional del Empleado</th>
-                    <th style="width:5%">Fondo de Ahorro Obligatorio de Vivienda(FAOV)(1%)</th>
-                    <th style="width:5%">Fondo de Pensiones(3%)</th>
-                    <th style="width:5%" >Caja de Ahorro (10% del Sueldo)</th>
-                    <th style="width:5%">Prestamos de Caja de Ahorro</th>
-                    <th style="width:5%">Deducciones por creditos Comerciales</th>
-                    <th style="width:5%" >Deducciones por Tribunales</th>
-                    <th style="width:5%">Retenciones de Impuestos sobre la Renta</th>
+                    <?php                    
+                        $deducciones=array_keys($empleados['0']['Nomina_Empleado']['Deducciones']);                        
+                        foreach ($deducciones as $deduccion) {
+                            echo '<th style="width:5%">'.$deduccion."</td>";
+                        }
+                    ?> 
                 </tr>
             </thead>
             <tbody>	
@@ -70,17 +67,11 @@
                     }                    
                     echo '<td>' . number_format($empleado['Nomina_Empleado']['TOTAL_ASIGNACIONES'], 2, ',', '.') . '</td>';
                     echo '<td>' . number_format($empleado['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES'], 2, ',', '.') . '</td>';
-                    echo '<td>' . 'asdf' . '</td>';
-                    echo '<td>' . 'asdf' . '</td>';
-                    echo '<td>' . 'asdf' . '</td>';
-                    echo '<td>' . 'asdf' . '</td>';
-                    echo '<td>' . 'asdf' . '</td>';
-                    echo '<td>' . 'asdf' . '</td>';
-                    echo '<td>' . 'asdf' . '</td>';
-                    echo '<td>' . 'asdf' . '</td>';
-                    echo '<td>' . 'asdf' . '</td>';
-                    echo '<td>' . 'asdf' . '</td>';
-                    echo '<td>' . 'asdf' . '</td>';
+                    foreach ($empleado['Nomina_Empleado']['Deducciones'] as $value) {
+                        echo '<td>' . number_format($value,2,',','.') . '</td>';
+                    }
+                    echo '<td>' . number_format($empleado['Nomina_Empleado']['TOTAL_DEDUCCIONES'], 2, ',', '.') . '</td>';
+                    echo '<td>' . number_format($empleado['Nomina_Empleado']['TOTAL_SUELDO'], 2, ',', '.') . '</td>';
                     echo '</tr>';
                 endforeach;
                 ?>

@@ -124,6 +124,7 @@ function formatoFechaAfterFind($cadenaFecha) {
 function formatoFechaBeforeSave($cadenaFecha) {
     return date('Y-m-d', strtotime($cadenaFecha)); // Direction is from
 }
+
 /**
  * <0  f1<f2
  * >0  f1>f2   
@@ -145,4 +146,26 @@ function compara_fechas($fecha1, $fecha2) {
         list($dia2, $mes2, $año2) = split("-", $fecha2);
     $dif = mktime(0, 0, 0, $mes1, $dia1, $año1) - mktime(0, 0, 0, $mes2, $dia2, $año2);
     return ($dif);
+}
+
+function numeroDeDias($fecha_desde, $fecha_hasta) {
+    $dias = (strtotime($fecha_desde) - strtotime($fecha_hasta)) / 86400;
+    $dias = abs($dias);
+    $dias = floor($dias);
+    return $dias;
+}
+
+function cantidadLunes($fecha1, $fecha2) {
+    $cantidad = 0;
+    $fecha1 = date('Y-m-d', strtotime($fecha1));
+    $fecha2 = date('Y-m-d', strtotime($fecha2));       
+    $fechaA = date_format(date_create($fecha1), 'U');    
+    $number_of_days = numeroDeDias($fecha1,$fecha2);    
+    for ($i = 1; $i <= $number_of_days; $i++) {
+        $day = Date('l', mktime(0, 0, 0, date('m', $fechaA), date('d') + $i, date('y')));
+        if ($day == 'Monday') {
+            $cantidad++;
+        }
+    }
+    return $cantidad;
 }

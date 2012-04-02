@@ -125,7 +125,7 @@ class Asignacion extends AppModel {
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['Asignacion']['id'])) {
                         // Inicio o Fin de la Quincena??
                         // TODO: Falta la antiguedad en los otros organismos
-                        $dias = $this->numeroDeDias($empleado['Empleado']['INGRESO'], $nomina['Nomina']['FECHA_INI']);
+                        $dias = numeroDeDias($empleado['Empleado']['INGRESO'], $nomina['Nomina']['FECHA_INI']);
                         $numero = $dias / 365;
                         if ($numero < 1)
                             $valor = 0;
@@ -245,7 +245,7 @@ class Asignacion extends AppModel {
                 case "8":
                     // Como se incluyen los años en otros organismos
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['Asignacion']['id'])) {
-                        $dias = $this->numeroDeDias($empleado['Empleado']['INGRESO'], $nomina['Nomina']['FECHA_INI']);
+                        $dias = numeroDeDias($empleado['Empleado']['INGRESO'], $nomina['Nomina']['FECHA_INI']);
                         $numero = $dias / 365;
                         if ($numero < 1)
                             $valor = 0;
@@ -333,13 +333,6 @@ class Asignacion extends AppModel {
         } else {
             return true;
         }
-    }
-
-    function numeroDeDias($fecha_desde, $fecha_hasta) {
-        $dias = (strtotime($fecha_desde) - strtotime($fecha_hasta)) / 86400;
-        $dias = abs($dias);
-        $dias = floor($dias);
-        return $dias;
     }
 
 }

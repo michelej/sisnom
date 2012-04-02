@@ -171,6 +171,7 @@ class Nomina extends AppModel {
      */
     function calcularNomina($id, $grupo) {
         $asignacion = ClassRegistry::init('Asignacion');
+        $deduccion = ClassRegistry::init('Deduccion');
         $empleados = $this->buscarInformacionEmpleados($id, $grupo);
 
         foreach ($empleados as $key => $empleado) {            
@@ -189,14 +190,24 @@ class Nomina extends AppModel {
             }
             $empleados[$key]['Nomina_Empleado']['TOTAL_ASIGNACIONES'] = $totalasig;
             $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO']+$totalasig;
+            $empleados[$key]['Nomina_Empleado']['Deducciones'] = $deduccion->calcularDeducciones($id, $empleado['Empleado']['id'],$totalasig,$empleados[$key]['Nomina_Empleado']['SUELDO_BASE']);
+            $totaldedu=0;
+            foreach ($empleados[$key]['Nomina_Empleado']['Deducciones'] as $value) {
+                $totaldedu=$totaldedu+$value;
+            }
+            $empleados[$key]['Nomina_Empleado']['TOTAL_DEDUCCIONES'] = $totaldedu;
+            $empleados[$key]['Nomina_Empleado']['TOTAL_SUELDO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES']-$totaldedu;
             
             unset($empleados[$key]['Contrato']);
             unset($empleados[$key]['Cargo']);
-            unset($empleados[$key]['Departamento']);
-            //debug($empleados[$key]);
+            unset($empleados[$key]['Departamento']);            
         }
 
         return $empleados;
+    }
+    
+    function nominaDiasHabiles($id_nomina){
+        // FALTA HACER!        
     }
 
 }

@@ -70,12 +70,8 @@ class NominasController extends AppController {
                     ));
             $empleados = $this->Nomina->calcularNomina($id, $this->data['GRUPO']);
             $this->set(compact('empleados', 'nomina'));
-            if ($this->data['GRUPO'] == 'Administrativo') {
-                $this->render('pantalla_adm', 'nomina');
-            }
-            if ($this->data['GRUPO'] == 'Obrero') {
-                $this->render('pantalla_obr', 'nomina');
-            }
+            $this->render('pantalla', 'nomina');
+            
             if (empty($this->data['GRUPO'])) {
                 $this->render('error', 'nomina');
                 $this->Session->setFlash('Debe seleccionar el tipo de Personal','flash_error');
