@@ -46,7 +46,7 @@
         
         <div class="row">
             <?php
-            echo $this->Form->create(false, array('target' => '_blank','url' => array('controller' => 'nominas', 'action' => 'generar')));            
+            echo $this->Form->create(false, array('target' => '_blank','url' => array('controller' => 'nominas', 'action' => 'calcular')));            
             echo "<div style='float:left;width:30%;'>";
             $options = array('Administrativo' => 'Administrativo', 'Obrero' => 'Obrero');
             echo $this->Form->label('Personal');

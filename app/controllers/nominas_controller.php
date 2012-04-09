@@ -60,7 +60,7 @@ class NominasController extends AppController {
         $this->set('nomina', $nomina);
     }
 
-    function generar() {
+    function calcular() {
         $this->autoRender = false;
         if (!empty($this->data)) {
             $id = $this->data['nomina_id'];
@@ -69,7 +69,21 @@ class NominasController extends AppController {
                 'conditions' => array(
                     'id' => $id)
                     ));
+            // OJO QUIZAS SEA MALA IDEA!
+            // Para mantener las nominas con los cambios que se hagan
+            $this->Nomina->generarNomina($id);
             $empleados = $this->Nomina->calcularNomina($id, $this->data['GRUPO'], $this->data['MODALIDAD']);
+            
+            if(empty($empleados)){
+                $this->render('error', 'nomina');
+                if($this->Nomina->errorMessage==''){
+                    $this->Session->setFlash('Actualmente no existen datos suficientes para generar esta nomina', 'flash_error');
+                }else{
+                    $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
+                }
+                
+            }
+            
             $this->set(compact('empleados', 'nomina'));
             $this->render('pantalla', 'nomina');
 

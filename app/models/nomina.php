@@ -106,8 +106,10 @@ class Nomina extends AppModel {
         $contrato = ClassRegistry::init('Contrato');
         $listado_contratos = $contrato->buscarContratosPorFecha($nomina['Nomina']['FECHA_INI'], $nomina['Nomina']['FECHA_FIN']);
         foreach ($listado_contratos as $contrato) {
-            $this->habtmAdd('Empleado', $id, $contrato['Contrato']['empleado_id']);
+            $empleados[]=$contrato['Contrato']['empleado_id'];
         }
+        $this->habtmDeleteAll('Empleado', $id); 
+        $this->habtmAdd('Empleado', $id, $empleados);
     }
 
     /**
@@ -165,8 +167,7 @@ class Nomina extends AppModel {
                     )
                 )
             )
-                ));
-
+                ));        
         return $contratos;
     }
 
@@ -178,6 +179,11 @@ class Nomina extends AppModel {
         $asignacion = ClassRegistry::init('Asignacion');
         $deduccion = ClassRegistry::init('Deduccion');
         $empleados = $this->buscarInformacionEmpleados($id, $grupo, $modalidad);
+        if($this->verificarSueldos($empleados)){
+            $this->errorMessage="No existe suficiente informacion para generar esta Nomina <br/>
+                Verifique que cada cargo tenga definido un sueldo al momento de la nomina";
+            return array();
+        }
         foreach ($empleados as $key => $empleado) {
             $empleados[$key]['Nomina_Empleado']['ID_EMPLEADO'] = $empleado['Empleado']['id'];
             $empleados[$key]['Nomina_Empleado']['ID_NOMINA'] = $id;
@@ -244,6 +250,16 @@ class Nomina extends AppModel {
             }
         }
         return ($number_of_days + 1) - $cantidad - count($feriados);
+    }
+    
+    function verificarSueldos($empleados){
+        $error=false;
+        foreach ($empleados as $empleado) {
+            if(empty($empleado['Cargo']['Historial'])){
+                $error=true;
+            }
+        }
+        return $error;
     }
 
 }
