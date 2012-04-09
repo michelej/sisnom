@@ -34,7 +34,8 @@ class Historial extends AppModel {
         $fecha_ini = $this->data['Historial']['FECHA_INI'];
         $fecha_fin = $this->data['Historial']['FECHA_FIN'];
         $fecha_ret = $this->data['Historial']['FECHA_RET'];
-                
+       
+       
         if ($fecha_fin == NULL) {
             $this->data['Historial']['FECHA_FIN'] = NULL;            
         }

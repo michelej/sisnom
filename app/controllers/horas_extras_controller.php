@@ -28,7 +28,7 @@ class HorasExtrasController extends AppController {
     function edit($id=null){        
         if (empty($this->data)) {           
             $this->paginate=array(
-                'Ausencia' => array(  
+                'HorasExtra' => array(  
                     'recursive'=>-1,
                     'limit'=>20,                                            
                     'conditions'=>array(
