@@ -50,7 +50,7 @@ class ExtendAssociationsBehavior extends ModelBehavior {
             $data = $this->__habtmFind($model, $assoc, $id); 
              
             // no data to update 
-            if(empty($data)) { 
+            if(empty($data)) {                 
                 return false; 
             } 
              

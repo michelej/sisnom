@@ -14,39 +14,47 @@ class Nomina extends AppModel {
     /**
      *  Validaciones     
      */
-    var $validate = array(        
+    var $validate = array(
         'QUINCENA' => array(
             'rule' => array('notEmpty'),
             'message' => 'Seleccione la Quincena',
-        )        
+        ),
+        'CODIGO' => array(
+            'rule' => array('notEmpty'),
+            'message' => 'Inserte un Codigo',
+        )
     );
 
-    function beforeSave() {
-        if(empty($this->data['Nomina']['MES']) || empty($this->data['Nomina']['AÑO'])){
-            $this->errorMessage = 'Inserte un rango valido de fechas';
-            return false;
+    function beforeSave() {   
+        // Cuando esto existe es porque viene del ADD es un nuevo registro
+        if (isset($this->data['Nomina']['NOMINA_MES']) && isset($this->data['Nomina']['NOMINA_MES'])) {
+            if (empty($this->data['Nomina']['NOMINA_MES']) || empty($this->data['Nomina']['NOMINA_AÑO'])) {
+                $this->errorMessage = 'Inserte un rango valido de fechas';
+                return false;
+            }
+            if ($this->data['Nomina']['QUINCENA'] == 'Primera') {
+                $this->data['Nomina']['FECHA_INI'] = $this->data['Nomina']['NOMINA_AÑO'] . '-' . $this->data['Nomina']['NOMINA_MES'] . '-1';
+                $this->data['Nomina']['FECHA_FIN'] = $this->data['Nomina']['NOMINA_AÑO'] . '-' . $this->data['Nomina']['NOMINA_MES'] . '-15';
+            }
+            if ($this->data['Nomina']['QUINCENA'] == 'Segunda') {
+                $this->data['Nomina']['FECHA_INI'] = $this->data['Nomina']['NOMINA_AÑO'] . '-' . $this->data['Nomina']['NOMINA_MES'] . '-16';
+                $dia = strftime("%d", mktime(0, 0, 0, $this->data['Nomina']['NOMINA_MES'] + 1, 0, $this->data['Nomina']['NOMINA_AÑO']));
+                $this->data['Nomina']['FECHA_FIN'] = $this->data['Nomina']['NOMINA_AÑO'] . '-' . $this->data['Nomina']['NOMINA_MES'] . '-' . $dia;
+            }
         }
         
-        if($this->data['Nomina']['QUINCENA']=='Primera'){
-            //$this->data['Nomina']['FECHA_INI']='"1-'.$this->data['Nomina']['MES'].'-'.$this->data['Nomina']['AÑO'].'"';
-            //$this->data['Nomina']['FECHA_FIN']='"15-'.$this->data['Nomina']['MES'].'-'.$this->data['Nomina']['AÑO'].'"';
-            $test='1-'.$this->data['Nomina']['MES'].'-'.$this->data['Nomina']['AÑO'];
-            debug($test);                        
-            
-            $this->data['Nomina']['FECHA_INI']="1-1-2012";
-            debug($this->data['Nomina']['FECHA_INI']);
-        }            
-
         if (!empty($this->data['Nomina']['FECHA_INI'])) {
             $this->data['Nomina']['FECHA_INI'] = formatoFechaBeforeSave($this->data['Nomina']['FECHA_INI']);
         }
+        
         if (!empty($this->data['Nomina']['FECHA_FIN'])) {
             $this->data['Nomina']['FECHA_FIN'] = formatoFechaBeforeSave($this->data['Nomina']['FECHA_FIN']);
         }
+
         if (!empty($this->data['Nomina']['FECHA_ELA'])) {
             $this->data['Nomina']['FECHA_ELA'] = formatoFechaBeforeSave($this->data['Nomina']['FECHA_ELA']);
         }
-        
+
         return true;
     }
 
@@ -107,7 +115,7 @@ class Nomina extends AppModel {
      * @param type $id ID de la Nomina
      * @return type Informacion de los empleados  
      */
-    function buscarInformacionEmpleados($id, $grupo,$modalidad) {
+    function buscarInformacionEmpleados($id, $grupo, $modalidad) {
         $nomina = $this->find("first", array(
             'conditions' => array(
                 'id' => $id),
@@ -137,7 +145,7 @@ class Nomina extends AppModel {
                     'FECHA_INI < ' => $fecha_fin,
                     'empleado_id' => $empleados,
                     'GRUPO' => $grupo,
-                    'MODALIDAD'=> $modalidad
+                    'MODALIDAD' => $modalidad
                 )
             ),
             'contain' => array(
@@ -166,14 +174,14 @@ class Nomina extends AppModel {
      * Realizamos los Calculos de la Nomina
      * @param type $id 
      */
-    function calcularNomina($id, $grupo,$modalidad) {
+    function calcularNomina($id, $grupo, $modalidad) {
         $asignacion = ClassRegistry::init('Asignacion');
         $deduccion = ClassRegistry::init('Deduccion');
-        $empleados = $this->buscarInformacionEmpleados($id, $grupo,$modalidad);                
+        $empleados = $this->buscarInformacionEmpleados($id, $grupo, $modalidad);
         foreach ($empleados as $key => $empleado) {
-            $empleados[$key]['Nomina_Empleado']['ID_EMPLEADO']=$empleado['Empleado']['id'];
-            $empleados[$key]['Nomina_Empleado']['ID_NOMINA']=$id;
-            $empleados[$key]['Nomina_Empleado']['DIAS_HABILES']=$this->nominaDiasHabiles($id);
+            $empleados[$key]['Nomina_Empleado']['ID_EMPLEADO'] = $empleado['Empleado']['id'];
+            $empleados[$key]['Nomina_Empleado']['ID_NOMINA'] = $id;
+            $empleados[$key]['Nomina_Empleado']['DIAS_HABILES'] = $this->nominaDiasHabiles($id);
             $empleados[$key]['Nomina_Empleado']['CARGO'] = $empleado['Cargo']['NOMBRE'];
             $empleados[$key]['Nomina_Empleado']['DEPARTAMENTO'] = $empleado['Departamento']['NOMBRE'];
             $empleados[$key]['Nomina_Empleado']['MODALIDAD'] = $empleado['Contrato']['MODALIDAD'];
@@ -204,6 +212,7 @@ class Nomina extends AppModel {
 
         return $empleados;
     }
+
     /**
      * Devuelve los dias habiles, descontando los sabados y domingos y los feriados
      * @param type $id_nomina
@@ -218,18 +227,18 @@ class Nomina extends AppModel {
                 ));
 
         $fecha_ini = formatoFechaBeforeSave($nomina['Nomina']['FECHA_INI']);
-        $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);        
+        $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);
 
         $feriados = $feriado->find('all', array(
             'conditions' => array(
                 '(FECHA BETWEEN ? AND ?)' => array($fecha_ini, $fecha_fin)
             )
-                ));        
-        
+                ));
+
         $number_of_days = numeroDeDias($fecha_ini, $fecha_fin);
 
         for ($i = 0; $i <= $number_of_days; $i++) {
-            $day = Date('l', mktime(0, 0, 0, date('m', strtotime($fecha_ini)), date('d', strtotime($fecha_ini)) + $i, date('y', strtotime($fecha_ini))));            
+            $day = Date('l', mktime(0, 0, 0, date('m', strtotime($fecha_ini)), date('d', strtotime($fecha_ini)) + $i, date('y', strtotime($fecha_ini))));
             if ($day == 'Saturday' || $day == 'Sunday') {
                 $cantidad++;
             }

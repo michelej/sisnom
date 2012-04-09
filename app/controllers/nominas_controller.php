@@ -29,11 +29,12 @@ class NominasController extends AppController {
         $this->set('nominas', $data);
     }
 
-    function add() {        
+    function add() {
         if (!empty($this->data)) {
-            if ($this->Nomina->save($this->data['Nomina'])) {                
+            if ($this->Nomina->save($this->data['Nomina'])) {
                 $this->Session->setFlash('Nomina creada con exito', 'flash_success');
-                $this->Nomina->generarNomina($this->Nomina->getLastInsertId());
+                $id=$this->Nomina->getLastInsertId();
+                $this->Nomina->generarNomina($id);
                 $this->redirect('index');
             }
             $this->Session->setFlash("Existen errores corrigalos antes de continuar", 'flash_error');
@@ -61,20 +62,20 @@ class NominasController extends AppController {
 
     function generar() {
         $this->autoRender = false;
-        if (!empty($this->data)) {            
+        if (!empty($this->data)) {
             $id = $this->data['nomina_id'];
             $nomina = $this->Nomina->find('first', array(
                 'recursive' => -1,
                 'conditions' => array(
                     'id' => $id)
                     ));
-            $empleados = $this->Nomina->calcularNomina($id, $this->data['GRUPO'],$this->data['MODALIDAD']);
+            $empleados = $this->Nomina->calcularNomina($id, $this->data['GRUPO'], $this->data['MODALIDAD']);
             $this->set(compact('empleados', 'nomina'));
             $this->render('pantalla', 'nomina');
-            
+
             if (empty($this->data['GRUPO']) || empty($this->data['MODALIDAD'])) {
                 $this->render('error', 'nomina');
-                $this->Session->setFlash('Debe seleccionar el tipo de Personal, y la Modalidad de la nomina','flash_error');
+                $this->Session->setFlash('Debe seleccionar el tipo de Personal, y la Modalidad de la nomina', 'flash_error');
             }
         }
     }

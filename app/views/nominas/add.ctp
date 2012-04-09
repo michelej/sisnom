@@ -23,12 +23,12 @@
         $options = array('1' => 'Enero','2' => 'Febrero','3' => 'Marzo','4' => 'Abril','5' => 'Mayo','6' => 'Junio','7' => 'Julio'
                 ,'8' => 'Agosto','9' => 'Septiembre','10' => 'Octubre','11' => 'Noviembre','12' => 'Diciembre');
         echo $this->Form->label('Mes');
-        echo $this->Form->input('MES', array('div' => false, 'label' => false, 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione el Opcion'));
+        echo $this->Form->input('NOMINA_MES', array('div' => false, 'label' => false, 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione el Opcion'));
         echo "</div>";
         
         echo "<div style='float:left;width:30%;'>";
         echo $this->Form->label('Año');
-        echo $this->Form->input('AÑO', array('div' => false, 'label' => false, 'class' => 'small'));
+        echo $this->Form->input('NOMINA_AÑO', array('div' => false, 'label' => false, 'class' => 'small'));
         echo "</div>";
         echo "</div>";
         
