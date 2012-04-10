@@ -19,7 +19,17 @@ class EmpleadosController extends AppController {
                $filtro=array('Empleado.APELLIDO LIKE'=>"%".$this->data['valor']."%"); 
             }
         }        
-        $this->Empleado->recursive = -1;        
+        //$this->Empleado->recursive = -1;
+        $this->paginate = array(
+            'limit' => 20,
+            'contain' => array(
+                'Contrato' => array(                    
+                    'Cargo', 'Departamento',
+                    'conditions' => array(
+                        'FECHA_FIN' => NULL),                    
+                )
+                ));
+        
         $data=$this->paginate('Empleado',$filtro);                
         $this->set('empleados',$data);
     }

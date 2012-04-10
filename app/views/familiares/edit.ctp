@@ -93,7 +93,7 @@
                 <?php echo $this->Html->link('Nuevo Familiar', array('action' => 'add',$empleado['Empleado']['id'])); ?>
             </div>
               <div class="boton">
-                <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
+                <?php echo $this->Html->link('Regresar', array('controller'=>'empleados','action' => 'index')); ?>
             </div>
         </div>        
     </div>

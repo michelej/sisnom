@@ -55,7 +55,7 @@
                         <td><?php echo $empleado['Empleado']['NACIONALIDAD']; ?></td>
                         <td class="actions">
                             <?php                            
-                            echo $this->Html->image("Button Add.png", array("alt" => "Agregar", 'title' => 'Agregar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $empleado['Empleado']['id'])));                            
+                            echo $this->Html->image("Button Remove.png", array("alt" => "Agregar", 'title' => 'Agregar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $empleado['Empleado']['id'])));                            
                             ?>
                         </td>
                     </tr>
