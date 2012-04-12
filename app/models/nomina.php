@@ -32,6 +32,15 @@ class Nomina extends AppModel {
                 $this->errorMessage = 'Inserte un rango valido de fechas';
                 return false;
             }            
+            if(is_numeric($this->data['Nomina']['NOMINA_AÑO'])){
+                if($this->data['Nomina']['NOMINA_AÑO']<1900 || $this->data['Nomina']['NOMINA_AÑO']>2200){
+                    $this->errorMessage="El año es Invalido";
+                    return false;
+                }
+            }else{
+                $this->errorMessage="El año tiene que ser un numero";
+                return false;
+            }
             
             if ($this->data['Nomina']['QUINCENA'] == 'Primera') {
                 $this->data['Nomina']['FECHA_INI'] = $this->data['Nomina']['NOMINA_AÑO'] . '-' . $this->data['Nomina']['NOMINA_MES'] . '-1';

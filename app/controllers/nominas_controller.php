@@ -36,8 +36,12 @@ class NominasController extends AppController {
                 $id=$this->Nomina->getLastInsertId();
                 $this->Nomina->generarNomina($id);
                 $this->redirect('index');
+            }            
+            if (!empty($this->Nomina->errorMessage)) {
+                $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
+            } else {
+                $this->Session->setFlash("Existen errores corrigalos antes de continuar", 'flash_error');
             }
-            $this->Session->setFlash("Existen errores corrigalos antes de continuar", 'flash_error');
         }
     }
 
