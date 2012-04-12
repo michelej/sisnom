@@ -81,11 +81,7 @@
                 </div>
                 <!-- FIN HOLDER -->  
                 <div class="footer">
-                    <?php
-                    if ($this->Session->check('Message.auth'))
-                        echo //$this->Session->flash('auth'); // Ojo flash auth idk
-                        print_r($this->Session->read());
-                    ?>
+                    
                 </div> 
             </div> 
             <!-- FIN CONTAINER -->   
