@@ -54,6 +54,10 @@ class CargosController extends AppController {
 
     function grupo() {        
         $data = $this->Cargo->agruparSueldos();
+        if(empty($data)){
+            $this->Session->setFlash('Ninguna Cargo en el sistema tiene un Sueldo Activo en este momento', 'flash_error');
+            $this->redirect(array('action' => 'index'));
+        }
         $this->set('cargos', $data);
     }
 

@@ -25,13 +25,14 @@ class Nomina extends AppModel {
         )
     );
 
-    function beforeSave() {   
+    function beforeSave() {
         // Cuando esto existe es porque viene del ADD es un nuevo registro
         if (isset($this->data['Nomina']['NOMINA_MES']) && isset($this->data['Nomina']['NOMINA_MES'])) {
             if (empty($this->data['Nomina']['NOMINA_MES']) || empty($this->data['Nomina']['NOMINA_AÑO'])) {
                 $this->errorMessage = 'Inserte un rango valido de fechas';
                 return false;
-            }
+            }            
+            
             if ($this->data['Nomina']['QUINCENA'] == 'Primera') {
                 $this->data['Nomina']['FECHA_INI'] = $this->data['Nomina']['NOMINA_AÑO'] . '-' . $this->data['Nomina']['NOMINA_MES'] . '-1';
                 $this->data['Nomina']['FECHA_FIN'] = $this->data['Nomina']['NOMINA_AÑO'] . '-' . $this->data['Nomina']['NOMINA_MES'] . '-15';
@@ -42,11 +43,11 @@ class Nomina extends AppModel {
                 $this->data['Nomina']['FECHA_FIN'] = $this->data['Nomina']['NOMINA_AÑO'] . '-' . $this->data['Nomina']['NOMINA_MES'] . '-' . $dia;
             }
         }
-        
+
         if (!empty($this->data['Nomina']['FECHA_INI'])) {
             $this->data['Nomina']['FECHA_INI'] = formatoFechaBeforeSave($this->data['Nomina']['FECHA_INI']);
         }
-        
+
         if (!empty($this->data['Nomina']['FECHA_FIN'])) {
             $this->data['Nomina']['FECHA_FIN'] = formatoFechaBeforeSave($this->data['Nomina']['FECHA_FIN']);
         }
@@ -106,10 +107,12 @@ class Nomina extends AppModel {
         $contrato = ClassRegistry::init('Contrato');
         $listado_contratos = $contrato->buscarContratosPorFecha($nomina['Nomina']['FECHA_INI'], $nomina['Nomina']['FECHA_FIN']);
         foreach ($listado_contratos as $contrato) {
-            $empleados[]=$contrato['Contrato']['empleado_id'];
+            $empleados[] = $contrato['Contrato']['empleado_id'];
         }
-        $this->habtmDeleteAll('Empleado', $id); 
-        $this->habtmAdd('Empleado', $id, $empleados);
+        if (!empty($empleados)) {
+            $this->habtmDeleteAll('Empleado', $id);
+            $this->habtmAdd('Empleado', $id, $empleados);
+        }
     }
 
     /**
@@ -167,7 +170,7 @@ class Nomina extends AppModel {
                     )
                 )
             )
-                ));        
+                ));
         return $contratos;
     }
 
@@ -179,8 +182,8 @@ class Nomina extends AppModel {
         $asignacion = ClassRegistry::init('Asignacion');
         $deduccion = ClassRegistry::init('Deduccion');
         $empleados = $this->buscarInformacionEmpleados($id, $grupo, $modalidad);
-        if($this->verificarSueldos($empleados)){
-            $this->errorMessage="No existe suficiente informacion para generar esta Nomina <br/>
+        if ($this->verificarSueldos($empleados)) {
+            $this->errorMessage = "No existe suficiente informacion para generar esta Nomina <br/>
                 Verifique que cada cargo tenga definido un sueldo al momento de la nomina";
             return array();
         }
@@ -251,12 +254,12 @@ class Nomina extends AppModel {
         }
         return ($number_of_days + 1) - $cantidad - count($feriados);
     }
-    
-    function verificarSueldos($empleados){
-        $error=false;
+
+    function verificarSueldos($empleados) {
+        $error = false;
         foreach ($empleados as $empleado) {
-            if(empty($empleado['Cargo']['Historial'])){
-                $error=true;
+            if (empty($empleado['Cargo']['Historial'])) {
+                $error = true;
             }
         }
         return $error;

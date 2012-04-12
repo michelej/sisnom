@@ -8,7 +8,8 @@
                     <th></th>  
                     <th style="width:35%"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>                    
                     <th style="width:35%"><?php echo $this->Paginator->sort('Descripcion', 'DESCRIPCION'); ?></th>
-                    <th style="width:15%">Sueldo Base</th>
+                    <th style="width:5%; text-align:center">Desde</th>
+                    <th style="width:10%">Sueldo Base</th>
                     <th style="width:15%;text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
@@ -26,7 +27,13 @@
                         <td><?php echo $cargo['Cargo']['NOMBRE']; ?></td>                        
                         <td><?php echo $cargo['Cargo']['DESCRIPCION']; ?></td>                        
                         <td><?php if(!empty($cargo['Historial']['0'])){
-                                    echo $cargo['Historial']['0']['SUELDO_BASE'];
+                                    echo fechaElegible($cargo['Historial']['0']['FECHA_INI']);
+                                  }else{
+                                    echo "";  
+                                  }?>
+                        </td>
+                        <td><?php if(!empty($cargo['Historial']['0'])){
+                                    echo number_format($cargo['Historial']['0']['SUELDO_BASE'], 2, ',', '.');
                                   }else{
                                     echo "";  
                                   }?>
