@@ -9,9 +9,10 @@ class User extends AppModel {
             case 'guest':
                 // You can return any non-null value here, if you don't
                 // have a guest account, just return an empty array
-                return array('it' => 'works');
+                return array();
             case 'credentials':
-                $password = Authsome::hash($credentials['password']);
+                //$password = Authsome::hash($credentials['password']);
+                $password = md5($credentials['password']);
 
                 // This is the logic for validating the login
                 $conditions = array(

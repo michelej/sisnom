@@ -6,9 +6,7 @@ class EmpleadosController extends AppController {
     var $components = array('RequestHandler');
     var $helpers = array('Ajax','Javascript');    
     
-    function index() {
-        $guest = Authsome::get();
-        debug($guest);
+    function index() {        
         $filtro=array();
         if(!empty($this->data)){            
             if($this->data['Fopcion']==1){

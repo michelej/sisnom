@@ -23,8 +23,9 @@
                     <div class="split"><h1>SISTEMA DE RECURSOS HUMANOS</h1></div> 
                     <div class="split"> 
                         <div class="logout">
-                            <?php echo $this->Html->image('icon-logout.gif'); ?>
-                            <?php echo $html->link('Salir', array('controller' => 'Users', 'action' => 'logout')); ?> 
+                            <?php echo '( '.Authsome::get('username').') '.Authsome::get('nombres').' '.Authsome::get('apellidos')?>
+                            <?php echo $this->Html->image('icon-logout.gif'); ?>                            
+                            <?php echo $html->link('Salir', array('controller' => 'users', 'action' => 'logout')); ?> 
                         </div> 
 
                     </div> 

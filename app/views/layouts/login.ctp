@@ -4,7 +4,7 @@
         <title>
         </title>
         <?php echo $html->css('inlog.css'); ?>
-        <?php echo $html->css('style_text.css'); ?>
+        <?php echo $html->css('style_text.css'); ?>        
         <?php echo $html->css('c-grey.css'); ?>
         <?php echo $html->css('form.css'); ?>
         <?php echo $html->css('messages.css'); ?>
@@ -17,8 +17,7 @@
             <!-- INICIO DE CONTENIDO -->
             <div class="container">   
                 <?php echo $content_for_layout; ?>
-            </div>
-            <? echo $this->Session->flash(); ?>
+            </div>            
             <!-- FIN DE CONTENIDO -->
         </div>
         <!-- FIN DE WRAPPER -->

@@ -2,7 +2,8 @@
 
 class UsersController extends AppController {
     
-    var $name = 'Users';    
+    var $name = 'Users';   
+    
     
     public function login() {
         $this->layout = 'login';
@@ -12,12 +13,16 @@ class UsersController extends AppController {
         $user = Authsome::login($this->data['User']);
 
         if (!$user) {
-            $this->Session->setFlash('Unknown user or wrong password');
+            $this->Session->setFlash('Usuario Desconocido o Password Incorrecto');
             return;
         }
-
-        $user = Authsome::get();
-        debug($user);
+        $redirect=$this->Session->read('loginRedirect');        
+        $this->redirect($redirect);                
+    }
+    
+    public function logout(){
+        $this->Authsome->logout();
+        $this->redirect('/');
     }
 
 }
