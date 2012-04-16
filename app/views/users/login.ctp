@@ -16,10 +16,10 @@
         <?php echo $this->Form->create('User', array('url' => array('controller' => 'users', 'action' => 'login'))); ?>
         <div class="row">
             <div class="half-left">                
-                <?php echo $this->Form->input('username', array('label' => 'Usuario', 'div' => false)); ?>
+                <?php echo $this->Form->input('USERNAME', array('label' => 'Usuario', 'div' => false)); ?>
             </div>
             <div class="half">                
-                <?php echo $this->Form->input('password', array('label' => 'Contraseña')); ?>
+                <?php echo $this->Form->input('PASSWORD', array('label' => 'Contraseña','type'=>'password')); ?>
             </div>
         </div>
         <div class="row">    

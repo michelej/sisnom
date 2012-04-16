@@ -23,7 +23,7 @@
                     <div class="split"><h1>SISTEMA DE RECURSOS HUMANOS</h1></div> 
                     <div class="split"> 
                         <div class="logout">
-                            <?php echo '( '.Authsome::get('username').') '.Authsome::get('nombres').' '.Authsome::get('apellidos')?>
+                            <?php echo '( '.Authsome::get('USERNAME').') '.Authsome::get('NOMBRE').' '.Authsome::get('APELLIDO')?>
                             <?php echo $this->Html->image('icon-logout.gif'); ?>                            
                             <?php echo $html->link('Salir', array('controller' => 'users', 'action' => 'logout')); ?> 
                         </div> 

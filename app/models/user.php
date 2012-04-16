@@ -12,12 +12,12 @@ class User extends AppModel {
                 return array();
             case 'credentials':
                 //$password = Authsome::hash($credentials['password']);
-                $password = md5($credentials['password']);
+                $password = md5($credentials['PASSWORD']);
 
                 // This is the logic for validating the login
                 $conditions = array(
-                    'User.username' => $credentials['username'],
-                    'User.password' => $password,
+                    'User.USERNAME' => $credentials['USERNAME'],
+                    'User.PASSWORD' => $password,
                 );
                 break;
             default:
