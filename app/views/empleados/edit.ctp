@@ -118,7 +118,11 @@
             // INI ROW
             echo "<div class='row'>";
             echo "<div style='float:left;width:25%'>";
-            echo $this->Form->input('INGRESO', array('type' => 'text', 'div' => false, 'label' => 'Fecha de Ingreso', 'class' => 'datepicker dp-applied')) . "</br>";
+            echo $this->Form->input('INGRESO', array('type' => 'text', 'div' => false, 'label' => 'Fecha de Ingreso', 'class' => 'datepicker dp-applied')) . "</br>";            
+            echo "</div>";
+            
+            echo "<div style='float:left;width:25%'>";
+            echo $this->Form->input('grupo_id', array('div' => false, 'label' => 'Grupo', 'class' => 'small','empty' => 'Seleccione una Opcion'));
             echo "</div>";
             echo "</div>";
             // END ROW

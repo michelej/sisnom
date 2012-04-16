@@ -31,17 +31,17 @@ class Nomina extends AppModel {
             if (empty($this->data['Nomina']['NOMINA_MES']) || empty($this->data['Nomina']['NOMINA_AÑO'])) {
                 $this->errorMessage = 'Inserte un rango valido de fechas';
                 return false;
-            }            
-            if(is_numeric($this->data['Nomina']['NOMINA_AÑO'])){
-                if($this->data['Nomina']['NOMINA_AÑO']<1900 || $this->data['Nomina']['NOMINA_AÑO']>2200){
-                    $this->errorMessage="El año es Invalido";
+            }
+            if (is_numeric($this->data['Nomina']['NOMINA_AÑO'])) {
+                if ($this->data['Nomina']['NOMINA_AÑO'] < 1900 || $this->data['Nomina']['NOMINA_AÑO'] > 2200) {
+                    $this->errorMessage = "El año es Invalido";
                     return false;
                 }
-            }else{
-                $this->errorMessage="El año tiene que ser un numero";
+            } else {
+                $this->errorMessage = "El año tiene que ser un numero";
                 return false;
             }
-            
+
             if ($this->data['Nomina']['QUINCENA'] == 'Primera') {
                 $this->data['Nomina']['FECHA_INI'] = $this->data['Nomina']['NOMINA_AÑO'] . '-' . $this->data['Nomina']['NOMINA_MES'] . '-1';
                 $this->data['Nomina']['FECHA_FIN'] = $this->data['Nomina']['NOMINA_AÑO'] . '-' . $this->data['Nomina']['NOMINA_MES'] . '-15';
@@ -129,19 +129,24 @@ class Nomina extends AppModel {
      * @param type $id ID de la Nomina
      * @return type Informacion de los empleados  
      */
-    function buscarInformacionEmpleados($id, $grupo, $modalidad) {
+    function buscarInformacionEmpleados($id, $grupo, $modalidad) {        
         $nomina = $this->find("first", array(
             'conditions' => array(
-                'id' => $id),
+                'id' => $id,
+            ),
             'contain' => array(
                 'Empleado' => array(
+                    'conditions'=>array(
+                      'grupo_id'=>$grupo  
+                    ),
                     'fields' => array(
                         'id',
-                    )
+                    ),
+                    'Grupo'
                 )
             )
                 ));
-
+        
         $fecha_ini = formatoFechaBeforeSave($nomina['Nomina']['FECHA_INI']);
         $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);
         $empleados = Set::extract('/Empleado/id', $nomina);
@@ -158,12 +163,13 @@ class Nomina extends AppModel {
                 'AND' => array(
                     'FECHA_INI < ' => $fecha_fin,
                     'empleado_id' => $empleados,
-                    'GRUPO' => $grupo,
                     'MODALIDAD' => $modalidad
                 )
             ),
             'contain' => array(
-                'Empleado',
+                'Empleado' => array(
+                    'Grupo'
+                ),
                 'Departamento',
                 'Cargo' => array(
                     'Historial' => array(
@@ -196,6 +202,7 @@ class Nomina extends AppModel {
                 Verifique que cada cargo tenga definido un sueldo al momento de la nomina";
             return array();
         }
+        //debug($empleados);
         foreach ($empleados as $key => $empleado) {
             $empleados[$key]['Nomina_Empleado']['ID_EMPLEADO'] = $empleado['Empleado']['id'];
             $empleados[$key]['Nomina_Empleado']['ID_NOMINA'] = $id;
@@ -203,13 +210,13 @@ class Nomina extends AppModel {
             $empleados[$key]['Nomina_Empleado']['CARGO'] = $empleado['Cargo']['NOMBRE'];
             $empleados[$key]['Nomina_Empleado']['DEPARTAMENTO'] = $empleado['Departamento']['NOMBRE'];
             $empleados[$key]['Nomina_Empleado']['MODALIDAD'] = $empleado['Contrato']['MODALIDAD'];
-            $empleados[$key]['Nomina_Empleado']['GRUPO'] = $empleado['Contrato']['GRUPO'];
+            $empleados[$key]['Nomina_Empleado']['GRUPO'] = $empleado['Empleado']['Grupo']['NOMBRE'];
             $empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] = $empleado['Cargo']['Historial']['0']['SUELDO_BASE'];
             $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] / 30;
             $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] * 15; // QUINCENA
             $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS'] = '15';
-            $empleados[$key]['Nomina_Empleado']['Asignaciones'] = $asignacion->calcularAsignaciones($empleados[$key]['Nomina_Empleado'], $grupo);
-            $totalasig = 0;
+            $empleados[$key]['Nomina_Empleado']['Asignaciones'] = $asignacion->calcularAsignaciones($empleados[$key]['Nomina_Empleado'], $empleado['Empleado']['Grupo']['NOMBRE']);
+            $totalasig = 0;            
             foreach ($empleados[$key]['Nomina_Empleado']['Asignaciones'] as $value) {
                 $totalasig = $totalasig + $value;
             }

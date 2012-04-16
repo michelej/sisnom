@@ -27,13 +27,15 @@ class Asignacion extends AppModel {
      *  El (id) es importante se usa para identificar la asignacion a la hora de calcular!!!
      */
     function verificar() {
+        // Los grupos aqui definidos deberian ser iguales a los que se encuentran en
+        // el modelo Grupo (IMPORTANTE)
         $this->data = array(
-            '1' => array('id' => '1', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Reconocimiento'),
-            '2' => array('id' => '2', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima Hogar'),
-            '3' => array('id' => '3', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Antiguedad'),
-            '4' => array('id' => '4', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Transporte'),
-            '5' => array('id' => '5', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Prima por Hijos'),
-            '6' => array('id' => '6', 'GRUPO' => 'Administrativo', 'DESCRIPCION' => 'Nivelacion Profesional'),
+            '1' => array('id' => '1', 'GRUPO' => 'Empleado', 'DESCRIPCION' => 'Prima por Reconocimiento'),
+            '2' => array('id' => '2', 'GRUPO' => 'Empleado', 'DESCRIPCION' => 'Prima Hogar'),
+            '3' => array('id' => '3', 'GRUPO' => 'Empleado', 'DESCRIPCION' => 'Prima por Antiguedad'),
+            '4' => array('id' => '4', 'GRUPO' => 'Empleado', 'DESCRIPCION' => 'Prima por Transporte'),
+            '5' => array('id' => '5', 'GRUPO' => 'Empleado', 'DESCRIPCION' => 'Prima por Hijos'),
+            '6' => array('id' => '6', 'GRUPO' => 'Empleado', 'DESCRIPCION' => 'Nivelacion Profesional'),
             '7' => array('id' => '7', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Bono Nocturno'),
             '8' => array('id' => '8', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Recargo por Domingo y Dia Feriado'),
             '9' => array('id' => '9', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Reconocimiento'),
@@ -75,10 +77,12 @@ class Asignacion extends AppModel {
         // Buscamos todas las asignaciones de este grupo
         $data = $this->find('all', array(
             'recursive' => -1,
-            'conditions' => array(
-                'GRUPO' => $grupo
+            'conditions'=>array(
+                'GRUPO'=>$grupo
             )
                 ));
+        
+        
         $sueldo_base=$nomina_empleado['SUELDO_BASE'];
         $sueldo_diario = $nomina_empleado['SUELDO_DIARIO'];
         $sueldo_basico = $nomina_empleado['SUELDO_BASICO'];
@@ -113,29 +117,29 @@ class Asignacion extends AppModel {
             switch ($value['Asignacion']['id']) {
                 //-----------------------------------------------------//
                 //
-                //              ADMINISTRATIVO - EMPLEADOS
+                //                     EMPLEADO
                 //
                 //--------------- Prima Reconocimiento ----------------//
                 //-----------------------------------------------------//
                 case "1":
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['Asignacion']['id'])) {
                         $valor = 12 / 2;
-                    } else {
+                    } else {                        
                         $valor = 0;
                     }
                     $asignaciones[$value['Asignacion']['DESCRIPCION']] = $valor;
                     break;
                 //--------------------------------------------------//
                 //
-                //                 ADMINISTRATIVO
+                //                 EMPLEADO
                 //
                 //---------------- Prima por Hogar -----------------//
                 //--------------------------------------------------//   
                 case "2":
-                    if ($this->empleadoTieneAsignacion($id_empleado, $value['Asignacion']['id'])) {
+                    if ($this->empleadoTieneAsignacion($id_empleado, $value['Asignacion']['id'])) {                        
                         if ($empleado['Empleado']['EDOCIVIL'] == 'Casado' || $empleado['Empleado']['EDOCIVIL'] == 'Concubinato') {
                             $valor = 12 / 2;
-                        } else {
+                        } else {                            
                             $valor = 0;
                         }
                         $hijos = 0;
@@ -147,14 +151,14 @@ class Asignacion extends AppModel {
                         if ($hijos > 0) {
                             $valor = 12 / 2;
                         }
-                    } else {
+                    } else {                        
                         $valor = 0;
                     }
                     $asignaciones[$value['Asignacion']['DESCRIPCION']] = $valor;
                     break;
                 //--------------------------------------------------//
                 //
-                //                    ADMINISTRATIVO
+                //                    EMPLEADO
                 //
                 //----------------- Prima por Antiguedad -----------//
                 //--------------------------------------------------// 
@@ -198,28 +202,28 @@ class Asignacion extends AppModel {
                             $valor = 184.50 / 2;
                         if ($numero > 30)
                             $valor = 196.80 / 2;
-                    } else {
+                    } else {                        
                         $valor = 0;
                     }
                     $asignaciones[$value['Asignacion']['DESCRIPCION']] = $valor;
                     break;
                 //--------------------------------------------------//
                 //
-                //                  ADMINISTRATIVO
+                //                  EMPLEADO
                 //
                 //--------------- Prima por Transporte -------------//
                 //--------------------------------------------------// 
                 case "4":
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['Asignacion']['id'])) {
                         $valor = 60 / 2;
-                    } else {
+                    } else {                       
                         $valor = 0;
                     }
                     $asignaciones[$value['Asignacion']['DESCRIPCION']] = $valor;
                     break;
                 //--------------------------------------------------//
                 //
-                //                 ADMINISTRATIVO
+                //                 EMPLEADO
                 //
                 //--------------- Prima por Hijos ------------------//
                 //--------------------------------------------------// 
@@ -242,14 +246,14 @@ class Asignacion extends AppModel {
                                 $valor+=18 / 2;
                             }
                         }
-                    } else {
+                    } else {                        
                         $valor = 0;
                     }
                     $asignaciones[$value['Asignacion']['DESCRIPCION']] = $valor;
                     break;
                 //--------------------------------------------------//
                 //
-                //                 ADMINISTRATIVO
+                //                 EMPLEADO
                 //
                 //-------------Nivelacion Profesional---------------//
                 //--------------------------------------------------// 
@@ -274,7 +278,7 @@ class Asignacion extends AppModel {
                                 $valor = +300 / 2;
                             }
                         }
-                    } else {
+                    } else {                        
                         $valor = 0;
                     }
                     $asignaciones[$value['Asignacion']['DESCRIPCION']] = $valor;
@@ -294,7 +298,7 @@ class Asignacion extends AppModel {
                             }
                         }
                         $valor = $count * $sueldo_diario * 0.30;
-                    } else {
+                    } else {                        
                         $valor = 0;
                     }
                     $asignaciones[$value['Asignacion']['DESCRIPCION']] = $valor;
@@ -314,7 +318,7 @@ class Asignacion extends AppModel {
                             }
                         }
                         $valor = $count * $sueldo_diario * 1.50;
-                    } else {
+                    } else {                        
                         $valor = 0;
                     }
                     $asignaciones[$value['Asignacion']['DESCRIPCION']] = $valor;
@@ -328,7 +332,7 @@ class Asignacion extends AppModel {
                 case "9":
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['Asignacion']['id'])) {
                         $valor = 5.4 / 2;
-                    } else {
+                    } else {                        
                         $valor = 0;
                     }
                     $asignaciones[$value['Asignacion']['DESCRIPCION']] = $valor;
@@ -356,7 +360,7 @@ class Asignacion extends AppModel {
                             $valor = 0.850 * 15;
                         if ($numero > 15)
                             $valor = 1.5 * 15;
-                    }else {
+                    }else {                        
                         $valor = 0;
                     }
                     $asignaciones[$value['Asignacion']['DESCRIPCION']] = $valor;
@@ -378,7 +382,7 @@ class Asignacion extends AppModel {
                         }else{
                             $valor = 0.260 * $diasHabiles;
                         }                        
-                    } else {
+                    } else {                        
                         $valor = 0;
                     }
                     $asignaciones[$value['Asignacion']['DESCRIPCION']] = $valor;
@@ -408,7 +412,7 @@ class Asignacion extends AppModel {
                                 $valor+=3.5 / 2;
                             }
                         }
-                    } else {
+                    } else {                        
                         $valor = 0;
                     }
                     $asignaciones[$value['Asignacion']['DESCRIPCION']] = $valor;

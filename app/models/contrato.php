@@ -30,10 +30,6 @@ class Contrato extends AppModel{
         'MODALIDAD' => array(
             'rule'=> array('notEmpty'),
             'message'=>'Seleccione una Modalidad',
-        ),
-        'GRUPO' => array(
-            'rule'=> array('notEmpty'),
-            'message'=>'Seleccione un Grupo',
         )
     );
     

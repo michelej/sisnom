@@ -11,6 +11,8 @@ class Empleado extends AppModel {
     var $hasMany = array('Contrato','Familiar','Titulo','HorasExtra');
     
     var $hasAndBelongsToMany = array('Asignacion','Deduccion','Nomina');
+    
+    var $belongsTo ='Grupo';
     /**
      *  Validaciones
      */    
@@ -50,7 +52,11 @@ class Empleado extends AppModel {
         'INGRESO' => array(
             'rule' => array('date', 'dmy'),
             'message' => 'Fecha incorrecta',
-        ),        
+        ),
+        'grupo_id' => array(
+            'rule' => 'notEmpty',
+            'message' => 'Seleccione una opcion'
+        ),
     );
 
     function beforeSave() {

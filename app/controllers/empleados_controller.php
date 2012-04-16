@@ -18,11 +18,11 @@ class EmpleadosController extends AppController {
             if($this->data['Fopcion']==3){
                $filtro=array('Empleado.APELLIDO LIKE'=>"%".$this->data['valor']."%"); 
             }
-        }        
-        //$this->Empleado->recursive = -1;
+        }                
         $this->paginate = array(
             'limit' => 20,
             'contain' => array(
+                'Grupo',
                 'Contrato' => array(                    
                     'Cargo', 'Departamento',
                     'conditions' => array(
@@ -34,7 +34,7 @@ class EmpleadosController extends AppController {
         $this->set('empleados',$data);
     }
 
-    function add() {
+    function add() {        
         if (!empty($this->data)) {             
             if ($this->Empleado->save($this->data['Empleado'])) {
                 $this->Session->setFlash('Empleado agregado con exito','flash_success');
@@ -42,6 +42,8 @@ class EmpleadosController extends AppController {
             }
             $this->Session->setFlash('Existen errores corrigalos antes de continuar','flash_error');
         }
+        $grupos=$this->Empleado->Grupo->find('list');
+        $this->set('grupos',$grupos);
     }
 
     function delete($id) {
@@ -62,8 +64,10 @@ class EmpleadosController extends AppController {
 
     function edit($id) {
         $this->Empleado->id = $id;        
-        if (empty($this->data)) {                                                
+        if (empty($this->data)) {            
             $this->data = $this->Empleado->read();
+            $grupos=$this->Empleado->Grupo->find('list');
+            $this->set('grupos',$grupos);
         } else {            
             if ($this->Empleado->save($this->data)) {
                 $this->Session->setFlash('Empleado Modificado','flash_success');

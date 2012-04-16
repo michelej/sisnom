@@ -31,10 +31,9 @@
                     <th></th>  
                     <th style="width:15%"><?php echo $this->Paginator->sort('Fecha Inicio', 'FECHA_INI') ?></th>                    
                     <th style="width:15%"><?php echo $this->Paginator->sort('Fecha Final', 'FECHA_FIN') ?></th>                                        
-                    <th style="width:15%"><?php echo $this->Paginator->sort('Modalidad', 'MODELIDAD') ?></th>
-                    <th style="width:15%"><?php echo $this->Paginator->sort('Grupo', 'GRUPO') ?></th>
-                    <th style="width:20%"><?php echo $this->Paginator->sort('Cargo', 'cargo_id') ?></th>
-                    <th style="width:20%"><?php echo $this->Paginator->sort('Departamento', 'departamento_id') ?></th>
+                    <th style="width:20%"><?php echo $this->Paginator->sort('Modalidad', 'MODELIDAD') ?></th>                    
+                    <th style="width:25%"><?php echo $this->Paginator->sort('Cargo', 'cargo_id') ?></th>
+                    <th style="width:25%"><?php echo $this->Paginator->sort('Departamento', 'departamento_id') ?></th>
                     <th style="width:15%; text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
@@ -57,8 +56,7 @@
                     echo fechaElegible($contrato['Contrato']['FECHA_FIN']);
                 }
                     ?></td>                                                
-                        <td><?php echo $contrato['Contrato']['MODALIDAD']; ?></td>
-                        <td><?php echo $contrato['Contrato']['GRUPO']; ?></td>
+                        <td><?php echo $contrato['Contrato']['MODALIDAD']; ?></td>                        
                         <td><?php echo $contrato['Cargo']['NOMBRE']; ?></td>
                         <td><?php echo $contrato['Departamento']['NOMBRE']; ?></td>
                         <td class="actions">

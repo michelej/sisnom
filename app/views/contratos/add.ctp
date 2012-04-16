@@ -25,12 +25,7 @@
         echo "<div style='float:left;width:40%'>";
         $options = array('Fijo' => 'Fijo', 'Contratado' => 'Contratado');
         echo $this->Form->input('MODALIDAD', array('div' => false, 'label' => 'Modalidad del Contrato', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una opcion'));
-        echo "</div>";
-
-        echo "<div style='float:left;width:60%'>";
-        $options = array('Administrativo' => 'Administrativo', 'Obrero' => 'Obrero');
-        echo $this->Form->input('GRUPO', array('div' => false, 'label' => 'Grupo', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una opcion'));
-        echo "</div>";
+        echo "</div>";        
         echo "</div>";
 
         echo "<div class='row'>";

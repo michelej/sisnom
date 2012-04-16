@@ -48,7 +48,7 @@
             <?php
             echo $this->Form->create(false, array('target' => '_blank','url' => array('controller' => 'nominas', 'action' => 'calcular')));            
             echo "<div style='float:left;width:30%;'>";
-            $options = array('Administrativo' => 'Administrativo', 'Obrero' => 'Obrero');
+            $options = array('1' => 'Empleado', '2' => 'Obrero');
             echo $this->Form->label('Personal');
             echo $this->Form->input('nomina_id', array('type' => 'hidden','value'=>$nomina['Nomina']['id']));
             echo $this->Form->input('GRUPO', array('div' => false, 'label' => false, 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una Opcion'));
