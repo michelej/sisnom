@@ -13,9 +13,13 @@
             <?php echo $this->Form->label('Nombre Completo'); ?>
             <?php echo $empleado['Empleado']['NOMBRE'] . " " . $empleado['Empleado']['APELLIDO']; ?>
             <?php echo "</div>"; ?>            
-            <?php echo "<div style='float:left;width:35%'>"; ?>
+            <?php echo "<div style='float:left;width:20%'>"; ?>
             <?php echo $this->Form->label('Fecha de Ingreso'); ?>
             <?php echo fechaElegible($empleado['Empleado']['INGRESO']); ?>
+            <?php echo "</div>"; ?>            
+            <?php echo "<div style='float:left;width:30%'>"; ?>
+            <?php echo $this->Form->label('Grupo'); ?>
+            <?php echo $empleado['Grupo']['NOMBRE']; ?>
             <?php echo "</div>"; ?>            
         </div>
     </div>   
@@ -29,9 +33,8 @@
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
-                    <th></th>  
-                    <th style="width:20%">Grupo</th>
-                    <th style="width:70%">Descripcion</th>                    
+                    <th></th>                      
+                    <th style="width:90%">Descripcion</th>                    
                     <th style="width:10%; text-align: center">Usada</th>                    
                 </tr>
             </thead>
@@ -52,8 +55,7 @@
                     }
                     ?>
                     <tr<?php echo $class; ?>>
-                        <td></td>
-                        <td><?php echo $asignacion['Asignacion']['GRUPO']; ?></td>                        
+                        <td></td>                        
                         <td><?php echo $asignacion['Asignacion']['DESCRIPCION']; ?></td>                                                
                         <td><?php echo $this->Form->input('Asignacion.' . $id, array('type' => 'checkbox', 'label' => false, 'checked' => $checked)); ?></td>                        
                     </tr>

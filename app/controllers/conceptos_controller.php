@@ -59,8 +59,8 @@ class ConceptosController extends AppController {
         $this->paginate = array(
             'Empleado' => array(
                 'type' => 'first',
-                'conditions' => array('id' => $id),
-                'contain' => array('Asignacion', 'Deduccion'))
+                'conditions' => array('Empleado.id' => $id),
+                'contain' => array('Asignacion', 'Deduccion','Grupo'))
         );
 
         $empleado = $this->paginate('Empleado');

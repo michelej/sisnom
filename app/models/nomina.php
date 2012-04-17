@@ -27,9 +27,9 @@ class Nomina extends AppModel {
 
     function beforeSave() {
         // Cuando esto existe es porque viene del ADD es un nuevo registro
-        if (isset($this->data['Nomina']['NOMINA_MES']) && isset($this->data['Nomina']['NOMINA_MES'])) {
+        if (isset($this->data['Nomina']['NOMINA_MES']) && isset($this->data['Nomina']['NOMINA_AÑO'])) {
             if (empty($this->data['Nomina']['NOMINA_MES']) || empty($this->data['Nomina']['NOMINA_AÑO'])) {
-                $this->errorMessage = 'Inserte un rango valido de fechas';
+                $this->errorMessage = 'Seleccione un Mes e ingrese un valor en Año';
                 return false;
             }
             if (is_numeric($this->data['Nomina']['NOMINA_AÑO'])) {

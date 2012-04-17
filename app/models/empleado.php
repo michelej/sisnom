@@ -8,7 +8,7 @@ class Empleado extends AppModel {
     /**
      *  Relaciones
      */
-    var $hasMany = array('Contrato','Familiar','Titulo','HorasExtra');
+    var $hasMany = array('Contrato','Familiar','Titulo','HorasExtra','Prestamo');
     
     var $hasAndBelongsToMany = array('Asignacion','Deduccion','Nomina');
     
