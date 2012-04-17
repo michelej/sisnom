@@ -44,7 +44,6 @@ class ContratosController extends AppController {
 
     function edit($id = null) {
         if (empty($this->data)) {
-            $this->Contrato->Empleado->recursive = -1;
             $this->paginate = array(
                 'Contrato' => array(
                     'conditions' => array(
@@ -55,7 +54,15 @@ class ContratosController extends AppController {
                 )
             );
             $contratos = $this->paginate('Contrato');
-            $empleado = $this->Contrato->Empleado->findById($id);
+            $empleado = $this->Contrato->Empleado->find('first',array(
+                'conditions'=>array(
+                    'Empleado.id'=>$id
+                ),
+                'contain'=>array(
+                    'Grupo'
+                )
+            ));
+            
             $this->set(compact('contratos', 'empleado'));
         } else {
             if ($this->Contrato->save($this->data)) {

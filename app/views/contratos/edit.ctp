@@ -10,11 +10,15 @@
             <?php echo "</div>"; ?>
             <?php echo "<div style='float:left;width:30%'>"; ?>
             <?php echo $this->Form->label('Nombre Completo'); ?>
-            <?php echo $empleado['Empleado']['APELLIDO']." ".$empleado['Empleado']['NOMBRE']; ?>
+            <?php echo $empleado['Empleado']['NOMBRE']." ".$empleado['Empleado']['APELLIDO']; ?>
             <?php echo "</div>"; ?>            
-            <?php echo "<div style='float:left;width:35%'>"; ?>
+            <?php echo "<div style='float:left;width:15%'>"; ?>
             <?php echo $this->Form->label('Fecha de Ingreso'); ?>
             <?php echo fechaElegible($empleado['Empleado']['INGRESO']); ?>
+            <?php echo "</div>"; ?>            
+            <?php echo "<div style='float:left;width:30%'>"; ?>
+            <?php echo $this->Form->label('Grupo'); ?>
+            <?php echo $empleado['Grupo']['NOMBRE']; ?>
             <?php echo "</div>"; ?>            
         </div>
     </div>

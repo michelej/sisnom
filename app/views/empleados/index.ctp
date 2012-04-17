@@ -25,11 +25,11 @@
             <thead>
                 <tr>
                     <th></th>  
-                    <th style="width:5%; text-align: center"><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>
-                    <th style="width:15%;"><?php echo $this->Paginator->sort('Nombre(s)', 'NOMBRE'); ?></th>
-                    <th style="width:15%;"><?php echo $this->Paginator->sort('Apellido(s)', 'APELLIDO'); ?></th>                    
-                    <th style="width:20%;"><?php echo $this->Paginator->sort('Grupo', 'Grupo.NOMBRE'); ?></th>
-                    <th style="width:20%;">Cargo</th>                    
+                    <th style="width:5%; text-align: center"><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>                    
+                    <th style="width:20%;"><?php echo $this->Paginator->sort('Nombre(s) y Apellido(s)', 'NOMBRE'); ?></th>                    
+                    <th style="width:10%;"><?php echo $this->Paginator->sort('Grupo', 'Grupo.NOMBRE'); ?></th>
+                    <th style="width:20%;">Cargo</th>
+                    <th style="width:20%;">Departamento</th>
                     <th style="width:25%; text-align: center"class="actions">Acciones</th>
                 </tr>
             </thead>
@@ -45,15 +45,20 @@
                     <tr<?php echo $class; ?>>
                         <td></td>
                         <td style="text-align: right"><?php echo $empleado['Empleado']['CEDULA']; ?></td>
-                        <td><?php echo $empleado['Empleado']['NOMBRE']; ?></td>
-                        <td><?php echo $empleado['Empleado']['APELLIDO']; ?></td>                        
+                        <td><?php echo $empleado['Empleado']['NOMBRE'].' '.$empleado['Empleado']['APELLIDO']; ?></td>                        
                         <td><?php echo $empleado['Grupo']['NOMBRE']; ?></td>
                         <td><?php if(!empty($empleado['Contrato']['0'])){
                                     echo $empleado['Contrato']['0']['Cargo']['NOMBRE'];
                                   }else{
-                                    echo "Inactivo";  
+                                    echo " ";  
                                   }?>
                         </td>                        
+                        <td><?php if(!empty($empleado['Contrato']['0'])){
+                                    echo $empleado['Contrato']['0']['Departamento']['NOMBRE'];
+                                  }else{
+                                    echo " ";  
+                                  }?>
+                        </td>
                         <td class="actions">
                             <?php
                             echo $this->Html->image("Contact.png", array("alt" => "Contratos", 'width' => '18', 'heigth' => '18', 'title' => 'Contratos', 'url' => array('controller'=>'contratos','action' => 'edit', $empleado['Empleado']['id'])));
