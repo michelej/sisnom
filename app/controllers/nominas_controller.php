@@ -76,7 +76,20 @@ class NominasController extends AppController {
             // OJO QUIZAS SEA MALA IDEA!
             // Para mantener las nominas con los cambios que se hagan
             $this->Nomina->generarNomina($id);
-            $empleados = $this->Nomina->calcularNomina($id, $this->data['GRUPO'], $this->data['MODALIDAD']);
+            
+            if($this->data['TIPO']=='1'){
+                $grupo='1';  // Empleado
+                $modalidad='Fijo';
+            }
+            if($this->data['TIPO']=='2'){
+                $grupo='2';  // Obrero
+                $modalidad='Fijo';
+            }
+            if($this->data['TIPO']=='3'){
+                $grupo=array(1,2);  // Empleado y Obrero
+                $modalidad='Contratado';
+            }
+            $empleados = $this->Nomina->calcularNomina($id, $grupo, $modalidad);
             
             if(empty($empleados)){
                 $this->render('error', 'nomina');
@@ -91,9 +104,9 @@ class NominasController extends AppController {
             $this->set(compact('empleados', 'nomina'));
             $this->render('pantalla', 'nomina');
 
-            if (empty($this->data['GRUPO']) || empty($this->data['MODALIDAD'])) {
+            if (empty($this->data['TIPO'])) {
                 $this->render('error', 'nomina');
-                $this->Session->setFlash('Debe seleccionar el tipo de Personal, y la Modalidad de la nomina', 'flash_error');
+                $this->Session->setFlash('Debe seleccionar el tipo de nomina', 'flash_error');
             }
         }
     }

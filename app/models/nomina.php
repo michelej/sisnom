@@ -125,19 +125,90 @@ class Nomina extends AppModel {
     }
 
     /**
+     * Realizamos los Calculos de la Nomina
+     * @param type $id 
+     */
+    function calcularNomina($id, $grupo, $modalidad) {
+        $time=time();        
+        $asignacion = ClassRegistry::init('Asignacion');
+        $deduccion = ClassRegistry::init('Deduccion');
+        $empleados = $this->buscarInformacionEmpleados($id, $grupo, $modalidad);
+        if ($this->verificarSueldos($empleados)) {
+            $this->errorMessage = "No existe suficiente informacion para generar esta Nomina <br/>
+                Verifique que cada cargo tenga definido un sueldo al momento de la nomina";
+            return array();
+        }
+        //debug($empleados);
+        $grupos = $this->Empleado->Grupo->find('list', array(
+            'conditions' => array(
+                'id'=>$grupo
+            )
+                )
+        );
+        
+        foreach ($empleados as $key => $empleado) {
+            $empleados[$key]['Nomina_Empleado']['ID_EMPLEADO'] = $empleado['Empleado']['id'];
+            $empleados[$key]['Nomina_Empleado']['ID_NOMINA'] = $id;
+            $empleados[$key]['Nomina_Empleado']['DIAS_HABILES'] = $this->nominaDiasHabiles($id);
+            $empleados[$key]['Nomina_Empleado']['CARGO'] = $empleado['Cargo']['NOMBRE'];
+            $empleados[$key]['Nomina_Empleado']['DEPARTAMENTO'] = $empleado['Departamento']['NOMBRE'];
+            $empleados[$key]['Nomina_Empleado']['MODALIDAD'] = $empleado['Contrato']['MODALIDAD'];
+            $empleados[$key]['Nomina_Empleado']['GRUPO'] = $empleado['Empleado']['Grupo']['NOMBRE'];
+            $empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] = $empleado['Cargo']['Historial']['0']['SUELDO_BASE'];
+            $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] / 30;
+            $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] * 15; // QUINCENA
+            $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS'] = '15';
+            $empleados[$key]['Nomina_Empleado']['Asignaciones'] = $asignacion->calcularAsignaciones($empleados[$key]['Nomina_Empleado'], $grupos);
+            $totalasig = 0;            
+            foreach ($empleados[$key]['Nomina_Empleado']['Asignaciones'] as $value) {
+                $totalasig = $totalasig + $value;
+            }
+            $empleados[$key]['Nomina_Empleado']['TOTAL_ASIGNACIONES'] = $totalasig;
+            $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] + $totalasig;
+            $empleados[$key]['Nomina_Empleado']['Deducciones'] = $deduccion->calcularDeducciones($id, $empleado['Empleado']['id'], $totalasig, $empleados[$key]['Nomina_Empleado']['SUELDO_BASE']);
+            $totaldedu = 0;
+            foreach ($empleados[$key]['Nomina_Empleado']['Deducciones'] as $value) {
+                $totaldedu = $totaldedu + $value;
+            }
+            $empleados[$key]['Nomina_Empleado']['TOTAL_DEDUCCIONES'] = $totaldedu;
+            $empleados[$key]['Nomina_Empleado']['TOTAL_SUELDO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES'] - $totaldedu;
+
+            unset($empleados[$key]['Contrato']);
+            unset($empleados[$key]['Cargo']);
+            unset($empleados[$key]['Departamento']);
+        }
+        //**************************************************
+        $time_end=time()-$time;
+        echo "TIEMPO: ".$time_end." seg";
+        echo "<br/>"; 
+        $mem_usage = memory_get_usage(true);
+        echo "MEMORIA: ";
+        if ($mem_usage < 1024)
+            echo $mem_usage." bytes";
+        elseif ($mem_usage < 1048576)
+            echo round($mem_usage/1024,2)." kilobytes";
+        else
+            echo round($mem_usage/1048576,2)." megabytes";
+           
+        echo "<br/>"; 
+        //**************************************************
+        return $empleados;
+    }
+
+    /**
      * Devuelve informacion asociada a cada empleado que se encuentra en esta nomina 
      * @param type $id ID de la Nomina
      * @return type Informacion de los empleados  
      */
-    function buscarInformacionEmpleados($id, $grupo, $modalidad) {        
+    function buscarInformacionEmpleados($id, $grupo, $modalidad) {
         $nomina = $this->find("first", array(
             'conditions' => array(
                 'id' => $id,
             ),
             'contain' => array(
                 'Empleado' => array(
-                    'conditions'=>array(
-                      'grupo_id'=>$grupo  
+                    'conditions' => array(
+                        'grupo_id' => $grupo
                     ),
                     'fields' => array(
                         'id',
@@ -146,7 +217,7 @@ class Nomina extends AppModel {
                 )
             )
                 ));
-        
+
         $fecha_ini = formatoFechaBeforeSave($nomina['Nomina']['FECHA_INI']);
         $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);
         $empleados = Set::extract('/Empleado/id', $nomina);
@@ -187,55 +258,6 @@ class Nomina extends AppModel {
             )
                 ));
         return $contratos;
-    }
-
-    /**
-     * Realizamos los Calculos de la Nomina
-     * @param type $id 
-     */
-    function calcularNomina($id, $grupo, $modalidad) {
-        $asignacion = ClassRegistry::init('Asignacion');
-        $deduccion = ClassRegistry::init('Deduccion');
-        $empleados = $this->buscarInformacionEmpleados($id, $grupo, $modalidad);
-        if ($this->verificarSueldos($empleados)) {
-            $this->errorMessage = "No existe suficiente informacion para generar esta Nomina <br/>
-                Verifique que cada cargo tenga definido un sueldo al momento de la nomina";
-            return array();
-        }
-        //debug($empleados);
-        foreach ($empleados as $key => $empleado) {
-            $empleados[$key]['Nomina_Empleado']['ID_EMPLEADO'] = $empleado['Empleado']['id'];
-            $empleados[$key]['Nomina_Empleado']['ID_NOMINA'] = $id;
-            $empleados[$key]['Nomina_Empleado']['DIAS_HABILES'] = $this->nominaDiasHabiles($id);
-            $empleados[$key]['Nomina_Empleado']['CARGO'] = $empleado['Cargo']['NOMBRE'];
-            $empleados[$key]['Nomina_Empleado']['DEPARTAMENTO'] = $empleado['Departamento']['NOMBRE'];
-            $empleados[$key]['Nomina_Empleado']['MODALIDAD'] = $empleado['Contrato']['MODALIDAD'];
-            $empleados[$key]['Nomina_Empleado']['GRUPO'] = $empleado['Empleado']['Grupo']['NOMBRE'];
-            $empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] = $empleado['Cargo']['Historial']['0']['SUELDO_BASE'];
-            $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] / 30;
-            $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] * 15; // QUINCENA
-            $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS'] = '15';
-            $empleados[$key]['Nomina_Empleado']['Asignaciones'] = $asignacion->calcularAsignaciones($empleados[$key]['Nomina_Empleado'], $empleado['Empleado']['Grupo']['NOMBRE']);
-            $totalasig = 0;            
-            foreach ($empleados[$key]['Nomina_Empleado']['Asignaciones'] as $value) {
-                $totalasig = $totalasig + $value;
-            }
-            $empleados[$key]['Nomina_Empleado']['TOTAL_ASIGNACIONES'] = $totalasig;
-            $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] + $totalasig;
-            $empleados[$key]['Nomina_Empleado']['Deducciones'] = $deduccion->calcularDeducciones($id, $empleado['Empleado']['id'], $totalasig, $empleados[$key]['Nomina_Empleado']['SUELDO_BASE']);
-            $totaldedu = 0;
-            foreach ($empleados[$key]['Nomina_Empleado']['Deducciones'] as $value) {
-                $totaldedu = $totaldedu + $value;
-            }
-            $empleados[$key]['Nomina_Empleado']['TOTAL_DEDUCCIONES'] = $totaldedu;
-            $empleados[$key]['Nomina_Empleado']['TOTAL_SUELDO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES'] - $totaldedu;
-
-            unset($empleados[$key]['Contrato']);
-            unset($empleados[$key]['Cargo']);
-            unset($empleados[$key]['Departamento']);
-        }
-
-        return $empleados;
     }
 
     /**

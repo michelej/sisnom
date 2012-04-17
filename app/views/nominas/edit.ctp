@@ -48,23 +48,22 @@
             <?php
             echo $this->Form->create(false, array('target' => '_blank','url' => array('controller' => 'nominas', 'action' => 'calcular')));            
             echo "<div style='float:left;width:30%;'>";
-            $options = array('1' => 'Empleado', '2' => 'Obrero');
-            echo $this->Form->label('Personal');
+            $options = array('1' => 'Fijo   -   Empleado', '2' => 'Fijo   -   Obrero','3'=>'Contratado  -  Empleado y Obrero');            
             echo $this->Form->input('nomina_id', array('type' => 'hidden','value'=>$nomina['Nomina']['id']));
-            echo $this->Form->input('GRUPO', array('div' => false, 'label' => false, 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una Opcion'));
+            echo $this->Form->input('TIPO', array('div' => false, 'label' => 'Tipo de Nomina', 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una Opcion'));
+            echo "</div>";            
             echo "</div>";
-            echo "<div style='float:left;width:20%'>";
-            $options2 = array('Fijo' => 'Fijo', 'Contratado' => 'Contratado');
-            echo $this->Form->label('Tipo');
-            echo $this->Form->input('MODALIDAD', array('div' => false, 'label' => false, 'class' => 'small','type'=>'select','options'=>$options2,'empty'=>'Seleccione una Opcion'));
-            echo "</div>";
-            echo "</div>";
+            
             echo "<div class='row'>";
             echo "<div style='float:left;width:25%;padding-top:16px'>";
             echo $this->Form->End('Generar Nomina');
             echo "</div>";            
             ?>
-        </div>       
+        </div>     
+        
+        
+            
+        
         
         <div class="row boton">                        
             <div class="boton">
