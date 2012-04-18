@@ -62,6 +62,7 @@
                         <td class="actions">
                             <?php
                             echo $this->Html->image("Contact.png", array("alt" => "Contratos", 'width' => '18', 'heigth' => '18', 'title' => 'Contratos', 'url' => array('controller'=>'contratos','action' => 'edit', $empleado['Empleado']['id'])));
+                            echo $this->Html->image("News Add.png", array("alt" => "Experiencia", 'width' => '18', 'heigth' => '18', 'title' => 'Experiencia Previa', 'url' => array('controller'=>'experiencias','action' => 'edit', $empleado['Empleado']['id'])));
                             echo $this->Html->image("Bookmarks.png", array("alt" => "Nivel Educativo", 'width' => '18', 'heigth' => '18', 'title' => 'Nivel Educativo', 'url' => array('controller'=>'titulos','action' => 'edit', $empleado['Empleado']['id'])));
                             echo $this->Html->image("familia.png", array("alt" => "Familiares", 'width' => '18', 'heigth' => '18', 'title' => 'Familiares', 'url' => array('controller'=>'familiares','action' => 'edit', $empleado['Empleado']['id'])));
                             echo $this->Html->image("file_search.png", array("alt" => "Consultar", 'width' => '18', 'heigth' => '18', 'title' => 'Consultar', 'url' => array('action' => 'view', $empleado['Empleado']['id'])));

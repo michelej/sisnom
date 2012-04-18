@@ -14,8 +14,7 @@ class AppController extends Controller {
         if(empty($login) && $this->action!='login'){
             $this->Session->write('loginRedirect','/'.$this->name.'/'.$this->action);
             $this->redirect('/users/login');
-        }
-        
+        }                
     }
 
 }

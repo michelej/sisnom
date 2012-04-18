@@ -85,8 +85,7 @@ class Asignacion extends AppModel {
      * Calcular las Asignaciones de un Empleado para una Nomina especifica
      * @param type 
      */
-    function calcularAsignaciones($nomina_empleado, $grupo) {
-
+    function calcularAsignaciones($nomina_empleado, $grupo) {        
         $data = $this->ordenDeAsignaciones($grupo);
 
         $sueldo_base = $nomina_empleado['SUELDO_BASE'];
@@ -106,7 +105,7 @@ class Asignacion extends AppModel {
 
         $empleado = $this->Empleado->find('first', array(
             'contain' => array(
-                'Familiar', 'Titulo',
+                'Familiar', 'Titulo', 'Experiencia',
                 'HorasExtra' => array(
                     'conditions' => array(
                         '(FECHA BETWEEN ? AND ?)' => array($fecha_ini, $fecha_fin)
@@ -170,12 +169,17 @@ class Asignacion extends AppModel {
                 //                    PRIMA POR ANTIGUEDAD
                 //
                 //------------------------------------------------------------//                
-                case "3":
-                    // Inicio o Fin de la Quincena??
-                    // TODO: Falta la antiguedad en los otros organismos
-                    if ($this->empleadoTieneAsignacion($id_empleado, $value['id'])) {
+                case "3":                                       
+                    if ($this->empleadoTieneAsignacion($id_empleado, $value['id'])) {                        
+                        $dias = 0;
+                        foreach ($empleado['Experiencia'] as $experiencia) {
+                            $dias = $dias+numeroDeDias($experiencia['FECHA_INI'], $experiencia['FECHA_FIN']);
+                        }
+                        $añosLab=($dias/365);
                         $dias = numeroDeDias($empleado['Empleado']['INGRESO'], $nomina['Nomina']['FECHA_INI']);
                         $numero = $dias / 365;
+                        
+                        $numero=$numero+$añosLab;
 
                         if ($nomina_empleado['GRUPO'] == 'Empleado') {
                             if ($numero < 1)
@@ -213,7 +217,7 @@ class Asignacion extends AppModel {
                             if ($numero > 30)
                                 $valor = 196.80 / 2;
                         }
-                        if ($nomina_empleado['GRUPO']=='Obrero') {
+                        if ($nomina_empleado['GRUPO'] == 'Obrero') {
                             if ($numero < 1)
                                 $valor = 0;
                             if ($numero > 1 && $numero < 4)
@@ -242,9 +246,9 @@ class Asignacion extends AppModel {
                         if ($nomina_empleado['GRUPO'] == 'Empleado') {
                             $valor = 60 / 2;
                         }
-                        if ($nomina_empleado['GRUPO'] == 'Obrero') {                            
+                        if ($nomina_empleado['GRUPO'] == 'Obrero') {
                             // OJO EL CARGO DEBE LLAMARSE """"Mensajero""""
-                             $diasHabiles = $nomina_empleado['DIAS_HABILES'];
+                            $diasHabiles = $nomina_empleado['DIAS_HABILES'];
                             if ($nomina_empleado['CARGO'] == 'Mensajero') {
                                 $valor = 0.416 * $diasHabiles;
                             } else {
@@ -374,7 +378,7 @@ class Asignacion extends AppModel {
                         $valor = 0;
                     }
                     $asignaciones[$value['DESCRIPCION']] = $valor;
-                    break;                
+                    break;
                 default:
                     $asignaciones[] = array();
                     break;
