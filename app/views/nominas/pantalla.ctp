@@ -25,7 +25,7 @@
                 </tr>
                 <tr>
                     <th style="width:1%">N#</th>
-                    <th style="width:25%">Apellidos y Nombre</th>
+                    <th style="width:25%">Nombres y Apellidos</th>
                     <th style="width:5%">Cedula de Identidad / Rif</th>
                     <th style="width:25%">Cargo</th>
                     <th style="width:5%">Salario Basico Mensual</th>
@@ -53,7 +53,7 @@
                 foreach ($empleados as $empleado):
                     echo '<tr class="modo1">';
                     echo '<td>' . $i++ . '</td>';
-                    echo '<td>' . $empleado['Empleado']['APELLIDO'] . " " . $empleado['Empleado']['NOMBRE'] . '</td>';
+                    echo '<td>' . $empleado['Empleado']['NOMBRE'] . " " . $empleado['Empleado']['APELLIDO'] . '</td>';
                     echo '<td style="text-align:right;">' . $empleado['Empleado']['CEDULA'] . '</td>';
                     echo '<td>' . $empleado['Nomina_Empleado']['CARGO'] . '</td>';
                     echo '<td>' . number_format($empleado['Nomina_Empleado']['SUELDO_BASE'], 2, ',', '.') . '</td>';

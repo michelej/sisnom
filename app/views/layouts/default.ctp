@@ -47,6 +47,8 @@
                                 <li><?php echo $this->Html->link($this->Html->image("Contacts.png", array('alt' => 'Basicas', 'height' => '18', 'width' => '18')) . " Basicas", array('controller' => 'Pages', 'action' => 'display'), array('escape' => false)); ?>
                                     <ul>                                        
                                         <li><?php echo $this->Html->link($this->Html->image("calendar_today.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Dias Feriados", array('controller' => 'feriados', 'action' => 'index'), array('escape' => false)); ?></li>
+                                        <li><?php echo $this->Html->link($this->Html->image("Money Bundle.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Prestamos de Caja de Ahorro", array('controller' => 'prestamos', 'action' => 'index'), array('escape' => false)); ?></li>  
+                                <li><?php echo $this->Html->link($this->Html->image("Credit Card.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Deducciones por Creditos Comerciales", array('controller' => 'comerciales', 'action' => 'index'), array('escape' => false)); ?></li>
                                     </ul>
                                 </li>                                
                             </ul>
@@ -56,8 +58,7 @@
                             <ul>                             
                                 <li><?php echo $this->Html->link($this->Html->image("Drawer Closed.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Administrar Conceptos", array('controller' => 'conceptos', 'action' => 'index'), array('escape' => false)); ?></li>                                     
                                 <li><?php echo $this->Html->link($this->Html->image("Button Remove.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Cargar Ausencias", array('controller' => 'ausencias', 'action' => 'index'), array('escape' => false)); ?></li>         
-                                <li><?php echo $this->Html->link($this->Html->image("Button White Add.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Cargar Horas Extras", array('controller' => 'horas_extras', 'action' => 'index'), array('escape' => false)); ?></li>  
-                                <li><?php echo $this->Html->link($this->Html->image("Money Bundle.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Prestamos de Caja de Ahorro", array('controller' => 'prestamos', 'action' => 'index'), array('escape' => false)); ?></li>  
+                                <li><?php echo $this->Html->link($this->Html->image("Button White Add.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Cargar Horas Extras", array('controller' => 'horas_extras', 'action' => 'index'), array('escape' => false)); ?></li>                                  
                                 <li><?php echo $this->Html->link($this->Html->image("News.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Administrar Nominas", array('controller' => 'nominas', 'action' => 'index'), array('escape' => false)); ?></li>                                
                         </li> 
                     </ul>             

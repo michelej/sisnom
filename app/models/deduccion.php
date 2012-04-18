@@ -101,12 +101,20 @@ class Deduccion extends AppModel {
                             'DATE_FORMAT(Prestamo.FECHA,"%y") = DATE_FORMAT("' . $fecha_ini . '","%y")'
                         )
                     )
+                ),
+                'Comercial' => array(
+                    'conditions' => array(
+                        'AND' => array(
+                            'DATE_FORMAT(Comercial.FECHA,"%m") = DATE_FORMAT("' . $fecha_ini . '","%m")',
+                            'DATE_FORMAT(Comercial.FECHA,"%y") = DATE_FORMAT("' . $fecha_ini . '","%y")'
+                        )
+                    )
                 )
             ),
             'conditions' => array(
                 'id' => $id_empleado
             )
-                )); 
+                ));
         //debug($empleado);
 
         foreach ($data as $value) {
@@ -198,7 +206,11 @@ class Deduccion extends AppModel {
                 //------------------------------------------------------------//    
                 case "6":
                     if ($this->empleadoTieneDeduccion($id_empleado, $value['Deduccion']['id'])) {
-                        $valor = $empleado['Prestamo']['0']['CANTIDAD'];
+                        if (!empty($empleado['Prestamo'])) {
+                            $valor = $empleado['Prestamo']['0']['CANTIDAD'];
+                        }else{
+                            $valor=0;
+                        }
                     } else {
                         $valor = 0;
                     }
@@ -211,7 +223,11 @@ class Deduccion extends AppModel {
                 //------------------------------------------------------------//    
                 case "7":
                     if ($this->empleadoTieneDeduccion($id_empleado, $value['Deduccion']['id'])) {
-                        $valor = 0;
+                        if (!empty($empleado['Comercial'])) {
+                            $valor = $empleado['Comercial']['0']['CANTIDAD'];
+                        }else{
+                            $valor=0;
+                        }                            
                     } else {
                         $valor = 0;
                     }
