@@ -109,6 +109,14 @@ class Deduccion extends AppModel {
                             'DATE_FORMAT(Comercial.FECHA,"%y") = DATE_FORMAT("' . $fecha_ini . '","%y")'
                         )
                     )
+                ),
+                'Tribunal' => array(
+                    'conditions' => array(
+                        'AND' => array(
+                            'DATE_FORMAT(Tribunal.FECHA,"%m") = DATE_FORMAT("' . $fecha_ini . '","%m")',
+                            'DATE_FORMAT(Tribunal.FECHA,"%y") = DATE_FORMAT("' . $fecha_ini . '","%y")'
+                        )
+                    )
                 )
             ),
             'conditions' => array(
@@ -240,7 +248,11 @@ class Deduccion extends AppModel {
                 //------------------------------------------------------------//    
                 case "8":
                     if ($this->empleadoTieneDeduccion($id_empleado, $value['Deduccion']['id'])) {
-                        $valor = 0;
+                        if (!empty($empleado['Tribunal'])) {
+                            $valor = $empleado['Tribunal']['0']['CANTIDAD'];
+                        }else{
+                            $valor=0;
+                        } 
                     } else {
                         $valor = 0;
                     }
