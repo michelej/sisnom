@@ -61,7 +61,7 @@
                         </td>
                         <td class="actions">
                             <?php
-                            echo $this->Html->image("Credit Card.png", array("alt" => "Comerciales", 'width' => '18', 'heigth' => '18', 'title' => 'Deducciones por Creditos Comerciales', 'url' => array('controller'=>'comerciales','action' => 'edit', $empleado['Empleado']['id'])));                            
+                            echo $this->Html->image("file_edit.png", array("alt" => "Comerciales", 'width' => '18', 'heigth' => '18', 'title' => 'Deducciones por Creditos Comerciales', 'url' => array('controller'=>'comerciales','action' => 'edit', $empleado['Empleado']['id'])));                            
                             ?>
                         </td>
                     </tr>

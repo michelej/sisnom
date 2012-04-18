@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="title"><h2>Prestamos de Caja de Ahorro</h2></div>
+    <div class="title"><h2>Retencion Impuesto sobre la Renta</h2></div>
     <div class="content pages">
         <div class="row">
             <?php
@@ -61,7 +61,7 @@
                         </td>
                         <td class="actions">
                             <?php
-                            echo $this->Html->image("file_edit.png", array("alt" => "Prestamos", 'width' => '18', 'heigth' => '18', 'title' => 'Prestamos de Caja de Ahorro', 'url' => array('controller'=>'prestamos','action' => 'edit', $empleado['Empleado']['id'])));                            
+                            echo $this->Html->image("file_edit.png", array("alt" => " ", 'width' => '18', 'heigth' => '18', 'title' => 'Retencion ISLR', 'url' => array('controller'=>'islrs','action' => 'edit', $empleado['Empleado']['id'])));                            
                             ?>
                         </td>
                     </tr>

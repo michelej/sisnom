@@ -61,7 +61,7 @@
                         </td>
                         <td class="actions">
                             <?php
-                            echo $this->Html->image("Briefcase.png", array("alt" => "Tribunales", 'width' => '18', 'heigth' => '18', 'title' => 'Deducciones por Tribunales', 'url' => array('controller'=>'tribunales','action' => 'edit', $empleado['Empleado']['id'])));                            
+                            echo $this->Html->image("file_edit.png", array("alt" => "Tribunales", 'width' => '18', 'heigth' => '18', 'title' => 'Deducciones por Tribunales', 'url' => array('controller'=>'tribunales','action' => 'edit', $empleado['Empleado']['id'])));                            
                             ?>
                         </td>
                     </tr>

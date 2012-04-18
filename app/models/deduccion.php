@@ -117,6 +117,14 @@ class Deduccion extends AppModel {
                             'DATE_FORMAT(Tribunal.FECHA,"%y") = DATE_FORMAT("' . $fecha_ini . '","%y")'
                         )
                     )
+                ),
+                'Islr' => array(
+                    'conditions' => array(
+                        'AND' => array(
+                            'DATE_FORMAT(Islr.FECHA,"%m") = DATE_FORMAT("' . $fecha_ini . '","%m")',
+                            'DATE_FORMAT(Islr.FECHA,"%y") = DATE_FORMAT("' . $fecha_ini . '","%y")'
+                        )
+                    )
                 )
             ),
             'conditions' => array(
@@ -265,7 +273,11 @@ class Deduccion extends AppModel {
                 //------------------------------------------------------------//       
                 case "9":
                     if ($this->empleadoTieneDeduccion($id_empleado, $value['Deduccion']['id'])) {
-                        $valor = 0;
+                        if (!empty($empleado['Islr'])) {
+                            $valor = ($sueldo_basico*$empleado['Islr']['0']['PORCENTAJE'])/100;
+                        }else{
+                            $valor=0;
+                        }
                     } else {
                         $valor = 0;
                     }
