@@ -30,9 +30,9 @@
             <thead>
                 <tr>
                     <th></th>  
-                    <th style="width:25%"><?php echo $this->Paginator->sort('Nombre', 'Familiar.NOMBRE') ?></th>
+                    <th style="width:25%"><?php echo $this->Paginator->sort('Nombre Completo', 'Familiar.NOMBRE') ?></th>
                     <th style="width:15%"><?php echo $this->Paginator->sort('Parentesco', 'PARENTESCO') ?></th>
-                    <th style="width:15%"><?php echo $this->Paginator->sort('Fecha', 'FECHA') ?></th>                                        
+                    <th style="width:15%"><?php echo $this->Paginator->sort('Fecha de Nacimiento', 'FECHA') ?></th>                                        
                     <th style="width:10%"><?php echo $this->Paginator->sort('Discapacidad', 'DISCAPACIDAD') ?></th>                                        
                     <th style="width:20%"><?php echo $this->Paginator->sort('Instruccion', 'INSTRUCCION') ?></th>                                        
                     <th style="width:15%; text-align: center" class="actions">Acciones</th>

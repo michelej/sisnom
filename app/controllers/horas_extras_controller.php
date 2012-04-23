@@ -20,9 +20,19 @@ class HorasExtrasController extends AppController {
             }
         }  
         
-        $this->HorasExtra->Empleado->recursive = -1;         
+        $this->paginate = array(
+            'limit' => 20,
+            'contain' => array(
+                'Grupo',
+                'Contrato' => array(                    
+                    'Cargo', 'Departamento',
+                    'conditions' => array(
+                        'FECHA_FIN' => NULL),                    
+                )
+                ));
+        
         $data=$this->paginate('Empleado',$filtro);                
-        $this->set('empleados',$data);
+        $this->set('empleados',$data);                
     }
     
     function edit($id=null){        

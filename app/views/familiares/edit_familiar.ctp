@@ -13,7 +13,7 @@
         // INI ROW
         echo "<div class='row'>";
         echo "<div style='float:left;width:30%'>";
-        echo $this->Form->input('NOMBRE', array('div' => false, 'label' => 'Nombre', 'class' => 'medium'));
+        echo $this->Form->input('NOMBRE', array('div' => false, 'label' => 'Nombre Completo', 'class' => 'medium'));
         echo "</div>";
         echo "</div>";
 
@@ -24,7 +24,7 @@
         echo "</div>";
 
         echo "<div style='float:left;width:40%'>";
-        echo $this->Form->input('FECHA', array('type' => 'text', 'div' => false, 'label' => 'Fecha', 'class' => 'datepicker dp-applied')) . "</br>";
+        echo $this->Form->input('FECHA', array('type' => 'text', 'div' => false, 'label' => 'Fecha de Nacimiento', 'class' => 'datepicker dp-applied')) . "</br>";
         echo "</div>";
         echo "</div>";
         

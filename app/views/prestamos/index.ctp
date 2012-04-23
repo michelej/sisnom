@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="title"><h2>Prestamos de Caja de Ahorro</h2></div>
+    <div class="title"><h2>Deducciones</h2></div>
     <div class="content pages">
         <div class="row">
             <?php
@@ -61,7 +61,10 @@
                         </td>
                         <td class="actions">
                             <?php
-                            echo $this->Html->image("file_edit.png", array("alt" => "Prestamos", 'width' => '18', 'heigth' => '18', 'title' => 'Prestamos de Caja de Ahorro', 'url' => array('controller'=>'prestamos','action' => 'edit', $empleado['Empleado']['id'])));                            
+                            echo $this->Html->image("Money Bundle.png", array("alt" => " ", 'width' => '18', 'heigth' => '18', 'title' => 'Prestamos de Caja de Ahorro', 'url' => array('controller'=>'prestamos','action' => 'edit', $empleado['Empleado']['id'])));
+                            echo $this->Html->image("Credit Card.png", array("alt" => " ", 'width' => '18', 'heigth' => '18', 'title' => 'Deduccion por Creditos Comerciales', 'url' => array('controller'=>'comerciales','action' => 'edit', $empleado['Empleado']['id'])));
+                            echo $this->Html->image("Briefcase.png", array("alt" => " ", 'width' => '18', 'heigth' => '18', 'title' => 'Deduccion por Tribunales', 'url' => array('controller'=>'tribunales','action' => 'edit', $empleado['Empleado']['id'])));
+                            echo $this->Html->image("islr.png", array("alt" => " ", 'width' => '18', 'heigth' => '18', 'title' => 'Retencion Impuesto sobre la Renta', 'url' => array('controller'=>'islrs','action' => 'edit', $empleado['Empleado']['id'])));
                             ?>
                         </td>
                     </tr>

@@ -24,6 +24,7 @@ class ConceptosController extends AppController {
         $this->paginate = array(
             'limit'=>20,            
             'contain' => array(
+                'Grupo',
                 'Contrato' => array(
                     'Cargo','Departamento',
                     'conditions' => array(
