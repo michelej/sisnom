@@ -306,8 +306,9 @@ class Deduccion extends AppModel {
                     )
                 )
             )
-                ));
-        if (empty($empleado)) {
+                ));        
+        
+        if (empty($empleado['Deduccion'])) {
             return false;
         } else {
             return true;

@@ -405,7 +405,7 @@ class Asignacion extends AppModel {
                 )
             )
                 ));
-        if (empty($empleado)) {
+        if (empty($empleado['Asignacion'])) {
             return false;
         } else {
             return true;
