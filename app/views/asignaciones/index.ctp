@@ -5,9 +5,8 @@
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
-                    <th></th>                      
-                    <th style="width:40%"><?php echo $this->Paginator->sort('Grupo', 'GRUPO'); ?></th>
-                    <th style="width:60%"><?php echo $this->Paginator->sort('Descripcion', 'DESCRIPCION'); ?></th>                    
+                    <th></th>                                          
+                    <th style="width:100%"><?php echo $this->Paginator->sort('Descripcion', 'DESCRIPCION'); ?></th>                    
                     <th></th>                      
                 </tr>
             </thead>
@@ -21,8 +20,7 @@
                     }
                     ?>
                     <tr<?php echo $class; ?>>
-                        <td></td>
-                        <td><?php echo $asignacion['Asignacion']['GRUPO']; ?></td>
+                        <td></td>                        
                         <td><?php echo $asignacion['Asignacion']['DESCRIPCION']; ?></td>                        
                         <td></td>
                     </tr>

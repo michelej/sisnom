@@ -61,7 +61,7 @@
                         </td>
                         <td class="actions">
                             <?php                            
-                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $empleado['Empleado']['id'])));                            
+                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Ajustes', 'width' => '18', 'heigth' => '18', 'url' => array('controller'=>'ajustes','action' => 'edit', $empleado['Empleado']['id'])));                            
                             ?>
                         </td>
                     </tr>

@@ -9,7 +9,7 @@ class Deduccion extends AppModel {
     /**
      *  Relaciones
      */
-    var $hasAndBelongsToMany = 'Empleado';
+    var $hasAndBelongsToMany = 'Ajuste';
     var $constante = array(
         '1' => array('id' => '1', 'CODIGO' => 'S.S.O', 'DESCRIPCION' => 'Seguro Social Obligatorio', 'PORCENTAJE' => '4%'),
         '2' => array('id' => '2', 'CODIGO' => 'R.P.E', 'DESCRIPCION' => 'Régimen Prestacional de Empleo ', 'PORCENTAJE' => '0.5%'),

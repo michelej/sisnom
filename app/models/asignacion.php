@@ -8,7 +8,7 @@ class Asignacion extends AppModel {
     /**
      *  Relaciones
      */
-    var $hasAndBelongsToMany = 'Empleado';
+    var $hasAndBelongsToMany = 'Ajuste';
 
     /**
      *

@@ -1,33 +1,8 @@
 <div class="box">
-    <div class="title"><h2>Empleado</h2>
-        <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>        
-    </div>
-    <div class="content forms">
-        <div class="row">
-            <?php echo $this->Form->create(false, array('url' => array('controller' => 'conceptos', 'action' => 'edit', $empleado['Empleado']['id']))); ?> 
-            <?php echo "<div style='float:left;width:10%'>"; ?>
-            <?php echo $this->Form->label('Cedula'); ?>
-            <?php echo $empleado['Empleado']['CEDULA']; ?>
-            <?php echo "</div>"; ?>
-            <?php echo "<div style='float:left;width:30%'>"; ?>
-            <?php echo $this->Form->label('Nombre Completo'); ?>
-            <?php echo $empleado['Empleado']['NOMBRE'] . " " . $empleado['Empleado']['APELLIDO']; ?>
-            <?php echo "</div>"; ?>            
-            <?php echo "<div style='float:left;width:20%'>"; ?>
-            <?php echo $this->Form->label('Fecha de Ingreso'); ?>
-            <?php echo fechaElegible($empleado['Empleado']['INGRESO']); ?>
-            <?php echo "</div>"; ?>            
-            <?php echo "<div style='float:left;width:30%'>"; ?>
-            <?php echo $this->Form->label('Grupo'); ?>
-            <?php echo $empleado['Grupo']['NOMBRE']; ?>
-            <?php echo "</div>"; ?>            
-        </div>
-    </div>   
-
-</div>
-<div class="box">
     <div class="title"><h2>Conceptos</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
+        <?php echo $this->Form->create(false, array('url' => array('controller' => 'ajustes', 'action' => 'edit_ajustes', $ajuste['Ajuste']['id']))); ?> 
+        <?php echo $this->Form->input("empleado_id",array('type'=>'hidden','value'=>$ajuste['Ajuste']['empleado_id'])); ?>
     </div>
     <div class="content pages">
         <table cellpadding="0" cellspacing="0">
@@ -51,7 +26,7 @@
                     }
                     $id = $deduccion['Deduccion']['id'];
                     $checked = false;
-                    foreach ($empleado['Deduccion'] as $value) {
+                    foreach ($ajuste['Deduccion'] as $value) {
                         if ($value['id'] == $id) {
                             $checked = true;
                         }
@@ -87,7 +62,7 @@
                     }
                     $id = $asignacion['Asignacion']['id'];
                     $checked = false;
-                    foreach ($empleado['Asignacion'] as $value) {
+                    foreach ($ajuste['Asignacion'] as $value) {
                         if ($value['id'] == $id) {
                             $checked = true;
                         }
@@ -121,7 +96,7 @@
         </div>
         <div class="row boton">
             <div class="boton">
-<?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
+<?php echo $this->Html->link('Regresar', array('action' => 'edit',$ajuste['Ajuste']['empleado_id'])); ?>
             </div>
         </div>
     </div>
