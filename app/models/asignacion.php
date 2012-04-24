@@ -126,7 +126,7 @@ class Asignacion extends AppModel {
                 //
                 //------------------------------------------------------------//
                 case "1":
-                    if ($this->empleadoTieneAsignacion($id_empleado, $value['id'],$fecha_ini,$fecha_fin)) {
+                    if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
                         if ($nomina_empleado['GRUPO'] == 'Empleado') {
                             $valor = 12 / 2;
                         }
@@ -144,7 +144,7 @@ class Asignacion extends AppModel {
                 //
                 // -----------------------------------------------------------//    
                 case "2":
-                    if ($this->empleadoTieneAsignacion($id_empleado, $value['id'],$fecha_ini,$fecha_fin)) {
+                    if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
                         if ($empleado['Empleado']['EDOCIVIL'] == 'Casado' || $empleado['Empleado']['EDOCIVIL'] == 'Concubinato') {
                             $valor = 12 / 2;
                         } else {
@@ -170,7 +170,7 @@ class Asignacion extends AppModel {
                 //
                 //------------------------------------------------------------//                
                 case "3":
-                    if ($this->empleadoTieneAsignacion($id_empleado, $value['id'],$fecha_ini,$fecha_fin)) {
+                    if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
                         $dias = 0;
                         foreach ($empleado['Experiencia'] as $experiencia) {
                             $dias = $dias + numeroDeDias($experiencia['FECHA_INI'], $experiencia['FECHA_FIN']);
@@ -242,7 +242,7 @@ class Asignacion extends AppModel {
                 //
                 //------------------------------------------------------------//                
                 case "4":
-                    if ($this->empleadoTieneAsignacion($id_empleado, $value['id'],$fecha_ini,$fecha_fin)) {
+                    if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
                         if ($nomina_empleado['GRUPO'] == 'Empleado') {
                             $valor = 60 / 2;
                         }
@@ -267,12 +267,12 @@ class Asignacion extends AppModel {
                 //------------------------------------------------------------//                
                 case "5":
                     // TODO: Verificar si las combinaciones estan bien o falta alguna
-                    if ($this->empleadoTieneAsignacion($id_empleado, $value['id'],$fecha_ini,$fecha_fin)) {
+                    if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
                         $valor = 0;
 
                         if ($nomina_empleado['GRUPO'] == 'Empleado') {
                             foreach ($empleado['Familiar'] as $familiar) {
-                                $edad = $this->Empleado->Edad($familiar['FECHA']);
+                                $edad = $this->Ajuste->Empleado->Edad($familiar['FECHA']);
                                 if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'Si') {
                                     $valor+=15 / 2;
                                 }
@@ -290,7 +290,7 @@ class Asignacion extends AppModel {
 
                         if ($nomina_empleado['GRUPO'] == 'Obrero') {
                             foreach ($empleado['Familiar'] as $familiar) {
-                                $edad = $this->Empleado->Edad($familiar['FECHA']);
+                                $edad = $this->Ajuste->Empleado->Edad($familiar['FECHA']);
                                 if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'Si') {
                                     $valor+=15 / 2;
                                 }
@@ -318,7 +318,7 @@ class Asignacion extends AppModel {
                 case "6":
                     // OJO LA FECHA QUE ? Cuando entra en validez un titulo
                     $valor = 0;
-                    if ($this->empleadoTieneAsignacion($id_empleado, $value['id'],$fecha_ini,$fecha_fin)) {
+                    if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
                         foreach ($empleado['Titulo'] as $titulo) {
                             if ($titulo['TITULO'] == 'T.S.U') {
                                 $valor = +100 / 2;
@@ -347,7 +347,7 @@ class Asignacion extends AppModel {
                 //                
                 //------------------------------------------------------------//
                 case "7":
-                    if ($this->empleadoTieneAsignacion($id_empleado, $value['id'],$fecha_ini,$fecha_fin)) {
+                    if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
                         $count = 0;
                         foreach ($empleado['HorasExtra'] as $horaextra) {
                             if ($horaextra['TIPO'] == 'Nocturno') {
@@ -366,7 +366,7 @@ class Asignacion extends AppModel {
                 //                
                 //------------------------------------------------------------//
                 case "8":
-                    if ($this->empleadoTieneAsignacion($id_empleado, $value['id'],$fecha_ini,$fecha_fin)) {
+                    if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
                         $count = 0;
                         foreach ($empleado['HorasExtra'] as $horaextra) {
                             if ($horaextra['TIPO'] == 'Domingos y Dias Feriados') {
@@ -392,31 +392,29 @@ class Asignacion extends AppModel {
      * @param type $empleado
      * @param type $asignacion 
      */
-    function empleadoTieneAsignacion($id_empleado, $id_asignacion,$fecha_ini,$fecha_fin) {
-        $empleado = $this->Ajuste->Empleado->find("first", array(
+    function empleadoTieneAsignacion($id_empleado, $id_asignacion, $fecha_ini, $fecha_fin) {       
+
+        $empleado = $this->Ajuste->find("first", array(            
             'conditions' => array(
-                'id' => $id_empleado
+                'OR' => array(
+                    'FECHA_FIN > ' => $fecha_ini,
+                    'FECHA_FIN' => NULL,
+                ),
+                'AND' => array(
+                    'FECHA_INI < ' => $fecha_fin,
+                    'empleado_id' => $id_empleado
+                )
             ),
-            'contain' => array(
-                'Ajuste' => array(
-                    'conditions' => array(
-                        'OR' => array(
-                            'FECHA_FIN > ' => $fecha_ini,
-                            'FECHA_FIN' => NULL,
-                        ),
-                        'AND' => array(
-                            'FECHA_INI < ' => $fecha_fin,
-                        )
-                    ),
-                    'Asignacion' => array(
-                        'conditions' => array(
-                            'id' => $id_asignacion
-                        )
+            'contain'=>array(
+                'Asignacion'=>array(
+                    'conditions'=>array(
+                        'id'=>$id_asignacion
                     )
                 )
             )
-                ));        
-        if (empty($empleado['Ajuste']['Asignacion'])) {
+                ));
+
+        if (empty($empleado['Asignacion'])) {
             return false;
         } else {
             return true;

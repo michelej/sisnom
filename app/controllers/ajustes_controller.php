@@ -69,6 +69,7 @@ class AjustesController extends AppController {
     function add($id = null) {
         $this->set("id", $id);
         if (!empty($this->data)) {
+            
             if ($this->Ajuste->save($this->data['Ajuste'])) {
                 $this->Session->setFlash('Ajuste agregado con exito', 'flash_success');
                 $this->redirect('edit/' . $this->data['Ajuste']['empleado_id']);
@@ -82,8 +83,8 @@ class AjustesController extends AppController {
     }
     
     function edit_ajustes($id=null){
-        if (!empty($this->data)) {
-            foreach ($this->data['Asignacion'] as $key => $asignacion) {
+        if (!empty($this->data)) {                        
+            foreach ($this->data['Asignacion'] as $key => $asignacion) {                
                 if ($asignacion == 1) {
                     $this->Ajuste->habtmAdd('Asignacion', $id, $key);
                 }

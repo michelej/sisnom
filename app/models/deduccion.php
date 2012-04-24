@@ -295,31 +295,28 @@ class Deduccion extends AppModel {
      * @return boolean 
      */
     function empleadoTieneDeduccion($id_empleado, $id_deduccion,$fecha_ini,$fecha_fin) {
-        $empleado = $this->Ajuste->Empleado->find("first", array(
+                
+        $empleado = $this->Ajuste->find("first", array(            
             'conditions' => array(
-                'id' => $id_empleado
+                'OR' => array(
+                    'FECHA_FIN > ' => $fecha_ini,
+                    'FECHA_FIN' => NULL,
+                ),
+                'AND' => array(
+                    'FECHA_INI < ' => $fecha_fin,
+                    'empleado_id' => $id_empleado
+                )
             ),
-            'contain' => array(
-                'Ajuste' => array(
-                    'conditions' => array(
-                        'OR' => array(
-                            'FECHA_FIN > ' => $fecha_ini,
-                            'FECHA_FIN' => NULL,
-                        ),
-                        'AND' => array(
-                            'FECHA_INI < ' => $fecha_fin,
-                        )
-                    ),
-                    'Deduccion' => array(
-                        'conditions' => array(
-                            'id' => $id_deduccion
-                        )
+            'contain'=>array(
+                'Deduccion'=>array(
+                    'conditions'=>array(
+                        'id'=>$id_deduccion
                     )
                 )
             )
-                ));        
+                ));
 
-        if (empty($empleado['Ajuste']['Deduccion'])) {
+        if (empty($empleado['Deduccion'])) {
             return false;
         } else {
             return true;
