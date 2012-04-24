@@ -10,40 +10,72 @@ class Ajuste extends AppModel {
      */
     var $hasAndBelongsToMany = array('Asignacion', 'Deduccion');
     var $belongsTo = 'Empleado';
-    var $validate = array(
-        'FECHA_INI' => array(
-            'rule' => array('date', 'dmy'),
-            'message' => 'Fecha Inicial incorrecta',
-        )
-    );
+    
 
     function beforeSave() {
-        // fecha de ingreso del empleado            
-
         if (!isset($this->data['Ajuste']['id'])) {
-            $empleadoingreso = $this->Empleado->find('first', array(
-                'conditions' => array('id' => $this->data['Ajuste']['empleado_id']),
-                'recursive' => '-1',
-                'fields' => array('Empleado.INGRESO'),
-                    ));
-            $ingreso = $empleadoingreso['Empleado']['INGRESO'];
-            $fecha_ini = $this->data['Ajuste']['FECHA_INI'];
-            $fecha_fin = $this->data['Ajuste']['FECHA_FIN'];
 
-            // el rango de fechas no puede ser menor a la fecha de ingreso
-            if (compara_fechas($ingreso, $fecha_ini) > 0) {
-                $this->errorMessage = 'Las fechas no pueden preceder a la de ingreso del empleado ' . $ingreso;
-                return false;
+            if (isset($this->data['Ajuste']['AJUSTE_MES_INICIO']) && isset($this->data['Ajuste']['AJUSTE_AÑO_INICIO'])) {
+                if (empty($this->data['Ajuste']['AJUSTE_MES_INICIO']) || empty($this->data['Ajuste']['AJUSTE_AÑO_INICIO'])) {
+                    $this->errorMessage = 'Seleccione un Mes e ingrese un valor en Año';
+                    return false;
+                }
+                if (is_numeric($this->data['Ajuste']['AJUSTE_AÑO_INICIO'])) {
+                    if ($this->data['Ajuste']['AJUSTE_AÑO_INICIO'] < 1900 || $this->data['Ajuste']['AJUSTE_AÑO_INICIO'] > 2200) {
+                        $this->errorMessage = "El año inicial es Invalido";
+                        return false;
+                    }
+                } else {
+                    $this->errorMessage = "El año inicial tiene que ser un numero";
+                    return false;
+                }
+
+                if (empty($this->data['Ajuste']['QUINCENA_INICIO'])) {
+                    $this->errorMessage = "Seleccione una Quincena";
+                    return false;
+                }
+
+                // Determinamos las fechas en base a la quincena
+                //            
+                if ($this->data['Ajuste']['QUINCENA_INICIO'] == 'Primera') {
+                    $this->data['Ajuste']['FECHA_INI'] = $this->data['Ajuste']['AJUSTE_AÑO_INICIO'] . '-' . $this->data['Ajuste']['AJUSTE_MES_INICIO'] . '-1';
+                }
+                if ($this->data['Ajuste']['QUINCENA_INICIO'] == 'Segunda') {
+                    $this->data['Ajuste']['FECHA_INI'] = $this->data['Ajuste']['AJUSTE_AÑO_INICIO'] . '-' . $this->data['Ajuste']['AJUSTE_MES_INICIO'] . '-16';
+                }
+
+                // Si se ingreso una fecha final
+                //
+            if (!empty($this->data['Ajuste']['AJUSTE_MES_FIN']) && !empty($this->data['Ajuste']['AJUSTE_AÑO_FIN'])
+                        && !empty($this->data['Ajuste']['QUINCENA_FIN'])) {
+
+                    if (is_numeric($this->data['Ajuste']['AJUSTE_AÑO_FIN'])) {
+                        if ($this->data['Ajuste']['AJUSTE_AÑO_FIN'] < 1900 || $this->data['Ajuste']['AJUSTE_AÑO_FIN'] > 2200) {
+                            $this->errorMessage = "El año final es Invalido";
+                            return false;
+                        }
+                    } else {
+                        $this->errorMessage = "El año final tiene que ser un numero";
+                        return false;
+                    }
+
+                    if ($this->data['Ajuste']['QUINCENA_FIN'] == 'Primera') {
+                        $this->data['Ajuste']['FECHA_FIN'] = $this->data['Ajuste']['AJUSTE_AÑO_FIN'] . '-' . $this->data['Ajuste']['AJUSTE_MES_FIN'] . '-15';
+                    }
+                    if ($this->data['Ajuste']['QUINCENA_FIN'] == 'Segunda') {
+                        $dia = strftime("%d", mktime(0, 0, 0, $this->data['Ajuste']['AJUSTE_MES_FIN'] + 1, 0, $this->data['Ajuste']['AJUSTE_AÑO_FIN']));
+                        $this->data['Ajuste']['FECHA_FIN'] = $this->data['Ajuste']['AJUSTE_AÑO_FIN'] . '-' . $this->data['Ajuste']['AJUSTE_MES_FIN'] . '-' . $dia;
+                    }
+                } else {
+                    $this->data['Ajuste']['FECHA_FIN'] = null;
+                    $fecha_fin = null;
+                }
             }
 
-            // el rango de fechas no puede ser menor a la fecha de ingreso
-            if (compara_fechas($ingreso, $fecha_ini) > 0) {
-                $this->errorMessage = 'Las fechas no pueden preceder a la de ingreso del empleado ' . $ingreso;
-                return false;
-            }
+            $fecha_ini = formatoFechaAfterFind($this->data['Ajuste']['FECHA_INI']);
 
-            if ($fecha_fin == NULL) {
-                $this->data['Ajuste']['FECHA_FIN'] = NULL;
+            if ($this->data['Ajuste']['FECHA_FIN'] != null) {
+                $fecha_fin = formatoFechaAfterFind($this->data['Ajuste']['FECHA_FIN']);
             }
 
             $this->recursive = -1;
@@ -54,15 +86,18 @@ class Ajuste extends AppModel {
             if (!$this->validacionFechas($fecha_ini, $fecha_fin, $result, "ajustes")) {
                 return false;
             }
-        }
+            return true;            
+            
+        } else {
 
-        if (!empty($this->data['Ajuste']['FECHA_INI'])) {
-            $this->data['Ajuste']['FECHA_INI'] = formatoFechaBeforeSave($this->data['Ajuste']['FECHA_INI']);
+            if (!empty($this->data['Ajuste']['FECHA_INI'])) {
+                $this->data['Ajuste']['FECHA_INI'] = formatoFechaBeforeSave($this->data['Ajuste']['FECHA_INI']);
+            }
+            if (!empty($this->data['Ajuste']['FECHA_FIN'])) {
+                $this->data['Ajuste']['FECHA_FIN'] = formatoFechaBeforeSave($this->data['Ajuste']['FECHA_FIN']);
+            }
+            return true;
         }
-        if (!empty($this->data['Ajuste']['FECHA_FIN'])) {
-            $this->data['Ajuste']['FECHA_FIN'] = formatoFechaBeforeSave($this->data['Ajuste']['FECHA_FIN']);
-        }
-        return true;
     }
 
     function afterFind($results) {
