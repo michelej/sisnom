@@ -31,23 +31,80 @@ class Historial extends AppModel {
      * @return boolean 
      */
     function beforeSave() {
-        $fecha_ini = $this->data['Historial']['FECHA_INI'];
-        $fecha_fin = $this->data['Historial']['FECHA_FIN'];
-        $fecha_ret = $this->data['Historial']['FECHA_RET'];
-       
-       
-        if ($fecha_fin == NULL) {
-            $this->data['Historial']['FECHA_FIN'] = NULL;            
-        }
-        
-        if ($fecha_ret == null) {
-            $this->data['Historial']['FECHA_RET'] = NULL;
-        } else {
-            if (compara_fechas($fecha_ini, $fecha_ret) < 0) {
-                $this->errorMessage = "La fecha retroactiva debe ser menor a la fecha inicial";
+        if (isset($this->data['Historial']['HISTORIAL_MES_INICIO']) && isset($this->data['Historial']['HISTORIAL_AÑO_INICIO'])) {
+            if (empty($this->data['Historial']['HISTORIAL_MES_INICIO']) || empty($this->data['Historial']['HISTORIAL_AÑO_INICIO'])) {
+                $this->errorMessage = 'Seleccione un Mes e ingrese un valor en Año';
                 return false;
-            }                        
+            }
+            if (is_numeric($this->data['Historial']['HISTORIAL_AÑO_INICIO'])) {
+                if ($this->data['Historial']['HISTORIAL_AÑO_INICIO'] < 1900 || $this->data['Historial']['HISTORIAL_AÑO_INICIO'] > 2200) {
+                    $this->errorMessage = "El año inicial es Invalido";
+                    return false;
+                }
+            } else {
+                $this->errorMessage = "El año inicial tiene que ser un numero";
+                return false;
+            }
+
+            if (empty($this->data['Historial']['QUINCENA_INICIO'])) {
+                $this->errorMessage = "Seleccione una Quincena";
+                return false;
+            }
+
+            // Determinamos las fechas en base a la quincena
+            //            
+            if ($this->data['Historial']['QUINCENA_INICIO'] == 'Primera') {
+                $this->data['Historial']['FECHA_INI'] = $this->data['Historial']['HISTORIAL_AÑO_INICIO'] . '-' . $this->data['Historial']['HISTORIAL_MES_INICIO'] . '-1';
+            }
+            if ($this->data['Historial']['QUINCENA_INICIO'] == 'Segunda') {
+                $this->data['Historial']['FECHA_INI'] = $this->data['Historial']['HISTORIAL_AÑO_INICIO'] . '-' . $this->data['Historial']['HISTORIAL_MES_INICIO'] . '-16';
+            }
+            
+            // Si se ingreso una fecha final
+            //
+            if (!empty($this->data['Historial']['HISTORIAL_MES_FIN']) && !empty($this->data['Historial']['HISTORIAL_AÑO_FIN'])
+                    && !empty($this->data['Historial']['QUINCENA_FIN'])) {
+
+                if (is_numeric($this->data['Historial']['HISTORIAL_AÑO_FIN'])) {
+                    if ($this->data['Historial']['HISTORIAL_AÑO_FIN'] < 1900 || $this->data['Historial']['HISTORIAL_AÑO_FIN'] > 2200) {
+                        $this->errorMessage = "El año final es Invalido";
+                        return false;
+                    }
+                } else {
+                    $this->errorMessage = "El año final tiene que ser un numero";
+                    return false;
+                }
+
+                if ($this->data['Historial']['QUINCENA_FIN'] == 'Primera') {
+                    $this->data['Historial']['FECHA_FIN'] = $this->data['Historial']['HISTORIAL_AÑO_FIN'] . '-' . $this->data['Historial']['HISTORIAL_MES_FIN'] . '-15';
+                }
+                if ($this->data['Historial']['QUINCENA_FIN'] == 'Segunda') {
+                    $dia = strftime("%d", mktime(0, 0, 0, $this->data['Historial']['HISTORIAL_MES_FIN'] + 1, 0, $this->data['Historial']['HISTORIAL_AÑO_FIN']));
+                    $this->data['Historial']['FECHA_FIN'] = $this->data['Historial']['HISTORIAL_AÑO_FIN'] . '-' . $this->data['Historial']['HISTORIAL_MES_FIN'] . '-' . $dia;
+                }
+            }else{
+                $this->data['Historial']['FECHA_FIN']=null;
+                $fecha_fin=null;
+            }
+        }        
+        
+        $fecha_ini = formatoFechaAfterFind($this->data['Historial']['FECHA_INI']);
+        
+        if ($this->data['Historial']['FECHA_FIN']!=null) {
+            $fecha_fin = formatoFechaAfterFind($this->data['Historial']['FECHA_FIN']);
         }
+
+        if (!empty($this->data['Historial']['FECHA_RET'])) {
+            $fecha_ret = formatoFechaAfterFind($this->data['Historial']['FECHA_RET']);
+        } else {
+            $fecha_ret = null;
+            $this->data['Historial']['FECHA_RET'] = NULL;
+        }        
+
+        /* if (compara_fechas($fecha_ini, $fecha_ret) < 0) {
+          $this->errorMessage = "La fecha retroactiva debe ser menor a la fecha inicial";
+          return false;
+          } */
 
         $this->recursive = -1;
         // buscamos los historiales de sueldo de este cargo
@@ -57,18 +114,6 @@ class Historial extends AppModel {
         if (!$this->validacionFechas($fecha_ini, $fecha_fin, $result, "historiales")) {
             return false;
         }
-
-        //Tratamos las fechas
-        if (!empty($this->data['Historial']['FECHA_INI'])) {
-            $this->data['Historial']['FECHA_INI'] = formatoFechaBeforeSave($this->data['Historial']['FECHA_INI']);
-        }
-        if (!empty($this->data['Historial']['FECHA_FIN'])) {
-            $this->data['Historial']['FECHA_FIN'] = formatoFechaBeforeSave($this->data['Historial']['FECHA_FIN']);
-        }
-        if (!empty($this->data['Historial']['FECHA_RET'])) {
-            $this->data['Historial']['FECHA_RET'] = formatoFechaBeforeSave($this->data['Historial']['FECHA_RET']);
-        }
-
         return true;
     }
 
