@@ -8,8 +8,7 @@
     </div>
     <div class="content form">
         <?php
-        echo $this->Form->create('Contrato',array('url' => array('controller' => 'contratos', 'action' => 'add',$id)));
-        echo $this->Form->input('empleado_id', array('value' => $id, 'type' => 'hidden'));
+        echo $this->Form->create('Contrato',array('url' => array('controller' => 'contratos', 'action' => 'add',$id)));        
 
         echo "<div class='row'>";
         echo "<div style='float:left;width:20%'>";
@@ -37,6 +36,7 @@
         echo $this->Form->input('cargo_id', array('div' => false, 'label' => 'Cargo', 'class' => 'small', 'empty' => "Seleccione una opción"));
         echo "</div>";
         echo "</div>";
+        echo $this->Form->input('empleado_id', array('value' => $id, 'type' => 'hidden'));
         ?>
     </div>    
 </div>
@@ -47,7 +47,7 @@
     </div>
     <div class="content form">
         <div class="row">
-            <?php echo $this->Form->end('Agregar'); ?>                        
+            <?php echo $this->Form->submit('Agregar'); ?>                        
         </div>        
         <div class="row boton">
             <div class="boton">

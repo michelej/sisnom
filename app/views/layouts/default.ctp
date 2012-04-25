@@ -74,8 +74,8 @@
                             <li>
                                 <?php echo $this->Html->link($this->Html->image("Camembert.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "Personal", array('controller' => 'Pages', 'action' => 'display'), array('escape' => false)); ?>
                                 <ul>
-                                    <li><?php echo $this->Html->link($this->Html->image("file1.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Fijo", array('controller' => 'reportes', 'action' => 'empleados_fijos'), array('escape' => false)); ?></li>
-                                    <li><?php echo $this->Html->link($this->Html->image("file1.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Contratado", array('controller' => 'reportes', 'action' => 'empleados_contratados'), array('escape' => false)); ?></li>
+                                    <li><?php echo $this->Html->link(" Fijo", array('controller' => 'reportes', 'action' => 'empleados_fijos'), array('escape' => false)); ?></li>
+                                    <li><?php echo $this->Html->link(" Contratado", array('controller' => 'reportes', 'action' => 'empleados_contratados'), array('escape' => false)); ?></li>
                                 </ul>
                             </li>                            
                         </ul> 
