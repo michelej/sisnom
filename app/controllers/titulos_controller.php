@@ -7,26 +7,10 @@ class TitulosController extends AppController {
     var $helpers = array('Ajax', 'Javascript');
 
     function index() {
-        $filtro = array();
-        if (!empty($this->data)) {
-            if ($this->data['Fopcion'] == 1) {
-                $filtro = array('Empleado.CEDULA LIKE' => $this->data['valor']);
-            }
-            if ($this->data['Fopcion'] == 2) {
-                $filtro = array('Empleado.NOMBRE LIKE' => "%".$this->data['valor']."%");
-            }
-            if ($this->data['Fopcion'] == 3) {
-                $filtro = array('Empleado.APELLIDO LIKE' =>"%".$this->data['valor']."%");
-            }
-        }
-
-        $this->Titulo->Empleado->recursive = -1;
-        $data = $this->paginate('Empleado', $filtro);
-        $this->set('empleados', $data);
+        
     }
     
-    function edit($id=null){
-        $this->Titulo->Empleado->Behaviors->attach('Containable');
+    function edit($id=null){        
         if (empty($this->data)) {           
             $this->paginate=array(
                 'Titulo' => array(  
@@ -36,9 +20,15 @@ class TitulosController extends AppController {
                         'empleado_id' => $id,                         
                     )                                          
                 )
-            );
-            $this->Titulo->Empleado->recursive=-1;
-            $empleado=$this->Titulo->Empleado->findById($id);            
+            );                        
+            $empleado = $this->Titulo->Empleado->find('first',array(
+                'conditions'=>array(
+                    'Empleado.id'=>$id
+                ),
+                'contain'=>array(
+                    'Grupo'
+                )
+            ));            
             $titulos = $this->paginate('Titulo');                        
             $this->set(compact('empleado','titulos'));
         } 

@@ -7,26 +7,10 @@ class FamiliaresController extends AppController {
     var $helpers = array('Ajax', 'Javascript');    
     
     function index(){
-        $filtro=array();
-        if(!empty($this->data)){            
-            if($this->data['Fopcion']==1){
-               $filtro=array('Empleado.CEDULA LIKE'=>$this->data['valor']); 
-            }
-            if($this->data['Fopcion']==2){
-               $filtro=array('Empleado.NOMBRE LIKE'=>"%".$this->data['valor']."%"); 
-            }
-            if($this->data['Fopcion']==3){
-               $filtro=array('Empleado.APELLIDO LIKE'=>"%".$this->data['valor']."%"); 
-            }
-        }  
         
-        $this->Familiar->Empleado->recursive = -1;         
-        $data=$this->paginate('Empleado',$filtro);                
-        $this->set('empleados',$data);
     }
     
-    function edit($id=null){
-        $this->Familiar->Empleado->Behaviors->attach('Containable');
+    function edit($id=null){        
         if (empty($this->data)) {           
             $this->paginate=array(
                 'Familiar' => array(  
@@ -37,8 +21,15 @@ class FamiliaresController extends AppController {
                     )                                          
                 )
             );
-            $this->Familiar->Empleado->recursive=-1;
-            $empleado=$this->Familiar->Empleado->findById($id);            
+            
+            $empleado = $this->Familiar->Empleado->find('first',array(
+                'conditions'=>array(
+                    'Empleado.id'=>$id
+                ),
+                'contain'=>array(
+                    'Grupo'
+                )
+            ));                        
             $familiares = $this->paginate('Familiar');                        
             $this->set(compact('empleado','familiares'));
         } 

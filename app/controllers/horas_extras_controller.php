@@ -45,9 +45,15 @@ class HorasExtrasController extends AppController {
                         'empleado_id' => $id,                         
                     )                                          
                 )
-            );
-            $this->HorasExtra->Empleado->recursive=-1;
-            $empleado=$this->HorasExtra->Empleado->findById($id);            
+            );            
+            $empleado = $this->HorasExtra->Empleado->find('first',array(
+                'conditions'=>array(
+                    'Empleado.id'=>$id
+                ),
+                'contain'=>array(
+                    'Grupo'
+                )
+            ));
             $horasextras = $this->paginate('HorasExtra');                        
             $this->set(compact('empleado','horasextras'));
         } 

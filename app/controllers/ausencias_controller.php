@@ -45,9 +45,15 @@ class AusenciasController extends AppController {
                         'empleado_id' => $id,                         
                     )                                          
                 )
-            );
-            $this->Ausencia->Empleado->recursive=-1;
-            $empleado=$this->Ausencia->Empleado->findById($id);            
+            );                        
+            $empleado = $this->Ausencia->Empleado->find('first',array(
+                'conditions'=>array(
+                    'Empleado.id'=>$id
+                ),
+                'contain'=>array(
+                    'Grupo'
+                )
+            ));
             $ausencias = $this->paginate('Ausencia');                        
             $this->set(compact('empleado','ausencias'));
         } 

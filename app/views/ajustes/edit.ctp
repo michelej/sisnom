@@ -6,7 +6,7 @@
         <div class="row">
             <?php echo "<div style='float:left;width:10%'>"; ?>
             <?php echo $this->Form->label('Cedula'); ?>
-            <?php echo $empleado['Empleado']['CEDULA']; ?>
+            <?php echo number_format($empleado['Empleado']['CEDULA'], 0, ',', '.'); ?>
             <?php echo "</div>"; ?>
             <?php echo "<div style='float:left;width:30%'>"; ?>
             <?php echo $this->Form->label('Nombre Completo'); ?>

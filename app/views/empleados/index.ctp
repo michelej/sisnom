@@ -44,7 +44,7 @@
                     ?>
                     <tr<?php echo $class; ?>>
                         <td></td>                        
-                        <td style="text-align: right"><?php echo number_format($empleado['Empleado']['CEDULA'], 0, ',', '.'); ?></td>                        
+                        <td style="text-align: right"><?php echo number_format($empleado['Empleado']['CEDULA'], 0, ',', '.'); ?></td>
                         <td><?php echo $empleado['Empleado']['NOMBRE'].' '.$empleado['Empleado']['APELLIDO']; ?></td>                        
                         <td><?php echo $empleado['Grupo']['NOMBRE']; ?></td>
                         <td style="text-align: center"><?php if(!empty($empleado['Contrato']['0'])){
@@ -58,7 +58,7 @@
                                   }else{
                                     echo " ";  
                                   }?>
-                        </td>            
+                        </td>
                         <td class="actions">
                             <?php
                             echo $this->Html->image("Contact.png", array("alt" => "Contratos", 'width' => '18', 'heigth' => '18', 'title' => 'Contratos', 'url' => array('controller'=>'contratos','action' => 'edit', $empleado['Empleado']['id'])));
