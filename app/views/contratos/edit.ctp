@@ -6,11 +6,11 @@
         <div class="row">
             <?php echo "<div style='float:left;width:10%'>"; ?>
             <?php echo $this->Form->label('Cedula'); ?>
-            <?php echo $empleado['Empleado']['CEDULA']; ?>
+            <?php echo number_format($empleado['Empleado']['CEDULA'], 0, ',', '.'); ?>
             <?php echo "</div>"; ?>
             <?php echo "<div style='float:left;width:30%'>"; ?>
             <?php echo $this->Form->label('Nombre Completo'); ?>
-            <?php echo $empleado['Empleado']['NOMBRE']." ".$empleado['Empleado']['APELLIDO']; ?>
+            <?php echo $empleado['Empleado']['NOMBRE'] . " " . $empleado['Empleado']['APELLIDO']; ?>
             <?php echo "</div>"; ?>            
             <?php echo "<div style='float:left;width:15%'>"; ?>
             <?php echo $this->Form->label('Fecha de Ingreso'); ?>
@@ -35,9 +35,9 @@
                     <th></th>  
                     <th style="width:15%"><?php echo $this->Paginator->sort('Fecha Inicio', 'FECHA_INI') ?></th>                    
                     <th style="width:15%"><?php echo $this->Paginator->sort('Fecha Final', 'FECHA_FIN') ?></th>                                        
-                    <th style="width:20%"><?php echo $this->Paginator->sort('Modalidad', 'MODELIDAD') ?></th>                    
-                    <th style="width:25%"><?php echo $this->Paginator->sort('Cargo', 'cargo_id') ?></th>
-                    <th style="width:25%"><?php echo $this->Paginator->sort('Departamento', 'departamento_id') ?></th>
+                    <th style="width:10%"><?php echo $this->Paginator->sort('Modalidad', 'MODELIDAD') ?></th>                    
+                    <th style="width:30%; text-align: center"><?php echo $this->Paginator->sort('Cargo', 'cargo_id') ?></th>
+                    <th style="width:30%; text-align: center"><?php echo $this->Paginator->sort('Departamento', 'departamento_id') ?></th>
                     <th style="width:15%; text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
@@ -61,8 +61,8 @@
                 }
                     ?></td>                                                
                         <td><?php echo $contrato['Contrato']['MODALIDAD']; ?></td>                        
-                        <td><?php echo $contrato['Cargo']['NOMBRE']; ?></td>
-                        <td><?php echo $contrato['Departamento']['NOMBRE']; ?></td>
+                        <td style="text-align: center"><?php echo $contrato['Cargo']['NOMBRE']; ?></td>
+                        <td style="text-align: center"><?php echo $contrato['Departamento']['NOMBRE']; ?></td>
                         <td class="actions">
                             <?php
                             echo $this->Html->image("file_delete.png", array("alt" => "Borrar", 'title' => 'Eliminar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'delete', $contrato['Contrato']['id'])));
@@ -88,7 +88,7 @@
 </div>
 
 <div class="box">
-<?php echo $this->Session->flash(); ?>
+    <?php echo $this->Session->flash(); ?>
 </div>
 
 <div class="box">
@@ -96,10 +96,10 @@
     <div class="content form">
         <div class="row boton">
             <div class="boton">
-                <?php echo $this->Html->link('Nuevo Contrato', array('action' => 'add',$empleado['Empleado']['id'])); ?>
+                <?php echo $this->Html->link('Nuevo Contrato', array('action' => 'add', 'empleadoId:'.$empleado['Empleado']['id'])); ?>
             </div>
             <div class="boton">
-                <?php echo $this->Html->link('Regresar', array('controller'=>'empleados','action' => 'index')); ?>
+                <?php echo $this->Html->link('Regresar', array('controller' => 'empleados', 'action' => 'index')); ?>
             </div>
         </div>
     </div>

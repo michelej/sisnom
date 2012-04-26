@@ -68,7 +68,7 @@ class ComercialesController extends AppController {
     }
     
     function add($id = null) {
-        $this->set("id", $id);
+        $this->set("empleadoId",$this->params['named']['empleadoId']);
         if (!empty($this->data)) {
             if ($this->Comercial->save($this->data['Comercial'])) {
                 $this->Session->setFlash('Credito agregado con exito', 'flash_success');

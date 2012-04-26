@@ -86,7 +86,7 @@
     <div class="content form">
         <div class="row boton">
             <div class="boton">
-                <?php echo $this->Html->link('Nuevo Ausencia', array('action' => 'add',$empleado['Empleado']['id'])); ?>
+                <?php echo $this->Html->link('Nuevo Ausencia', array('action' => 'add','empleadoId:'.$empleado['Empleado']['id'])); ?>
             </div>            
             <div class="boton">
                 <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>

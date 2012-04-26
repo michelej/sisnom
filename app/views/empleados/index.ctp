@@ -43,7 +43,7 @@
                     }
                     ?>
                     <tr<?php echo $class; ?>>
-                        <td></td>
+                        <td></td>                        
                         <td style="text-align: right"><?php echo number_format($empleado['Empleado']['CEDULA'], 0, ',', '.'); ?></td>                        
                         <td><?php echo $empleado['Empleado']['NOMBRE'].' '.$empleado['Empleado']['APELLIDO']; ?></td>                        
                         <td><?php echo $empleado['Grupo']['NOMBRE']; ?></td>

@@ -66,10 +66,9 @@ class AjustesController extends AppController {
         }
     }
 
-    function add($id = null) {
-        $this->set("id", $id);
-        if (!empty($this->data)) {
-            
+    function add() {
+        $this->set("empleadoId",$this->params['named']['empleadoId']);
+        if (!empty($this->data)) {                        
             if ($this->Ajuste->save($this->data['Ajuste'])) {
                 $this->Session->setFlash('Ajuste agregado con exito', 'flash_success');
                 $this->redirect('edit/' . $this->data['Ajuste']['empleado_id']);

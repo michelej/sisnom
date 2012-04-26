@@ -67,8 +67,8 @@ class TribunalesController extends AppController {
         }
     }
     
-    function add($id = null) {
-        $this->set("id", $id);
+    function add() {
+        $this->set("empleadoId",$this->params['named']['empleadoId']);
         if (!empty($this->data)) {
             if ($this->Tribunal->save($this->data['Tribunal'])) {
                 $this->Session->setFlash('Deduccion agregada con exito', 'flash_success');

@@ -53,8 +53,8 @@ class HorasExtrasController extends AppController {
         } 
     }
     
-    function add($id=null){        
-        $this->set("id",$id);
+    function add(){        
+        $this->set("empleadoId",$this->params['named']['empleadoId']);
         if (!empty($this->data)) {            
             if ($this->HorasExtra->save($this->data['HorasExtra'])) {
                 $this->Session->setFlash('Hora Extra agregada con exito','flash_success');                                

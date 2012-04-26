@@ -44,9 +44,11 @@ class FamiliaresController extends AppController {
         } 
     }
     
-    function add($id=null){        
-        $this->set("id",$id);
-        if (!empty($this->data)) {            
+    function add(){        
+        $this->set("empleadoId",$this->params['named']['empleadoId']);        
+        if (!empty($this->data)) {
+            // HACK para que esto no sea considerado un Update sino un Nuevo Record
+            unset($this->Familiar->id);
             if ($this->Familiar->save($this->data['Familiar'])) {
                 $this->Session->setFlash('Familiar agregado con exito','flash_success');                                
                 $this->redirect('edit/' . $this->data['Familiar']['empleado_id']);

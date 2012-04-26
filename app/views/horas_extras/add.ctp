@@ -6,9 +6,9 @@
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content pages">
-        <?php echo $this->Form->create('HorasExtra',array('url' => array('controller' => 'horas_extras', 'action' => 'add',$id))); ?>        
+        <?php echo $this->Form->create('HorasExtra',array('url' => array('controller' => 'horas_extras', 'action' => 'add','empleadoId:'.$empleadoId))); ?>        
         <?php
-        echo $this->Form->input('empleado_id', array('type' => 'hidden','value'=>$id));
+        echo $this->Form->input('empleado_id', array('type' => 'hidden','value'=>$empleadoId));
         // INI ROW
         echo "<div class='row'>";
         echo "<div style='float:left;width:40%'>";
@@ -42,7 +42,7 @@
         </div>
         <div class="row boton">                     
             <div class="boton">
-                <?php echo $this->Html->link('Regresar', array('action' => 'edit',$id)); ?>
+                <?php echo $this->Html->link('Regresar', array('action' => 'edit',$empleadoId)); ?>
             </div>        
         </div>
     </div>

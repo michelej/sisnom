@@ -8,8 +8,8 @@
     </div>
     <div class="content form">                
         <?php
-        echo $this->Form->create('Historial',array('url' => array('controller' => 'historiales', 'action' => 'add',$id)));
-        echo $this->Form->input('cargo_id', array('value' => $id, 'type' => 'hidden'));
+        echo $this->Form->create('Historial',array('url' => array('controller' => 'historiales', 'action' => 'add','cargoId:'.$cargoId)));
+        echo $this->Form->input('cargo_id', array('value' => $cargoId, 'type' => 'hidden'));
         echo $this->Form->input('FECHA_RET', array('value' => '', 'type' => 'hidden'));
                         
         echo "<div class='row'>";                
@@ -79,7 +79,7 @@
         </div>
         <div class="row boton">
             <div class="boton">
-                <?php echo $this->Html->link('Regresar', array('action' => 'edit',$id)); ?>
+                <?php echo $this->Html->link('Regresar', array('action' => 'edit',$cargoId)); ?>
             </div>
         </div>
     </div>

@@ -53,15 +53,15 @@ class AusenciasController extends AppController {
         } 
     }
     
-    function add($id=null){        
-        $this->set("id",$id);
-        if (!empty($this->data)) {            
+    function add(){                        
+        $this->set("empleadoId",$this->params['named']['empleadoId']);
+        if (!empty($this->data)) {                          
             if ($this->Ausencia->save($this->data['Ausencia'])) {
                 $this->Session->setFlash('Ausencia agregada con exito','flash_success');                                
                 $this->redirect('edit/' . $this->data['Ausencia']['empleado_id']);
             }
             $this->Session->setFlash("Existen errores corrigalos antes de continuar", 'flash_error');
-        }        
+        }                
     }
     
     function delete($id) {

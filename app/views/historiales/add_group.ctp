@@ -43,7 +43,7 @@
     <div class="title"><h2>Fecha de Finalizacion</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
-    <div class="content form">
+    <div class="content form" style="display: none">
         <?php        
         echo "<div class='row'>";        
         echo "<div style='float:left;width:30%;'>";

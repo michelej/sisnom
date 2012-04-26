@@ -74,10 +74,8 @@ class ContratosController extends AppController {
         }
     }
 
-    function add($id = null) {        
-        if (!empty($this->data)) {                 
-            // OJO WTF PARA QUE PASE COMO NUEVO RECORD Y NO SOBREESCRIBA EL EMPLEADO_ID COMO ID           
-            unset($this->Contrato->id); 
+    function add() {        
+        if (!empty($this->data)) {                             
             if ($this->Contrato->save($this->data)) {
                 $this->Session->setFlash('Contrato agregado con exito', 'flash_success');
                 $this->redirect('edit/' . $this->data['Contrato']['empleado_id']);
@@ -90,7 +88,7 @@ class ContratosController extends AppController {
         }        
         $cargos = $this->Contrato->Cargo->find('list');
         $departamentos = $this->Contrato->Departamento->find('list');
-        $this->set("id", $id);
+        $this->set("empleadoId",$this->params['named']['empleadoId']);
         $this->set(compact('cargos', 'departamentos'));
     }
 

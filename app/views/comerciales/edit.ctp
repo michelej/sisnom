@@ -88,7 +88,7 @@
     <div class="content form">
         <div class="row boton">
             <div class="boton">
-                <?php echo $this->Html->link('Ingresar Credito Comercial', array('action' => 'add',$empleado['Empleado']['id'])); ?>
+                <?php echo $this->Html->link('Ingresar Credito Comercial', array('action' => 'add','empleadoId:'.$empleado['Empleado']['id'])); ?>
             </div>
             <div class="boton">
                 <?php echo $this->Html->link('Regresar', array('controller'=>'prestamos','action' => 'index')); ?>

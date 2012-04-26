@@ -57,8 +57,8 @@ class TitulosController extends AppController {
         }
     }
     
-    function add($id=null){        
-        $this->set("id",$id);
+    function add(){        
+        $this->set("empleadoId",$this->params['named']['empleadoId']);
         if (!empty($this->data)) {            
             if ($this->Titulo->save($this->data['Titulo'])) {
                 $this->Session->setFlash('Titulo agregado con exito','flash_success');                                

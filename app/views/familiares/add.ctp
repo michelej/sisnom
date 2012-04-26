@@ -7,9 +7,8 @@
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content pages">
-        <?php echo $this->Form->create('Familiar',array('url' => array('controller' => 'familiares', 'action' => 'add',$id))); ?>        
-        <?php
-        echo $this->Form->input('empleado_id', array('type' => 'hidden','value'=>$id));
+        <?php echo $this->Form->create('Familiar',array('url' => array('controller' => 'familiares', 'action' => 'add','empleadoId:',$empleadoId))); ?>        
+        <?php        
         // INI ROW
         echo "<div class='row'>";
         echo "<div style='float:left;width:30%'>";
@@ -39,6 +38,7 @@
         echo $this->Form->input('INSTRUCCION', array('div' => false, 'label' => 'Instruccion', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
         echo "</div>";
         echo "</div>";
+        echo $this->Form->input('empleado_id', array('type' => 'hidden','value'=>$empleadoId));
         // END ROW                                       
         ?>            	                      
     </div>
@@ -54,7 +54,7 @@
         </div>
         <div class="row boton">
             <div class="boton">
-                <?php echo $this->Html->link('Regresar', array('action' => 'edit',$id)); ?>
+                <?php echo $this->Html->link('Regresar', array('action' => 'edit',$empleadoId)); ?>
             </div>
         </div>
     </div>

@@ -8,8 +8,8 @@
     </div>
     <div class="content form">
         <?php
-        echo $this->Form->create('Comercial',array('url' => array('controller' => 'comerciales', 'action' => 'add',$id)));
-        echo $this->Form->input('empleado_id', array('value' => $id, 'type' => 'hidden'));
+        echo $this->Form->create('Comercial',array('url' => array('controller' => 'comerciales', 'action' => 'add','empleadoId:'.$empleadoId)));
+        echo $this->Form->input('empleado_id', array('value' => $empleadoId, 'type' => 'hidden'));
 
         echo "<div class='row'>";
         echo "<div style='float:left;width:30%;'>";
@@ -44,7 +44,7 @@
         </div>        
         <div class="row boton">
             <div class="boton">
-                <?php echo $this->Html->link('Regresar', array('action' => 'edit',$id)); ?>
+                <?php echo $this->Html->link('Regresar', array('action' => 'edit',$empleadoId)); ?>
             </div>
         </div>
     </div>

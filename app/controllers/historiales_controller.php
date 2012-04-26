@@ -60,9 +60,9 @@ class HistorialesController extends AppController {
         }
     }
 
-    function add($id = null) {
-        $this->set("id", $id);
-        if (!empty($this->data)) {
+    function add() {        
+        $this->set("cargoId",$this->params['named']['cargoId']);        
+        if (!empty($this->data)) {            
             if ($this->Historial->save($this->data['Historial'])) {
                 $this->Session->setFlash('Historial agregado con exito', 'flash_success');
                 $this->redirect('edit/' . $this->data['Historial']['cargo_id']);
@@ -72,7 +72,7 @@ class HistorialesController extends AppController {
             } else {
                 $this->Session->setFlash("Existen errores corrigalos antes de continuar", 'flash_error');
             }
-        }
+        }        
     }
 
     function add_group($id) {

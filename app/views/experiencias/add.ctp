@@ -8,8 +8,8 @@
     </div>
     <div class="content form">
         <?php
-        echo $this->Form->create('Experiencia',array('url' => array('controller' => 'experiencias', 'action' => 'add',$id)));
-        echo $this->Form->input('empleado_id', array('value' => $id, 'type' => 'hidden'));
+        echo $this->Form->create('Experiencia',array('url' => array('controller' => 'experiencias', 'action' => 'add','empleadoId:'.$empleadoId)));
+        echo $this->Form->input('empleado_id', array('value' => $empleadoId, 'type' => 'hidden'));
 
         echo "<div class='row'>";
         echo "<div style='float:left;width:20%'>";
@@ -52,7 +52,7 @@
         </div>        
         <div class="row boton">
             <div class="boton">
-                <?php echo $this->Html->link('Regresar', array('action' => 'edit',$id)); ?>
+                <?php echo $this->Html->link('Regresar', array('action' => 'edit',$empleadoId)); ?>
             </div>
         </div>
     </div>
