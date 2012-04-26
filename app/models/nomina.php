@@ -129,7 +129,7 @@ class Nomina extends AppModel {
      * @param type $id 
      */
     function calcularNomina($id, $grupo, $modalidad) {
-        $time=time();        
+        $time = time();
         $asignacion = ClassRegistry::init('Asignacion');
         $deduccion = ClassRegistry::init('Deduccion');
         $empleados = $this->buscarInformacionEmpleados($id, $grupo, $modalidad);
@@ -141,14 +141,26 @@ class Nomina extends AppModel {
         //debug($empleados);
         $grupos = $this->Empleado->Grupo->find('list', array(
             'conditions' => array(
-                'id'=>$grupo
+                'id' => $grupo
             )
                 )
         );
+
+        $nomina = $this->find('first', array(
+            'recursive' => -1,
+            'conditions' => array(
+                'id' => $id
+            )
+                ));
+        $fecha_ini = formatoFechaBeforeSave($nomina['Nomina']['FECHA_INI']);
+        $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);
         
+
         foreach ($empleados as $key => $empleado) {
             $empleados[$key]['Nomina_Empleado']['ID_EMPLEADO'] = $empleado['Empleado']['id'];
             $empleados[$key]['Nomina_Empleado']['ID_NOMINA'] = $id;
+            $empleados[$key]['Nomina_Empleado']['FECHA_INI'] = $fecha_ini;
+            $empleados[$key]['Nomina_Empleado']['FECHA_FIN'] = $fecha_fin;
             $empleados[$key]['Nomina_Empleado']['DIAS_HABILES'] = $this->nominaDiasHabiles($id);
             $empleados[$key]['Nomina_Empleado']['CARGO'] = $empleado['Cargo']['NOMBRE'];
             $empleados[$key]['Nomina_Empleado']['DEPARTAMENTO'] = $empleado['Departamento']['NOMBRE'];
@@ -159,7 +171,7 @@ class Nomina extends AppModel {
             $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] * 15; // QUINCENA
             $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS'] = '15';
             $empleados[$key]['Nomina_Empleado']['Asignaciones'] = $asignacion->calcularAsignaciones($empleados[$key]['Nomina_Empleado'], $grupos);
-            $totalasig = 0;            
+            $totalasig = 0;
             foreach ($empleados[$key]['Nomina_Empleado']['Asignaciones'] as $value) {
                 $totalasig = $totalasig + $value;
             }
@@ -178,19 +190,19 @@ class Nomina extends AppModel {
             unset($empleados[$key]['Departamento']);
         }
         //**************************************************
-        $time_end=time()-$time;
-        echo "TIEMPO: ".$time_end." seg";
-        echo "<br/>"; 
+        $time_end = time() - $time;
+        echo "TIEMPO: " . $time_end . " seg";
+        echo "<br/>";
         $mem_usage = memory_get_usage(true);
         echo "MEMORIA: ";
         if ($mem_usage < 1024)
-            echo $mem_usage." bytes";
+            echo $mem_usage . " bytes";
         elseif ($mem_usage < 1048576)
-            echo round($mem_usage/1024,2)." kilobytes";
+            echo round($mem_usage / 1024, 2) . " kilobytes";
         else
-            echo round($mem_usage/1048576,2)." megabytes";
-           
-        echo "<br/>"; 
+            echo round($mem_usage / 1048576, 2) . " megabytes";
+
+        echo "<br/>";
         //**************************************************
         return $empleados;
     }

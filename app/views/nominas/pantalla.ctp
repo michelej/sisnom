@@ -54,7 +54,7 @@
                     echo '<tr class="modo1">';
                     echo '<td>' . $i++ . '</td>';
                     echo '<td>' . $empleado['Empleado']['NOMBRE'] . " " . $empleado['Empleado']['APELLIDO'] . '</td>';
-                    echo '<td style="text-align:right;">' . $empleado['Empleado']['CEDULA'] . '</td>';
+                    echo '<td style="text-align:center;">' . number_format($empleado['Empleado']['CEDULA'], 0, ',', '.'). '</td>';
                     echo '<td>' . $empleado['Nomina_Empleado']['CARGO'] . '</td>';
                     echo '<td>' . number_format($empleado['Nomina_Empleado']['SUELDO_BASE'], 2, ',', '.') . '</td>';
                     echo '<td>' . $empleado['Empleado']['INGRESO'] . '</td>';

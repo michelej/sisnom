@@ -93,15 +93,18 @@ class Asignacion extends AppModel {
         $sueldo_basico = $nomina_empleado['SUELDO_BASICO'];
         $id_empleado = $nomina_empleado['ID_EMPLEADO'];
         $id_nomina = $nomina_empleado['ID_NOMINA'];
+        
+        $fecha_ini = $nomina_empleado['FECHA_INI'];
+        $fecha_fin = $nomina_empleado['FECHA_FIN'];        
 
-        $nomina = $this->Ajuste->Empleado->Nomina->find('first', array(
+        /*$nomina = $this->Ajuste->Empleado->Nomina->find('first', array(
             'recursive' => -1,
             'conditions' => array(
                 'id' => $id_nomina
             )
                 ));
         $fecha_ini = formatoFechaBeforeSave($nomina['Nomina']['FECHA_INI']);
-        $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);
+        $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);*/
 
         $empleado = $this->Ajuste->Empleado->find('first', array(
             'contain' => array(
@@ -176,7 +179,7 @@ class Asignacion extends AppModel {
                             $dias = $dias + numeroDeDias($experiencia['FECHA_INI'], $experiencia['FECHA_FIN']);
                         }
                         $añosLab = ($dias / 365);
-                        $dias = numeroDeDias($empleado['Empleado']['INGRESO'], $nomina['Nomina']['FECHA_INI']);
+                        $dias = numeroDeDias($empleado['Empleado']['INGRESO'], $fecha_ini);
                         $numero = $dias / 365;
 
                         $numero = $numero + $añosLab;
