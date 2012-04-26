@@ -321,19 +321,19 @@ class Asignacion extends AppModel {
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
                         foreach ($empleado['Titulo'] as $titulo) {
                             if ($titulo['TITULO'] == 'T.S.U') {
-                                $valor = +100 / 2;
+                                $valor +=100 / 2;
                             }
                             if ($titulo['TITULO'] == 'Profesional Universitario') {
-                                $valor = +200 / 2;
+                                $valor +=200 / 2;
                             }
                             if ($titulo['TITULO'] == 'Post-Grado') {
-                                $valor = +100 / 2;
+                                $valor += 100 / 2;
                             }
                             if ($titulo['TITULO'] == 'Maestria') {
-                                $valor = +200 / 2;
+                                $valor += 200 / 2;
                             }
                             if ($titulo['TITULO'] == 'Doctorado') {
-                                $valor = +300 / 2;
+                                $valor += 300 / 2;
                             }
                         }
                     } else {
@@ -392,9 +392,9 @@ class Asignacion extends AppModel {
      * @param type $empleado
      * @param type $asignacion 
      */
-    function empleadoTieneAsignacion($id_empleado, $id_asignacion, $fecha_ini, $fecha_fin) {       
+    function empleadoTieneAsignacion($id_empleado, $id_asignacion, $fecha_ini, $fecha_fin) {
 
-        $empleado = $this->Ajuste->find("first", array(            
+        $empleado = $this->Ajuste->find("first", array(
             'conditions' => array(
                 'OR' => array(
                     'FECHA_FIN > ' => $fecha_ini,
@@ -405,10 +405,10 @@ class Asignacion extends AppModel {
                     'empleado_id' => $id_empleado
                 )
             ),
-            'contain'=>array(
-                'Asignacion'=>array(
-                    'conditions'=>array(
-                        'id'=>$id_asignacion
+            'contain' => array(
+                'Asignacion' => array(
+                    'conditions' => array(
+                        'id' => $id_asignacion
                     )
                 )
             )
