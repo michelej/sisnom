@@ -61,7 +61,8 @@
                         <td></td>
                         <td class="actions">
                             <?php
-                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar Ajustes', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit_ajustes', $ajuste['Ajuste']['id'])));
+                            echo $this->Html->image("file_search.png", array("alt" => "Ver", 'title' => 'Ver', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'view', $ajuste['Ajuste']['id'])));
+                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit_ajustes', $ajuste['Ajuste']['id'])));
                             echo $this->Html->image("file_delete.png", array("alt" => "Borrar", 'title' => 'Eliminar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'delete', $ajuste['Ajuste']['id'])));
                             ?>                            
                         </td>

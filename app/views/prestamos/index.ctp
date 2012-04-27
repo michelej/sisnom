@@ -28,9 +28,9 @@
                     <th style="width:5%;text-align: center"><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>                    
                     <th style="width:30%;"><?php echo $this->Paginator->sort('Nombre(s) y Apellido(s)', 'NOMBRE'); ?></th>                    
                     <th style="width:5%;"><?php echo $this->Paginator->sort('Grupo', 'Grupo.NOMBRE'); ?></th>
-                    <th style="width:15%; text-align: center">Cargo</th>
+                    <th style="width:20%; text-align: center">Cargo</th>
                     <th style="width:20%; text-align: center">Departamento</th>
-                    <th style="width:25%; text-align: center"class="actions">Acciones</th>
+                    <th style="width:20%; text-align: center"class="actions">Acciones</th>
                 </tr>
             </thead>
             <tbody>

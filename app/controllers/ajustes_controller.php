@@ -18,7 +18,7 @@ class AjustesController extends AppController {
             if ($this->data['Fopcion'] == 3) {
                 $filtro = array('Empleado.APELLIDO LIKE' => "%" . $this->data['valor'] . "%");
             }
-        }        
+        }
         $this->paginate = array(
             'limit' => 20,
             'contain' => array(
@@ -67,8 +67,8 @@ class AjustesController extends AppController {
     }
 
     function add() {
-        $this->set("empleadoId",$this->params['named']['empleadoId']);
-        if (!empty($this->data)) {                        
+        $this->set("empleadoId", $this->params['named']['empleadoId']);
+        if (!empty($this->data)) {
             if ($this->Ajuste->save($this->data['Ajuste'])) {
                 $this->Session->setFlash('Ajuste agregado con exito', 'flash_success');
                 $this->redirect('edit/' . $this->data['Ajuste']['empleado_id']);
@@ -78,12 +78,12 @@ class AjustesController extends AppController {
             } else {
                 $this->Session->setFlash("Existen errores corrigalos antes de continuar", 'flash_error');
             }
-        }        
+        }
     }
-    
-    function edit_ajustes($id=null){
-        if (!empty($this->data)) {                        
-            foreach ($this->data['Asignacion'] as $key => $asignacion) {                
+
+    function edit_ajustes($id = null) {
+        if (!empty($this->data)) {
+            foreach ($this->data['Asignacion'] as $key => $asignacion) {
                 if ($asignacion == 1) {
                     $this->Ajuste->habtmAdd('Asignacion', $id, $key);
                 }
@@ -98,10 +98,10 @@ class AjustesController extends AppController {
                     $this->Ajuste->habtmDelete('Deduccion', $id, $key);
                 }
             }
-            $this->Session->setFlash('Se ha modificado con exito', 'flash_success');            
-            $this->redirect('edit/'.$this->data['empleado_id']);
+            $this->Session->setFlash('Se ha modificado con exito', 'flash_success');
+            $this->redirect('edit/' . $this->data['empleado_id']);
         }
-        
+
         $this->paginate = array(
             'Ajuste' => array(
                 'type' => 'first',
@@ -112,15 +112,35 @@ class AjustesController extends AppController {
         $ajuste = $this->paginate('Ajuste');
         $asignaciones = $this->Ajuste->Asignacion->find('all', array('recursive' => -1));
         $deducciones = $this->Ajuste->Deduccion->find('all', array('recursive' => -1));
-        $this->set(compact('ajuste','asignaciones', 'deducciones'));
+        $this->set(compact('ajuste', 'asignaciones', 'deducciones'));
     }
-    
+
     function delete($id) {
-        $empleadoid = $this->Ajuste->find('first', array('conditions' => array('Ajuste.id' => $id), 'fields' => array('Ajuste.empleado_id')));
+        $empleadoid = $this->Ajuste->find('first', array(
+            'conditions' => array(
+                'Ajuste.id' => $id
+            ),
+            'fields' => array(
+                'Ajuste.empleado_id')));
+
         if ($this->Ajuste->delete($id)) {
             $this->Session->setFlash('Se ha eliminado con exito', 'flash_success');
             $this->redirect('edit/' . $empleadoid['Ajuste']['empleado_id']);
         }
+    }
+
+    function view($id) {
+        $ajuste = $this->Ajuste->find('first', array(
+            'conditions' => array(
+                'Ajuste.id' => $id
+            ),
+            'contain' => array(
+                'Asignacion', 'Deduccion'
+            )
+                ));
+        $asignaciones = $this->Ajuste->Asignacion->find('all', array('recursive' => -1));
+        $deducciones = $this->Ajuste->Deduccion->find('all', array('recursive' => -1));
+        $this->set(compact('ajuste','asignaciones','deducciones'));
     }
 
 }
