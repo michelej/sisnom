@@ -129,16 +129,18 @@ class Nomina extends AppModel {
      * @param type $id 
      */
     function calcularNomina($id, $grupo, $modalidad) {
-        $time = time();
+        
         $asignacion = ClassRegistry::init('Asignacion');
         $deduccion = ClassRegistry::init('Deduccion');
+
         $empleados = $this->buscarInformacionEmpleados($id, $grupo, $modalidad);
+        
         if ($this->verificarSueldos($empleados)) {
             $this->errorMessage = "No existe suficiente informacion para generar esta Nomina <br/>
                 Verifique que cada cargo tenga definido un sueldo al momento de la nomina";
             return array();
         }
-        //debug($empleados);
+
         $grupos = $this->Empleado->Grupo->find('list', array(
             'conditions' => array(
                 'id' => $grupo
@@ -155,8 +157,12 @@ class Nomina extends AppModel {
         $fecha_ini = formatoFechaBeforeSave($nomina['Nomina']['FECHA_INI']);
         $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);
         
+        //***************************************************
+        $time = time();
+        //***************************************************
 
         foreach ($empleados as $key => $empleado) {
+            $empleados[$key]['Nomina_Empleado']['Empleado'] = $empleado['Empleado'];
             $empleados[$key]['Nomina_Empleado']['ID_EMPLEADO'] = $empleado['Empleado']['id'];
             $empleados[$key]['Nomina_Empleado']['ID_NOMINA'] = $id;
             $empleados[$key]['Nomina_Empleado']['FECHA_INI'] = $fecha_ini;
@@ -177,7 +183,7 @@ class Nomina extends AppModel {
             }
             $empleados[$key]['Nomina_Empleado']['TOTAL_ASIGNACIONES'] = $totalasig;
             $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] + $totalasig;
-            $empleados[$key]['Nomina_Empleado']['Deducciones'] = $deduccion->calcularDeducciones($id, $empleado['Empleado']['id'], $totalasig, $empleados[$key]['Nomina_Empleado']['SUELDO_BASE']);
+            $empleados[$key]['Nomina_Empleado']['Deducciones'] = $deduccion->calcularDeducciones($empleados[$key]['Nomina_Empleado']);
             $totaldedu = 0;
             foreach ($empleados[$key]['Nomina_Empleado']['Deducciones'] as $value) {
                 $totaldedu = $totaldedu + $value;
@@ -204,6 +210,7 @@ class Nomina extends AppModel {
 
         echo "<br/>";
         //**************************************************
+
         return $empleados;
     }
 
@@ -236,7 +243,8 @@ class Nomina extends AppModel {
 
         // Buscamos los contratos de acuerdo a la fecha de la nomina
         // y el grupo indicado , tambien buscamos el historial de sueldos del
-        // cargo correspondiente en la fecha de la nomina
+        // cargo correspondiente en la fecha de la nomina , y toda la informacion
+        // de los empleados necesaria para las asignaciones y deducciones
         $contratos = $this->Empleado->Contrato->find('all', array(
             'conditions' => array(
                 'OR' => array(
@@ -251,7 +259,44 @@ class Nomina extends AppModel {
             ),
             'contain' => array(
                 'Empleado' => array(
-                    'Grupo'
+                    'Grupo', 'Familiar', 'Titulo', 'Experiencia',
+                    'HorasExtra' => array(
+                        'conditions' => array(
+                            '(FECHA BETWEEN ? AND ?)' => array($fecha_ini, $fecha_fin)
+                        )
+                    ),
+                    'Prestamo' => array(
+                        'conditions' => array(
+                            'AND' => array(
+                                'DATE_FORMAT(Prestamo.FECHA,"%m") = DATE_FORMAT("' . $fecha_ini . '","%m")',
+                                'DATE_FORMAT(Prestamo.FECHA,"%y") = DATE_FORMAT("' . $fecha_ini . '","%y")'
+                            )
+                        )
+                    ),
+                    'Comercial' => array(
+                        'conditions' => array(
+                            'AND' => array(
+                                'DATE_FORMAT(Comercial.FECHA,"%m") = DATE_FORMAT("' . $fecha_ini . '","%m")',
+                                'DATE_FORMAT(Comercial.FECHA,"%y") = DATE_FORMAT("' . $fecha_ini . '","%y")'
+                            )
+                        )
+                    ),
+                    'Tribunal' => array(
+                        'conditions' => array(
+                            'AND' => array(
+                                'DATE_FORMAT(Tribunal.FECHA,"%m") = DATE_FORMAT("' . $fecha_ini . '","%m")',
+                                'DATE_FORMAT(Tribunal.FECHA,"%y") = DATE_FORMAT("' . $fecha_ini . '","%y")'
+                            )
+                        )
+                    ),
+                    'Islr' => array(
+                        'conditions' => array(
+                            'AND' => array(
+                                'DATE_FORMAT(Islr.FECHA,"%m") = DATE_FORMAT("' . $fecha_ini . '","%m")',
+                                'DATE_FORMAT(Islr.FECHA,"%y") = DATE_FORMAT("' . $fecha_ini . '","%y")'
+                            )
+                        )
+                    )
                 ),
                 'Departamento',
                 'Cargo' => array(

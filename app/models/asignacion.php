@@ -96,29 +96,9 @@ class Asignacion extends AppModel {
         
         $fecha_ini = $nomina_empleado['FECHA_INI'];
         $fecha_fin = $nomina_empleado['FECHA_FIN'];        
-
-        /*$nomina = $this->Ajuste->Empleado->Nomina->find('first', array(
-            'recursive' => -1,
-            'conditions' => array(
-                'id' => $id_nomina
-            )
-                ));
-        $fecha_ini = formatoFechaBeforeSave($nomina['Nomina']['FECHA_INI']);
-        $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);*/
-
-        $empleado = $this->Ajuste->Empleado->find('first', array(
-            'contain' => array(
-                'Familiar', 'Titulo', 'Experiencia',
-                'HorasExtra' => array(
-                    'conditions' => array(
-                        '(FECHA BETWEEN ? AND ?)' => array($fecha_ini, $fecha_fin)
-                    )
-                )
-            ),
-            'conditions' => array(
-                'id' => $id_empleado
-            )
-                ));
+                
+        $empleado['Empleado']=$nomina_empleado['Empleado'];
+        
 
         // Realizamos el calculo para cada asignacion
         foreach ($data as $value) {
@@ -154,7 +134,7 @@ class Asignacion extends AppModel {
                             $valor = 0;
                         }
                         $hijos = 0;
-                        foreach ($empleado['Familiar'] as $familiar) {
+                        foreach ($empleado['Empleado']['Familiar'] as $familiar) {
                             if ($familiar['PARENTESCO'] == 'Hijo(a)') {
                                 $hijos++;
                             }
@@ -175,7 +155,7 @@ class Asignacion extends AppModel {
                 case "3":
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
                         $dias = 0;
-                        foreach ($empleado['Experiencia'] as $experiencia) {
+                        foreach ($empleado['Empleado']['Experiencia'] as $experiencia) {
                             $dias = $dias + numeroDeDias($experiencia['FECHA_INI'], $experiencia['FECHA_FIN']);
                         }
                         $añosLab = ($dias / 365);
@@ -274,7 +254,7 @@ class Asignacion extends AppModel {
                         $valor = 0;
 
                         if ($nomina_empleado['GRUPO'] == 'Empleado') {
-                            foreach ($empleado['Familiar'] as $familiar) {
+                            foreach ($empleado['Empleado']['Familiar'] as $familiar) {
                                 $edad = $this->Ajuste->Empleado->Edad($familiar['FECHA']);
                                 if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'Si') {
                                     $valor+=15 / 2;
@@ -292,7 +272,7 @@ class Asignacion extends AppModel {
                         }
 
                         if ($nomina_empleado['GRUPO'] == 'Obrero') {
-                            foreach ($empleado['Familiar'] as $familiar) {
+                            foreach ($empleado['Empleado']['Familiar'] as $familiar) {
                                 $edad = $this->Ajuste->Empleado->Edad($familiar['FECHA']);
                                 if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'Si') {
                                     $valor+=15 / 2;
@@ -322,7 +302,7 @@ class Asignacion extends AppModel {
                     // OJO LA FECHA QUE ? Cuando entra en validez un titulo
                     $valor = 0;
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
-                        foreach ($empleado['Titulo'] as $titulo) {
+                        foreach ($empleado['Empleado']['Titulo'] as $titulo) {
                             if ($titulo['TITULO'] == 'T.S.U') {
                                 $valor +=100 / 2;
                             }
@@ -352,7 +332,7 @@ class Asignacion extends AppModel {
                 case "7":
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
                         $count = 0;
-                        foreach ($empleado['HorasExtra'] as $horaextra) {
+                        foreach ($empleado['Empleado']['HorasExtra'] as $horaextra) {
                             if ($horaextra['TIPO'] == 'Nocturno') {
                                 $count++;
                             }
@@ -371,7 +351,7 @@ class Asignacion extends AppModel {
                 case "8":
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
                         $count = 0;
-                        foreach ($empleado['HorasExtra'] as $horaextra) {
+                        foreach ($empleado['Empleado']['HorasExtra'] as $horaextra) {
                             if ($horaextra['TIPO'] == 'Domingos y Dias Feriados') {
                                 $count++;
                             }
@@ -395,8 +375,7 @@ class Asignacion extends AppModel {
      * @param type $empleado
      * @param type $asignacion 
      */
-    function empleadoTieneAsignacion($id_empleado, $id_asignacion, $fecha_ini, $fecha_fin) {
-
+    function empleadoTieneAsignacion($id_empleado, $id_asignacion, $fecha_ini, $fecha_fin) {        
         $empleado = $this->Ajuste->find("first", array(
             'conditions' => array(
                 'OR' => array(

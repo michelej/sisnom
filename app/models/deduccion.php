@@ -74,73 +74,29 @@ class Deduccion extends AppModel {
      * @param type $monto_asignaciones
      * @return type 
      */
-    function calcularDeducciones($id_nomina, $id_empleado, $monto_asignaciones, $sueldo_base) {
+    function calcularDeducciones($nomina_empleado) {
         // Buscamos todas las deducciones
         $data = $this->find('all', array(
             'recursive' => -1,
                 ));
-
-        $nomina = $this->Ajuste->Empleado->Nomina->find('first', array(
-            'recursive' => -1,
-            'conditions' => array(
-                'id' => $id_nomina
-            )
-                ));
-
-        $fecha_ini = formatoFechaBeforeSave($nomina['Nomina']['FECHA_INI']);
-        $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);
-
-
-        $empleado = $this->Ajuste->Empleado->find('first', array(
-            'contain' => array(
-                'Familiar', 'Titulo',
-                'Prestamo' => array(
-                    'conditions' => array(
-                        'AND' => array(
-                            'DATE_FORMAT(Prestamo.FECHA,"%m") = DATE_FORMAT("' . $fecha_ini . '","%m")',
-                            'DATE_FORMAT(Prestamo.FECHA,"%y") = DATE_FORMAT("' . $fecha_ini . '","%y")'
-                        )
-                    )
-                ),
-                'Comercial' => array(
-                    'conditions' => array(
-                        'AND' => array(
-                            'DATE_FORMAT(Comercial.FECHA,"%m") = DATE_FORMAT("' . $fecha_ini . '","%m")',
-                            'DATE_FORMAT(Comercial.FECHA,"%y") = DATE_FORMAT("' . $fecha_ini . '","%y")'
-                        )
-                    )
-                ),
-                'Tribunal' => array(
-                    'conditions' => array(
-                        'AND' => array(
-                            'DATE_FORMAT(Tribunal.FECHA,"%m") = DATE_FORMAT("' . $fecha_ini . '","%m")',
-                            'DATE_FORMAT(Tribunal.FECHA,"%y") = DATE_FORMAT("' . $fecha_ini . '","%y")'
-                        )
-                    )
-                ),
-                'Islr' => array(
-                    'conditions' => array(
-                        'AND' => array(
-                            'DATE_FORMAT(Islr.FECHA,"%m") = DATE_FORMAT("' . $fecha_ini . '","%m")',
-                            'DATE_FORMAT(Islr.FECHA,"%y") = DATE_FORMAT("' . $fecha_ini . '","%y")'
-                        )
-                    )
-                )
-            ),
-            'conditions' => array(
-                'id' => $id_empleado
-            )
-                ));
-        //debug($empleado);
-
-        foreach ($data as $value) {
-            // OJO CANTIDAD DE LUNES DEL MES O QUINCENA????
-            $cant_lunes = cantidadLunes($nomina['Nomina']['FECHA_INI'], $nomina['Nomina']['FECHA_FIN']);
-            // OJO BUSCAR EL SUELDO MINIMO!!
-            $sueldo_minimo = 1548.22;
-            $sueldo_diario = $sueldo_base / 30;
-            $sueldo_basico = $sueldo_diario * 15;
-
+        
+        $id_empleado = $nomina_empleado['ID_EMPLEADO'];
+        $id_nomina = $nomina_empleado['ID_NOMINA'];
+        $fecha_ini = $nomina_empleado['FECHA_INI'];
+        $fecha_fin = $nomina_empleado['FECHA_FIN']; 
+        $sueldo_base = $nomina_empleado['SUELDO_BASE'];
+        $sueldo_diario = $nomina_empleado['SUELDO_DIARIO'];
+        $sueldo_basico = $nomina_empleado['SUELDO_BASICO'];
+        $monto_asignaciones=$nomina_empleado['TOTAL_ASIGNACIONES'];
+        
+        
+        $empleado['Empleado']=$nomina_empleado['Empleado'];
+        // OJO BUSCAR EL SUELDO MINIMO!!
+        $sueldo_minimo = 1548.22;       
+        // OJO CANTIDAD DE LUNES DEL MES O QUINCENA????
+        $cant_lunes = cantidadLunes(formatoFechaAfterFind($fecha_ini), formatoFechaAfterFind($fecha_fin));            
+        
+        foreach ($data as $value) {            
             switch ($value['Deduccion']['id']) {
                 //------------------------------------------------------------//
                 //
@@ -222,8 +178,8 @@ class Deduccion extends AppModel {
                 //------------------------------------------------------------//    
                 case "6":
                     if ($this->empleadoTieneDeduccion($id_empleado, $value['Deduccion']['id'],$fecha_ini,$fecha_fin)) {
-                        if (!empty($empleado['Prestamo'])) {
-                            $valor = $empleado['Prestamo']['0']['CANTIDAD'];
+                        if (!empty($empleado['Empleado']['Prestamo'])) {
+                            $valor = $empleado['Empleado']['Prestamo']['0']['CANTIDAD'];
                         } else {
                             $valor = 0;
                         }
@@ -239,8 +195,8 @@ class Deduccion extends AppModel {
                 //------------------------------------------------------------//    
                 case "7":
                     if ($this->empleadoTieneDeduccion($id_empleado, $value['Deduccion']['id'],$fecha_ini,$fecha_fin)) {
-                        if (!empty($empleado['Comercial'])) {
-                            $valor = $empleado['Comercial']['0']['CANTIDAD'];
+                        if (!empty($empleado['Empleado']['Comercial'])) {
+                            $valor = $empleado['Empleado']['Comercial']['0']['CANTIDAD'];
                         } else {
                             $valor = 0;
                         }
@@ -256,8 +212,8 @@ class Deduccion extends AppModel {
                 //------------------------------------------------------------//    
                 case "8":
                     if ($this->empleadoTieneDeduccion($id_empleado, $value['Deduccion']['id'],$fecha_ini,$fecha_fin)) {
-                        if (!empty($empleado['Tribunal'])) {
-                            $valor = $empleado['Tribunal']['0']['CANTIDAD'];
+                        if (!empty($empleado['Empleado']['Tribunal'])) {
+                            $valor = $empleado['Empleado']['Tribunal']['0']['CANTIDAD'];
                         } else {
                             $valor = 0;
                         }
@@ -273,8 +229,8 @@ class Deduccion extends AppModel {
                 //------------------------------------------------------------//       
                 case "9":
                     if ($this->empleadoTieneDeduccion($id_empleado, $value['Deduccion']['id'],$fecha_ini,$fecha_fin)) {
-                        if (!empty($empleado['Islr'])) {
-                            $valor = ($sueldo_basico * $empleado['Islr']['0']['PORCENTAJE']) / 100;
+                        if (!empty($empleado['Empleado']['Islr'])) {
+                            $valor = ($sueldo_basico * $empleado['Empleado']['Islr']['0']['PORCENTAJE']) / 100;
                         } else {
                             $valor = 0;
                         }
@@ -294,8 +250,7 @@ class Deduccion extends AppModel {
      * @param type $id_deduccion
      * @return boolean 
      */
-    function empleadoTieneDeduccion($id_empleado, $id_deduccion,$fecha_ini,$fecha_fin) {
-                
+    function empleadoTieneDeduccion($id_empleado, $id_deduccion,$fecha_ini,$fecha_fin) {          
         $empleado = $this->Ajuste->find("first", array(            
             'conditions' => array(
                 'OR' => array(
