@@ -237,7 +237,7 @@ class Nomina extends AppModel {
                 'id' => $id,
             ),
             'contain' => array(
-                'Empleado' => array(
+                'Empleado' => array(                    
                     'conditions' => array(
                         'grupo_id' => $grupo
                     ),
@@ -247,8 +247,7 @@ class Nomina extends AppModel {
                     'Grupo'
                 )
             )
-                ));
-
+                ));        
         $fecha_ini = formatoFechaBeforeSave($nomina['Nomina']['FECHA_INI']);
         $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);
         $empleados = Set::extract('/Empleado/id', $nomina);
@@ -271,6 +270,9 @@ class Nomina extends AppModel {
             ),
             'contain' => array(
                 'Empleado' => array(
+                    'order'=>array(
+                      'Empleado.NOMBRE'=>'asc'  
+                    ),
                     'Grupo', 'Familiar', 'Titulo', 'Experiencia',
                     'HorasExtra' => array(
                         'conditions' => array(

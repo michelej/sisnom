@@ -128,6 +128,8 @@ class Asignacion extends AppModel {
                 // -----------------------------------------------------------//    
                 case "2":
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
+                        // TODO: Ojo el cambio del estado civil es continuo no tiene variable de tiempo. Deberia Tenerlo?                       
+                        
                         if ($empleado['Empleado']['EDOCIVIL'] == 'Casado' || $empleado['Empleado']['EDOCIVIL'] == 'Concubinato') {
                             $valor = 12 / 2;
                         } else {
@@ -252,7 +254,7 @@ class Asignacion extends AppModel {
                     // TODO: Verificar si las combinaciones estan bien o falta alguna
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
                         $valor = 0;
-
+                        // TODO: Falta incluir la fecha en la decision como en nivelacion profesional
                         if ($nomina_empleado['GRUPO'] == 'Empleado') {
                             foreach ($empleado['Empleado']['Familiar'] as $familiar) {
                                 $edad = $this->Ajuste->Empleado->Edad($familiar['FECHA']);
