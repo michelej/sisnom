@@ -136,7 +136,7 @@ class Nomina extends AppModel {
         $deduccion = ClassRegistry::init('Deduccion');
 
         $empleados = $this->buscarInformacionEmpleados($id, $grupo, $modalidad);
-        
+
         if ($this->verificarSueldos($empleados)) {
             $this->errorMessage = "No existe suficiente informacion para generar esta Nomina <br/>
                 Verifique que cada cargo tenga definido un sueldo al momento de la nomina";
@@ -158,8 +158,8 @@ class Nomina extends AppModel {
                 ));
         $fecha_ini = formatoFechaBeforeSave($nomina['Nomina']['FECHA_INI']);
         $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);
-        
-        
+
+
 
         foreach ($empleados as $key => $empleado) {
             $empleados[$key]['Nomina_Empleado']['Empleado'] = $empleado['Empleado'];
@@ -171,11 +171,23 @@ class Nomina extends AppModel {
             $empleados[$key]['Nomina_Empleado']['CARGO'] = $empleado['Cargo']['NOMBRE'];
             $empleados[$key]['Nomina_Empleado']['DEPARTAMENTO'] = $empleado['Departamento']['NOMBRE'];
             $empleados[$key]['Nomina_Empleado']['MODALIDAD'] = $empleado['Contrato']['MODALIDAD'];
-            $empleados[$key]['Nomina_Empleado']['GRUPO'] = $empleado['Empleado']['Grupo']['NOMBRE'];
+            $empleados[$key]['Nomina_Empleado']['GRUPO'] = $empleado['Empleado']['Grupo']['NOMBRE'];            
+            // -- DIAS LABORADOS --
+            if (check_in_range($fecha_ini, $fecha_fin, $empleado['Contrato']['FECHA_FIN'])) {
+                $dias = numeroDeDias($fecha_ini, $empleado['Contrato']['FECHA_FIN']);
+                $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS'] = $dias;
+            } elseif (check_in_range($fecha_ini, $fecha_fin, $empleado['Contrato']['FECHA_INI'])) {
+                $dias = numeroDeDias($empleado['Contrato']['FECHA_INI'],$fecha_fin);
+                $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS'] = $dias;
+            }else{
+                $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS'] = '15';
+            }
+            // -- DIAS LABORADOS --
+            // -- SUELDOS --
             $empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] = $empleado['Cargo']['Historial']['0']['SUELDO_BASE'];
             $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] / 30;
-            $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] * 15; // QUINCENA
-            $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS'] = '15';
+            $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] * $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS']; // QUINCENA            
+            // -- SUELDOS --
             $empleados[$key]['Nomina_Empleado']['Asignaciones'] = $asignacion->calcularAsignaciones($empleados[$key]['Nomina_Empleado'], $grupos);
             $totalasig = 0;
             foreach ($empleados[$key]['Nomina_Empleado']['Asignaciones'] as $value) {
