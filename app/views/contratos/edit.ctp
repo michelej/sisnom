@@ -36,9 +36,9 @@
                     <th style="width:15%"><?php echo $this->Paginator->sort('Fecha Inicio', 'FECHA_INI') ?></th>                    
                     <th style="width:15%"><?php echo $this->Paginator->sort('Fecha Final', 'FECHA_FIN') ?></th>                                        
                     <th style="width:10%"><?php echo $this->Paginator->sort('Modalidad', 'MODELIDAD') ?></th>                    
-                    <th style="width:30%; text-align: center"><?php echo $this->Paginator->sort('Cargo', 'cargo_id') ?></th>
-                    <th style="width:30%; text-align: center"><?php echo $this->Paginator->sort('Departamento', 'departamento_id') ?></th>
-                    <th style="width:15%; text-align: center" class="actions">Acciones</th>
+                    <th style="width:25%; text-align: center"><?php echo $this->Paginator->sort('Cargo', 'cargo_id') ?></th>
+                    <th style="width:25%; text-align: center"><?php echo $this->Paginator->sort('Departamento', 'departamento_id') ?></th>
+                    <th style="width:20%; text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -65,7 +65,10 @@
                         <td style="text-align: center"><?php echo $contrato['Departamento']['NOMBRE']; ?></td>
                         <td class="actions">
                             <?php
-                            echo $this->Html->image("file_delete.png", array("alt" => "Borrar", 'title' => 'Eliminar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'delete', $contrato['Contrato']['id'])));
+                            if ($contrato['Contrato']['FECHA_FIN'] == NULL) {
+                                echo $this->Html->image("Stop.png", array("alt" => " ", 'title' => 'Finalizar Contrato', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'finalizar', $contrato['Contrato']['id'])));
+                            } 
+                            echo $this->Html->image("file_delete.png", array("alt" => " ", 'title' => 'Eliminar Contrato', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'delete', $contrato['Contrato']['id'])));
                             ?>                            
                         </td>
                     </tr>
@@ -96,7 +99,7 @@
     <div class="content form">
         <div class="row boton">
             <div class="boton">
-                <?php echo $this->Html->link('Nuevo Contrato', array('action' => 'add', 'empleadoId:'.$empleado['Empleado']['id'])); ?>
+                <?php echo $this->Html->link('Nuevo Contrato', array('action' => 'add', 'empleadoId:' . $empleado['Empleado']['id'])); ?>
             </div>
             <div class="boton">
                 <?php echo $this->Html->link('Regresar', array('controller' => 'empleados', 'action' => 'index')); ?>

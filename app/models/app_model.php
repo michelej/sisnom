@@ -27,8 +27,8 @@ class AppModel extends Model {
         
         // No se permiten fechas futuras
         if (compara_fechas($fecha_ini, $hoy) > 0) {
-            $this->errorMessage='No se permiten fechas futuras, la fecha inicial no puede ser mayor al dia de hoy';
-            return false;
+            //$this->errorMessage='No se permiten fechas futuras, la fecha inicial no puede ser mayor al dia de hoy';
+            //return false;
         }
         // Verificar que fecha final sea mayor a fecha inicial , valides del rango        
         if(compara_fechas($fecha_ini, $fecha_fin)>0){
@@ -63,8 +63,8 @@ class AppModel extends Model {
                         //  la fecha final no puede ser mayor al dia de hoy  para que
                         //  no se puedan definir rangos hacia el futuro
                         if(compara_fechas($fecha_fin, $hoy) > 0){
-                            $this->errorMessage='No se permiten rangos hacia una fecha futura, la fecha final no puede ser mayor al dia de hoy';
-                            return false;
+                            //$this->errorMessage='No se permiten rangos hacia una fecha futura, la fecha final no puede ser mayor al dia de hoy';
+                            //return false;
                         }
                         
                         if (compara_fechas($fecha_ini, $fecha_i) > 0) {

@@ -23,10 +23,10 @@ class ContratosController extends AppController {
         $this->paginate = array(
             'limit' => 20,
             'contain' => array(
-                'Contrato' => array(                    
+                'Contrato' => array(
                     'Cargo', 'Departamento',
                     'conditions' => array(
-                        'FECHA_FIN' => NULL),                    
+                        'FECHA_FIN' => NULL),
                 )
                 ));
 
@@ -54,15 +54,15 @@ class ContratosController extends AppController {
                 )
             );
             $contratos = $this->paginate('Contrato');
-            $empleado = $this->Contrato->Empleado->find('first',array(
-                'conditions'=>array(
-                    'Empleado.id'=>$id
+            $empleado = $this->Contrato->Empleado->find('first', array(
+                'conditions' => array(
+                    'Empleado.id' => $id
                 ),
-                'contain'=>array(
+                'contain' => array(
                     'Grupo'
                 )
-            ));
-            
+                    ));
+
             $this->set(compact('contratos', 'empleado'));
         } else {
             if ($this->Contrato->save($this->data)) {
@@ -74,8 +74,8 @@ class ContratosController extends AppController {
         }
     }
 
-    function add() {        
-        if (!empty($this->data)) {                             
+    function add() {
+        if (!empty($this->data)) {
             if ($this->Contrato->save($this->data)) {
                 $this->Session->setFlash('Contrato agregado con exito', 'flash_success');
                 $this->redirect('edit/' . $this->data['Contrato']['empleado_id']);
@@ -85,11 +85,35 @@ class ContratosController extends AppController {
             } else {
                 $this->Session->setFlash("Existen errores corrigalos antes de continuar", 'flash_error');
             }
-        }        
+        }
         $cargos = $this->Contrato->Cargo->find('list');
         $departamentos = $this->Contrato->Departamento->find('list');
-        $this->set("empleadoId",$this->params['named']['empleadoId']);
+        $this->set("empleadoId", $this->params['named']['empleadoId']);
         $this->set(compact('cargos', 'departamentos'));
+    }
+
+    function finalizar($id = null) {
+        $contrato = $this->Contrato->find('first', array(
+            'recursive' => -1,
+            'conditions' => array(
+                'id' => $id
+            )
+                ));
+        if (!empty($this->data)) {
+            $fecha_fin = $this->data['Contrato']['FECHA_FIN'];
+            $this->data = $contrato;
+            $this->data['Contrato']['FECHA_FIN'] = $fecha_fin;
+            if ($this->Contrato->save($this->data)) {
+                $this->Session->setFlash('Contrato agregado con exito', 'flash_success');
+                $this->redirect('edit/' . $this->data['Contrato']['empleado_id']);
+            }
+            if (!empty($this->Contrato->errorMessage)) {
+                $this->Session->setFlash($this->Contrato->errorMessage, 'flash_error');
+            } else {
+                $this->Session->setFlash("Existen errores corrigalos antes de continuar", 'flash_error');
+            }
+        }
+        $this->set('contrato', $contrato);
     }
 
 }

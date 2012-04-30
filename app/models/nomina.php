@@ -129,7 +129,9 @@ class Nomina extends AppModel {
      * @param type $id 
      */
     function calcularNomina($id, $grupo, $modalidad) {
-        
+        //***************************************************
+        $time = time();
+        //***************************************************
         $asignacion = ClassRegistry::init('Asignacion');
         $deduccion = ClassRegistry::init('Deduccion');
 
@@ -157,9 +159,7 @@ class Nomina extends AppModel {
         $fecha_ini = formatoFechaBeforeSave($nomina['Nomina']['FECHA_INI']);
         $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);
         
-        //***************************************************
-        $time = time();
-        //***************************************************
+        
 
         foreach ($empleados as $key => $empleado) {
             $empleados[$key]['Nomina_Empleado']['Empleado'] = $empleado['Empleado'];
