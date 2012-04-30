@@ -93,12 +93,12 @@ class Asignacion extends AppModel {
         $sueldo_basico = $nomina_empleado['SUELDO_BASICO'];
         $id_empleado = $nomina_empleado['ID_EMPLEADO'];
         $id_nomina = $nomina_empleado['ID_NOMINA'];
-        
+
         $fecha_ini = $nomina_empleado['FECHA_INI'];
-        $fecha_fin = $nomina_empleado['FECHA_FIN'];        
-                
-        $empleado['Empleado']=$nomina_empleado['Empleado'];
-        
+        $fecha_fin = $nomina_empleado['FECHA_FIN'];
+
+        $empleado['Empleado'] = $nomina_empleado['Empleado'];
+
 
         // Realizamos el calculo para cada asignacion
         foreach ($data as $value) {
@@ -302,21 +302,25 @@ class Asignacion extends AppModel {
                     // OJO LA FECHA QUE ? Cuando entra en validez un titulo
                     $valor = 0;
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
-                        foreach ($empleado['Empleado']['Titulo'] as $titulo) {
-                            if ($titulo['TITULO'] == 'T.S.U') {
-                                $valor +=100 / 2;
-                            }
-                            if ($titulo['TITULO'] == 'Profesional Universitario') {
-                                $valor +=200 / 2;
-                            }
-                            if ($titulo['TITULO'] == 'Post-Grado') {
-                                $valor += 100 / 2;
-                            }
-                            if ($titulo['TITULO'] == 'Maestria') {
-                                $valor += 200 / 2;
-                            }
-                            if ($titulo['TITULO'] == 'Doctorado') {
-                                $valor += 300 / 2;
+                        foreach ($empleado['Empleado']['Titulo'] as $titulo) {                            
+                            // La prima se empieaza a pagar a partir de la Quincena en la que se declara                            
+                            if (compara_fechas(formatoFechaAfterFind($fecha_ini),$titulo['FECHA'])>0 || 
+                                    check_in_range($fecha_ini, $fecha_fin, formatoFechaBeforeSave($titulo['FECHA']))) {
+                                if ($titulo['TITULO'] == 'T.S.U') {
+                                    $valor += 100 / 2;
+                                }
+                                if ($titulo['TITULO'] == 'Profesional Universitario') {
+                                    $valor += 200 / 2;
+                                }
+                                if ($titulo['TITULO'] == 'Post-Grado') {
+                                    $valor += 100 / 2;
+                                }
+                                if ($titulo['TITULO'] == 'Maestria') {
+                                    $valor += 200 / 2;
+                                }
+                                if ($titulo['TITULO'] == 'Doctorado') {
+                                    $valor += 300 / 2;
+                                }
                             }
                         }
                     } else {
@@ -375,7 +379,7 @@ class Asignacion extends AppModel {
      * @param type $empleado
      * @param type $asignacion 
      */
-    function empleadoTieneAsignacion($id_empleado, $id_asignacion, $fecha_ini, $fecha_fin) {        
+    function empleadoTieneAsignacion($id_empleado, $id_asignacion, $fecha_ini, $fecha_fin) {
         $empleado = $this->Ajuste->find("first", array(
             'conditions' => array(
                 'OR' => array(
