@@ -37,7 +37,10 @@ class Prestamo extends AppModel {
         if (!empty($this->data['Prestamo']['FECHA'])) {
             $this->data['Prestamo']['FECHA'] = formatoFechaBeforeSave($this->data['Prestamo']['FECHA']);
         }
-
+        if($this->existe($this->data['Prestamo'])){
+            $this->errorMessage = "Ya existe un prestamo de caja de ahorro para esta fecha.";
+            return false;
+        }
         return true;
     }
 
@@ -63,6 +66,19 @@ class Prestamo extends AppModel {
     function getAño($date) {
         list($dia, $mes, $anio) = preg_split('/-/', $date);
         return $anio;
+    }
+    
+    function existe($data){
+        $conditions['empleado_id']=$data['empleado_id'];
+        $conditions['FECHA']=$data['FECHA'];
+        $data=$this->find('first',array(
+            'conditions'=>$conditions
+        ));
+        if(!empty($data)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }

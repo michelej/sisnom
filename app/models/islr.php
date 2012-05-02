@@ -39,6 +39,11 @@ class Islr extends AppModel {
             $this->data['Islr']['FECHA'] = formatoFechaBeforeSave($this->data['Islr']['FECHA']);
         }
 
+        if ($this->existe($this->data['Islr'])) {
+            $this->errorMessage = "Ya existe una retencion por impuesto sobre la renta para esta fecha.";
+            return false;
+        }
+
         return true;
     }
 
@@ -49,11 +54,11 @@ class Islr extends AppModel {
                 $results[$key]['Islr']['FECHA'] = formatoFechaAfterFind($val['Islr']['FECHA']);
                 $results[$key]['Islr']['MES'] = $this->getMes($results[$key]['Islr']['FECHA']);
                 $results[$key]['Islr']['AÑO'] = $this->getAño($results[$key]['Islr']['FECHA']);
-            }            
+            }
         }
         return $results;
     }
-    
+
     function getMes($date) {
         $meses = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre",
             "Noviembre", "Diciembre");
@@ -64,6 +69,19 @@ class Islr extends AppModel {
     function getAño($date) {
         list($dia, $mes, $anio) = preg_split('/-/', $date);
         return $anio;
+    }
+
+    function existe($data) {
+        $conditions['empleado_id'] = $data['empleado_id'];
+        $conditions['FECHA'] = $data['FECHA'];
+        $data = $this->find('first', array(
+            'conditions' => $conditions
+                ));
+        if (!empty($data)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

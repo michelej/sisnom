@@ -37,6 +37,11 @@ class Tribunal extends AppModel {
         if (!empty($this->data['Tribunal']['FECHA'])) {
             $this->data['Tribunal']['FECHA'] = formatoFechaBeforeSave($this->data['Tribunal']['FECHA']);
         }
+        
+        if ($this->existe($this->data['Tribunal'])) {
+            $this->errorMessage = "Ya existe una deduccion por tribunales para esta fecha.";
+            return false;
+        }
 
         return true;
     }
@@ -63,6 +68,19 @@ class Tribunal extends AppModel {
     function getAño($date) {
         list($dia, $mes, $anio) = preg_split('/-/', $date);
         return $anio;
+    }
+    
+    function existe($data) {
+        $conditions['empleado_id'] = $data['empleado_id'];
+        $conditions['FECHA'] = $data['FECHA'];
+        $data = $this->find('first', array(
+            'conditions' => $conditions
+                ));
+        if (!empty($data)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

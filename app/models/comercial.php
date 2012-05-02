@@ -37,6 +37,11 @@ class Comercial extends AppModel {
         if (!empty($this->data['Comercial']['FECHA'])) {
             $this->data['Comercial']['FECHA'] = formatoFechaBeforeSave($this->data['Comercial']['FECHA']);
         }
+        
+        if($this->existe($this->data['Comercial'])){
+            $this->errorMessage = "Ya existe una deduccion por credito comercial para esta fecha.";
+            return false;
+        }
 
         return true;
     }
@@ -63,6 +68,19 @@ class Comercial extends AppModel {
     function getAño($date) {
         list($dia, $mes, $anio) = preg_split('/-/', $date);
         return $anio;
+    }
+    
+    function existe($data){
+        $conditions['empleado_id']=$data['empleado_id'];
+        $conditions['FECHA']=$data['FECHA'];
+        $data=$this->find('first',array(
+            'conditions'=>$conditions
+        ));
+        if(!empty($data)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }

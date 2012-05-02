@@ -45,7 +45,7 @@
         <div class="pages-bottom">
             <div class="actionbox">
                 <?php
-                echo $this->Paginator->counter(array('format' => __('Este cargo tiene %count% historial(es)', true)));
+                echo $this->Paginator->counter(array('format' => 'Actualmente existen %count% registros'));
                 ?>
             </div>
             <div class="pagination">
