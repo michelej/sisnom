@@ -145,20 +145,26 @@ class Nomina extends AppModel {
 
         $grupos = $this->Empleado->Grupo->find('list', array(
             'conditions' => array(
-                'id' => $grupo
-            )
+                'id' => $grupo)
                 )
         );
 
         $nomina = $this->find('first', array(
             'recursive' => -1,
             'conditions' => array(
-                'id' => $id
-            )
-                ));
+                'id' => $id)
+                )
+        );
+
         $fecha_ini = formatoFechaBeforeSave($nomina['Nomina']['FECHA_INI']);
         $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);
 
+        $sueldo_minimo = $this->verificarSueldoMinimo($fecha_ini, $fecha_fin);
+        if (empty($sueldo_minimo)) {
+            $this->errorMessage = "No existe suficiente informacion para generar esta Nomina <br/>
+                Verifique que exista un Sueldo Minimo definido para este periodo";
+            return array();
+        }
 
 
         foreach ($empleados as $key => $empleado) {
@@ -167,19 +173,20 @@ class Nomina extends AppModel {
             $empleados[$key]['Nomina_Empleado']['ID_NOMINA'] = $id;
             $empleados[$key]['Nomina_Empleado']['FECHA_INI'] = $fecha_ini;
             $empleados[$key]['Nomina_Empleado']['FECHA_FIN'] = $fecha_fin;
+            $empleados[$key]['Nomina_Empleado']['SUELDO_MINIMO'] = $sueldo_minimo;
             $empleados[$key]['Nomina_Empleado']['DIAS_HABILES'] = $this->nominaDiasHabiles($id);
             $empleados[$key]['Nomina_Empleado']['CARGO'] = $empleado['Cargo']['NOMBRE'];
             $empleados[$key]['Nomina_Empleado']['DEPARTAMENTO'] = $empleado['Departamento']['NOMBRE'];
             $empleados[$key]['Nomina_Empleado']['MODALIDAD'] = $empleado['Contrato']['MODALIDAD'];
-            $empleados[$key]['Nomina_Empleado']['GRUPO'] = $empleado['Empleado']['Grupo']['NOMBRE'];            
+            $empleados[$key]['Nomina_Empleado']['GRUPO'] = $empleado['Empleado']['Grupo']['NOMBRE'];
             // -- DIAS LABORADOS --
             if (check_in_range($fecha_ini, $fecha_fin, $empleado['Contrato']['FECHA_FIN'])) {
                 $dias = numeroDeDias($fecha_ini, $empleado['Contrato']['FECHA_FIN']);
                 $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS'] = $dias;
             } elseif (check_in_range($fecha_ini, $fecha_fin, $empleado['Contrato']['FECHA_INI'])) {
-                $dias = numeroDeDias($empleado['Contrato']['FECHA_INI'],$fecha_fin);
+                $dias = numeroDeDias($empleado['Contrato']['FECHA_INI'], $fecha_fin);
                 $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS'] = $dias;
-            }else{
+            } else {
                 $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS'] = '15';
             }
             // -- DIAS LABORADOS --
@@ -237,7 +244,7 @@ class Nomina extends AppModel {
                 'id' => $id,
             ),
             'contain' => array(
-                'Empleado' => array(                    
+                'Empleado' => array(
                     'conditions' => array(
                         'grupo_id' => $grupo
                     ),
@@ -247,7 +254,7 @@ class Nomina extends AppModel {
                     'Grupo'
                 )
             )
-                ));        
+                ));
         $fecha_ini = formatoFechaBeforeSave($nomina['Nomina']['FECHA_INI']);
         $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);
         $empleados = Set::extract('/Empleado/id', $nomina);
@@ -270,8 +277,8 @@ class Nomina extends AppModel {
             ),
             'contain' => array(
                 'Empleado' => array(
-                    'order'=>array(
-                      'Empleado.NOMBRE'=>'asc'  
+                    'order' => array(
+                        'Empleado.NOMBRE' => 'asc'
                     ),
                     'Grupo', 'Familiar', 'Titulo', 'Experiencia',
                     'HorasExtra' => array(
@@ -372,6 +379,23 @@ class Nomina extends AppModel {
             }
         }
         return $error;
+    }
+
+    function verificarSueldoMinimo($fecha_ini, $fecha_fin) {
+        $variable = ClassRegistry::init('Variable');
+        $sueldo_minimo = $variable->find('first', array(
+            'conditions' => array(
+                'OR' => array(
+                    'FECHA_FIN > ' => $fecha_ini,
+                    'FECHA_FIN' => NULL,
+                ),
+                'AND' => array(
+                    'FECHA_INI < ' => $fecha_fin,
+                    'NOMBRE'=>'Sueldo Minimo'
+                )
+            )
+                ));
+        return $sueldo_minimo['Variable']['VALOR'];
     }
 
 }

@@ -46,7 +46,9 @@
 
                                 <li><?php echo $this->Html->link($this->Html->image("Contacts.png", array('alt' => 'Basicas', 'height' => '18', 'width' => '18')) . " Basicas", array('controller' => 'Pages', 'action' => 'display'), array('escape' => false)); ?>
                                     <ul>                                        
-                                        <li><?php echo $this->Html->link($this->Html->image("calendar_today.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Dias Feriados", array('controller' => 'feriados', 'action' => 'index'), array('escape' => false)); ?></li>                                        
+                                        <li><?php echo $this->Html->link($this->Html->image("calendar_today.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Dias Feriados", array('controller' => 'feriados', 'action' => 'index'), array('escape' => false)); ?></li>
+                                        <li><?php echo $this->Html->link($this->Html->image("Money.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Sueldo Minimo", array('controller' => 'variables', 'action' => 'sueldo_minimo'), array('escape' => false)); ?></li>
+                                        <li><?php echo $this->Html->link($this->Html->image("Money Bundle.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Unidad Tributaria", array('controller' => 'variables', 'action' => 'unidad_tributaria'), array('escape' => false)); ?></li>
                                     </ul>
                                 </li>                                
                             </ul>

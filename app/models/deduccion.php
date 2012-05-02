@@ -88,11 +88,10 @@ class Deduccion extends AppModel {
         $sueldo_diario = $nomina_empleado['SUELDO_DIARIO'];
         $sueldo_basico = $nomina_empleado['SUELDO_BASICO'];
         $monto_asignaciones=$nomina_empleado['TOTAL_ASIGNACIONES'];
-        
-        
+        $sueldo_minimo = $nomina_empleado['SUELDO_MINIMO'];               
         $empleado['Empleado']=$nomina_empleado['Empleado'];
-        // OJO BUSCAR EL SUELDO MINIMO!!
-        $sueldo_minimo = 1548.22;       
+        
+        
         // OJO CANTIDAD DE LUNES DEL MES O QUINCENA????
         $cant_lunes = cantidadLunes(formatoFechaAfterFind($fecha_ini), formatoFechaAfterFind($fecha_fin));            
         
