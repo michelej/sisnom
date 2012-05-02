@@ -40,20 +40,7 @@ class Asignacion extends AppModel {
     function verificar() {
         // Los grupos aqui definidos deberian ser iguales a los que se encuentran en
         // el modelo Grupo (IMPORTANTE)
-        /* $this->data = array(
-          '1' => array('id' => '1', 'GRUPO' => 'Empleado', 'DESCRIPCION' => 'Prima por Reconocimiento'),
-          '2' => array('id' => '2', 'GRUPO' => 'Empleado', 'DESCRIPCION' => 'Prima Hogar'),
-          '3' => array('id' => '3', 'GRUPO' => 'Empleado', 'DESCRIPCION' => 'Prima por Antiguedad'),
-          '4' => array('id' => '4', 'GRUPO' => 'Empleado', 'DESCRIPCION' => 'Prima por Transporte'),
-          '5' => array('id' => '5', 'GRUPO' => 'Empleado', 'DESCRIPCION' => 'Prima por Hijos'),
-          '6' => array('id' => '6', 'GRUPO' => 'Empleado', 'DESCRIPCION' => 'Nivelacion Profesional'),
-          '7' => array('id' => '7', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Bono Nocturno'),
-          '8' => array('id' => '8', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Recargo por Domingo y Dia Feriado'),
-          '9' => array('id' => '9', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Reconocimiento'),
-          '10' => array('id' => '10', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Antiguedad'),
-          '11' => array('id' => '11', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Transporte'),
-          '12' => array('id' => '12', 'GRUPO' => 'Obrero', 'DESCRIPCION' => 'Prima por Hijos'),
-          ); */
+
         $this->data = $this->constante;
 
         // Para que esto funcione debemos de convertir lo que traigamos del query
@@ -99,7 +86,6 @@ class Asignacion extends AppModel {
 
         $empleado['Empleado'] = $nomina_empleado['Empleado'];
 
-
         // Realizamos el calculo para cada asignacion
         foreach ($data as $value) {
             switch ($value['id']) {
@@ -128,8 +114,7 @@ class Asignacion extends AppModel {
                 // -----------------------------------------------------------//    
                 case "2":
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
-                        // TODO: Ojo el cambio del estado civil es continuo no tiene variable de tiempo. Deberia Tenerlo?                       
-                        
+                        // TODO: Ojo el cambio del estado civil es continuo no tiene variable de tiempo. Deberia Tenerlo?                        
                         if ($empleado['Empleado']['EDOCIVIL'] == 'Casado' || $empleado['Empleado']['EDOCIVIL'] == 'Concubinato') {
                             $valor = 12 / 2;
                         } else {
@@ -258,17 +243,23 @@ class Asignacion extends AppModel {
                         if ($nomina_empleado['GRUPO'] == 'Empleado') {
                             foreach ($empleado['Empleado']['Familiar'] as $familiar) {
                                 $edad = $this->Ajuste->Empleado->Edad($familiar['FECHA']);
-                                if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'Si') {
-                                    $valor+=15 / 2;
-                                }
-                                if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'No') {
-                                    $valor+=12 / 2;
-                                }
-                                if ($edad >= 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['INSTRUCCION'] == 'T.S.U') {
-                                    $valor+=15 / 2;
-                                }
-                                if ($edad >= 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['INSTRUCCION'] == 'Pregrado') {
-                                    $valor+=18 / 2;
+
+                                if (compara_fechas(formatoFechaAfterFind($fecha_ini), $familiar['FECHA']) > 0 ||
+                                        check_in_range($fecha_ini, $fecha_fin, formatoFechaBeforeSave($familiar['FECHA']))) {
+                                    if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'Si') {
+                                        $valor+=15 / 2;
+                                    }
+                                    if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'No') {
+                                        $valor+=12 / 2;
+                                    }
+                                    if ($edad >= 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['INSTRUCCION'] == 'T.S.U') {
+                                        $valor+=15 / 2;
+                                    }
+                                    if ($edad >= 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['INSTRUCCION'] == 'Pregrado') {
+                                        $valor+=18 / 2;
+                                    }
+                                } else {
+                                    $valor = 0;
                                 }
                             }
                         }
@@ -276,17 +267,23 @@ class Asignacion extends AppModel {
                         if ($nomina_empleado['GRUPO'] == 'Obrero') {
                             foreach ($empleado['Empleado']['Familiar'] as $familiar) {
                                 $edad = $this->Ajuste->Empleado->Edad($familiar['FECHA']);
-                                if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'Si') {
-                                    $valor+=15 / 2;
-                                }
-                                if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'No') {
-                                    $valor+=1.8 / 2;
-                                }
-                                if ($edad >= 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['INSTRUCCION'] == 'T.S.U') {
-                                    $valor+=2.5 / 2;
-                                }
-                                if ($edad >= 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['INSTRUCCION'] == 'Pregrado') {
-                                    $valor+=3.5 / 2;
+                                
+                                if (compara_fechas(formatoFechaAfterFind($fecha_ini), $familiar['FECHA']) > 0 ||
+                                        check_in_range($fecha_ini, $fecha_fin, formatoFechaBeforeSave($familiar['FECHA']))) {
+                                    if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'Si') {
+                                        $valor+=15 / 2;
+                                    }
+                                    if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'No') {
+                                        $valor+=1.8 / 2;
+                                    }
+                                    if ($edad >= 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['INSTRUCCION'] == 'T.S.U') {
+                                        $valor+=2.5 / 2;
+                                    }
+                                    if ($edad >= 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['INSTRUCCION'] == 'Pregrado') {
+                                        $valor+=3.5 / 2;
+                                    }
+                                }else{
+                                    $valor=0;
                                 }
                             }
                         }
@@ -304,9 +301,9 @@ class Asignacion extends AppModel {
                     // OJO LA FECHA QUE ? Cuando entra en validez un titulo
                     $valor = 0;
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
-                        foreach ($empleado['Empleado']['Titulo'] as $titulo) {                            
+                        foreach ($empleado['Empleado']['Titulo'] as $titulo) {
                             // La prima se empieaza a pagar a partir de la Quincena en la que se declara                            
-                            if (compara_fechas(formatoFechaAfterFind($fecha_ini),$titulo['FECHA'])>0 || 
+                            if (compara_fechas(formatoFechaAfterFind($fecha_ini), $titulo['FECHA']) > 0 ||
                                     check_in_range($fecha_ini, $fecha_fin, formatoFechaBeforeSave($titulo['FECHA']))) {
                                 if ($titulo['TITULO'] == 'T.S.U') {
                                     $valor += 100 / 2;
