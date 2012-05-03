@@ -11,13 +11,7 @@
         <?php
         echo $this->Form->create('Nomina',array('url' => array('controller' => 'nominas', 'action' => 'add')));        
         echo $this->Form->input('FECHA_ELA', array('type'=>'hidden','value'=> date("d-m-Y")));
-        
-        echo "<div class='row'>";
-        echo "<div style='float:left;width:25%'>";        
-        echo $this->Form->input('CODIGO', array('div' => false, 'label' => 'Codigo de la Nomina', 'class' => 'medium'));
-        echo "</div>";
-        echo "</div>";
-        
+                
         echo "<div class='row'>";
         echo "<div style='float:left;width:30%;'>";
         $options = array('1' => 'Enero','2' => 'Febrero','3' => 'Marzo','4' => 'Abril','5' => 'Mayo','6' => 'Junio','7' => 'Julio'

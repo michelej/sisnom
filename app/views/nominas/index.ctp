@@ -26,12 +26,11 @@
             <thead>
                 <tr>
                     <th></th>  
-                    <th style="width:5%;"><?php echo $this->Paginator->sort('Mes', 'FECHA_INI'); ?></th>
-                    <th style="width:5%;">Año</th>
+                    <th style="width:15%;"><?php echo $this->Paginator->sort('Mes', 'FECHA_INI'); ?></th>
+                    <th style="width:15%;">Año</th>
                     <th style="width:15%;">Quincena</th>
                     <th style="width:15%;"><?php echo $this->Paginator->sort('Fecha Inicio', 'FECHA_INI'); ?></th>
-                    <th style="width:15%;"><?php echo $this->Paginator->sort('Fecha Fin', 'FECHA_FIN'); ?></th>
-                    <th style="width:20%;"><?php echo $this->Paginator->sort('Codigo', 'CODIGO'); ?></th>                                        
+                    <th style="width:15%;"><?php echo $this->Paginator->sort('Fecha Fin', 'FECHA_FIN'); ?></th>                    
                     <th style="width:10%;"><?php echo $this->Paginator->sort('Fecha de Elaboracion', 'FECHA_ELE'); ?></th>                    
                     <th style="width:15%; text-align: center"class="actions">Acciones</th>
                 </tr>
@@ -51,12 +50,11 @@
                         <td><?php echo $nomina['Nomina']['AÑO']; ?></td>
                         <td><?php echo $nomina['Nomina']['QUINCENA']; ?></td>
                         <td><?php echo fechaElegible($nomina['Nomina']['FECHA_INI']); ?></td>
-                        <td><?php echo fechaElegible($nomina['Nomina']['FECHA_FIN']); ?></td>                        
-                        <td><?php echo $nomina['Nomina']['CODIGO']; ?></td>                        
+                        <td><?php echo fechaElegible($nomina['Nomina']['FECHA_FIN']); ?></td>                                                
                         <td><?php echo fechaElegible($nomina['Nomina']['FECHA_ELA']); ?></td>                        
                         <td class="actions">
                             <?php                            
-                            echo $this->Html->image("file_edit.png", array("alt" => "modificar", 'width' => '18', 'heigth' => '18', 'title' => 'Modificar', 'url' => array('action' => 'edit', $nomina['Nomina']['id'])));
+                            echo $this->Html->image("Button White Info.png", array("alt" => "modificar", 'width' => '18', 'heigth' => '18', 'title' => 'Nomina', 'url' => array('action' => 'edit', $nomina['Nomina']['id'])));
                             echo $this->Html->image("file_delete.png", array("alt" => "Borrar", 'title' => 'Eliminar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'delete', $nomina['Nomina']['id'])));
                             ?>
                         </td>

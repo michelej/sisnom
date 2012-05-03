@@ -19,11 +19,7 @@
             <?php echo $nomina['Nomina']['QUINCENA'] . " Quincena"; ?>
             <?php echo "</div>"; ?>           
         </div>   
-        <div class="row">
-            <?php echo "<div style='float:left;width:20%'>"; ?>
-            <?php echo $this->Form->label('Codigo'); ?>
-            <?php echo $nomina['Nomina']['CODIGO']; ?>
-            <?php echo "</div>"; ?>
+        <div class="row">            
             <?php echo "<div style='float:left;width:20%'>"; ?>
             <?php echo $this->Form->label('Fecha de Inicio'); ?>
             <?php echo fechaElegible($nomina['Nomina']['FECHA_INI']); ?>
