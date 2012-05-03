@@ -53,14 +53,14 @@
                 foreach ($empleados as $empleado):
                     echo '<tr class="modo1">';
                     echo '<td>' . $i++ . '</td>';
-                    echo '<td>' . $empleado['Empleado']['NOMBRE'] . " " . $empleado['Empleado']['APELLIDO'] . '</td>';
-                    echo '<td style="text-align:center;">' . number_format($empleado['Empleado']['CEDULA'], 0, ',', '.'). '</td>';
+                    echo '<td>' . $empleado['Nomina_Empleado']['NOMBRE'] . " " . $empleado['Nomina_Empleado']['APELLIDO'] . '</td>';
+                    echo '<td style="text-align:center;">' . number_format($empleado['Nomina_Empleado']['CEDULA'], 0, ',', '.'). '</td>';
                     echo '<td>' . $empleado['Nomina_Empleado']['CARGO'] . '</td>';
                     echo '<td>' . number_format($empleado['Nomina_Empleado']['SUELDO_BASE'], 2, ',', '.') . '</td>';
-                    echo '<td>' . $empleado['Empleado']['INGRESO'] . '</td>';
+                    echo '<td>' . $empleado['Nomina_Empleado']['INGRESO'] . '</td>';
                     echo '<td>' . number_format($empleado['Nomina_Empleado']['SUELDO_DIARIO'], 2, ',', '.') . '</td>';
-                    echo '<td>' . $nomina['Nomina']['FECHA_INI'] . '</td>';
-                    echo '<td>' . $nomina['Nomina']['FECHA_FIN'] . '</td>';
+                    echo '<td>' . $empleado['Nomina_Empleado']['FECHA_INI'] . '</td>';
+                    echo '<td>' . $empleado['Nomina_Empleado']['FECHA_FIN'] . '</td>';
                     echo '<td>' . $empleado['Nomina_Empleado']['DIAS_LABORADOS'] . '</td>';
                     echo '<td>' . number_format($empleado['Nomina_Empleado']['SUELDO_BASICO'], 2, ',', '.') . '</td>';
                     foreach ($empleado['Nomina_Empleado']['Asignaciones'] as $value) {

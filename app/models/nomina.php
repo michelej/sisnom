@@ -181,11 +181,15 @@ class Nomina extends AppModel {
 
 
         foreach ($empleados as $key => $empleado) {
-            $empleados[$key]['Nomina_Empleado']['Empleado'] = $empleado['Empleado'];
-            $empleados[$key]['Nomina_Empleado']['ID_EMPLEADO'] = $empleado['Empleado']['id'];
+            $empleados[$key]['Nomina_Empleado']['Empleado'] = $empleado['Empleado'];            
             $empleados[$key]['Nomina_Empleado']['ID_NOMINA'] = $id;
             $empleados[$key]['Nomina_Empleado']['FECHA_INI'] = $fecha_ini;
             $empleados[$key]['Nomina_Empleado']['FECHA_FIN'] = $fecha_fin;
+            $empleados[$key]['Nomina_Empleado']['ID_EMPLEADO'] = $empleado['Empleado']['id'];
+            $empleados[$key]['Nomina_Empleado']['NOMBRE'] = $empleado['Empleado']['NOMBRE'];
+            $empleados[$key]['Nomina_Empleado']['APELLIDO'] = $empleado['Empleado']['APELLIDO'];
+            $empleados[$key]['Nomina_Empleado']['CEDULA'] = $empleado['Empleado']['CEDULA'];
+            $empleados[$key]['Nomina_Empleado']['INGRESO'] = $empleado['Empleado']['INGRESO'];
             $empleados[$key]['Nomina_Empleado']['SUELDO_MINIMO'] = $sueldo_minimo;
             $empleados[$key]['Nomina_Empleado']['DIAS_HABILES'] = $this->nominaDiasHabiles($id);
             $empleados[$key]['Nomina_Empleado']['CARGO'] = $empleado['Cargo']['NOMBRE'];
@@ -226,6 +230,8 @@ class Nomina extends AppModel {
             unset($empleados[$key]['Contrato']);
             unset($empleados[$key]['Cargo']);
             unset($empleados[$key]['Departamento']);
+            unset($empleados[$key]['Empleado']);
+            unset($empleados[$key]['Nomina_Empleado']['Empleado']);
         }        
         return $empleados;
     }

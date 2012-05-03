@@ -104,7 +104,7 @@ class NominasController extends AppController {
                     }
                 }
             }
-            $this->set(compact('empleados', 'nomina'));
+            $this->set('empleados',$empleados);
             if ($this->data['VISUALIZAR'] == 'Pantalla') {
                 $this->render('pantalla', 'nomina');
             }
