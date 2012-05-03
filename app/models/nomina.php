@@ -144,10 +144,7 @@ class Nomina extends AppModel {
      * Realizamos los Calculos de la Nomina
      * @param type $id 
      */
-    function calcularNomina($id, $grupo, $modalidad) {
-        //***************************************************
-        $time = time();
-        //***************************************************
+    function calcularNomina($id, $grupo, $modalidad) {        
         $asignacion = ClassRegistry::init('Asignacion');
         $deduccion = ClassRegistry::init('Deduccion');
 
@@ -229,23 +226,7 @@ class Nomina extends AppModel {
             unset($empleados[$key]['Contrato']);
             unset($empleados[$key]['Cargo']);
             unset($empleados[$key]['Departamento']);
-        }
-        //**************************************************
-        $time_end = time() - $time;
-        echo "TIEMPO: " . $time_end . " seg";
-        echo "<br/>";
-        $mem_usage = memory_get_usage(true);
-        echo "MEMORIA: ";
-        if ($mem_usage < 1024)
-            echo $mem_usage . " bytes";
-        elseif ($mem_usage < 1048576)
-            echo round($mem_usage / 1024, 2) . " kilobytes";
-        else
-            echo round($mem_usage / 1048576, 2) . " megabytes";
-
-        echo "<br/>";
-        //**************************************************
-
+        }        
         return $empleados;
     }
 

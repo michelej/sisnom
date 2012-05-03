@@ -3,6 +3,7 @@
 class NominasController extends AppController {
 
     var $name = 'Nominas';
+    var $helpers = array('Excel');
 
     function index() {
         $filtro = array();
@@ -33,10 +34,10 @@ class NominasController extends AppController {
         if (!empty($this->data)) {
             if ($this->Nomina->save($this->data['Nomina'])) {
                 $this->Session->setFlash('Nomina creada con exito', 'flash_success');
-                $id=$this->Nomina->getLastInsertId();
+                $id = $this->Nomina->getLastInsertId();
                 $this->Nomina->generarNomina($id);
                 $this->redirect('index');
-            }            
+            }
             if (!empty($this->Nomina->errorMessage)) {
                 $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
             } else {
@@ -53,8 +54,7 @@ class NominasController extends AppController {
     }
 
     function edit($id = null) {
-        // TODO: Verificar si existen cambios depues de creada la nomina ??????
-        // quitar esto de aqui        
+        // TODO: Verificar si existen cambios depues de creada la nomina ??????        
         $nomina = $this->Nomina->find('first', array(
             'recursive' => -1,
             'conditions' => array(
@@ -76,37 +76,40 @@ class NominasController extends AppController {
             // OJO QUIZAS SEA MALA IDEA!
             // Para mantener las nominas con los cambios que se hagan
             $this->Nomina->generarNomina($id);
-            
-            if($this->data['TIPO']=='1'){
-                $grupo='1';  // Empleado
-                $modalidad='Fijo';
-            }
-            if($this->data['TIPO']=='2'){
-                $grupo='2';  // Obrero
-                $modalidad='Fijo';
-            }
-            if($this->data['TIPO']=='3'){
-                $grupo=array(1,2);  // Empleado y Obrero
-                $modalidad='Contratado';
-            }
-            $empleados = $this->Nomina->calcularNomina($id, $grupo, $modalidad);
-            
-            if(empty($empleados)){
-                $this->render('error', 'nomina');
-                if($this->Nomina->errorMessage==''){
-                    $this->Session->setFlash('Actualmente no existen datos suficientes para generar esta nomina', 'flash_error');
-                }else{
-                    $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
-                }
-                
-            }
-            
-            $this->set(compact('empleados', 'nomina'));
-            $this->render('pantalla', 'nomina');
 
-            if (empty($this->data['TIPO'])) {
+
+            if (empty($this->data['TIPO']) || empty($this->data['VISUALIZAR'])) {
+                $this->Session->setFlash('Debe seleccionar el tipo de nomina y un el modo de visualizar', 'flash_error');
                 $this->render('error', 'nomina');
-                $this->Session->setFlash('Debe seleccionar el tipo de nomina', 'flash_error');
+            } else {
+                if ($this->data['TIPO'] == '1') {
+                    $grupo = '1';  // Empleado
+                    $modalidad = 'Fijo';
+                }
+                if ($this->data['TIPO'] == '2') {
+                    $grupo = '2';  // Obrero
+                    $modalidad = 'Fijo';
+                }
+                if ($this->data['TIPO'] == '3') {
+                    $grupo = array(1, 2);  // Empleado y Obrero
+                    $modalidad = 'Contratado';
+                }
+                $empleados = $this->Nomina->calcularNomina($id, $grupo, $modalidad);
+                if (empty($empleados)) {
+                    $this->render('error', 'nomina');
+                    if ($this->Nomina->errorMessage == '') {
+                        $this->Session->setFlash('Actualmente no existen datos suficientes para generar esta nomina', 'flash_error');
+                    } else {
+                        $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
+                    }
+                }
+            }
+            $this->set(compact('empleados', 'nomina'));
+            if ($this->data['VISUALIZAR'] == 'Pantalla') {
+                $this->render('pantalla', 'nomina');
+            }
+            if ($this->data['VISUALIZAR'] == 'Archivo') {                
+                $this->render('generar_archivo','nominaExcel');
             }
         }
     }

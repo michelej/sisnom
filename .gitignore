@@ -1,6 +1,5 @@
 /nbproject
 *.htaccess
 /app/tmp
-/vendors
 /cake
 /app/config/database.php

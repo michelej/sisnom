@@ -48,11 +48,17 @@
             echo $this->Form->input('nomina_id', array('type' => 'hidden','value'=>$nomina['Nomina']['id']));
             echo $this->Form->input('TIPO', array('div' => false, 'label' => 'Tipo de Nomina', 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una Opcion'));
             echo "</div>";            
+            
+            echo "<div style='float:left;width:30%;'>";
+            $options = array('Pantalla' => 'Pantalla', 'Archivo' => 'Archivo');                        
+            echo $this->Form->input('VISUALIZAR', array('div' => false, 'label' => 'Visualizar', 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una Opcion'));
+            echo "</div>";            
+            
             echo "</div>";
             
             echo "<div class='row'>";
             echo "<div style='float:left;width:25%;padding-top:16px'>";
-            echo $this->Form->End('Generar Nomina');
+            echo $this->Form->End('Generar');
             echo "</div>";            
             ?>
         </div>     
