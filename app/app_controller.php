@@ -11,8 +11,10 @@ class AppController extends Controller {
     
     function beforeFilter(){
         $login = $this->Authsome->get();                
-        if(empty($login) && $this->action!='login'){
-            $this->Session->write('loginRedirect','/'.$this->name.'/'.$this->action);
+        if(empty($login) && $this->action!='login'){  
+            $controller=$this->name;
+            $action=$this->action;
+            $this->Session->write('loginRedirect','/'.$this->params['url']['url']);
             $this->redirect('/users/login');
         }                
     }

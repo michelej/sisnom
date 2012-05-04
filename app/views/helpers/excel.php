@@ -36,10 +36,10 @@ class ExcelHelper extends AppHelper {
         $this->_output($title);
         return true;
     }
-        
+
     function _title($title) {
-      $this->sheet->setTitle($title);
-    } 
+        $this->sheet->setTitle($title);
+    }
 
     function _headers() {
         $i = 0;
@@ -79,15 +79,104 @@ class ExcelHelper extends AppHelper {
         $objWriter->setTempDir(TMP);
         $objWriter->save('php://output');
     }
-    
-    function _centrarTexto($celda){
+
+    /**
+     *  Centrar el Texto de una Celda
+     * @param type $celda 
+     */
+    function _centrarTexto($celda) {
         $this->sheet->getStyle($celda)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
     }
-    
+
+    /**
+     * Aplicarle formato de numero a una celda
+     * @param type $celda 
+     */
     function _formatoNumero($celda) {
         $this->sheet->getStyle($celda)->getNumberFormat()->setFormatCode('#,##0.00');
     }
-    
+
+    /**
+     *  Aplicarle a una celda los bordes
+     * @param type $celda 
+     */
+    function _bordeSimple($celda) {
+        $this->sheet->getStyle($celda)->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $this->sheet->getStyle($celda)->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $this->sheet->getStyle($celda)->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        $this->sheet->getStyle($celda)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+    }
+
+    /**
+     * Aplicarle a un grupo de celdas los bordes
+     * @param type $celdas 
+     */
+    function _bordeGrupo($celdas) {
+        $styleArray = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+        $this->sheet->getStyle($celdas)->applyFromArray($styleArray);
+        unset($styleArray);
+    }
+
+    /**
+     * Unir varias Celdas
+     * @param type $celda 
+     */
+    function _unir($celda) {
+        $this->sheet->mergeCells($celda);
+    }
+
+    /**
+     * Agregar un valor a una celda especifica
+     * @param type $pos
+     * @param type $title 
+     */
+    function _campo($pos, $title) {
+        $this->sheet->setCellValue($pos, $title);
+    }
+
+    /**
+     * Ancho de fila a una fila completa
+     * @param type $fila
+     * @param type $tam 
+     */
+    function _anchoFila($fila, $tam) {
+        $this->sheet->getRowDimension($fila)->setRowHeight($tam);
+    }
+
+    /**
+     * Ancho de columna a una columna completa
+     * @param type $col
+     * @param type $tam 
+     */
+    function _anchoColumna($col, $tam) {
+        $this->sheet->getStyle($col)->getAlignment()->setWrapText(true);
+        $this->sheet->getColumnDimension($col)->setWidth($tam);
+    }
+
+    /**
+     * Los header de la tabla
+     * @param type $celdas 
+     */    
+    function _headersTabla($celdas){
+        $styleArray = array(
+            'fill' => array(
+                'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                'color' => array('rgb' => 'd4d6fc'),
+            ),
+            'font' => array(
+                'bold' => true
+            )
+        );
+        $this->sheet->getStyle($celdas)->applyFromArray($styleArray);
+        unset($styleArray);
+    }
+
     function _logos() {
 
         $objDrawing = new PHPExcel_Worksheet_Drawing();
@@ -110,46 +199,12 @@ class ExcelHelper extends AppHelper {
         $objDrawing->setWorksheet($this->xls->getActiveSheet());
     }
 
-    function _unir($celda) {
-        $this->sheet->mergeCells($celda);
-    }
-
     function _color($celda) {
         $this->sheet->getStyle($celda)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('d4d6fc');
-    }    
-
-    function _campo($pos, $title) {
-        $this->sheet->setCellValue($pos, $title);
-    }    
-
-    function _formatoTexto($texto, $formato) {
-        
-    }
-
-    function _borde($celda) {
-        $this->sheet->getStyle($celda)->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $this->sheet->getStyle($celda)->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $this->sheet->getStyle($celda)->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-        $this->sheet->getStyle($celda)->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
     }
 
     function _addField($valor, $i, $j) {
         $this->sheet->setCellValueByColumnAndRow($j, $i, $valor);
-    }
-
-    function _texto($col, $tam, $estilo) {
-        $this->sheet->getStyle($col)->getFont()->setName('Arial');
-        $this->sheet->getStyle($col)->getFont()->setSize($tam);
-        $this->sheet->getStyle($col)->getFont()->setBold(true);
-    }
-
-    function _anchoFila($fila, $tam) {
-        $this->sheet->getRowDimension($fila)->setRowHeight($tam);
-    }
-
-    function _anchoColumna($col, $tam) {
-        $this->sheet->getStyle($col)->getAlignment()->setWrapText(true);
-        $this->sheet->getColumnDimension($col)->setWidth($tam);
     }
 
     function _formatoColumna($col, $tipo) {
