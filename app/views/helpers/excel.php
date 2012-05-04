@@ -79,27 +79,14 @@ class ExcelHelper extends AppHelper {
         $objWriter->setTempDir(TMP);
         $objWriter->save('php://output');
     }
-
-////////////////////////////////////////////////////////////////////////////////    
     
+    function _centrarTexto($celda){
+        $this->sheet->getStyle($celda)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    }
     
-    /*   function _headers($valor) {
-      $i = 0;
-      foreach ($valor as $field) {
-      if (!in_array($field, $this->blacklist)) {
-      $columnName = Inflector::humanize($field);
-      $this->sheet->setCellValueByColumnAndRow($i++, 4, $columnName);
-      }
-      }
-
-      // $this->sheet->getStyle('A4')->getFont()->setSize(8);
-      //$this->sheet->getStyle('A4')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
-      //$this->sheet->getStyle('A4')->getFill()->getStartColor()->setRGB('969696');
-      //	$this->sheet->duplicateStyle( $this->sheet->getStyle('A4'), 'B4:'.$this->sheet->getHighestColumn().'4');
-      for ($j = 1; $j < $i; $j++) {
-      //  $this->sheet->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($j))->setAutoSize(true);
-      }
-      } */    
+    function _formatoNumero($celda) {
+        $this->sheet->getStyle($celda)->getNumberFormat()->setFormatCode('#,##0.00');
+    }
     
     function _logos() {
 
@@ -129,19 +116,11 @@ class ExcelHelper extends AppHelper {
 
     function _color($celda) {
         $this->sheet->getStyle($celda)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('d4d6fc');
-    }
-
-    function _alinear($celda) {
-        $this->sheet->getStyle($celda)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-    }
+    }    
 
     function _campo($pos, $title) {
         $this->sheet->setCellValue($pos, $title);
-    }
-
-    function _formatCampo($pos) {
-        $this->sheet->getStyle($pos)->getNumberFormat()->setFormatCode('#,##0.00');
-    }
+    }    
 
     function _formatoTexto($texto, $formato) {
         
