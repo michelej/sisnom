@@ -42,7 +42,12 @@ class AppModel extends Model {
             foreach ($fechas as $data) {
                 $fecha_i = $data['FECHA_INI'];
                 $fecha_f = $data['FECHA_FIN'];
-
+                
+                if($fecha_i == $fecha_ini){
+                    $this->errorMessage='Esta fecha ya existe';
+                    return false;
+                }
+                
                 //si la fecha del historial es null estamos tratando con un rango actual                
                 // idealmente solo existe uno y es el ultimo
                 if ($fecha_f == NULL) {

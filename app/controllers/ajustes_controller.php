@@ -70,6 +70,31 @@ class AjustesController extends AppController {
         $this->set("empleadoId", $this->params['named']['empleadoId']);
         if (!empty($this->data)) {
             if ($this->Ajuste->save($this->data['Ajuste'])) {
+                $id=$this->Ajuste->getLastInsertID();
+                $data = $this->Ajuste->Empleado->find('first', array(
+                    'conditions' => array(
+                        'Empleado.id' => $this->params['named']['empleadoId']),
+                    'fields' => array(
+                        'Empleado.grupo_id'),
+                    'contain' => array(
+                        'Grupo' => array(
+                            'fields' => array(
+                                'nombre'
+                            )
+                        )
+                    )
+                        ));
+                $grupo[$data['Grupo']['id']]=$data['Grupo']['nombre'];                
+                $asig = $this->Ajuste->Asignacion->ordenDeAsignaciones($grupo);
+                $dedu = $this->Ajuste->Deduccion->constante;
+                                
+                foreach($asig as $value){
+                    $this->Ajuste->habtmAdd('Asignacion', $id, $value['id']);
+                }
+                foreach($dedu as $value){
+                    $this->Ajuste->habtmAdd('Deduccion', $id, $value['id']);
+                }
+                
                 $this->Session->setFlash('Ajuste agregado con exito', 'flash_success');
                 $this->redirect('edit/' . $this->data['Ajuste']['empleado_id']);
             }
@@ -140,7 +165,7 @@ class AjustesController extends AppController {
                 ));
         $asignaciones = $this->Ajuste->Asignacion->find('all', array('recursive' => -1));
         $deducciones = $this->Ajuste->Deduccion->find('all', array('recursive' => -1));
-        $this->set(compact('ajuste','asignaciones','deducciones'));
+        $this->set(compact('ajuste', 'asignaciones', 'deducciones'));
     }
 
 }
