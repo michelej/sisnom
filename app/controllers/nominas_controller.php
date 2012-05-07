@@ -94,7 +94,23 @@ class NominasController extends AppController {
                     $grupo = array(1, 2);  // Empleado y Obrero
                     $modalidad = 'Contratado';
                 }
+                
+                ////////////////////////////////////////////////////////////////
+                $time = time();
+                ////////////////////////////////////////////////////////////////
                 $empleados = $this->Nomina->calcularNomina($id, $grupo, $modalidad);
+                ////////////////////////////////////////////////////////////////
+                $time_end = time() - $time;
+                $tm = "TIEMPO: " . $time_end . " seg";
+                $mem_usage = memory_get_usage(true);
+                if ($mem_usage < 1024)
+                    $mem = $mem_usage . " bytes";
+                elseif ($mem_usage < 1048576)
+                    $mem = round($mem_usage / 1024, 2) . " kilobytes";
+                else
+                    $mem = round($mem_usage / 1048576, 2) . " megabytes";
+                ////////////////////////////////////////////////////////////////
+                
                 if (empty($empleados)) {
                     $this->render('error', 'nomina');
                     if ($this->Nomina->errorMessage == '') {
@@ -104,12 +120,15 @@ class NominasController extends AppController {
                     }
                 }
             }
-            $this->set('empleados',$empleados);
+            $extra['Calculo Nomina']['Tiempo']=$tm;
+            $extra['Calculo Nomina']['Memoria']=$mem;
+            
+            $this->set(compact('empleados','extra'));
             if ($this->data['VISUALIZAR'] == 'Pantalla') {
                 $this->render('pantalla', 'nomina');
             }
-            if ($this->data['VISUALIZAR'] == 'Archivo') {                
-                $this->render('generar_archivo','nominaExcel');
+            if ($this->data['VISUALIZAR'] == 'Archivo') {
+                $this->render('generar_archivo', 'nominaExcel');
             }
         }
     }

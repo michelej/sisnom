@@ -60,12 +60,12 @@ class Nomina extends AppModel {
         if (!empty($this->data['Nomina']['FECHA_ELA'])) {
             $this->data['Nomina']['FECHA_ELA'] = formatoFechaBeforeSave($this->data['Nomina']['FECHA_ELA']);
         }
-        
+
         // Si existe el Nomina -> ID entonces es un update osea un generarNomina (que es donde se agregan los empleados)
-        if($this->existe($this->data['Nomina']) && !isset($this->data['Nomina']['id'])){
+        if ($this->existe($this->data['Nomina']) && !isset($this->data['Nomina']['id'])) {
             $this->errorMessage = "Ya existe una nomina para esta fecha.";
             return false;
-        }       
+        }
 
         return true;
     }
@@ -99,20 +99,20 @@ class Nomina extends AppModel {
         list($dia, $mes, $anio) = preg_split('/-/', $date);
         return $anio;
     }
-    
+
     function existe($data) {
-            $conditions['QUINCENA'] = $data['QUINCENA'];
-            $conditions['FECHA_INI'] = $data['FECHA_INI'];
-            $conditions['FECHA_FIN'] = $data['FECHA_FIN'];
-            $data = $this->find('first', array(
-                'conditions' => $conditions
-                    ));
-            if (!empty($data)) {
-                return true;
-            } else {
-                return false;
-            }
+        $conditions['QUINCENA'] = $data['QUINCENA'];
+        $conditions['FECHA_INI'] = $data['FECHA_INI'];
+        $conditions['FECHA_FIN'] = $data['FECHA_FIN'];
+        $data = $this->find('first', array(
+            'conditions' => $conditions
+                ));
+        if (!empty($data)) {
+            return true;
+        } else {
+            return false;
         }
+    }
 
     /**
      * Buscamos los contratos que se encuentran activos en el rango de fechas
@@ -181,7 +181,7 @@ class Nomina extends AppModel {
 
 
         foreach ($empleados as $key => $empleado) {
-            $empleados[$key]['Nomina_Empleado']['Empleado'] = $empleado['Empleado'];            
+            $empleados[$key]['Nomina_Empleado']['Empleado'] = $empleado['Empleado'];
             $empleados[$key]['Nomina_Empleado']['ID_NOMINA'] = $id;
             $empleados[$key]['Nomina_Empleado']['FECHA_INI'] = $fecha_ini;
             $empleados[$key]['Nomina_Empleado']['FECHA_FIN'] = $fecha_fin;
