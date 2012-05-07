@@ -31,3 +31,5 @@
  * ...and connect the rest of 'Pages' controller's urls.
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
+        
+        Router::connect('/permiso_negado', array('controller' => 'pages', 'action' => 'display','permiso_negado'));
