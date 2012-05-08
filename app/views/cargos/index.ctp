@@ -41,8 +41,8 @@
                         <td class="actions">
                             <?php                            
                             echo $this->Html->image("Money.png", array("alt" => "Sueldos", 'title' => 'Sueldos', 'width' => '18', 'heigth' => '18', 'url' => array('controller'=>'historiales','action' => 'edit', $cargo['Cargo']['id'])));
-                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $cargo['Cargo']['id'])));
-                            echo $this->Html->image("file_delete.png", array("alt" => "Borrar", 'title' => 'Eliminar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'delete', $cargo['Cargo']['id'])));
+                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $cargo['Cargo']['id'])));                            
+                            echo $this->Html->link($this->Html->image("file_delete.png", array('alt' => 'delete', 'height' => '18', 'width' => '18')), array('controller' => 'Cargos', 'action' => 'delete',$cargo['Cargo']['id']), array('escape' => false),sprintf('Esta seguro que desea eliminar este Cargo?'));
                             ?>                            
                         </td>
                     </tr>

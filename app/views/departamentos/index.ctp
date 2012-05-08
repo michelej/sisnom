@@ -26,8 +26,8 @@
                         <td><?php echo $departamento['Departamento']['NOMBRE']; ?></td>                        
                         <td class="actions">
                             <?php                            
-                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $departamento['Departamento']['id'])));
-                            echo $this->Html->image("file_delete.png", array("alt" => "Borrar", 'title' => 'Eliminar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'delete', $departamento['Departamento']['id'])));
+                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $departamento['Departamento']['id'])));                            
+                            echo $this->Html->link($this->Html->image("file_delete.png", array('alt' => 'delete', 'height' => '18', 'width' => '18')), array('controller' => 'Departamentos', 'action' => 'delete',$departamento['Departamento']['id']), array('escape' => false),sprintf('Esta seguro que desea eliminar este Departamento?'));
                             ?>                            
                         </td>
                     </tr>

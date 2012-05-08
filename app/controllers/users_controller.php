@@ -2,8 +2,7 @@
 
 class UsersController extends AppController {
     
-    var $name = 'Users';   
-    
+    var $name = 'Users';       
     
     public function login() {
         $this->layout = 'login';

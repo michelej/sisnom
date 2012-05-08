@@ -54,8 +54,8 @@
                         <td><?php echo fechaElegible($nomina['Nomina']['FECHA_ELA']); ?></td>                        
                         <td class="actions">
                             <?php                            
-                            echo $this->Html->image("Button White Info.png", array("alt" => "modificar", 'width' => '18', 'heigth' => '18', 'title' => 'Nomina', 'url' => array('action' => 'edit', $nomina['Nomina']['id'])));
-                            echo $this->Html->image("file_delete.png", array("alt" => "Borrar", 'title' => 'Eliminar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'delete', $nomina['Nomina']['id'])));
+                            echo $this->Html->image("Button White Info.png", array("alt" => "modificar", 'width' => '18', 'heigth' => '18', 'title' => 'Nomina', 'url' => array('action' => 'edit', $nomina['Nomina']['id'])));                            
+                            echo $this->Html->link($this->Html->image("file_delete.png", array('alt' => 'delete', 'height' => '18', 'width' => '18')), array('controller' => 'Nominas', 'action' => 'delete',$nomina['Nomina']['id']), array('escape' => false),sprintf('Esta seguro que desea eliminar esta Nomina?'));
                             ?>
                         </td>
                     </tr>

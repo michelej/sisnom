@@ -45,29 +45,33 @@
                     <tr<?php echo $class; ?>>
                         <td></td>                        
                         <td style="text-align: right"><?php echo number_format($empleado['Empleado']['CEDULA'], 0, ',', '.'); ?></td>
-                        <td><?php echo $empleado['Empleado']['NOMBRE'].' '.$empleado['Empleado']['APELLIDO']; ?></td>                        
+                        <td><?php echo $empleado['Empleado']['NOMBRE'] . ' ' . $empleado['Empleado']['APELLIDO']; ?></td>                        
                         <td><?php echo $empleado['Grupo']['NOMBRE']; ?></td>
-                        <td style="text-align: center"><?php if(!empty($empleado['Contrato']['0'])){
-                                    echo $empleado['Contrato']['0']['Cargo']['NOMBRE'];
-                                  }else{
-                                    echo " ";  
-                                  }?>
+                        <td style="text-align: center"><?php
+                if (!empty($empleado['Contrato']['0'])) {
+                    echo $empleado['Contrato']['0']['Cargo']['NOMBRE'];
+                } else {
+                    echo " ";
+                }
+                ?>
                         </td>                                                
-                        <td style="text-align: center;"><?php if(!empty($empleado['Contrato']['0'])){
-                                    echo $empleado['Contrato']['0']['Departamento']['NOMBRE'];
-                                  }else{
-                                    echo " ";  
-                                  }?>
+                        <td style="text-align: center;"><?php
+                if (!empty($empleado['Contrato']['0'])) {
+                    echo $empleado['Contrato']['0']['Departamento']['NOMBRE'];
+                } else {
+                    echo " ";
+                }
+                    ?>
                         </td>
                         <td class="actions">
                             <?php
-                            echo $this->Html->image("Contact.png", array("alt" => "Contratos", 'width' => '18', 'heigth' => '18', 'title' => 'Contratos', 'url' => array('controller'=>'contratos','action' => 'edit', $empleado['Empleado']['id'])));
-                            echo $this->Html->image("News Add.png", array("alt" => "Experiencia", 'width' => '18', 'heigth' => '18', 'title' => 'Experiencia Previa', 'url' => array('controller'=>'experiencias','action' => 'edit', $empleado['Empleado']['id'])));
-                            echo $this->Html->image("Bookmarks.png", array("alt" => "Nivel Educativo", 'width' => '18', 'heigth' => '18', 'title' => 'Nivel Educativo', 'url' => array('controller'=>'titulos','action' => 'edit', $empleado['Empleado']['id'])));
-                            echo $this->Html->image("familia.png", array("alt" => "Familiares", 'width' => '18', 'heigth' => '18', 'title' => 'Familiares', 'url' => array('controller'=>'familiares','action' => 'edit', $empleado['Empleado']['id'])));
+                            echo $this->Html->image("Contact.png", array("alt" => "Contratos", 'width' => '18', 'heigth' => '18', 'title' => 'Contratos', 'url' => array('controller' => 'contratos', 'action' => 'edit', $empleado['Empleado']['id'])));
+                            echo $this->Html->image("News Add.png", array("alt" => "Experiencia", 'width' => '18', 'heigth' => '18', 'title' => 'Experiencia Previa', 'url' => array('controller' => 'experiencias', 'action' => 'edit', $empleado['Empleado']['id'])));
+                            echo $this->Html->image("Bookmarks.png", array("alt" => "Nivel Educativo", 'width' => '18', 'heigth' => '18', 'title' => 'Nivel Educativo', 'url' => array('controller' => 'titulos', 'action' => 'edit', $empleado['Empleado']['id'])));
+                            echo $this->Html->image("familia.png", array("alt" => "Familiares", 'width' => '18', 'heigth' => '18', 'title' => 'Familiares', 'url' => array('controller' => 'familiares', 'action' => 'edit', $empleado['Empleado']['id'])));
                             echo $this->Html->image("file_search.png", array("alt" => "Consultar", 'width' => '18', 'heigth' => '18', 'title' => 'Consultar', 'url' => array('action' => 'view', $empleado['Empleado']['id'])));
-                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $empleado['Empleado']['id'])));
-                            echo $this->Html->image("file_delete.png", array("alt" => "Borrar", 'title' => 'Eliminar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'delete', $empleado['Empleado']['id'])));
+                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $empleado['Empleado']['id'])));                            
+                            echo $this->Html->link($this->Html->image("file_delete.png", array('alt' => 'delete', 'height' => '18', 'width' => '18')), array('controller' => 'Empleados', 'action' => 'delete',$empleado['Empleado']['id']), array('escape' => false),sprintf('Esta seguro que desea eliminar a este Empleado?'));
                             ?>
                         </td>
                     </tr>
@@ -81,9 +85,9 @@
                 ?>
             </div>
             <div class="pagination">
-                <?php echo $this->Paginator->prev(null, array(), null, array('class' => 'disabled')); ?>
-                <?php echo $this->Paginator->numbers(array('class' => 'disabled', 'separator' => '')); ?>
-                <?php echo $this->Paginator->next(null, array(), null, array('class' => 'disabled')); ?>
+<?php echo $this->Paginator->prev(null, array(), null, array('class' => 'disabled')); ?>
+<?php echo $this->Paginator->numbers(array('class' => 'disabled', 'separator' => '')); ?>
+<?php echo $this->Paginator->next(null, array(), null, array('class' => 'disabled')); ?>
             </div>
         </div>
 
@@ -91,7 +95,7 @@
 </div>
 
 <div class="box">
-    <?php echo $this->Session->flash(); ?>
+<?php echo $this->Session->flash(); ?>
 </div>
 
 <div class="box">
@@ -99,7 +103,7 @@
     <div class="content form">
         <div class="row boton">
             <div class="boton">
-                <?php echo $this->Html->link('Nuevo Empleado', array('action' => 'add')); ?>
+<?php echo $this->Html->link('Nuevo Empleado', array('action' => 'add')); ?>
             </div>
         </div>
     </div>
