@@ -59,7 +59,7 @@ class Historial extends AppModel {
             if ($this->data['Historial']['QUINCENA_INICIO'] == 'Segunda') {
                 $this->data['Historial']['FECHA_INI'] = $this->data['Historial']['HISTORIAL_AÑO_INICIO'] . '-' . $this->data['Historial']['HISTORIAL_MES_INICIO'] . '-16';
             }
-            
+
             // Si se ingreso una fecha final
             //
             if (!empty($this->data['Historial']['HISTORIAL_MES_FIN']) && !empty($this->data['Historial']['HISTORIAL_AÑO_FIN'])
@@ -82,15 +82,31 @@ class Historial extends AppModel {
                     $dia = strftime("%d", mktime(0, 0, 0, $this->data['Historial']['HISTORIAL_MES_FIN'] + 1, 0, $this->data['Historial']['HISTORIAL_AÑO_FIN']));
                     $this->data['Historial']['FECHA_FIN'] = $this->data['Historial']['HISTORIAL_AÑO_FIN'] . '-' . $this->data['Historial']['HISTORIAL_MES_FIN'] . '-' . $dia;
                 }
-            }else{
-                $this->data['Historial']['FECHA_FIN']=null;
-                $fecha_fin=null;
+            } else {
+                $c = 0;
+                if (!empty($this->data['Historial']['HISTORIAL_MES_FIN'])) {
+                    $c++;
+                }
+                if (!empty($this->data['Historial']['HISTORIAL_AÑO_FIN'])) {
+                    $c++;
+                }
+                if (!empty($this->data['Historial']['HISTORIAL_QUINCENA_FIN'])) {
+                    $c++;
+                }
+                if ($c == 0) {
+                    $this->data['Historial']['FECHA_FIN'] = null;
+                    $fecha_fin = null;
+                }
+                if ($c >= 1) {
+                    $this->errorMessage = "La fecha final esta incompleta";
+                    return false;
+                }
             }
-        }        
-        
+        }
+
         $fecha_ini = formatoFechaAfterFind($this->data['Historial']['FECHA_INI']);
-        
-        if ($this->data['Historial']['FECHA_FIN']!=null) {
+
+        if ($this->data['Historial']['FECHA_FIN'] != null) {
             $fecha_fin = formatoFechaAfterFind($this->data['Historial']['FECHA_FIN']);
         }
 
@@ -99,8 +115,8 @@ class Historial extends AppModel {
         } else {
             $fecha_ret = null;
             $this->data['Historial']['FECHA_RET'] = NULL;
-        }        
-        
+        }
+
 
         $this->recursive = -1;
         // buscamos los historiales de sueldo de este cargo

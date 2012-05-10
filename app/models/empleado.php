@@ -57,6 +57,10 @@ class Empleado extends AppModel {
             'rule' => 'notEmpty',
             'message' => 'Seleccione una opcion'
         ),
+        'EDOCIVIL' => array(
+            'rule' => 'notEmpty',
+            'message' => 'Seleccione una opcion'
+        ),
     );
 
     function beforeSave() {

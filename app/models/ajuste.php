@@ -10,7 +10,6 @@ class Ajuste extends AppModel {
      */
     var $hasAndBelongsToMany = array('Asignacion', 'Deduccion');
     var $belongsTo = 'Empleado';
-    
 
     function beforeSave() {
         if (!isset($this->data['Ajuste']['id'])) {
@@ -67,8 +66,24 @@ class Ajuste extends AppModel {
                         $this->data['Ajuste']['FECHA_FIN'] = $this->data['Ajuste']['AJUSTE_AÑO_FIN'] . '-' . $this->data['Ajuste']['AJUSTE_MES_FIN'] . '-' . $dia;
                     }
                 } else {
-                    $this->data['Ajuste']['FECHA_FIN'] = null;
-                    $fecha_fin = null;
+                    $c = 0;
+                    if (!empty($this->data['Ajuste']['AJUSTE_MES_FIN'])) {
+                        $c++;
+                    }
+                    if (!empty($this->data['Ajuste']['AJUSTE_AÑO_FIN'])) {
+                        $c++;
+                    }
+                    if (!empty($this->data['Ajuste']['AJUSTE_QUINCENA_FIN'])) {
+                        $c++;
+                    }
+                    if ($c == 0) {
+                        $this->data['Ajuste']['FECHA_FIN'] = null;
+                        $fecha_fin = null;
+                    }
+                    if ($c >= 1) {
+                        $this->errorMessage = "La fecha final esta incompleta";
+                        return false;
+                    }                    
                 }
             }
 
@@ -86,8 +101,7 @@ class Ajuste extends AppModel {
             if (!$this->validacionFechas($fecha_ini, $fecha_fin, $result, "ajustes")) {
                 return false;
             }
-            return true;            
-            
+            return true;
         } else {
 
             if (!empty($this->data['Ajuste']['FECHA_INI'])) {

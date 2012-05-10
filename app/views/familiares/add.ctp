@@ -7,7 +7,7 @@
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content pages">
-        <?php echo $this->Form->create('Familiar',array('url' => array('controller' => 'familiares', 'action' => 'add','empleadoId:',$empleadoId))); ?>        
+        <?php echo $this->Form->create('Familiar',array('url' => array('controller' => 'familiares', 'action' => 'add','empleadoId:'.$empleadoId))); ?>        
         <?php        
         // INI ROW
         echo "<div class='row'>";
