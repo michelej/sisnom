@@ -81,6 +81,7 @@ class NominasController extends AppController {
             if (empty($this->data['TIPO']) || empty($this->data['VISUALIZAR'])) {
                 $this->Session->setFlash('Debe seleccionar el tipo de nomina y un el modo de visualizar', 'flash_error');
                 $this->render('error', 'nomina');
+                return ;
             } else {
                 if ($this->data['TIPO'] == '1') {
                     $grupo = '1';  // Empleado
@@ -118,6 +119,7 @@ class NominasController extends AppController {
                     } else {
                         $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
                     }
+                    return ;                    
                 }
             }
             $extra['Calculo Nomina']['Tiempo']=$tm;

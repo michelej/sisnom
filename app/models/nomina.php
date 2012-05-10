@@ -175,7 +175,7 @@ class Nomina extends AppModel {
         $sueldo_minimo = $this->verificarSueldoMinimo($fecha_ini, $fecha_fin);
         if (empty($sueldo_minimo)) {
             $this->errorMessage = "No existe suficiente informacion para generar esta Nomina <br/>
-                Verifique que exista un Sueldo Minimo definido para este periodo";
+                - Verifique que exista un Sueldo Minimo definido para este periodo";
             return array();
         }
 
@@ -232,7 +232,13 @@ class Nomina extends AppModel {
             unset($empleados[$key]['Departamento']);
             unset($empleados[$key]['Empleado']);
             unset($empleados[$key]['Nomina_Empleado']['Empleado']);
-        }        
+        }
+        
+        if(empty($empleados)){
+            $this->errorMessage = "No existe suficiente informacion para generar esta Nomina <br/>
+                - Verifique que exista algun empleado trabajando para esa fecha o que se encuentre definido algun contrato";            
+        }
+        
         return $empleados;
     }
 
