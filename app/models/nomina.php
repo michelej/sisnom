@@ -3,7 +3,7 @@
 class Nomina extends AppModel {
 
     var $name = 'Nomina';
-    var $displayField = 'CODIGO';
+    var $displayField = 'FECHA_INI';
     var $actsAs = array('ExtendAssociations', 'Containable');
 
     /**
@@ -379,6 +379,11 @@ class Nomina extends AppModel {
         }
         return ($number_of_days + 1) - $cantidad - count($feriados);
     }
+    /**
+     *
+     * @param type $empleados
+     * @return boolean 
+     */
 
     function verificarSueldos($empleados) {
         $error = false;
@@ -389,6 +394,12 @@ class Nomina extends AppModel {
         }
         return $error;
     }
+    /**
+     *
+     * @param type $fecha_ini
+     * @param type $fecha_fin
+     * @return type 
+     */
 
     function verificarSueldoMinimo($fecha_ini, $fecha_fin) {
         $variable = ClassRegistry::init('Variable');
