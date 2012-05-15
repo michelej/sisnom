@@ -53,6 +53,11 @@ class Cestaticket extends AppModel {
 
         return true;
     }
+    /**
+     *
+     * @param type $results
+     * @return type 
+     */
 
     function afterFind($results) {
         foreach ($results as $key => $val) {
@@ -71,6 +76,11 @@ class Cestaticket extends AppModel {
         }
         return $results;
     }
+    /**
+     *
+     * @param type $date
+     * @return string 
+     */
 
     function getMes($date) {
         $meses = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre",
@@ -78,11 +88,21 @@ class Cestaticket extends AppModel {
         list($dia, $mes, $anio) = preg_split('/-/', $date);
         return $meses[((int) $mes) - 1];
     }
+    /**
+     *
+     * @param type $date
+     * @return type 
+     */
 
     function getAño($date) {
         list($dia, $mes, $anio) = preg_split('/-/', $date);
         return $anio;
     }
+    /**
+     *
+     * @param type $data
+     * @return boolean 
+     */
 
     function existe($data) {
         $conditions['FECHA_INI'] = $data['FECHA_INI'];
@@ -161,6 +181,8 @@ class Cestaticket extends AppModel {
                 - Verifique que exista el valor de la Unidad Tributaria definido para este periodo";
             return array();
         }
+        
+        $cestaticket_dia=$unidad_tributaria*0.5;
 
         foreach ($empleados as $key => $empleado) {
             $empleados[$key]['Cestaticket_Empleado']['Empleado'] = $empleado['Empleado'];
@@ -182,6 +204,9 @@ class Cestaticket extends AppModel {
             $empleados[$key]['Cestaticket_Empleado']['GRUPO'] = $empleado['Empleado']['Grupo']['NOMBRE'];
             
             // CALCULOS DE LOS CESTATICKETS!!!!
+            // el salario no puede exseder 3 salarios minimos
+            $empleados[$key]['Cestaticket_Empleado']['MONTO']=$cestaticket_dia*22;
+            
             
             unset($empleados[$key]['Contrato']);
             unset($empleados[$key]['Cargo']);
