@@ -64,7 +64,7 @@ class Contrato extends AppModel {
                 'conditions' => array(
                     'empleado_id' => $this->data['Contrato']['empleado_id'],
                     'NOT' => array(
-                        'id'=>$this->data['Contrato']['id']
+                        'id' => $this->data['Contrato']['id']
                     )
                 )
                     )
@@ -95,9 +95,11 @@ class Contrato extends AppModel {
                             $quincena_fin = $año . '-' . $mes . '-' . $dd;
                         }
 
-                        if (check_in_range($quincena_ini, $quincena_fin, $fecha_ini)) {
-                            $this->errorMessage = 'No se puede terminar e iniciar un contrato en medio de una quincena';
-                            return false;
+                        if (date('d', strtotime($fecha_ini)) != 1) {
+                            if (check_in_range($quincena_ini, $quincena_fin, $fecha_ini)) {
+                                $this->errorMessage = 'No se puede terminar e iniciar un contrato en medio de una quincena';
+                                return false;
+                            }
                         }
                     }
                 } else {
