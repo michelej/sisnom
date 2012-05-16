@@ -69,7 +69,7 @@
         <div class="pages-bottom">
             <div class="actionbox">
                 <?php
-                echo $this->Paginator->counter(array('format' => 'Este empleado tiene %count% Experiencia(s)'));
+                echo $this->Paginator->counter(array('format' => 'Este empleado tiene %count% Experiencia(s) previa(s)'));
                 ?>
             </div>
             <div class="pagination">
@@ -90,7 +90,7 @@
     <div class="content form">
         <div class="row boton">
             <div class="boton">
-                <?php echo $this->Html->link('Ingresar Experiencia', array('action' => 'add','empleadoId:'.$empleado['Empleado']['id'])); ?>
+                <?php echo $this->Html->link('Nueva Experiencia Previa', array('action' => 'add','empleadoId:'.$empleado['Empleado']['id'])); ?>
             </div>
             <div class="boton">
                 <?php echo $this->Html->link('Regresar', array('controller'=>'empleados','action' => 'index')); ?>

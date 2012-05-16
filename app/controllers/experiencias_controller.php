@@ -2,14 +2,17 @@
 
 class ExperienciasController extends AppController {
 
-    var $name = 'Experiencias';
-    var $components = array('RequestHandler');
-    var $helpers = array('Ajax', 'Javascript');
-
+    var $name = 'Experiencias';    
+    /**
+     * No implementado 
+     */
     function index() {        
         
     }
-
+    /**
+     * Eliminar la experiencia de ID
+     * @param type $id Id de la experiencia
+     */
     function delete($id) {
         $empleadoid = $this->Experiencia->find('first', array(
             'conditions' => array(
@@ -22,7 +25,10 @@ class ExperienciasController extends AppController {
             $this->redirect('edit/' . $empleadoid['Experiencia']['empleado_id']);
         }
     }
-
+    /**
+     * Mostrar listado de todas las previas experiencias que posee el empleado id
+     * @param type $id Id del empleado
+     */
     function edit($id = null) {
         if (empty($this->data)) {
             $this->paginate = array(
@@ -42,12 +48,13 @@ class ExperienciasController extends AppController {
                 'contain'=>array(
                     'Grupo'
                 )
-            ));
-            
+            ));            
             $this->set(compact('experiencias', 'empleado'));
         }
     }
-
+    /**
+     * Agregamos una nueva experiencia para el empleado (empleadoId)
+     */
     function add() {
         $this->set("empleadoId",$this->params['named']['empleadoId']);
         if (!empty($this->data)) {
@@ -62,9 +69,5 @@ class ExperienciasController extends AppController {
             }
         }
     }
-
-  
-
 }
-
 ?>

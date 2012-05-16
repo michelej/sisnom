@@ -141,16 +141,14 @@ class Asignacion extends AppModel {
                 //------------------------------------------------------------//                
                 case "3":
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
-                        $dias = 0;
+                        $dias_exp = 0;
                         foreach ($empleado['Empleado']['Experiencia'] as $experiencia) {
-                            $dias = $dias + numeroDeDias($experiencia['FECHA_INI'], $experiencia['FECHA_FIN']);
-                        }
-                        $añosLab = ($dias / 365);
+                            $dias_exp = $dias_exp + numeroDeDias($experiencia['FECHA_INI'], $experiencia['FECHA_FIN']);
+                        }                                                
                         $dias = numeroDeDias($empleado['Empleado']['INGRESO'], $fecha_ini);
-                        $numero = $dias / 365;
-
-                        $numero = $numero + $añosLab;
-
+                        $dias=$dias+$dias_exp;
+                        $años = $dias / 365;                        
+                        $numero=round($años * 100) / 100;                         
                         if ($nomina_empleado['GRUPO'] == 'Empleado') {
                             if ($numero < 1)
                                 $valor = 0;

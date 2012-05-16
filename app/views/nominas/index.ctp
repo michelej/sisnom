@@ -29,9 +29,8 @@
                     <th style="width:15%;"><?php echo $this->Paginator->sort('Mes', 'FECHA_INI'); ?></th>
                     <th style="width:15%;">Año</th>
                     <th style="width:15%;">Quincena</th>
-                    <th style="width:15%;"><?php echo $this->Paginator->sort('Fecha Inicio', 'FECHA_INI'); ?></th>
-                    <th style="width:15%;"><?php echo $this->Paginator->sort('Fecha Fin', 'FECHA_FIN'); ?></th>                    
-                    <th style="width:10%;"><?php echo $this->Paginator->sort('Fecha de Elaboracion', 'FECHA_ELE'); ?></th>                    
+                    <th style="width:20%;"><?php echo $this->Paginator->sort('Fecha Inicio', 'FECHA_INI'); ?></th>
+                    <th style="width:20%;"><?php echo $this->Paginator->sort('Fecha Fin', 'FECHA_FIN'); ?></th>                                        
                     <th style="width:15%; text-align: center"class="actions">Acciones</th>
                 </tr>
             </thead>
@@ -50,8 +49,7 @@
                         <td><?php echo $nomina['Nomina']['AÑO']; ?></td>
                         <td><?php echo $nomina['Nomina']['QUINCENA']; ?></td>
                         <td><?php echo fechaElegible($nomina['Nomina']['FECHA_INI']); ?></td>
-                        <td><?php echo fechaElegible($nomina['Nomina']['FECHA_FIN']); ?></td>                                                
-                        <td><?php echo fechaElegible($nomina['Nomina']['FECHA_ELA']); ?></td>                        
+                        <td><?php echo fechaElegible($nomina['Nomina']['FECHA_FIN']); ?></td>                                                                        
                         <td class="actions">
                             <?php                            
                             echo $this->Html->image("Button White Info.png", array("alt" => "modificar", 'width' => '18', 'heigth' => '18', 'title' => 'Nomina', 'url' => array('action' => 'edit', $nomina['Nomina']['id'])));                            

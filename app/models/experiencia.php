@@ -33,9 +33,7 @@ class Experiencia extends AppModel {
             'message' => 'Ingrese el cargo desempeñado'
         )
     );
-
-    // TODO: Falta validar la fecha final 
-    /**
+     /**
      *
      * @return boolean 
      */
@@ -61,8 +59,26 @@ class Experiencia extends AppModel {
         if (compara_fechas($fecha_fin, $fecha_ingreso['Empleado']['INGRESO']) > 0) {
             $this->errorMessage = "Debe ingresar fechas previas al ingreso del empleado. Ingreso el ".  fechaElegible($fecha_ingreso['Empleado']['INGRESO']);
             return false;
-        }
+        }     
         
+        $experiencias = $this->findAllByEmpleadoId($this->data['Experiencia']['empleado_id']);        
+        $result = Set::combine($experiencias, '{n}.Experiencia.id', '{n}.Experiencia');
+        
+        if(!empty($result)){
+            foreach ($result as $data) {
+                $fecha_i = $data['FECHA_INI'];
+                $fecha_f = $data['FECHA_FIN'];
+                
+                if(check_in_range($fecha_i, $fecha_f, $fecha_ini)){
+                    $this->errorMessage = "El rango de fechas no puede solapar a otro rango ya existente";
+                    return false;
+                }
+                if(check_in_range($fecha_i, $fecha_f, $fecha_fin)){
+                    $this->errorMessage = "El rango de fechas no puede solapar a otro rango ya existente";
+                    return false;
+                }
+            }
+        }
 
         //Tratamos las fechas
         if (!empty($this->data['Experiencia']['FECHA_INI'])) {
