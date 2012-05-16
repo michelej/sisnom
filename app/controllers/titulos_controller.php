@@ -2,14 +2,17 @@
 
 class TitulosController extends AppController {
 
-    var $name = 'Titulos';
-    var $components = array('RequestHandler');
-    var $helpers = array('Ajax', 'Javascript');
-
+    var $name = 'Titulos';    
+    /**
+     * No Implementado 
+     */
     function index() {
         
     }
-    
+    /**
+     * Muestra el listado de los titulos academicos que posee el empleado id
+     * @param type $id Id del empleado
+     */    
     function edit($id=null){        
         if (empty($this->data)) {           
             $this->paginate=array(
@@ -33,7 +36,10 @@ class TitulosController extends AppController {
             $this->set(compact('empleado','titulos'));
         } 
     }
-    
+    /**
+     * Eliminar el titulo
+     * @param type $id Id del titulo
+     */    
     function delete($id) {
          $empleadoid = $this->Titulo->find('first', array(
             'conditions' => array(
@@ -46,7 +52,9 @@ class TitulosController extends AppController {
             $this->redirect('edit/' . $empleadoid['Titulo']['empleado_id']);
         }
     }
-    
+    /**
+     *  Agregar un titulo al empleado (empleadoId)
+     */    
     function add(){        
         $this->set("empleadoId",$this->params['named']['empleadoId']);
         if (!empty($this->data)) {            
@@ -57,14 +65,17 @@ class TitulosController extends AppController {
             $this->Session->setFlash('Existen errores corrigalos antes de continuar','flash_error');
         }        
     }
-    
+    /**
+     * Modificar el titulo id
+     * @param type $id Id del titulo
+     */    
     function edit_titulo($id){
         $this->set("id",$id);        
         if (empty($this->data)) {
             $this->data = $this->Titulo->read();
         }else {
             if ($this->Titulo->save($this->data)) {
-                $this->Session->setFlash('Titulo Modificado','flash_success');
+                $this->Session->setFlash('Titulo modificado','flash_success');
                 $this->redirect('edit/'.$this->data['Titulo']['empleado_id']);
             }
             $this->Session->setFlash('Existen errores corrigalos antes de continuar','flash_error');

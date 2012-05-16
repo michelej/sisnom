@@ -19,7 +19,7 @@
         echo "</div>";        
         
         echo "<div style='float:left;width:40%'>";
-        echo $this->Form->input('FECHA', array('type' => 'text', 'div' => false, 'label' => 'Fecha', 'class' => 'datepicker dp-applied')) . "</br>";
+        echo $this->Form->input('FECHA', array('type' => 'text', 'div' => false, 'label' => 'Fecha Efectiva', 'class' => 'datepicker dp-applied')) . "</br>";
         echo "</div>";                
         echo "</div>";
 

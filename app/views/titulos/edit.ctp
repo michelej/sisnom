@@ -36,7 +36,7 @@
                     <th style="width:20%"><?php echo $this->Paginator->sort('Titulo', 'TITULO') ?></th>
                     <th style="width:30%"><?php echo $this->Paginator->sort('Especialidad', 'ESPECIALIDAD') ?></th>
                     <th style="width:30%"><?php echo $this->Paginator->sort('Institucion', 'INSTITUCION') ?></th>                                        
-                    <th style="width:10%"><?php echo $this->Paginator->sort('Fecha', 'FECHA') ?></th>                                                            
+                    <th style="width:10%"><?php echo $this->Paginator->sort('Fecha Efectiva', 'FECHA') ?></th>                                                            
                     <th style="width:10%; text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
