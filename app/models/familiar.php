@@ -21,6 +21,10 @@ class Familiar extends AppModel {
             'rule' => array('date', 'dmy'),
             'message' => 'Fecha incorrecta',
         ),
+        'FECHA_EFEC' => array(
+            'rule' => array('date', 'dmy'),
+            'message' => 'Fecha incorrecta',
+        ),
         'DISCAPACIDAD' => array(
             'rule' => 'notEmpty',
             'message' => 'Seleccione una Opcion'
@@ -35,23 +39,39 @@ class Familiar extends AppModel {
         ),
         
     );
-
+    /**
+     *
+     * @return boolean 
+     */
     function beforeSave() {
         if (!empty($this->data['Familiar']['FECHA'])) {
             $this->data['Familiar']['FECHA'] = formatoFechaBeforeSave($this->data['Familiar']['FECHA']);
         }
+        if (!empty($this->data['Familiar']['FECHA_EFEC'])) {
+            $this->data['Familiar']['FECHA_EFEC'] = formatoFechaBeforeSave($this->data['Familiar']['FECHA_EFEC']);
+        }
         return true;
     }
-
+    /**
+     *
+     * @param type $results
+     * @return type 
+     */
     function afterFind($results) {        
         foreach ($results as $key => $val) {
             if (!isset($val['Familiar'])) {
                 if (isset($val['FECHA'])) {
                     $results[$key]['FECHA'] = formatoFechaAfterFind($val['FECHA']);
                 }
+                if (isset($val['FECHA_EFEC'])) {
+                    $results[$key]['FECHA_EFEC'] = formatoFechaAfterFind($val['FECHA_EFEC']);
+                }
             }
             if (isset($val['Familiar']['FECHA'])) {
                 $results[$key]['Familiar']['FECHA'] = formatoFechaAfterFind($val['Familiar']['FECHA']);
+            }
+            if (isset($val['Familiar']['FECHA_EFEC'])) {
+                $results[$key]['Familiar']['FECHA_EFEC'] = formatoFechaAfterFind($val['Familiar']['FECHA_EFEC']);
             }
         }
         return $results;

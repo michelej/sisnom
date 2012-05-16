@@ -39,6 +39,12 @@
         echo $this->Form->input('INSTRUCCION', array('div' => false, 'label' => 'Instruccion', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
         echo "</div>";
         echo "</div>";
+        
+        echo "<div class='row'>";
+        echo "<div style='float:left;width:40%'>";
+        echo $this->Form->input('FECHA_EFEC', array('type' => 'text', 'div' => false, 'label' => 'Fecha Efectiva', 'class' => 'datepicker dp-applied')) . "</br>";
+        echo "</div>";
+        echo "</div>";
         // END ROW                                       
         ?>            	                      
     </div>

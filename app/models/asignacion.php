@@ -11,7 +11,7 @@ class Asignacion extends AppModel {
     var $hasAndBelongsToMany = 'Ajuste';
 
     /**
-     *
+     *  Asignaciones que el sistema actualmente maneja
      *      
      */
     var $constante = array(
@@ -24,12 +24,15 @@ class Asignacion extends AppModel {
         '7' => array('id' => '7', 'DESCRIPCION' => 'Bono Nocturno'),
         '8' => array('id' => '8', 'DESCRIPCION' => 'Recargo por Domingo y Dia Feriado'),
     );
-
+    /**
+     *
+     * @param type $queryData
+     * @return boolean 
+     */
     function beforeFind($queryData) {
         $this->verificar();
         return true;
     }
-
     /**
      *  Verifica si los datos en la tabla son iguales a los que estan aqui declarados
      *  la idea es trabajar todo desde aqui (el Modelo) si se quiere agregar algo se hace 
@@ -38,11 +41,7 @@ class Asignacion extends AppModel {
      *  El (id) es importante se usa para identificar la asignacion a la hora de calcular!!!
      */
     function verificar() {
-        // Los grupos aqui definidos deberian ser iguales a los que se encuentran en
-        // el modelo Grupo (IMPORTANTE)
-
         $this->data = $this->constante;
-
         // Para que esto funcione debemos de convertir lo que traigamos del query
         // en algo parecido a lo que tenemos arriba
         // no podemos usar find aqui porque se crea un loop infinito ya que esta funcion
@@ -67,10 +66,11 @@ class Asignacion extends AppModel {
             }
         }
     }
-
     /**
      * Calcular las Asignaciones de un Empleado para una Nomina especifica
-     * @param type 
+     * @param type $nomina_empleado El array con los datos del empleado (ver nomina para mas informacion)
+     * @param type $grupo El grupo al que pertenece el empleado
+     * @return array 
      */
     function calcularAsignaciones($nomina_empleado, $grupo) {
         $data = $this->ordenDeAsignaciones($grupo);
@@ -238,14 +238,13 @@ class Asignacion extends AppModel {
                 case "5":
                     // TODO: Verificar si las combinaciones estan bien o falta alguna
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
-                        $valor = 0;
-                        // TODO: Falta incluir la fecha en la decision como en nivelacion profesional
+                        $valor = 0;                        
                         if ($nomina_empleado['GRUPO'] == 'Empleado') {
                             foreach ($empleado['Empleado']['Familiar'] as $familiar) {
                                 $edad = $this->Ajuste->Empleado->Edad($familiar['FECHA']);
-
-                                if (compara_fechas(formatoFechaAfterFind($fecha_ini), $familiar['FECHA']) > 0 ||
-                                        check_in_range($fecha_ini, $fecha_fin, formatoFechaBeforeSave($familiar['FECHA']))) {
+                                // Comparamos con la fecha efectiva no la de nacimiento!! OJO
+                                if (compara_fechas(formatoFechaAfterFind($fecha_ini), $familiar['FECHA_EFEC']) > 0 ||
+                                        check_in_range($fecha_ini, $fecha_fin, formatoFechaBeforeSave($familiar['FECHA_EFEC']))) {
                                     if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'Si') {
                                         $valor+=15 / 2;
                                     }
@@ -267,9 +266,9 @@ class Asignacion extends AppModel {
                         if ($nomina_empleado['GRUPO'] == 'Obrero') {
                             foreach ($empleado['Empleado']['Familiar'] as $familiar) {
                                 $edad = $this->Ajuste->Empleado->Edad($familiar['FECHA']);
-                                
-                                if (compara_fechas(formatoFechaAfterFind($fecha_ini), $familiar['FECHA']) > 0 ||
-                                        check_in_range($fecha_ini, $fecha_fin, formatoFechaBeforeSave($familiar['FECHA']))) {
+                                // Comparamos con la fecha efectiva no la de nacimiento!! OJO
+                                if (compara_fechas(formatoFechaAfterFind($fecha_ini), $familiar['FECHA_EFEC']) > 0 ||
+                                        check_in_range($fecha_ini, $fecha_fin, formatoFechaBeforeSave($familiar['FECHA_EFEC']))) {
                                     if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'Si') {
                                         $valor+=15 / 2;
                                     }
@@ -297,8 +296,7 @@ class Asignacion extends AppModel {
                 //                NIVELACION PROFESIONAL
                 //                
                 //------------------------------------------------------------// 
-                case "6":
-                    // OJO LA FECHA QUE ? Cuando entra en validez un titulo
+                case "6":                    
                     $valor = 0;
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
                         foreach ($empleado['Empleado']['Titulo'] as $titulo) {
@@ -372,12 +370,14 @@ class Asignacion extends AppModel {
         }
         return $asignaciones;
     }
-
     /**
      * Verificamos si un Empleado posee una Asignacion
-     * @param type $empleado
-     * @param type $asignacion 
-     */
+     * @param type $id_empleado Id del Empleado
+     * @param type $id_asignacion Id de la Asignacion
+     * @param type $fecha_ini Fecha de Inicio de la Nomina
+     * @param type $fecha_fin Fecha de Fin de la Nomina
+     * @return boolean Si la tiene o No
+     */    
     function empleadoTieneAsignacion($id_empleado, $id_asignacion, $fecha_ini, $fecha_fin) {
         $empleado = $this->Ajuste->find("first", array(
             'conditions' => array(
@@ -410,7 +410,7 @@ class Asignacion extends AppModel {
      *  Aqui podemos determinar el orden que queremos que tengan las asignaciones
      *  
      * @param type $tipo
-     * @return type 
+     * @return type El orden de la Asignaciones
      */
     function ordenDeAsignaciones($tipo) {
         if ($tipo == array('1' => 'Empleado')) {

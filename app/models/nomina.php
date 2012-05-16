@@ -287,7 +287,7 @@ class Nomina extends AppModel {
             'contain' => array(
                 'Empleado' => array(
                     'order' => array(
-                        'Empleado.NOMBRE' => 'asc'
+                        'Empleado.ID' => 'asc'
                     ),
                     'Grupo', 'Familiar', 'Titulo', 'Experiencia',
                     'HorasExtra' => array(

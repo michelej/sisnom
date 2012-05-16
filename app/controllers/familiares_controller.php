@@ -2,14 +2,18 @@
 
 class FamiliaresController extends AppController {
     
-    var $name = 'Familiares';
-    var $components = array('RequestHandler');
-    var $helpers = array('Ajax', 'Javascript');    
+    var $name = 'Familiares';    
     
+    /**
+     *  No Implementado
+     */
     function index(){
         
     }
-    
+    /**
+     * Muestra listado de los familiares del empleado (id)
+     * @param type $id  Id del empleado
+     */    
     function edit($id=null){        
         if (empty($this->data)) {           
             $this->paginate=array(
@@ -34,7 +38,9 @@ class FamiliaresController extends AppController {
             $this->set(compact('empleado','familiares'));
         } 
     }
-    
+    /**
+     *  Agrega un familiar al empleado (empleadoId)
+     */    
     function add(){        
         $this->set("empleadoId",$this->params['named']['empleadoId']);        
         if (!empty($this->data)) {
@@ -47,7 +53,10 @@ class FamiliaresController extends AppController {
             $this->Session->setFlash('Existen errores corrigalos antes de continuar','flash_error');
         }        
     }
-    
+    /**
+     * Eliminar al familiar id
+     * @param type $id 
+     */    
      function delete($id) {
          $empleadoid = $this->Familiar->find('first', array(
             'conditions' => array(
@@ -60,14 +69,17 @@ class FamiliaresController extends AppController {
             $this->redirect('edit/' . $empleadoid['Familiar']['empleado_id']);
         }
     }
-    
+    /**
+     * Editar los datos del familiar id
+     * @param type $id 
+     */    
     function edit_familiar($id){
         $this->set("id",$id);        
         if (empty($this->data)) {
             $this->data = $this->Familiar->read();
         }else {
             if ($this->Familiar->save($this->data)) {
-                $this->Session->setFlash('Familiar Modificado','flash_success');
+                $this->Session->setFlash('Familiar modificado','flash_success');
                 $this->redirect('edit/'.$this->data['Familiar']['empleado_id']);
             }
             $this->Session->setFlash('Existen errores corrigalos antes de continuar','flash_error');
