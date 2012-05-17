@@ -9,17 +9,20 @@
         <?php
         echo $this->Form->create('Departamento');
         echo "<div class='row'>";
-        echo "<div style='float:left;width:25%'>";
-        echo $this->Form->label('Nombre');
-        echo $this->Form->input('NOMBRE', array('div' => false, 'label' => false, 'class' => 'medium'));
+        echo "<div style='float:left;width:25%'>";        
+        echo $this->Form->input('NOMBRE', array('div' => false, 'label' => 'Nombre', 'class' => 'medium'));
         echo "</div>";
         echo "</div>";
+        
         echo "<div class='row'>";
-        echo "<div style='float:left;width:25%'>";
-        echo $this->Form->label('Codigo');
-        echo $this->Form->input('CODIGO', array('div' => false, 'label' => false, 'class' => 'medium'));
+        echo "<div style='float:left;width:25%'>";        
+        echo $this->Form->input('PROGRAMA', array('div' => false, 'label' => 'Programa', 'class' => 'small'));
         echo "</div>";
-        echo "</div>";        
+        
+        echo "<div style='float:left;width:25%'>";        
+        echo $this->Form->input('ACTIVIDAD_PROYECTO', array('div' => false, 'label' => 'Actividad / Proyecto', 'class' => 'small'));
+        echo "</div>";
+        echo "</div>";
         ?>
     </div>
 </div>

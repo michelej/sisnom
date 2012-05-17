@@ -3,21 +3,24 @@
 class DepartamentosController extends AppController {
 
     var $name = 'Departamentos';
-    var $components = array('RequestHandler');
-    var $helpers = array('Ajax', 'Javascript');
-    
+     
+    /**
+     * 
+     */
     function index() {
         $this->paginate=array(
             'recursive'=>0,
             'limit'=>20,
             'order'=>array(
-                'Departamento.NOMBRE'=>'asc'
+                'Departamento.id'=>'asc'
             )
         );
         $data=$this->paginate();
         $this->set('departamentos', $data);        
     }
-
+    /**
+     * 
+     */
     function add() {
         if (!empty($this->data)) {            
             if ($this->Departamento->save($this->data)) {
@@ -34,7 +37,10 @@ class DepartamentosController extends AppController {
             $this->redirect(array('action' => 'index'));
         }
     }
-   
+   /**
+    *
+    * @param type $id 
+    */
     function edit($id) {
         $this->Departamento->id = $id;
         if (empty($this->data)) {

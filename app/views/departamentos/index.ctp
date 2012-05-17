@@ -5,9 +5,10 @@
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
-                    <th></th>                      
-                    <th style="width:10%"><?php echo $this->Paginator->sort('Codigo', 'CODIGO'); ?></th>                    
-                    <th style="width:75%"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>                    
+                    <th></th>                                          
+                    <th style="width:55%"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>
+                    <th style="width:15%"><?php echo $this->Paginator->sort('Programa', 'PROGRAMA'); ?></th>
+                    <th style="width:15%"><?php echo $this->Paginator->sort('Actividad / Proyecto', 'ACTIVIDAD_PROYECTO'); ?></th>
                     <th style="width:15%;text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
@@ -21,9 +22,10 @@
                     }
                     ?>
                     <tr<?php echo $class; ?>>
-                        <td></td>                        
-                        <td><?php echo $departamento['Departamento']['CODIGO']; ?></td>
-                        <td><?php echo $departamento['Departamento']['NOMBRE']; ?></td>                        
+                        <td></td>                                                
+                        <td><?php echo $departamento['Departamento']['NOMBRE']; ?></td>
+                        <td><?php echo $departamento['Departamento']['PROGRAMA']; ?></td>
+                        <td><?php echo $departamento['Departamento']['ACTIVIDAD_PROYECTO']; ?></td>
                         <td class="actions">
                             <?php                            
                             echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $departamento['Departamento']['id'])));                            
