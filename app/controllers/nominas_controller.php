@@ -34,8 +34,8 @@ class NominasController extends AppController {
         if (!empty($this->data)) {
             if ($this->Nomina->save($this->data['Nomina'])) {
                 $this->Session->setFlash('Nomina creada con exito', 'flash_success');
-                $id = $this->Nomina->getLastInsertId();
-                $this->Nomina->generarNomina($id);
+                //$id = $this->Nomina->getLastInsertId();
+                //$this->Nomina->generarNomina($id);
                 $this->redirect('index');
             }
             if (!empty($this->Nomina->errorMessage)) {
@@ -62,6 +62,10 @@ class NominasController extends AppController {
                 ));
 
         $this->set('nomina', $nomina);
+    }
+    
+    function generar(){
+        $this->autoRender = false;
     }
 
     function calcular() {

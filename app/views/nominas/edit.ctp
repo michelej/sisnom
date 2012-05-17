@@ -57,15 +57,17 @@
             echo "</div>";
             
             echo "<div class='row'>";
-            echo "<div style='float:left;width:25%;padding-top:16px'>";
+            echo "<div style='float:left;width:20%;padding-top:16px'>";
             echo $this->Form->End('Generar');
             echo "</div>";            
-            ?>
-        </div>     
-        
-        
             
-        
+            echo "<div style='float:left;width:20%;padding-top:16px'>";
+            echo '<div class="boton">';
+                echo $this->Html->link('Generar Nomina', array('action' => 'generar'));
+            echo '</div>';   
+            echo "</div>";            
+            ?>
+        </div>           
         
         <div class="row boton">                        
             <div class="boton">
