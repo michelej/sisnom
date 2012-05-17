@@ -9,9 +9,8 @@ class Contrato extends AppModel {
     /**
      *  Relaciones
      */
-    var $belongsTo = array(
-        'Cargo', 'Departamento', 'Empleado'
-    );
+    var $belongsTo = array('Cargo', 'Departamento', 'Empleado');
+    var $hasMany = array('Recibo');
 
     /**
      *  Validaciones     

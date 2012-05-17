@@ -9,8 +9,8 @@ class Nomina extends AppModel {
     /**
      *  Relaciones
      */
-    var $hasAndBelongsToMany = 'Empleado';
-
+    var $hasMany = 'Recibo';
+    
     /**
      *  Validaciones     
      */
