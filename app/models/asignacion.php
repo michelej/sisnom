@@ -72,7 +72,8 @@ class Asignacion extends AppModel {
      * @param type $grupo El grupo al que pertenece el empleado
      * @return array 
      */
-    function calcularAsignaciones($nomina_empleado, $grupo) {
+    function calcularAsignaciones($nomina_empleado) {        
+        $grupo=$nomina_empleado['GRUPO'];
         $data = $this->ordenDeAsignaciones($grupo);
 
         $sueldo_base = $nomina_empleado['SUELDO_BASE'];
@@ -411,10 +412,10 @@ class Asignacion extends AppModel {
      * @return type El orden de la Asignaciones
      */
     function ordenDeAsignaciones($tipo) {
-        if ($tipo == array('1' => 'Empleado')) {
+        if ($tipo == 'Empleado') {
             $orden = array('1', '2', '3', '4', '5', '6');
         }
-        if ($tipo == array('2' => 'Obrero')) {
+        if ($tipo == 'Obrero') {
             $orden = array('7', '8', '1', '3', '4', '5');
         }
         if ($tipo == array('1' => 'Empleado', '2' => 'Obrero')) {

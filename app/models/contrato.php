@@ -10,7 +10,7 @@ class Contrato extends AppModel {
      *  Relaciones
      */
     var $belongsTo = array('Cargo', 'Departamento', 'Empleado');
-    var $hasMany = array('Recibo');
+    
 
     /**
      *  Validaciones     
@@ -176,7 +176,6 @@ class Contrato extends AppModel {
 
         // PURA MAGIA CUIDADO 
         $data = $this->find('all', array(
-            'recursive' => -1,
             'conditions' => array(
                 'OR' => array(
                     'FECHA_FIN > ' => $fecha_ini,
@@ -184,6 +183,22 @@ class Contrato extends AppModel {
                 ),
                 'AND' => array(
                     'FECHA_INI < ' => $fecha_fin,
+                )
+            ),
+            'contain' => array(
+                'Departamento',
+                'Cargo' => array(
+                    'Historial' => array(
+                        'conditions' => array(
+                            'OR' => array(
+                                'FECHA_FIN > ' => $fecha_ini,
+                                'FECHA_FIN' => NULL,
+                            ),
+                            'AND' => array(
+                                'FECHA_INI < ' => $fecha_fin,
+                            )
+                        )
+                    )
                 )
             )
                 ));

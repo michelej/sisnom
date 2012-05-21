@@ -122,27 +122,35 @@ class Nomina extends AppModel {
     function generarNomina($id) {
         $this->Recibo->deleteAll(array(
             'nomina_id' => $id
-        ));
+        ));                
 
-        $nomina = $this->find('first', array(
-            'recursive' => -1,
-            'conditions' => array(
-                'id' => $id),
-            'fields' => array(
-                'FECHA_INI',
-                'FECHA_FIN')
-                ));
-        // Buscamos los contratos que se encontraban activos en esa fecha        
-        $listado_contratos = $this->Recibo->Empleado->Contrato->buscarContratosPorFecha($nomina['Nomina']['FECHA_INI'], $nomina['Nomina']['FECHA_FIN']);
-        foreach ($listado_contratos as $key => $contrato) {
-            $recibos[$key]['empleado_id'] = $contrato['Contrato']['empleado_id'];
-            $recibos[$key]['nomina_id'] = $id;
-            $recibos[$key]['MODALIDAD']= $contrato['Contrato']['MODALIDAD'];
-        }
-        if (!empty($recibos)) {
-            $this->Recibo->saveall($recibos);
-            $emp_fijos = $this->calcularNomina($id, '1', 'Fijo');
-            debug($emp_fijos);
+        $empleados = $this->calcularNomina($id);        
+        foreach ($empleados as $empleado) {
+            $data['CARGO'] = $empleado['Nomina_Empleado']['CARGO'];
+            $data['DEPARTAMENTO'] = $empleado['Nomina_Empleado']['DEPARTAMENTO'];
+            $data['MODALIDAD'] = $empleado['Nomina_Empleado']['MODALIDAD'];
+            $data['DIAS_LABORADOS'] = $empleado['Nomina_Empleado']['DIAS_LABORADOS'];
+            $data['SUELDO_BASE'] = $empleado['Nomina_Empleado']['SUELDO_BASE'];
+            $data['empleado_id'] = $empleado['Nomina_Empleado']['ID_EMPLEADO'];
+            $data['nomina_id'] = $empleado['Nomina_Empleado']['ID_NOMINA'];
+            $this->Recibo->create();
+            $this->Recibo->save($data);
+            foreach ($empleado['Nomina_Empleado']['Asignaciones'] as $key => $asignacion) {
+                $data_asig['CONCEPTO'] = 'Asignaciones';
+                $data_asig['NOMBRE'] = $key;
+                $data_asig['MONTO'] = $asignacion;
+                $data_asig['recibo_id'] = $this->Recibo->getLastInsertID();
+                $this->Recibo->DetalleRecibo->create();
+                $this->Recibo->DetalleRecibo->save($data_asig);                
+            }
+            foreach ($empleado['Nomina_Empleado']['Deducciones'] as $key => $deduccion) {
+                $data_dedu['CONCEPTO'] = 'Deducciones';
+                $data_dedu['NOMBRE'] = $key;
+                $data_dedu['MONTO'] = $deduccion;
+                $data_dedu['recibo_id'] = $this->Recibo->getLastInsertID();
+                $this->Recibo->DetalleRecibo->create();
+                $this->Recibo->DetalleRecibo->save($data_dedu);                
+            }
         }
     }
 
@@ -150,23 +158,17 @@ class Nomina extends AppModel {
      * Realizamos los Calculos de la Nomina
      * @param type $id 
      */
-    function calcularNomina($id, $grupo, $modalidad) {
+    function calcularNomina($id) {
         $asignacion = ClassRegistry::init('Asignacion');
         $deduccion = ClassRegistry::init('Deduccion');
 
-        $empleados = $this->buscarInformacionEmpleados($id, $grupo, $modalidad);
-        
+        $empleados = $this->buscarInformacionEmpleados($id);
+
         if ($this->verificarSueldos($empleados)) {
             $this->errorMessage = "No existe suficiente informacion para generar esta Nomina <br/>
                 Verifique que cada cargo tenga definido un sueldo al momento de la nomina";
             return array();
         }
-
-        $grupos = $this->Recibo->Empleado->Grupo->find('list', array(
-            'conditions' => array(
-                'id' => $grupo)
-                )
-        );
 
         $nomina = $this->find('first', array(
             'recursive' => -1,
@@ -217,7 +219,7 @@ class Nomina extends AppModel {
             $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] / 30;
             $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] * $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS']; // QUINCENA            
             // -- SUELDO --
-            $empleados[$key]['Nomina_Empleado']['Asignaciones'] = $asignacion->calcularAsignaciones($empleados[$key]['Nomina_Empleado'], $grupos);
+            $empleados[$key]['Nomina_Empleado']['Asignaciones'] = $asignacion->calcularAsignaciones($empleados[$key]['Nomina_Empleado']);
             $totalasig = 0;
             foreach ($empleados[$key]['Nomina_Empleado']['Asignaciones'] as $value) {
                 $totalasig = $totalasig + $value;
@@ -252,29 +254,15 @@ class Nomina extends AppModel {
      * @param type $id ID de la Nomina
      * @return type Informacion de los empleados  
      */
-    function buscarInformacionEmpleados($id, $grupo, $modalidad) {
+    function buscarInformacionEmpleados($id) {
         $nomina = $this->find("first", array(
             'conditions' => array(
-                'id' => $id,
-            ),
-            'contain' => array(
-                'Recibo' => array(
-                    'Empleado' => array(
-                        'conditions' => array(
-                            'grupo_id' => $grupo
-                        ),
-                        'fields' => array(
-                            'id',
-                        ),
-                        'Grupo'
-                    )
-                ),
-            )
-                ));
+                'id' => $id)
+                )
+        );
 
         $fecha_ini = formatoFechaBeforeSave($nomina['Nomina']['FECHA_INI']);
         $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);
-        $empleados = Set::extract('/Recibo/Empleado/id', $nomina);
 
         // Buscamos los contratos de acuerdo a la fecha de la nomina
         // y el grupo indicado , tambien buscamos el historial de sueldos del
@@ -288,8 +276,6 @@ class Nomina extends AppModel {
                 ),
                 'AND' => array(
                     'FECHA_INI < ' => $fecha_fin,
-                    'empleado_id' => $empleados,
-                    'MODALIDAD' => $modalidad
                 )
             ),
             'contain' => array(

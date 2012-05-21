@@ -68,9 +68,7 @@ class NominasController extends AppController {
         $this->autoRender = false;
         $this->Nomina->generarNomina($id);
 
-        if ($this->Nomina->errorMessage == '') {
-            $this->Session->setFlash('Actualmente no existen datos suficientes para generar esta nomina', 'flash_error');
-        } else {
+        if ($this->Nomina->errorMessage != '') {
             $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
         }
         $this->redirect('edit/'.$id);
