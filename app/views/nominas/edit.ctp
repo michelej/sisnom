@@ -1,5 +1,5 @@
-<?php //debug($nomina); ?>
-<?php //debug($empleados); ?>
+<?php //debug($nomina);  ?>
+<?php //debug($empleados);  ?>
 <div class="box">
     <div class="title"><h2>Datos de la Nomina</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
@@ -37,38 +37,42 @@
 </div>
 
 <div class="box">
+    <div class="title">	<h2>Acciones</h2></div>
+    <div class="content form">        
+        <div class="row boton">                        
+            <div class="boton">
+                <?php echo $this->Html->link('Generar Nomina', array('action' => 'generar',$nomina['Nomina']['id'])); ?>
+            </div>            
+        </div>
+    </div>
+</div>     
+
+<div class="box">
     <div class="title">	<h2></h2></div>
-    <div class="content form">
-        
+    <div class="content form">        
         <div class="row">
             <?php
-            echo $this->Form->create(false, array('target' => '_blank','url' => array('controller' => 'nominas', 'action' => 'calcular')));            
+            echo $this->Form->create(false, array('target' => '_blank', 'url' => array('controller' => 'nominas', 'action' => 'calcular')));
             echo "<div style='float:left;width:30%;'>";
-            $options = array('1' => 'Fijo   -   Empleado', '2' => 'Fijo   -   Obrero','3'=>'Contratado  -  Empleado y Obrero');            
-            echo $this->Form->input('nomina_id', array('type' => 'hidden','value'=>$nomina['Nomina']['id']));
-            echo $this->Form->input('TIPO', array('div' => false, 'label' => 'Tipo de Nomina', 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una Opcion'));
-            echo "</div>";            
-            
-            echo "<div style='float:left;width:30%;'>";
-            $options = array('Pantalla' => 'Pantalla', 'Archivo' => 'Archivo');                        
-            echo $this->Form->input('VISUALIZAR', array('div' => false, 'label' => 'Visualizar', 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una Opcion'));
-            echo "</div>";            
-            
+            $options = array('1' => 'Fijo   -   Empleado', '2' => 'Fijo   -   Obrero', '3' => 'Contratado  -  Empleado y Obrero');
+            echo $this->Form->input('nomina_id', array('type' => 'hidden', 'value' => $nomina['Nomina']['id']));
+            echo $this->Form->input('TIPO', array('div' => false, 'label' => 'Tipo de Nomina', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
             echo "</div>";
-            
+
+            echo "<div style='float:left;width:30%;'>";
+            $options = array('Pantalla' => 'Pantalla', 'Archivo' => 'Archivo');
+            echo $this->Form->input('VISUALIZAR', array('div' => false, 'label' => 'Visualizar', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
+            echo "</div>";
+
+            echo "</div>";
+
             echo "<div class='row'>";
             echo "<div style='float:left;width:20%;padding-top:16px'>";
-            echo $this->Form->End('Generar');
-            echo "</div>";            
-            
-            echo "<div style='float:left;width:20%;padding-top:16px'>";
-            echo '<div class="boton">';
-                echo $this->Html->link('Generar Nomina', array('action' => 'generar'));
-            echo '</div>';   
-            echo "</div>";            
+            echo $this->Form->End('Mostrar');
+            echo "</div>";                        
             ?>
         </div>           
-        
+
         <div class="row boton">                        
             <div class="boton">
                 <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>

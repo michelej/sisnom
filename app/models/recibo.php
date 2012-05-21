@@ -9,6 +9,6 @@ class Recibo extends AppModel {
      *  Relaciones
      */
     var $hasMany = array('DetalleRecibo');    
-    var $belongsTo =array('Nomina','Contrato');
+    var $belongsTo =array('Nomina','Empleado');
 }
 ?>

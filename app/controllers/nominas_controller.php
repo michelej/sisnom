@@ -63,9 +63,17 @@ class NominasController extends AppController {
 
         $this->set('nomina', $nomina);
     }
-    
-    function generar(){
+
+    function generar($id = null) {
         $this->autoRender = false;
+        $this->Nomina->generarNomina($id);
+
+        if ($this->Nomina->errorMessage == '') {
+            $this->Session->setFlash('Actualmente no existen datos suficientes para generar esta nomina', 'flash_error');
+        } else {
+            $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
+        }
+        $this->redirect('edit/'.$id);
     }
 
     function calcular() {
@@ -85,7 +93,7 @@ class NominasController extends AppController {
             if (empty($this->data['TIPO']) || empty($this->data['VISUALIZAR'])) {
                 $this->Session->setFlash('Debe seleccionar el tipo de nomina y un el modo de visualizar', 'flash_error');
                 $this->render('error', 'nomina');
-                return ;
+                return;
             } else {
                 if ($this->data['TIPO'] == '1') {
                     $grupo = '1';  // Empleado
@@ -99,7 +107,7 @@ class NominasController extends AppController {
                     $grupo = array(1, 2);  // Empleado y Obrero
                     $modalidad = 'Contratado';
                 }
-                
+
                 ////////////////////////////////////////////////////////////////
                 $time = time();
                 ////////////////////////////////////////////////////////////////
@@ -115,7 +123,7 @@ class NominasController extends AppController {
                 else
                     $mem = round($mem_usage / 1048576, 2) . " megabytes";
                 ////////////////////////////////////////////////////////////////
-                
+
                 if (empty($empleados)) {
                     $this->render('error', 'nomina');
                     if ($this->Nomina->errorMessage == '') {
@@ -123,13 +131,13 @@ class NominasController extends AppController {
                     } else {
                         $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
                     }
-                    return ;                    
+                    return;
                 }
             }
-            $extra['Calculo Nomina']['Tiempo']=$tm;
-            $extra['Calculo Nomina']['Memoria']=$mem;
-            
-            $this->set(compact('empleados','extra'));
+            $extra['Calculo Nomina']['Tiempo'] = $tm;
+            $extra['Calculo Nomina']['Memoria'] = $mem;
+
+            $this->set(compact('empleados', 'extra'));
             if ($this->data['VISUALIZAR'] == 'Pantalla') {
                 $this->render('pantalla', 'nomina');
             }

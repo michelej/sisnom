@@ -10,7 +10,7 @@ class Nomina extends AppModel {
      *  Relaciones
      */
     var $hasMany = 'Recibo';
-    
+
     /**
      *  Validaciones     
      */
@@ -120,6 +120,10 @@ class Nomina extends AppModel {
      * @param type $id ID de la Nomina
      */
     function generarNomina($id) {
+        $this->Recibo->deleteAll(array(
+            'nomina_id' => $id
+        ));
+
         $nomina = $this->find('first', array(
             'recursive' => -1,
             'conditions' => array(
@@ -128,15 +132,17 @@ class Nomina extends AppModel {
                 'FECHA_INI',
                 'FECHA_FIN')
                 ));
-        // Buscamos los contratos que se encontraban activos en esa fecha
-        $contrato = ClassRegistry::init('Contrato');
-        $listado_contratos = $contrato->buscarContratosPorFecha($nomina['Nomina']['FECHA_INI'], $nomina['Nomina']['FECHA_FIN']);
-        foreach ($listado_contratos as $contrato) {
-            $empleados[] = $contrato['Contrato']['empleado_id'];
+        // Buscamos los contratos que se encontraban activos en esa fecha        
+        $listado_contratos = $this->Recibo->Empleado->Contrato->buscarContratosPorFecha($nomina['Nomina']['FECHA_INI'], $nomina['Nomina']['FECHA_FIN']);
+        foreach ($listado_contratos as $key => $contrato) {
+            $recibos[$key]['empleado_id'] = $contrato['Contrato']['empleado_id'];
+            $recibos[$key]['nomina_id'] = $id;
+            $recibos[$key]['MODALIDAD']= $contrato['Contrato']['MODALIDAD'];
         }
-        if (!empty($empleados)) {
-            $this->habtmDeleteAll('Empleado', $id);
-            $this->habtmAdd('Empleado', $id, $empleados);
+        if (!empty($recibos)) {
+            $this->Recibo->saveall($recibos);
+            $emp_fijos = $this->calcularNomina($id, '1', 'Fijo');
+            debug($emp_fijos);
         }
     }
 
@@ -144,19 +150,19 @@ class Nomina extends AppModel {
      * Realizamos los Calculos de la Nomina
      * @param type $id 
      */
-    function calcularNomina($id, $grupo, $modalidad) {        
+    function calcularNomina($id, $grupo, $modalidad) {
         $asignacion = ClassRegistry::init('Asignacion');
         $deduccion = ClassRegistry::init('Deduccion');
 
         $empleados = $this->buscarInformacionEmpleados($id, $grupo, $modalidad);
-
+        
         if ($this->verificarSueldos($empleados)) {
             $this->errorMessage = "No existe suficiente informacion para generar esta Nomina <br/>
                 Verifique que cada cargo tenga definido un sueldo al momento de la nomina";
             return array();
         }
 
-        $grupos = $this->Empleado->Grupo->find('list', array(
+        $grupos = $this->Recibo->Empleado->Grupo->find('list', array(
             'conditions' => array(
                 'id' => $grupo)
                 )
@@ -178,7 +184,6 @@ class Nomina extends AppModel {
                 - Verifique que exista un Sueldo Minimo definido para este periodo";
             return array();
         }
-
 
         foreach ($empleados as $key => $empleado) {
             $empleados[$key]['Nomina_Empleado']['Empleado'] = $empleado['Empleado'];
@@ -233,12 +238,12 @@ class Nomina extends AppModel {
             unset($empleados[$key]['Empleado']);
             unset($empleados[$key]['Nomina_Empleado']['Empleado']);
         }
-        
-        if(empty($empleados)){
+
+        if (empty($empleados)) {
             $this->errorMessage = "No existe suficiente informacion para generar esta Nomina <br/>
-                - Verifique que exista algun empleado trabajando para esa fecha o que se encuentre definido algun contrato";            
+                - Verifique que exista algun empleado trabajando para esa fecha o que se encuentre definido algun contrato";
         }
-        
+
         return $empleados;
     }
 
@@ -253,26 +258,29 @@ class Nomina extends AppModel {
                 'id' => $id,
             ),
             'contain' => array(
-                'Empleado' => array(
-                    'conditions' => array(
-                        'grupo_id' => $grupo
-                    ),
-                    'fields' => array(
-                        'id',
-                    ),
-                    'Grupo'
-                )
+                'Recibo' => array(
+                    'Empleado' => array(
+                        'conditions' => array(
+                            'grupo_id' => $grupo
+                        ),
+                        'fields' => array(
+                            'id',
+                        ),
+                        'Grupo'
+                    )
+                ),
             )
                 ));
+
         $fecha_ini = formatoFechaBeforeSave($nomina['Nomina']['FECHA_INI']);
         $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);
-        $empleados = Set::extract('/Empleado/id', $nomina);
+        $empleados = Set::extract('/Recibo/Empleado/id', $nomina);
 
         // Buscamos los contratos de acuerdo a la fecha de la nomina
         // y el grupo indicado , tambien buscamos el historial de sueldos del
         // cargo correspondiente en la fecha de la nomina , y toda la informacion
         // de los empleados necesaria para las asignaciones y deducciones
-        $contratos = $this->Empleado->Contrato->find('all', array(
+        $contratos = $this->Recibo->Empleado->Contrato->find('all', array(
             'conditions' => array(
                 'OR' => array(
                     'FECHA_FIN > ' => $fecha_ini,
@@ -379,12 +387,12 @@ class Nomina extends AppModel {
         }
         return ($number_of_days + 1) - $cantidad - count($feriados);
     }
+
     /**
      *
      * @param type $empleados
      * @return boolean 
      */
-
     function verificarSueldos($empleados) {
         $error = false;
         foreach ($empleados as $empleado) {
@@ -394,13 +402,13 @@ class Nomina extends AppModel {
         }
         return $error;
     }
+
     /**
      *
      * @param type $fecha_ini
      * @param type $fecha_fin
      * @return type 
      */
-
     function verificarSueldoMinimo($fecha_ini, $fecha_fin) {
         $variable = ClassRegistry::init('Variable');
         $sueldo_minimo = $variable->find('first', array(
