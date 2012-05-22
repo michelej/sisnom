@@ -11,7 +11,9 @@
         <?php echo $this->Html->css('form.css'); ?>
         <?php echo $this->Html->css('menu.css'); ?>
         <?php echo $this->Html->css('messages.css'); ?>
-        <?php echo $this->Html->script('jquery-1.6.1.min.js'); ?>        
+        <?php echo $this->Html->css('jquery-ui-1.8.4.custom.css'); ?>        
+        <?php echo $this->Html->script('jquery-1.6.1.min.js'); ?> 
+        <?php echo $this->Html->script('jquery-ui-1.8.14.custom.min.js'); ?>
     </head> 
     <body> 
         <!-- INICIO WRAPPER -->  
@@ -97,8 +99,7 @@
             </div> 
             <!-- FIN CONTAINER -->   
         </div>
-        <!-- FIN WRAPPER -->  
-        <?php echo $this->Html->script('jquery-ui-1.8.12.js'); ?>
+        <!-- FIN WRAPPER -->                  
         <?php echo $this->Html->script('jquery.pngFix.js'); ?>
         <?php echo $this->Html->script('hoverIntent.js'); ?>
         <?php echo $this->Html->script('superfish.js'); ?>

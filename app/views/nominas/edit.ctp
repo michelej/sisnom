@@ -1,5 +1,20 @@
-<?php //debug($nomina);  ?>
-<?php //debug($empleados);  ?>
+<script>
+    $(function() {
+        $( "#dialog" ).dialog({
+            autoOpen: false,
+            modal: true,
+            zIndex:1500,
+            resizable: false,
+            height:140
+        });
+        $( "#opener" ).click(function() {
+            $( "#dialog" ).dialog( "open" );
+            return false;
+        });
+    });
+</script>
+
+
 <div class="box">
     <div class="title"><h2>Datos de la Nomina</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
@@ -41,13 +56,13 @@
     <div class="content form">        
         <div class="row">
             <div class="boton">
-                <?php echo $this->Html->link('Generar Nomina', array('action' => 'generar',$nomina['Nomina']['id'])); ?>
+                <?php echo $this->Html->link('Generar Nomina', array('action' => 'generar', $nomina['Nomina']['id'])); ?>
             </div>  
             <div class="boton">
-                <?php echo $this->Html->link('Mostrar Pantalla', array('action' => 'mostrar','pantalla',$nomina['Nomina']['id']),array('target' => '_blank')); ?>
+                <?php echo $this->Html->link('Mostrar Pantalla', array(), array('id' => 'opener')); ?>
             </div> 
             <div class="boton">
-                <?php echo $this->Html->link('Mostrar Archivo', array('action' => 'mostrar')); ?>
+                <?php echo $this->Html->link('Mostrar Archivo', array(), array('id' => 'opener')); ?>
             </div> 
             <div class="boton">
                 <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
@@ -72,12 +87,27 @@
             echo "<div class='row'>";
             echo "<div style='float:left;width:20%;padding-top:16px'>";
             echo $this->Form->End('Mostrar');
-            echo "</div>";                        
+            echo "</div>";
             ?>
         </div>           
 
         <div class="row boton">                        
-                    
+
         </div>        
     </div>
 </div>
+
+<div id="dialog" title="Basic dialog">
+    <div class="row">
+        <div class="boton">
+            <?php echo $this->Html->link('Nomina Empleados', array('action' => 'mostrar',$nomina['Nomina']['id'],'pantalla','Empleado'), array('target' => '_blank')); ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="boton">
+            <?php echo $this->Html->link('Nomina Obreros', array('action' => 'mostrar', $nomina['Nomina']['id'],'pantalla','Obrero'), array('target' => '_blank')); ?>
+        </div>
+    </div>
+</div>
+
+

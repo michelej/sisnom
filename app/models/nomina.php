@@ -297,8 +297,7 @@ class Nomina extends AppModel {
             $empleados[$key]['Nomina_Empleado']['TOTAL_DEDUCCIONES'] = $totaldedu;
             $empleados[$key]['Nomina_Empleado']['TOTAL_SUELDO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES'] - $totaldedu;            
          
-        }
-        
+        }        
         return $empleados;
     }
 

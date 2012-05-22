@@ -3,7 +3,9 @@
 class NominasController extends AppController {
 
     var $name = 'Nominas';
-    var $helpers = array('Excel');
+    var $helpers = array('Excel','Javascript', 'Ajax');    
+    var $components = array('RequestHandler');
+
 
     function index() {
         $filtro = array();
@@ -83,10 +85,10 @@ class NominasController extends AppController {
      * @param type $tipo
      * @param type $id 
      */
-    function mostrar($tipo = null, $id = null) {
+    function mostrar($id=null,$tipo=null,$grupo=null) {
         $this->autoRender = false;
         if ($tipo == 'pantalla') {
-            $empleados = $this->Nomina->mostrarNomina($id);
+            $empleados = $this->Nomina->mostrarNomina($id,$grupo);
 
             if (empty($empleados)) {
                 $this->render('error', 'nomina');
