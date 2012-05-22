@@ -11,7 +11,7 @@
         <?php echo $this->Html->css('form.css'); ?>
         <?php echo $this->Html->css('menu.css'); ?>
         <?php echo $this->Html->css('messages.css'); ?>
-        <?php echo $this->Html->script('jquery-1.6.1.min.js'); ?>
+        <?php echo $this->Html->script('jquery-1.6.1.min.js'); ?>        
     </head> 
     <body> 
         <!-- INICIO WRAPPER -->  

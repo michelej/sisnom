@@ -37,19 +37,22 @@
 </div>
 
 <div class="box">
-    <div class="title">	<h2>Acciones</h2></div>
-    <div class="content form">        
-        <div class="row boton">                        
-            <div class="boton">
-                <?php echo $this->Html->link('Generar Nomina', array('action' => 'generar',$nomina['Nomina']['id'])); ?>
-            </div>            
-        </div>
-    </div>
-</div>     
-
-<div class="box">
     <div class="title">	<h2></h2></div>
     <div class="content form">        
+        <div class="row">
+            <div class="boton">
+                <?php echo $this->Html->link('Generar Nomina', array('action' => 'generar',$nomina['Nomina']['id'])); ?>
+            </div>  
+            <div class="boton">
+                <?php echo $this->Html->link('Mostrar Pantalla', array('action' => 'mostrar','pantalla',$nomina['Nomina']['id']),array('target' => '_blank')); ?>
+            </div> 
+            <div class="boton">
+                <?php echo $this->Html->link('Mostrar Archivo', array('action' => 'mostrar')); ?>
+            </div> 
+            <div class="boton">
+                <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
+            </div> 
+        </div>
         <div class="row">
             <?php
             echo $this->Form->create(false, array('target' => '_blank', 'url' => array('controller' => 'nominas', 'action' => 'calcular')));
@@ -74,9 +77,7 @@
         </div>           
 
         <div class="row boton">                        
-            <div class="boton">
-                <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
-            </div>            
+                    
         </div>        
     </div>
 </div>

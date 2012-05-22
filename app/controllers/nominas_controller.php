@@ -64,6 +64,10 @@ class NominasController extends AppController {
         $this->set('nomina', $nomina);
     }
 
+    /**
+     *  Genera toda la informacion referente a nomina Recibo -> Detalle de Recibo
+     * @param type $id 
+     */
     function generar($id = null) {
         $this->autoRender = false;
         $this->Nomina->generarNomina($id);
@@ -71,9 +75,37 @@ class NominasController extends AppController {
         if ($this->Nomina->errorMessage != '') {
             $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
         }
-        $this->redirect('edit/'.$id);
+        $this->redirect('edit/' . $id);
     }
 
+    /**
+     *
+     * @param type $tipo
+     * @param type $id 
+     */
+    function mostrar($tipo = null, $id = null) {
+        $this->autoRender = false;
+        if ($tipo == 'pantalla') {
+            $empleados = $this->Nomina->mostrarNomina($id);
+
+            if (empty($empleados)) {
+                $this->render('error', 'nomina');
+                if ($this->Nomina->errorMessage == '') {
+                    $this->Session->setFlash('Actualmente no existen datos relacionados a esta nomina, Genere la Nomina primero', 'flash_error');
+                } else {
+                    $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
+                }
+                return;
+            }
+            $this->set(compact('empleados'));
+            $this->render('pantalla', 'nomina');
+        }
+    }
+
+    /**
+     * NO se esta usando
+     * @return type 
+     */
     function calcular() {
         $this->autoRender = false;
         if (!empty($this->data)) {

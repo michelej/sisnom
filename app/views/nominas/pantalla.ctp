@@ -79,9 +79,6 @@
             </tbody>
             <tfoot>
             </tfoot>
-        </table>
-        <?php echo $extra['Calculo Nomina']['Tiempo'];?>
-        <br />
-        <?php echo $extra['Calculo Nomina']['Memoria'];?>
+        </table>        
     </div>
 </div>
