@@ -249,55 +249,68 @@ class Nomina extends AppModel {
         return $empleados;
     }
 
-    function mostrarNomina($id) {
-        $data = $this->find('first', array(
+    function mostrarNomina($id, $grupo) {
+        $ids = $this->Recibo->Empleado->Grupo->find('all', array(
             'conditions' => array(
-                'id' => $id
+                'NOMBRE' => $grupo
             ),
             'contain' => array(
-                'Recibo' => array(
-                    'DetalleRecibo',
-                    'Empleado'=>array(
-                        'Grupo'
+                'Empleado' => array(
+                    'fields' => array(
+                        'id'
                     )
                 )
             )
-                ));        
-        foreach ($data['Recibo'] as $key => $value) {
-            $empleados[$key]['Nomina_Empleado']['FECHA_INI']=$data['Nomina']['FECHA_INI'];
-            $empleados[$key]['Nomina_Empleado']['FECHA_FIN']=$data['Nomina']['FECHA_FIN'];
-            $empleados[$key]['Nomina_Empleado']['NOMBRE']=$value['Empleado']['NOMBRE'];
-            $empleados[$key]['Nomina_Empleado']['APELLIDO']=$value['Empleado']['APELLIDO'];
-            $empleados[$key]['Nomina_Empleado']['CEDULA']=$value['Empleado']['CEDULA'];
-            $empleados[$key]['Nomina_Empleado']['INGRESO']=$value['Empleado']['INGRESO'];
-            $empleados[$key]['Nomina_Empleado']['CARGO']=$value['CARGO'];
-            $empleados[$key]['Nomina_Empleado']['DEPARTAMENTO']=$value['DEPARTAMENTO'];
-            $empleados[$key]['Nomina_Empleado']['MODALIDAD']=$value['MODALIDAD'];
-            $empleados[$key]['Nomina_Empleado']['GRUPO']=$value['Empleado']['Grupo']['NOMBRE'];
-            $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS']=$value['DIAS_LABORADOS'];
-            $empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] = $value['SUELDO_BASE'];
+                ));
+        $id_empleados = Set::extract('/Empleado/id', $ids);
+
+        $data = $this->Recibo->find('all', array(
+            'conditions' => array(
+                'nomina_id' => $id,
+                'empleado_id' => $id_empleados
+            ),
+            'contain' => array(
+                'Nomina', 'DetalleRecibo',
+                'Empleado' => array(
+                    'Grupo',
+                )
+            )
+                ));                
+
+        foreach ($data as $key => $value) {
+            $empleados[$key]['Nomina_Empleado']['FECHA_INI'] = $value['Nomina']['FECHA_INI'];
+            $empleados[$key]['Nomina_Empleado']['FECHA_FIN'] = $value['Nomina']['FECHA_FIN'];
+            $empleados[$key]['Nomina_Empleado']['NOMBRE'] = $value['Empleado']['NOMBRE'];
+            $empleados[$key]['Nomina_Empleado']['APELLIDO'] = $value['Empleado']['APELLIDO'];
+            $empleados[$key]['Nomina_Empleado']['CEDULA'] = $value['Empleado']['CEDULA'];
+            $empleados[$key]['Nomina_Empleado']['INGRESO'] = $value['Empleado']['INGRESO'];
+            $empleados[$key]['Nomina_Empleado']['CARGO'] = $value['Recibo']['CARGO'];
+            $empleados[$key]['Nomina_Empleado']['DEPARTAMENTO'] = $value['Recibo']['DEPARTAMENTO'];
+            $empleados[$key]['Nomina_Empleado']['MODALIDAD'] = $value['Recibo']['MODALIDAD'];
+            $empleados[$key]['Nomina_Empleado']['GRUPO'] = $value['Empleado']['Grupo']['NOMBRE'];
+            $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS'] = $value['Recibo']['DIAS_LABORADOS'];
+            $empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] = $value['Recibo']['SUELDO_BASE'];
             $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] / 30;
             $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] * $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS']; // QUINCENA            
-            
+
             $totalasig = 0;
             $totaldedu = 0;
             foreach ($value['DetalleRecibo'] as $detalle) {
-                if($detalle['CONCEPTO']=='Asignaciones'){
-                    $empleados[$key]['Nomina_Empleado']['Asignaciones'][$detalle['NOMBRE']]=$detalle['MONTO'];
+                if ($detalle['CONCEPTO'] == 'Asignaciones') {
+                    $empleados[$key]['Nomina_Empleado']['Asignaciones'][$detalle['NOMBRE']] = $detalle['MONTO'];
                     $totalasig = $totalasig + $detalle['MONTO'];
                 }
-                if($detalle['CONCEPTO']=='Deducciones'){
-                    $empleados[$key]['Nomina_Empleado']['Deducciones'][$detalle['NOMBRE']]=$detalle['MONTO'];
-                     $totaldedu = $totaldedu + $detalle['MONTO'];
+                if ($detalle['CONCEPTO'] == 'Deducciones') {
+                    $empleados[$key]['Nomina_Empleado']['Deducciones'][$detalle['NOMBRE']] = $detalle['MONTO'];
+                    $totaldedu = $totaldedu + $detalle['MONTO'];
                 }
             }
             $empleados[$key]['Nomina_Empleado']['TOTAL_ASIGNACIONES'] = $totalasig;
             $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] + $totalasig;
-            
+
             $empleados[$key]['Nomina_Empleado']['TOTAL_DEDUCCIONES'] = $totaldedu;
-            $empleados[$key]['Nomina_Empleado']['TOTAL_SUELDO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES'] - $totaldedu;            
-         
-        }        
+            $empleados[$key]['Nomina_Empleado']['TOTAL_SUELDO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES'] - $totaldedu;
+        }
         return $empleados;
     }
 

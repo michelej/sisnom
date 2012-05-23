@@ -240,12 +240,6 @@ $excel->_bordeSimple('B10');
 $excel->_campo('C10', $mem);
 $excel->_bordeSimple('C10');
 
-$excel->_campo('B9', 'Calculo Nomina '.$extra['Calculo Nomina']['Tiempo']);
-$excel->_bordeSimple('B9');
-
-$excel->_campo('C9', $extra['Calculo Nomina']['Memoria']);
-$excel->_bordeSimple('C9');
-
 $nombre = 'nomina';
 $excel->_output($nombre);
 ?> 
