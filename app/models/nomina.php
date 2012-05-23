@@ -119,13 +119,13 @@ class Nomina extends AppModel {
      * de la nomina (QUINCENA) y agregamos sus respectivos empleados
      * @param type $id ID de la Nomina
      */
-    function generarNomina($id) {
+    function generarNomina($id) {                
         $this->Recibo->deleteAll(array(
             'nomina_id' => $id
         ));
 
         $empleados = $this->calcularNomina($id);
-        foreach ($empleados as $empleado) {
+        foreach ($empleados as $empleado) {            
             $data['CARGO'] = $empleado['Nomina_Empleado']['CARGO'];
             $data['DEPARTAMENTO'] = $empleado['Nomina_Empleado']['DEPARTAMENTO'];
             $data['MODALIDAD'] = $empleado['Nomina_Empleado']['MODALIDAD'];
@@ -151,7 +151,7 @@ class Nomina extends AppModel {
                 $this->Recibo->DetalleRecibo->create();
                 $this->Recibo->DetalleRecibo->save($data_dedu);
             }
-        }
+        }        
     }
 
     /**
@@ -275,7 +275,7 @@ class Nomina extends AppModel {
                     'Grupo',
                 )
             )
-                ));                
+                ));
 
         foreach ($data as $key => $value) {
             $empleados[$key]['Nomina_Empleado']['FECHA_INI'] = $value['Nomina']['FECHA_INI'];

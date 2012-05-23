@@ -76,8 +76,11 @@ class NominasController extends AppController {
 
         if ($this->Nomina->errorMessage != '') {
             $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
-        }
+        }else{
+            $this->Session->setFlash('Nomina generada con exito', 'flash_success');
+        }        
         $this->redirect('edit/' . $id);
+
     }
 
     /**

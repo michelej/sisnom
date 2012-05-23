@@ -41,7 +41,6 @@
     });
 </script>
 
-
 <div class="box">
     <div class="title"><h2>Datos de la Nomina</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
@@ -101,12 +100,12 @@
 <div id="dialog-pantalla" title="Seleccione uno para continuar">
     <div class="row">
         <div class="boton">
-            <?php echo $this->Html->link('Nomina Empleados', array('action' => 'mostrar',$nomina['Nomina']['id'],'pantalla','Empleado'), array('target' => '_blank','class'=>'closer-pantalla')); ?>
+            <?php echo $this->Html->link('Nomina Empleados', array('action' => 'mostrar', $nomina['Nomina']['id'], 'pantalla', 'Empleado'), array('target' => '_blank', 'class' => 'closer-pantalla')); ?>
         </div>
     </div>
     <div class="row">
         <div class="boton">
-            <?php echo $this->Html->link('Nomina Obreros', array('action' => 'mostrar', $nomina['Nomina']['id'],'pantalla','Obrero'), array('target' => '_blank','class'=>'closer-pantalla')); ?>
+            <?php echo $this->Html->link('Nomina Obreros', array('action' => 'mostrar', $nomina['Nomina']['id'], 'pantalla', 'Obrero'), array('target' => '_blank', 'class' => 'closer-pantalla')); ?>
         </div>
     </div>
 </div>
@@ -114,12 +113,12 @@
 <div id="dialog-archivo" title="Seleccione uno para continuar">
     <div class="row">
         <div class="boton">
-            <?php echo $this->Html->link('Nomina Empleados', array('action' => 'mostrar',$nomina['Nomina']['id'],'archivo','Empleado'), array('target' => '_blank','class'=>'closer-archivo')); ?>
+            <?php echo $this->Html->link('Nomina Empleados', array('action' => 'mostrar', $nomina['Nomina']['id'], 'archivo', 'Empleado'), array('target' => '_blank', 'class' => 'closer-archivo')); ?>
         </div>
     </div>
     <div class="row">
         <div class="boton">
-            <?php echo $this->Html->link('Nomina Obreros', array('action' => 'mostrar', $nomina['Nomina']['id'],'archivo','Obrero'), array('target' => '_blank','class'=>'closer-archivo')); ?>
+            <?php echo $this->Html->link('Nomina Obreros', array('action' => 'mostrar', $nomina['Nomina']['id'], 'archivo', 'Obrero'), array('target' => '_blank', 'class' => 'closer-archivo')); ?>
         </div>
     </div>
 </div>
