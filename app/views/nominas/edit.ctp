@@ -5,7 +5,7 @@
             modal: true,
             zIndex:1500,
             resizable: false,
-            height:150,
+            height:250,
             width:250,
             draggable:false
         });
@@ -97,20 +97,30 @@
     </div>
 </div>
 
-<div id="dialog-pantalla" title="Seleccione uno para continuar">
+<div id="dialog-pantalla" title="Opciones Pantalla">
     <div class="row">
         <div class="boton">
-            <?php echo $this->Html->link('Nomina Empleados', array('action' => 'mostrar', $nomina['Nomina']['id'], 'pantalla', 'Empleado'), array('target' => '_blank', 'class' => 'closer-pantalla')); ?>
+            <?php echo $this->Html->link('Nomina Empleados', array('action' => 'mostrar', $nomina['Nomina']['id'], 'pantalla_nomina', 'Empleado'), array('target' => '_blank', 'class' => 'closer-pantalla')); ?>
         </div>
     </div>
     <div class="row">
         <div class="boton">
-            <?php echo $this->Html->link('Nomina Obreros', array('action' => 'mostrar', $nomina['Nomina']['id'], 'pantalla', 'Obrero'), array('target' => '_blank', 'class' => 'closer-pantalla')); ?>
+            <?php echo $this->Html->link('Resumen Empleados', array('action' => 'mostrar', $nomina['Nomina']['id'], 'pantalla_resumen', 'Empleado'), array('target' => '_blank', 'class' => 'closer-pantalla')); ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="boton">
+            <?php echo $this->Html->link('Nomina Obreros', array('action' => 'mostrar', $nomina['Nomina']['id'], 'pantalla_nomina', 'Obrero'), array('target' => '_blank', 'class' => 'closer-pantalla')); ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="boton">
+            <?php echo $this->Html->link('Resumen Obreros', array('action' => 'mostrar', $nomina['Nomina']['id'], 'pantalla_resumen', 'Obrero'), array('target' => '_blank', 'class' => 'closer-pantalla')); ?>
         </div>
     </div>
 </div>
 
-<div id="dialog-archivo" title="Seleccione uno para continuar">
+<div id="dialog-archivo" title="Opciones Archivo">
     <div class="row">
         <div class="boton">
             <?php echo $this->Html->link('Nomina Empleados', array('action' => 'mostrar', $nomina['Nomina']['id'], 'archivo', 'Empleado'), array('target' => '_blank', 'class' => 'closer-archivo')); ?>

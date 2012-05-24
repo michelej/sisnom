@@ -3,9 +3,8 @@
 class NominasController extends AppController {
 
     var $name = 'Nominas';
-    var $helpers = array('Excel','Javascript', 'Ajax');    
+    var $helpers = array('Excel', 'Javascript', 'Ajax');
     var $components = array('RequestHandler');
-
 
     function index() {
         $filtro = array();
@@ -76,11 +75,10 @@ class NominasController extends AppController {
 
         if ($this->Nomina->errorMessage != '') {
             $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
-        }else{
+        } else {
             $this->Session->setFlash('Nomina generada con exito', 'flash_success');
-        }        
+        }
         $this->redirect('edit/' . $id);
-
     }
 
     /**
@@ -88,39 +86,35 @@ class NominasController extends AppController {
      * @param type $tipo
      * @param type $id 
      */
-    function mostrar($id=null,$tipo=null,$grupo=null) {
+    function mostrar($id = null, $tipo = null, $grupo = null) {
         $this->autoRender = false;
-        if ($tipo == 'pantalla') {
-            $empleados = $this->Nomina->mostrarNomina($id,$grupo);
 
-            if (empty($empleados)) {
-                $this->render('error', 'nomina');
-                if ($this->Nomina->errorMessage == '') {
-                    $this->Session->setFlash('Actualmente no existen datos relacionados a esta nomina, Genere la Nomina primero', 'flash_error');
-                } else {
-                    $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
-                }
-                return;
+        $empleados = $this->Nomina->mostrarNomina($id, $grupo);
+
+        if (empty($empleados)) {
+            $this->render('error', 'nomina');
+            if ($this->Nomina->errorMessage == '') {
+                $this->Session->setFlash('Actualmente no existen datos relacionados a esta nomina, Genere la Nomina primero', 'flash_error');
+            } else {
+                $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
             }
-            $this->set(compact('empleados'));
-            $this->render('pantalla', 'nomina');
+            return;
         }
-        if ($tipo == 'archivo') {
-            $empleados = $this->Nomina->mostrarNomina($id,$grupo);
-
-            if (empty($empleados)) {
-                $this->render('error', 'nomina');
-                if ($this->Nomina->errorMessage == '') {
-                    $this->Session->setFlash('Actualmente no existen datos relacionados a esta nomina, Genere la Nomina primero', 'flash_error');
-                } else {
-                    $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
-                }
-                return;
-            }
+        
+        if ($tipo == 'pantalla_nomina') {
+            $this->set('empleados',$empleados);
+            $this->render('pantalla_nomina', 'nomina');
+        }
+        if ($tipo == 'pantalla_resumen') {
+            $resumen=$this->Nomina->calcularResumen($empleados);            
+            $this->set('resumen',$resumen);
+            $this->render('pantalla_resumen', 'nomina');
+        }
+        if ($tipo == 'archivo_nomina') {
             $this->set(compact('empleados'));
             $this->render('generar_archivo', 'nominaExcel');
         }
-    }    
+    }
 
 }
 

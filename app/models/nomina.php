@@ -248,7 +248,12 @@ class Nomina extends AppModel {
 
         return $empleados;
     }
-
+    /**
+     *
+     * @param type $id
+     * @param type $grupo
+     * @return type 
+     */
     function mostrarNomina($id, $grupo) {
         $ids = $this->Recibo->Empleado->Grupo->find('all', array(
             'conditions' => array(
@@ -278,11 +283,17 @@ class Nomina extends AppModel {
                 ));
 
         foreach ($data as $key => $value) {
+            $empleados[$key]['Nomina_Empleado']['PROGRAMA'] = $this->Recibo->Empleado->Contrato->Departamento->buscarPrograma($value['Recibo']['DEPARTAMENTO']);            
+            $empleados[$key]['Nomina_Empleado']['ACTIVIDAD_PROYECTO'] = $this->Recibo->Empleado->Contrato->Departamento->buscarActividad_Proyecto($value['Recibo']['DEPARTAMENTO']);
             $empleados[$key]['Nomina_Empleado']['FECHA_INI'] = $value['Nomina']['FECHA_INI'];
             $empleados[$key]['Nomina_Empleado']['FECHA_FIN'] = $value['Nomina']['FECHA_FIN'];
             $empleados[$key]['Nomina_Empleado']['NOMBRE'] = $value['Empleado']['NOMBRE'];
             $empleados[$key]['Nomina_Empleado']['APELLIDO'] = $value['Empleado']['APELLIDO'];
-            $empleados[$key]['Nomina_Empleado']['CEDULA'] = $value['Empleado']['CEDULA'];
+            if($value['Empleado']['NACIONALIDAD']=='Venezolano'){
+                $empleados[$key]['Nomina_Empleado']['CEDULA'] = "V".$value['Empleado']['CEDULA'];
+            }else{
+                $empleados[$key]['Nomina_Empleado']['CEDULA'] = "E".$value['Empleado']['CEDULA'];
+            }            
             $empleados[$key]['Nomina_Empleado']['INGRESO'] = $value['Empleado']['INGRESO'];
             $empleados[$key]['Nomina_Empleado']['CARGO'] = $value['Recibo']['CARGO'];
             $empleados[$key]['Nomina_Empleado']['DEPARTAMENTO'] = $value['Recibo']['DEPARTAMENTO'];
@@ -312,6 +323,15 @@ class Nomina extends AppModel {
             $empleados[$key]['Nomina_Empleado']['TOTAL_SUELDO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES'] - $totaldedu;
         }
         return $empleados;
+    }
+    
+    function calcularResumen($nomina_empleado){
+        //debug($nomina_empleado);
+        $data=$this->Recibo->Empleado->Contrato->Departamento->find("all",array(
+            'recursive'=>-1,
+            'group'=>'PROGRAMA'            
+        ));
+        debug($data);
     }
 
     /**
