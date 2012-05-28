@@ -4,11 +4,14 @@ class Departamento extends AppModel {
 
     var $name = 'Departamento';
     var $displayField = 'NOMBRE';
+    var $actsAs = array('Containable');
 
     /**
      *  Relaciones
      */
     var $hasMany = 'Contrato';
+    
+    var $belongsTo = 'Programa';
     
     /**
      *   Validaciones

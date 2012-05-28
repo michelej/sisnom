@@ -44,7 +44,11 @@
                             <ul>
                                 <li><?php echo $this->Html->link($this->Html->image("Finder.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Personal", array('controller' => 'empleados', 'action' => 'index'), array('escape' => false)); ?></li>                                 
                                 <li><?php echo $this->Html->link($this->Html->image("User.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Cargos", array('controller' => 'cargos', 'action' => 'index'), array('escape' => false)); ?></li>                                                                  
-                                <li><?php echo $this->Html->link($this->Html->image("Cog.png", array('alt' => 'Departamentos', 'height' => '18', 'width' => '18')) . "   Departamentos", array('controller' => 'departamentos', 'action' => 'index'), array('escape' => false)); ?></li>                                
+                                <li><?php echo $this->Html->link($this->Html->image("Cog.png", array('alt' => 'Departamentos', 'height' => '18', 'width' => '18')) . "   Departamentos", array('controller' => 'departamentos', 'action' => 'index'), array('escape' => false)); ?>
+                                    <ul>
+                                        <li><?php echo $this->Html->link($this->Html->image("Disc Blu Ray.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Programas", array('controller' => 'programas', 'action' => 'index'), array('escape' => false)); ?></li>                                 
+                                    </ul>
+                                </li>
 
                                 <li><?php echo $this->Html->link($this->Html->image("Contacts.png", array('alt' => 'Basicas', 'height' => '18', 'width' => '18')) . " Basicas", array('controller' => 'Pages', 'action' => 'display'), array('escape' => false)); ?>
                                     <ul>                                        

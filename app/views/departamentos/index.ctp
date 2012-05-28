@@ -6,9 +6,10 @@
             <thead>
                 <tr>
                     <th></th>                                          
-                    <th style="width:55%"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>
-                    <th style="width:15%"><?php echo $this->Paginator->sort('Programa', 'PROGRAMA'); ?></th>
-                    <th style="width:15%"><?php echo $this->Paginator->sort('Actividad / Proyecto', 'ACTIVIDAD_PROYECTO'); ?></th>
+                    <th style="width:40%"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>
+                    <th style="width:15%"><?php echo $this->Paginator->sort('Programa', 'programa_id'); ?></th>
+                    <th style="width:15%"><?php echo $this->Paginator->sort('Tipo', 'programa_id'); ?></th>
+                    <th style="width:15%"><?php echo $this->Paginator->sort('Numero', 'programa_id'); ?></th>
                     <th style="width:15%;text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
@@ -24,10 +25,12 @@
                     <tr<?php echo $class; ?>>
                         <td></td>                                                
                         <td><?php echo $departamento['Departamento']['NOMBRE']; ?></td>
-                        <td><?php echo $departamento['Departamento']['PROGRAMA']; ?></td>
-                        <td><?php echo $departamento['Departamento']['ACTIVIDAD_PROYECTO']; ?></td>
+                        <td><?php echo $departamento['Programa']['CODIGO']; ?></td>
+                        <td><?php echo $departamento['Programa']['TIPO']; ?></td>
+                        <td><?php echo $departamento['Programa']['NUMERO']; ?></td>
                         <td class="actions">
                             <?php                            
+                            echo $this->Html->image("Disc Blu Ray.png", array("alt" => "Asignar", 'title' => 'Asignar Programa', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'asignar', $departamento['Departamento']['id'])));                            
                             echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $departamento['Departamento']['id'])));                            
                             echo $this->Html->link($this->Html->image("file_delete.png", array('alt' => 'delete', 'height' => '18', 'width' => '18')), array('controller' => 'Departamentos', 'action' => 'delete',$departamento['Departamento']['id']), array('escape' => false),sprintf('Esta seguro que desea eliminar este Departamento?'));
                             ?>                            
