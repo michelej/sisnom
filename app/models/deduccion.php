@@ -289,7 +289,7 @@ class Deduccion extends AppModel {
             $orden = array('1', '2', '3', '4', '5', '6','7','9');
         }
         if ($tipo == 'Obrero') {
-            $orden = array('1', '2', '3', '4', '5', '6','8','7');
+            $orden = array('1', '2', '3', '5', '6','8','7');
         }
         if ($tipo == array('1' => 'Empleado', '2' => 'Obrero')) {
             $orden = array('1', '2', '3', '4', '5', '6', '7', '8','9');

@@ -119,13 +119,13 @@ class Nomina extends AppModel {
      * de la nomina (QUINCENA) y agregamos sus respectivos empleados
      * @param type $id ID de la Nomina
      */
-    function generarNomina($id) {                
+    function generarNomina($id) {
         $this->Recibo->deleteAll(array(
             'nomina_id' => $id
         ));
 
         $empleados = $this->calcularNomina($id);
-        foreach ($empleados as $empleado) {            
+        foreach ($empleados as $empleado) {
             $data['CARGO'] = $empleado['Nomina_Empleado']['CARGO'];
             $data['DEPARTAMENTO'] = $empleado['Nomina_Empleado']['DEPARTAMENTO'];
             $data['MODALIDAD'] = $empleado['Nomina_Empleado']['MODALIDAD'];
@@ -151,7 +151,7 @@ class Nomina extends AppModel {
                 $this->Recibo->DetalleRecibo->create();
                 $this->Recibo->DetalleRecibo->save($data_dedu);
             }
-        }        
+        }
     }
 
     /**
@@ -248,6 +248,7 @@ class Nomina extends AppModel {
 
         return $empleados;
     }
+
     /**
      *
      * @param type $id
@@ -282,18 +283,20 @@ class Nomina extends AppModel {
             )
                 ));
 
+
         foreach ($data as $key => $value) {
-            $empleados[$key]['Nomina_Empleado']['PROGRAMA'] = $this->Recibo->Empleado->Contrato->Departamento->buscarPrograma($value['Recibo']['DEPARTAMENTO']);            
-            $empleados[$key]['Nomina_Empleado']['ACTIVIDAD_PROYECTO'] = $this->Recibo->Empleado->Contrato->Departamento->buscarActividad_Proyecto($value['Recibo']['DEPARTAMENTO']);
+            $departamento = $this->Recibo->Empleado->Contrato->Departamento->buscarInformacion($value['Recibo']['DEPARTAMENTO']);
+            $empleados[$key]['Nomina_Empleado']['PROGRAMA'] = $departamento['Programa']['CODIGO'];
+            $empleados[$key]['Nomina_Empleado']['ACTIVIDAD_PROYECTO'] = $departamento['Programa']['NUMERO'];
             $empleados[$key]['Nomina_Empleado']['FECHA_INI'] = $value['Nomina']['FECHA_INI'];
             $empleados[$key]['Nomina_Empleado']['FECHA_FIN'] = $value['Nomina']['FECHA_FIN'];
             $empleados[$key]['Nomina_Empleado']['NOMBRE'] = $value['Empleado']['NOMBRE'];
             $empleados[$key]['Nomina_Empleado']['APELLIDO'] = $value['Empleado']['APELLIDO'];
-            if($value['Empleado']['NACIONALIDAD']=='Venezolano'){
-                $empleados[$key]['Nomina_Empleado']['CEDULA'] = "V".$value['Empleado']['CEDULA'];
-            }else{
-                $empleados[$key]['Nomina_Empleado']['CEDULA'] = "E".$value['Empleado']['CEDULA'];
-            }            
+            if ($value['Empleado']['NACIONALIDAD'] == 'Venezolano') {
+                $empleados[$key]['Nomina_Empleado']['CEDULA'] = "V" . $value['Empleado']['CEDULA'];
+            } else {
+                $empleados[$key]['Nomina_Empleado']['CEDULA'] = "E" . $value['Empleado']['CEDULA'];
+            }
             $empleados[$key]['Nomina_Empleado']['INGRESO'] = $value['Empleado']['INGRESO'];
             $empleados[$key]['Nomina_Empleado']['CARGO'] = $value['Recibo']['CARGO'];
             $empleados[$key]['Nomina_Empleado']['DEPARTAMENTO'] = $value['Recibo']['DEPARTAMENTO'];
@@ -324,14 +327,99 @@ class Nomina extends AppModel {
         }
         return $empleados;
     }
-    
-    function calcularResumen($nomina_empleado){
+
+    function calcularResumen($nomina_empleado) {
+        $data = $this->Recibo->Empleado->Contrato->Departamento->Programa->find("all", array(
+            'contain' => array(
+                'Departamento'
+            )
+                ));
         //debug($nomina_empleado);
-        $data=$this->Recibo->Empleado->Contrato->Departamento->find("all",array(
-            'recursive'=>-1,
-            'group'=>'PROGRAMA'            
-        ));
-        debug($data);
+        // Asumimos que todas los empleados tiene las mismas asignaciones y deducciones
+        $asignaciones = array_keys($nomina_empleado[0]['Nomina_Empleado']['Asignaciones']);
+        $deducciones = array_keys($nomina_empleado[0]['Nomina_Empleado']['Deducciones']);
+        // para poder cambiar los valores por keys!!
+        $asignaciones = array_flip($asignaciones);
+        $deducciones = array_flip($deducciones);
+        // los ponemos en 0 para poder ir acumulando
+        foreach ($asignaciones as $key => $value) {
+            $asignaciones[$key] = 0;
+        }
+        foreach ($deducciones as $key => $value) {
+            $deducciones[$key] = 0;
+        }
+
+        foreach ($data as $key => $programa) {
+            $data[$key]['Asignaciones'] = $asignaciones;
+            $data[$key]['Deducciones'] = $deducciones;
+            $sueldo = 0;
+            foreach ($programa['Departamento'] as $departamento) {
+                foreach ($nomina_empleado as $empleado) {
+                    if ($empleado['Nomina_Empleado']['DEPARTAMENTO'] == $departamento['NOMBRE']) {
+                        $sueldo = $sueldo + $empleado['Nomina_Empleado']['SUELDO_BASICO'];
+                        foreach ($empleado['Nomina_Empleado']['Asignaciones'] as $kk => $asig) {
+                            $data[$key]['Asignaciones'][$kk]+=$asig;
+                        }
+                        foreach ($empleado['Nomina_Empleado']['Deducciones'] as $kk => $deduc) {
+                            $data[$key]['Deducciones'][$kk]+=$deduc;
+                        }
+                    }
+                }
+            }
+            unset($data[$key]['Departamento']);
+            $data[$key]['Programa']['TOTAL_SUELDO'] = $sueldo;
+            $total = 0;
+            foreach ($data[$key]['Asignaciones'] as $value) {
+                $total+=$value;
+            }
+            $data[$key]['Programa']['TOTAL_ASIGNACIONES'] = $total;
+            $data[$key]['Programa']['TOTAL_SUELDO_ASIGNACIONES'] = $data[$key]['Programa']['TOTAL_ASIGNACIONES'] + $data[$key]['Programa']['TOTAL_SUELDO'];
+            $total = 0;
+            foreach ($data[$key]['Deducciones'] as $value) {
+                $total+=$value;
+            }
+            $data[$key]['Programa']['TOTAL_DEDUCCIONES'] = $total;
+            $data[$key]['Programa']['TOTAL_SUELDO_CANCELAR'] = $data[$key]['Programa']['TOTAL_SUELDO_ASIGNACIONES'] - $data[$key]['Programa']['TOTAL_DEDUCCIONES'];
+        }
+
+        $temp = array(
+            'Programa' => array(
+                'NOMBRE' => 'TOTAL',
+                'TOTAL_SUELDO' => 0,
+                'TOTAL_ASIGNACIONES' => 0,
+                'TOTAL_SUELDO_ASIGNACIONES' => 0,
+                'TOTAL_DEDUCCIONES' => 0,
+                'TOTAL_SUELDO_CANCELAR' => 0
+            ),
+            'Asignaciones' => $asignaciones,
+            'Deducciones' => $deducciones
+        );
+
+        function sumar($a, $b) {
+            return $a + $b;
+        }
+
+        foreach ($data as $value) {
+            $temp['Programa']['TOTAL_SUELDO']+=$value['Programa']['TOTAL_SUELDO'];
+            $temp['Programa']['TOTAL_ASIGNACIONES']+=$value['Programa']['TOTAL_ASIGNACIONES'];
+            $temp['Programa']['TOTAL_SUELDO_ASIGNACIONES']+=$value['Programa']['TOTAL_SUELDO_ASIGNACIONES'];
+            $temp['Programa']['TOTAL_DEDUCCIONES']+=$value['Programa']['TOTAL_DEDUCCIONES'];
+            $temp['Programa']['TOTAL_SUELDO_CANCELAR']+=$value['Programa']['TOTAL_SUELDO_CANCELAR'];
+            $suma = array_map('sumar', $temp['Asignaciones'], $value['Asignaciones']);
+            $temp['Asignaciones']=$suma;
+            $suma = array_map('sumar', $temp['Deducciones'], $value['Deducciones']);
+            $temp['Deducciones']=$suma;
+        }
+        $data[] = $temp;
+        // Esto sucede cuando no existe ninguna persona de un departamento en la nomina
+        // asi que la eliminamos
+        foreach ($data as $key=>$value){
+            if($value['Programa']['TOTAL_SUELDO']==0){
+                unset($data[$key]);
+            }
+        }
+        
+        return $data;
     }
 
     /**

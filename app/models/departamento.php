@@ -30,28 +30,17 @@ class Departamento extends AppModel {
         )         
      );
      
-     function buscarPrograma($departamento){
+     function buscarInformacion($departamento){
          $data=$this->find('first',array(
              'conditions'=>array(
-                 'NOMBRE'=>$departamento
+                 'Departamento.NOMBRE'=>$departamento
              ),
-             'fields'=>array(
-                 'PROGRAMA'
+             'contain'=>array(
+                 'Programa'
              )
          ));
-         return $data['Departamento']['PROGRAMA'];
+         return $data;
      }
      
-     function buscarActividad_Proyecto($departamento){
-         $data=$this->find('first',array(
-             'conditions'=>array(
-                 'NOMBRE'=>$departamento
-             ),
-             'fields'=>array(
-                 'ACTIVIDAD_PROYECTO'
-             )
-         ));
-         return $data['Departamento']['ACTIVIDAD_PROYECTO'];
-     }
 }
 ?>
