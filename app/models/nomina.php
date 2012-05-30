@@ -216,23 +216,23 @@ class Nomina extends AppModel {
             // -- DIAS LABORADOS --
             // -- SUELDO --
             $empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] = $empleado['Cargo']['Historial']['0']['SUELDO_BASE'];
-            $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] / 30;
-            $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] * $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS']; // QUINCENA            
+            $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] = redondear($empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] / 30);
+            $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] = redondear($empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] * $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS']); // QUINCENA            
             // -- SUELDO --
             $empleados[$key]['Nomina_Empleado']['Asignaciones'] = $asignacion->calcularAsignaciones($empleados[$key]['Nomina_Empleado']);
             $totalasig = 0;
             foreach ($empleados[$key]['Nomina_Empleado']['Asignaciones'] as $value) {
                 $totalasig = $totalasig + $value;
             }
-            $empleados[$key]['Nomina_Empleado']['TOTAL_ASIGNACIONES'] = $totalasig;
-            $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] + $totalasig;
+            $empleados[$key]['Nomina_Empleado']['TOTAL_ASIGNACIONES'] = redondear($totalasig);
+            $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES'] = redondear($empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] + $totalasig);
             $empleados[$key]['Nomina_Empleado']['Deducciones'] = $deduccion->calcularDeducciones($empleados[$key]['Nomina_Empleado']);
             $totaldedu = 0;
             foreach ($empleados[$key]['Nomina_Empleado']['Deducciones'] as $value) {
                 $totaldedu = $totaldedu + $value;
             }
-            $empleados[$key]['Nomina_Empleado']['TOTAL_DEDUCCIONES'] = $totaldedu;
-            $empleados[$key]['Nomina_Empleado']['TOTAL_SUELDO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES'] - $totaldedu;
+            $empleados[$key]['Nomina_Empleado']['TOTAL_DEDUCCIONES'] = redondear($totaldedu);
+            $empleados[$key]['Nomina_Empleado']['TOTAL_SUELDO'] = redondear($empleados[$key]['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES'] - $totaldedu);
 
             unset($empleados[$key]['Contrato']);
             unset($empleados[$key]['Cargo']);
@@ -304,8 +304,8 @@ class Nomina extends AppModel {
             $empleados[$key]['Nomina_Empleado']['GRUPO'] = $value['Empleado']['Grupo']['NOMBRE'];
             $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS'] = $value['Recibo']['DIAS_LABORADOS'];
             $empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] = $value['Recibo']['SUELDO_BASE'];
-            $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] / 30;
-            $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] * $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS']; // QUINCENA            
+            $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] = redondear($empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] / 30);
+            $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] = redondear($empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] * $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS']); // QUINCENA            
 
             $totalasig = 0;
             $totaldedu = 0;
@@ -319,11 +319,11 @@ class Nomina extends AppModel {
                     $totaldedu = $totaldedu + $detalle['MONTO'];
                 }
             }
-            $empleados[$key]['Nomina_Empleado']['TOTAL_ASIGNACIONES'] = $totalasig;
-            $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] + $totalasig;
+            $empleados[$key]['Nomina_Empleado']['TOTAL_ASIGNACIONES'] = redondear($totalasig);
+            $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES'] = redondear($empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] + $totalasig);
 
-            $empleados[$key]['Nomina_Empleado']['TOTAL_DEDUCCIONES'] = $totaldedu;
-            $empleados[$key]['Nomina_Empleado']['TOTAL_SUELDO'] = $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES'] - $totaldedu;
+            $empleados[$key]['Nomina_Empleado']['TOTAL_DEDUCCIONES'] = redondear($totaldedu);
+            $empleados[$key]['Nomina_Empleado']['TOTAL_SUELDO'] = redondear($empleados[$key]['Nomina_Empleado']['SUELDO_BASICO_ASIGNACIONES'] - $totaldedu);
         }
         return $empleados;
     }

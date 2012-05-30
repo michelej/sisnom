@@ -230,8 +230,8 @@ class Deduccion extends AppModel {
                 //------------------------------------------------------------//       
                 case "9":
                     if ($this->empleadoTieneDeduccion($id_empleado, $value['id'],$fecha_ini,$fecha_fin)) {
-                        if (!empty($empleado['Empleado']['Islr'])) {
-                            $valor = ($sueldo_basico * $empleado['Empleado']['Islr']['0']['PORCENTAJE']) / 100;
+                        if (!empty($empleado['Empleado']['Islr'])) {                            
+                            $valor = (($sueldo_basico+$monto_asignaciones) * $empleado['Empleado']['Islr']['0']['PORCENTAJE']) / 100;
                         } else {
                             $valor = 0;
                         }

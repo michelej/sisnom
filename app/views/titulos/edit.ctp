@@ -6,11 +6,11 @@
         <div class="row">
             <?php echo "<div style='float:left;width:10%'>"; ?>
             <?php echo $this->Form->label('Cedula'); ?>
-            <?php echo number_format($empleado['Empleado']['CEDULA'], 0, ',', '.'); ?>
+            <?php echo $empleado['Empleado']['CEDULA'] ?>
             <?php echo "</div>"; ?>
             <?php echo "<div style='float:left;width:30%'>"; ?>
             <?php echo $this->Form->label('Nombre Completo'); ?>
-            <?php echo $empleado['Empleado']['NOMBRE']." ".$empleado['Empleado']['APELLIDO']; ?>
+            <?php echo mb_convert_case(strtolower($empleado['Empleado']['APELLIDO']), MB_CASE_TITLE, "UTF-8") . ' ' . mb_convert_case(strtolower($empleado['Empleado']['NOMBRE']), MB_CASE_TITLE, "UTF-8"); ?>
             <?php echo "</div>"; ?>            
             <?php echo "<div style='float:left;width:15%'>"; ?>
             <?php echo $this->Form->label('Fecha de Ingreso'); ?>

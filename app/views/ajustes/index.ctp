@@ -21,15 +21,19 @@
             ?>
         </div>
         <div class="box"></div>
+        <div class="pagination">
+            <?php echo $this->Paginator->prev(null, array(), null, array('class' => 'disabled')); ?>
+            <?php echo $this->Paginator->numbers(array('class' => 'disabled', 'separator' => '')); ?>
+            <?php echo $this->Paginator->next(null, array(), null, array('class' => 'disabled')); ?>
+        </div>
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
                     <th></th>  
                     <th style="width:5%;text-align: center"><?php echo $this->Paginator->sort('Cedula', 'CEDULA'); ?></th>                    
-                    <th style="width:30%;"><?php echo $this->Paginator->sort('Nombre(s) y Apellido(s)', 'NOMBRE'); ?></th>                    
-                    <th style="width:5%;"><?php echo $this->Paginator->sort('Grupo', 'Grupo.NOMBRE'); ?></th>
-                    <th style="width:25%; text-align: center">Cargo</th>
-                    <th style="width:30%; text-align: center">Departamento</th>
+                    <th style="width:28%;"><?php echo $this->Paginator->sort('Apellido(s) y Nombre(s)', 'NOMBRE'); ?></th>                    
+                    <th style="width:8%;"><?php echo $this->Paginator->sort('Grupo', 'Grupo.NOMBRE'); ?></th>
+                    <th style="width:52%; text-align: left">Cargo</th>                    
                     <th style="width:5%; text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
@@ -44,24 +48,20 @@
                     ?>
                     <tr<?php echo $class; ?>>
                         <td></td>
-                        <td style="text-align: right"><?php echo number_format($empleado['Empleado']['CEDULA'], 0, ',', '.'); ?></td>
-                        <td><?php echo $empleado['Empleado']['NOMBRE'].' '.$empleado['Empleado']['APELLIDO']; ?></td>                        
+                        <td style="text-align: right"><?php echo $empleado['Empleado']['CEDULA']; ?></td>
+                        <td><?php echo mb_convert_case(strtolower($empleado['Empleado']['APELLIDO']), MB_CASE_TITLE, "UTF-8") . ' ' . mb_convert_case(strtolower($empleado['Empleado']['NOMBRE']), MB_CASE_TITLE, "UTF-8"); ?></td>                        
                         <td><?php echo $empleado['Grupo']['NOMBRE']; ?></td>
-                        <td style="text-align: center"><?php if(!empty($empleado['Contrato']['0'])){
-                                    echo $empleado['Contrato']['0']['Cargo']['NOMBRE'];
-                                  }else{
-                                    echo " ";  
-                                  }?>
-                        </td>                                                
-                        <td style="text-align: center;"><?php if(!empty($empleado['Contrato']['0'])){
-                                    echo $empleado['Contrato']['0']['Departamento']['NOMBRE'];
-                                  }else{
-                                    echo " ";  
-                                  }?>
-                        </td>
+                        <td style="text-align: left"><?php
+                if (!empty($empleado['Contrato']['0'])) {
+                    echo $empleado['Contrato']['0']['Cargo']['NOMBRE'];
+                } else {
+                    echo " ";
+                }
+                    ?>
+                        </td>                                                                        
                         <td class="actions">
-                            <?php                            
-                            echo $this->Html->image("Checkbox Full.png", array("alt" => "Modificar", 'title' => 'Modificar Conceptos', 'width' => '18', 'heigth' => '18', 'url' => array('controller'=>'ajustes','action' => 'edit', $empleado['Empleado']['id'])));                            
+                            <?php
+                            echo $this->Html->image("Checkbox Full.png", array("alt" => "Modificar", 'title' => 'Modificar Conceptos', 'width' => '18', 'heigth' => '18', 'url' => array('controller' => 'ajustes', 'action' => 'edit', $empleado['Empleado']['id'])));
                             ?>
                         </td>
                     </tr>

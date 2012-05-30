@@ -216,9 +216,9 @@ class Asignacion extends AppModel {
                             $valor = 60 / 2;
                         }
                         if ($nomina_empleado['GRUPO'] == 'Obrero') {
-                            // OJO EL CARGO DEBE LLAMARSE """"Mensajero""""
+                            // OJO EL CARGO DEBE LLAMARSE """"Mensajero""""                            
                             $diasHabiles = $nomina_empleado['DIAS_HABILES'];
-                            if ($nomina_empleado['CARGO'] == 'Mensajero') {
+                            if ( strtolower($nomina_empleado['CARGO']) == 'mensajero') {
                                 $valor = 0.416 * $diasHabiles;
                             } else {
                                 $valor = 0.260 * $diasHabiles;
@@ -240,15 +240,16 @@ class Asignacion extends AppModel {
                         $valor = 0;                        
                         if ($nomina_empleado['GRUPO'] == 'Empleado') {
                             foreach ($empleado['Empleado']['Familiar'] as $familiar) {
-                                $edad = $this->Ajuste->Empleado->Edad($familiar['FECHA']);
+                                $edad = $this->Ajuste->Empleado->Edad($familiar['FECHA']);                                
+                                
                                 // Comparamos con la fecha efectiva no la de nacimiento!! OJO
                                 if (compara_fechas(formatoFechaAfterFind($fecha_ini), $familiar['FECHA_EFEC']) > 0 ||
                                         check_in_range($fecha_ini, $fecha_fin, formatoFechaBeforeSave($familiar['FECHA_EFEC']))) {
-                                    if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'Si') {
-                                        $valor+=15 / 2;
-                                    }
-                                    if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'No') {
+                                    if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)') {
                                         $valor+=12 / 2;
+                                    }
+                                    if ($familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'Si') {
+                                        $valor+=15 / 2;
                                     }
                                     if ($edad >= 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['INSTRUCCION'] == 'T.S.U') {
                                         $valor+=15 / 2;

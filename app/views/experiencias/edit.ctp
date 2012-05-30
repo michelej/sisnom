@@ -6,11 +6,11 @@
         <div class="row">
             <?php echo "<div style='float:left;width:10%'>"; ?>
             <?php echo $this->Form->label('Cedula'); ?>
-            <?php echo number_format($empleado['Empleado']['CEDULA'], 0, ',', '.'); ?>
+            <?php echo $empleado['Empleado']['CEDULA']; ?>
             <?php echo "</div>"; ?>
             <?php echo "<div style='float:left;width:30%'>"; ?>
             <?php echo $this->Form->label('Nombre Completo'); ?>
-            <?php echo $empleado['Empleado']['NOMBRE']." ".$empleado['Empleado']['APELLIDO']; ?>
+            <?php echo mb_convert_case(strtolower($empleado['Empleado']['APELLIDO']), MB_CASE_TITLE, "UTF-8") . ' ' . mb_convert_case(strtolower($empleado['Empleado']['NOMBRE']), MB_CASE_TITLE, "UTF-8"); ?>
             <?php echo "</div>"; ?>            
             <?php echo "<div style='float:left;width:15%'>"; ?>
             <?php echo $this->Form->label('Fecha de Ingreso'); ?>
@@ -37,7 +37,8 @@
                     <th style="width:20%"><?php echo $this->Paginator->sort('Cargo', 'CARGO') ?></th>
                     <th style="width:10%"><?php echo $this->Paginator->sort('Fecha Inicio', 'FECHA_INI') ?></th>
                     <th style="width:10%"><?php echo $this->Paginator->sort('Fecha Culminacion', 'FECHA_FIN') ?></th>
-                    <th style="width:30%"><?php echo $this->Paginator->sort('Observaciones', 'OBSERVACIONES') ?></th>                    
+                    <th style="width:12%"> Antiguedad</th>                    
+                    <th style="width:18%"><?php echo $this->Paginator->sort('Observaciones', 'OBSERVACIONES') ?></th>                    
                     <th style="width:10%; text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
@@ -49,13 +50,17 @@
                     if ($i++ % 2 == 0) {
                         $class = ' class="odd"';
                     }
+                    $dias=numeroDeDias($experiencia['Experiencia']['FECHA_INI'], $experiencia['Experiencia']['FECHA_FIN']);
+                    $años=redondear($dias/365);
                     ?>
+                                        
                     <tr<?php echo $class; ?>>
                         <td></td>
                         <td><?php echo $experiencia['Experiencia']['ORGANISMO']; ?></td>
                         <td><?php echo $experiencia['Experiencia']['CARGO']; ?></td>
                         <td><?php echo fechaElegible($experiencia['Experiencia']['FECHA_INI']); ?></td>
                         <td><?php echo fechaElegible($experiencia['Experiencia']['FECHA_FIN']); ?></td>
+                        <td><?php echo $años.' Años'; ?></td>
                         <td><?php echo $experiencia['Experiencia']['OBSERVACIONES']; ?></td>                        
                         <td class="actions">
                             <?php

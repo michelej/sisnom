@@ -11,7 +11,7 @@
         echo $this->Form->create('Contrato',array('url' => array('controller' => 'contratos', 'action' => 'add','empleadoId:'.$empleadoId)));        
 
         echo "<div class='row'>";
-        echo "<div style='float:left;width:20%'>";
+        echo "<div style='float:left;width:40%'>";
         echo $this->Form->input('FECHA_INI', array('type' => 'text', 'div' => false, 'label' => 'Fecha de Inicio', 'class' => 'datepicker dp-applied')) . "</br>";
         echo "</div>";
 
@@ -28,12 +28,14 @@
         echo "</div>";
 
         echo "<div class='row'>";
-        echo "<div style='float:left;width:40%'>";        
-        echo $this->Form->input('departamento_id', array('div' => false, 'label' => 'Departamento', 'class' => 'small', 'empty' => "Seleccione una opción"));
+        echo "<div style='float:left;width:50%'>";        
+        echo $this->Form->input('departamento_id', array('div' => false, 'label' => 'Departamento', 'class' => 'medium', 'empty' => "Seleccione una opción"));
         echo "</div>";
-
-        echo "<div style='float:left;width:60%'>";        
-        echo $this->Form->input('cargo_id', array('div' => false, 'label' => 'Cargo', 'class' => 'small', 'empty' => "Seleccione una opción"));
+        echo "</div>";
+        
+        echo "<div class='row'>";
+        echo "<div style='float:left;width:50%'>";        
+        echo $this->Form->input('cargo_id', array('div' => false, 'label' => 'Cargo', 'class' => 'medium', 'empty' => "Seleccione una opción"));
         echo "</div>";
         echo "</div>";
         echo $this->Form->input('empleado_id', array('value' => $empleadoId, 'type' => 'hidden'));

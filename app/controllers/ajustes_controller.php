@@ -84,9 +84,11 @@ class AjustesController extends AppController {
                         )
                     )
                         ));
-                $grupo[$data['Grupo']['id']]=$data['Grupo']['nombre'];                
+                //$grupo[$data['Grupo']['id']]=$data['Grupo']['nombre'];                
+                $grupo=$data['Grupo']['nombre'];
+                //debug($grupo);
                 $asig = $this->Ajuste->Asignacion->ordenDeAsignaciones($grupo);
-                $dedu = $this->Ajuste->Deduccion->constante;
+                $dedu = $this->Ajuste->Deduccion->ordenDeDeducciones($grupo);
                                 
                 foreach($asig as $value){
                     $this->Ajuste->habtmAdd('Asignacion', $id, $value['id']);

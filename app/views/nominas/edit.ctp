@@ -83,10 +83,13 @@
         <div class="row">
             <div class="boton">
                 <?php echo $this->Html->link('Generar Nomina', array('action' => 'generar', $nomina['Nomina']['id'])); ?>
-            </div>  
+            </div>
+            <div class="boton">
+            <?php echo $this->Html->link('Nomina Empleados', array('action' => 'mostrar', $nomina['Nomina']['id'], 'pantalla_nomina', 'Empleado'), array('target' => '_blank')); ?>
+            </div>
             <div class="boton">
                 <?php echo $this->Html->link('Mostrar Pantalla', array(), array('id' => 'opener-pantalla')); ?>
-            </div> 
+            </div>            
             <div class="boton">
                 <?php echo $this->Html->link('Mostrar Archivo', array(), array('id' => 'opener-archivo')); ?>
             </div> 
