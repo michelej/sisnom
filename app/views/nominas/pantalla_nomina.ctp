@@ -1,6 +1,6 @@
 <div class="box2">
     <div class="content2" >        
-        <table  class="tabla" style="table-layout: fixed">
+        <table  class="tabla">
             <thead>
                 <tr>
                     <th style="width:2%"></th>
@@ -8,7 +8,7 @@
                     <th style="width:0.5%"></th>
                     <th style="width:9%"></th>
                     <th style="width:3%"></th>
-                    <th style="width:10%"></th>
+                    <th style="width:12%"></th>
                     <th style="width:2.5%"></th>
                     <th style="width:2.5%"></th>                    
                     <th style="width:2%"></th>
@@ -52,12 +52,16 @@
             </thead>
             <tbody>	
                 <?php
-                $i = 1;
+                $num = 1;                                    
                 foreach ($empleados as $empleado):
-                    echo '<tr class="modo1">';
+                    $class = 'modo1';                    
+                    if ($num % 2 == 0) {
+                        $class = 'modo2';
+                    }                       
+                    echo '<tr class="'.$class.'">';
                     echo '<td>' . $empleado['Nomina_Empleado']['PROGRAMA'] . '</td>';
                     echo '<td>' . $empleado['Nomina_Empleado']['ACTIVIDAD_PROYECTO'] . '</td>';
-                    echo '<td>' . $i++ . '</td>';
+                    echo '<td>' . $num . '</td>';
                     echo '<td>' . $empleado['Nomina_Empleado']['APELLIDO'] . " " . $empleado['Nomina_Empleado']['NOMBRE'] . '</td>';
                     echo '<td style="text-align:center;">' . $empleado['Nomina_Empleado']['CEDULA']. '</td>';
                     echo '<td>' . $empleado['Nomina_Empleado']['CARGO'] . '</td>';
@@ -79,6 +83,7 @@
                     echo '<td style="text-align: right;">' . number_format($empleado['Nomina_Empleado']['TOTAL_DEDUCCIONES'], 2, ',', '.') . '</td>';
                     echo '<td style="text-align: right;">' . number_format($empleado['Nomina_Empleado']['TOTAL_SUELDO'], 2, ',', '.') . '</td>';
                     echo '</tr>';
+                    $num++;
                 endforeach;
                 ?>
             </tbody>

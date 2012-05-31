@@ -1,9 +1,9 @@
 <div class="box2">
     <div class="content2" >        
-        <table class="tabla" style="table-layout: fixed; width:1800px;">
+        <table class="tabla" style="width:1800px;">
             <thead>
                 <tr>
-                    <th rowspan="2" style="width:15%; text-align: center"> Dependencia</th> 
+                    <th rowspan="2" style="width:20%; text-align: center"> Dependencia</th> 
                     <th rowspan="2" style="width:8%; text-align: center"> Sueldos Basicos a personal fijo tiempo completo</th>
                     <?php $count = count(array_keys($resumen['0']['Asignaciones'])); ?>                    
                     <th style="text-align:center;" colspan=<?php echo '"' . $count . '"' ?>>Asignaciones</th>
@@ -32,8 +32,13 @@
             </thead>
             <tbody>
                 <?php
+                $num=1;
                 foreach ($resumen as $resu):
-                    echo '<tr class="modo1">';
+                    $class = 'modo1';
+                    if ($num % 2 == 0) {
+                        $class = 'modo2';
+                    }                                    
+                    echo '<tr class="'.$class.'">';                    
                     echo '<td>' . $resu['Programa']['NOMBRE'] . '</td>';
                     echo '<td style="text-align: center;">' . number_format($resu['Programa']['TOTAL_SUELDO'], 2, ',', '.') . '</td>';
                     foreach ($resu['Asignaciones'] as $value) {
@@ -47,6 +52,7 @@
                     echo '<td style="text-align: center;">' . number_format($resu['Programa']['TOTAL_DEDUCCIONES'], 2, ',', '.') . '</td>';
                     echo '<td style="text-align: center;">' . number_format($resu['Programa']['TOTAL_SUELDO_CANCELAR'], 2, ',', '.') . '</td>';
                     echo '</tr>';
+                    $num++;
                 endforeach;                
                 ?>
             </tbody>

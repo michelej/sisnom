@@ -12,8 +12,8 @@
                 <tr>
                     <th></th>  
                     <th style="width:40%"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>                    
-                    <th style="width:30%"><?php echo $this->Paginator->sort('Descripcion', 'DESCRIPCION'); ?></th>
-                    <th style="width:5%; text-align:center">Desde</th>
+                    <th style="width:25%"><?php echo $this->Paginator->sort('Descripcion', 'DESCRIPCION'); ?></th>
+                    <th style="width:10%; text-align:center">Desde</th>
                     <th style="width:10%">Sueldo Base</th>
                     <th style="width:15%;text-align: center" class="actions">Acciones</th>
                 </tr>
