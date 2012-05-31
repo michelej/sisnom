@@ -19,6 +19,11 @@
             ?>
         </div>
         <div class="box"></div>
+        <div class="pagination">
+            <?php echo $this->Paginator->prev(null, array(), null, array('class' => 'disabled')); ?>
+            <?php echo $this->Paginator->numbers(array('class' => 'disabled', 'separator' => '')); ?>
+            <?php echo $this->Paginator->next(null, array(), null, array('class' => 'disabled')); ?>
+        </div>
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>

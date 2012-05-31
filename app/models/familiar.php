@@ -62,6 +62,7 @@ class Familiar extends AppModel {
             if (!isset($val['Familiar'])) {
                 if (isset($val['FECHA'])) {
                     $results[$key]['FECHA'] = formatoFechaAfterFind($val['FECHA']);
+                    $results[$key]['EDAD_FAMILIAR'] = $this->Edad($results[$key]['FECHA']);
                 }
                 if (isset($val['FECHA_EFEC'])) {
                     $results[$key]['FECHA_EFEC'] = formatoFechaAfterFind($val['FECHA_EFEC']);
@@ -69,12 +70,23 @@ class Familiar extends AppModel {
             }
             if (isset($val['Familiar']['FECHA'])) {
                 $results[$key]['Familiar']['FECHA'] = formatoFechaAfterFind($val['Familiar']['FECHA']);
+                $results[$key]['Familiar']['EDAD_FAMILIAR'] = $this->Edad($results[$key]['Familiar']['FECHA']);
             }
             if (isset($val['Familiar']['FECHA_EFEC'])) {
                 $results[$key]['Familiar']['FECHA_EFEC'] = formatoFechaAfterFind($val['Familiar']['FECHA_EFEC']);
             }
         }
         return $results;
+    }
+    
+    function Edad($fechanac) {        
+        list($dia, $mes, $ano) = explode("-", $fechanac);
+        $ano_diferencia = date("Y") - $ano;
+        $mes_diferencia = date("m") - $mes;
+        $dia_diferencia = date("d") - $dia;
+        if ($dia_diferencia < 0 || $mes_diferencia < 0)
+            $ano_diferencia--;
+        return $ano_diferencia;
     }
 
 }

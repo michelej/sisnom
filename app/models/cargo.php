@@ -27,7 +27,10 @@ class Cargo extends AppModel {
             )
         )
     );
-
+    /**
+     *
+     * @return string 
+     */
     function agruparSueldos() {
         $grupos = $this->Historial->find('all', array(
             'conditions' => array(
@@ -55,6 +58,13 @@ class Cargo extends AppModel {
         }else{
             return $grupo_sueldos;
         }        
+    }
+    
+    function beforeSave() {
+        if (!empty($this->data['Cargo']['NOMBRE'])) {
+            $this->data['Cargo']['NOMBRE']=strtoupper($this->data['Cargo']['NOMBRE']);            
+        }
+        return true;
     }
 
 }

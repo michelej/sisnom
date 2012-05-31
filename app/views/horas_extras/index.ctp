@@ -21,6 +21,11 @@
             ?>
         </div>
         <div class="box"></div>
+        <div class="pagination">
+            <?php echo $this->Paginator->prev(null, array(), null, array('class' => 'disabled')); ?>
+            <?php echo $this->Paginator->numbers(array('class' => 'disabled', 'separator' => '')); ?>
+            <?php echo $this->Paginator->next(null, array(), null, array('class' => 'disabled')); ?>
+        </div>
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
@@ -46,19 +51,21 @@
                         <td style="text-align: right"><?php echo $empleado['Empleado']['CEDULA']; ?></td>
                         <td><?php echo mb_convert_case(strtolower($empleado['Empleado']['APELLIDO']), MB_CASE_TITLE, "UTF-8") . ' ' . mb_convert_case(strtolower($empleado['Empleado']['NOMBRE']), MB_CASE_TITLE, "UTF-8"); ?></td>                        
                         <td><?php echo $empleado['Grupo']['NOMBRE']; ?></td>
-                        <td style="text-align: left"><?php if(!empty($empleado['Contrato']['0'])){
-                                    echo $empleado['Contrato']['0']['Cargo']['NOMBRE'];
-                                  }else{
-                                    echo " ";  
-                                  }?>
+                        <td style="text-align: left"><?php
+                if (!empty($empleado['Contrato']['0'])) {
+                    echo $empleado['Contrato']['0']['Cargo']['NOMBRE'];
+                } else {
+                    echo " ";
+                }
+                ?>
                         </td>                             
                         <td class="actions">
-                            <?php                            
-                            echo $this->Html->image("Button Add.png", array("alt" => "Agregar", 'title' => 'Nueva Hora Extra', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $empleado['Empleado']['id'])));                            
+                            <?php
+                            echo $this->Html->image("Button Add.png", array("alt" => "Agregar", 'title' => 'Nueva Hora Extra', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $empleado['Empleado']['id'])));
                             ?>
                         </td>
                     </tr>
-                <?php endforeach; ?>
+<?php endforeach; ?>
             </tbody>            
         </table>
         <div class="pages-bottom">
@@ -69,8 +76,8 @@
             </div>
             <div class="pagination">
                 <?php echo $this->Paginator->prev(null, array(), null, array('class' => 'disabled')); ?>
-                <?php echo $this->Paginator->numbers(array('class' => 'disabled', 'separator' => '')); ?>
-                <?php echo $this->Paginator->next(null, array(), null, array('class' => 'disabled')); ?>
+<?php echo $this->Paginator->numbers(array('class' => 'disabled', 'separator' => '')); ?>
+<?php echo $this->Paginator->next(null, array(), null, array('class' => 'disabled')); ?>
             </div>
         </div>
     </div>

@@ -69,7 +69,7 @@
 
             echo "<div style='float:left;width:25%'>";
             $options = array('Soltero' => 'Soltero', 'Casado' => 'Casado', 'Viudo' => 'Viudo', 'Divorciado' => 'Divorciado', 'Concubinato' => 'Concubinato');
-            echo $this->Form->input('EDOCIVIL', array('div' => false, 'label' => 'Estado Civil', 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una Opcion'));
+            echo $this->Form->input('EDOCIVIL', array('div' => false, 'label' => 'Estado Civil (*)', 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una Opcion'));
             echo "</div>";
             echo "</div>";
             // END ROW
@@ -118,11 +118,11 @@
             // INI ROW
             echo "<div class='row'>";
             echo "<div style='float:left;width:25%'>";
-            echo $this->Form->input('INGRESO', array('type' => 'text', 'div' => false, 'label' => 'Fecha de Ingreso', 'class' => 'datepicker dp-applied')) . "</br>";            
+            echo $this->Form->input('INGRESO', array('type' => 'text', 'div' => false, 'label' => 'Fecha de Ingreso (*)', 'class' => 'datepicker dp-applied')) . "</br>";            
             echo "</div>";
             
             echo "<div style='float:left;width:25%'>";
-            echo $this->Form->input('grupo_id', array('div' => false, 'label' => 'Grupo', 'class' => 'small','empty' => 'Seleccione una Opcion'));
+            echo $this->Form->input('grupo_id', array('div' => false, 'label' => 'Grupo (*)', 'class' => 'small','empty' => 'Seleccione una Opcion'));
             echo "</div>";
             echo "</div>";
             // END ROW

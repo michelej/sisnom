@@ -100,7 +100,8 @@ color: #000;
 .row .boton a:hover {
 	background-position: left bottom;
 	border: 1px solid #2B2B2B;
-}
+}    
+
 .row input {
     background-color: transparent;
     background-image: url("../img/input-back.gif");

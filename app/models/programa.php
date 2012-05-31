@@ -28,5 +28,12 @@ class Programa extends AppModel {
             'message' => 'Numero invalido'
         ),
     );
+    
+    function beforeSave() {
+        if (!empty($this->data['Programa']['NOMBRE'])) {
+            $this->data['Programa']['NOMBRE']=strtoupper($this->data['Programa']['NOMBRE']);            
+        }
+        return true;
+    }
 
 }

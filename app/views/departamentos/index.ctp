@@ -2,6 +2,11 @@
     <div class="title"><h2>Departamentos</h2></div>
     <div class="content pages">
         <div class="row"></div>
+        <div class="pagination">
+            <?php echo $this->Paginator->prev(null, array(), null, array('class' => 'disabled')); ?>
+            <?php echo $this->Paginator->numbers(array('class' => 'disabled', 'separator' => '')); ?>
+            <?php echo $this->Paginator->next(null, array(), null, array('class' => 'disabled')); ?>
+        </div>
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
@@ -29,10 +34,10 @@
                         <td><?php echo $departamento['Programa']['TIPO']; ?></td>
                         <td><?php echo $departamento['Programa']['NUMERO']; ?></td>
                         <td class="actions">
-                            <?php                            
-                            echo $this->Html->image("Disc Blu Ray.png", array("alt" => "Asignar", 'title' => 'Asignar Programa', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'asignar', $departamento['Departamento']['id'])));                            
-                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $departamento['Departamento']['id'])));                            
-                            echo $this->Html->link($this->Html->image("file_delete.png", array('alt' => 'delete', 'height' => '18', 'width' => '18')), array('controller' => 'Departamentos', 'action' => 'delete',$departamento['Departamento']['id']), array('escape' => false),sprintf('Esta seguro que desea eliminar este Departamento?'));
+                            <?php
+                            echo $this->Html->image("Disc Blu Ray.png", array("alt" => "Asignar", 'title' => 'Asignar Programa', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'asignar', $departamento['Departamento']['id'])));
+                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $departamento['Departamento']['id'])));
+                            echo $this->Html->link($this->Html->image("file_delete.png", array('alt' => 'delete', 'height' => '18', 'width' => '18')), array('controller' => 'Departamentos', 'action' => 'delete', $departamento['Departamento']['id']), array('escape' => false), sprintf('Esta seguro que desea eliminar este Departamento?'));
                             ?>                            
                         </td>
                     </tr>

@@ -6,10 +6,10 @@
             echo $this->Form->create(false);
             echo "<div>";
             echo "<div style='float:left;width:30%;'>";
-            $options = array('1' => 'Enero','2' => 'Febrero','3' => 'Marzo','4' => 'Abril','5' => 'Mayo','6' => 'Junio','7' => 'Julio'
-                ,'8' => 'Agosto','9' => 'Septiembre','10' => 'Octubre','11' => 'Noviembre','12' => 'Diciembre');
+            $options = array('1' => 'Enero', '2' => 'Febrero', '3' => 'Marzo', '4' => 'Abril', '5' => 'Mayo', '6' => 'Junio', '7' => 'Julio'
+                , '8' => 'Agosto', '9' => 'Septiembre', '10' => 'Octubre', '11' => 'Noviembre', '12' => 'Diciembre');
             echo $this->Form->label('Mes');
-            echo $this->Form->input('Fopcion', array('div' => false, 'label' => false, 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una Opcion'));
+            echo $this->Form->input('Fopcion', array('div' => false, 'label' => false, 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
             echo "</div>";
             echo "<div style='float:left;width:20%'>";
             echo $this->Form->label('Año');
@@ -22,6 +22,11 @@
             ?>
         </div>
         <div class="box"></div>
+        <div class="pagination">
+            <?php echo $this->Paginator->prev(null, array(), null, array('class' => 'disabled')); ?>
+            <?php echo $this->Paginator->numbers(array('class' => 'disabled', 'separator' => '')); ?>
+            <?php echo $this->Paginator->next(null, array(), null, array('class' => 'disabled')); ?>
+        </div>
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
@@ -51,9 +56,9 @@
                         <td><?php echo fechaElegible($nomina['Nomina']['FECHA_INI']); ?></td>
                         <td><?php echo fechaElegible($nomina['Nomina']['FECHA_FIN']); ?></td>                                                                        
                         <td class="actions">
-                            <?php                            
-                            echo $this->Html->image("Button White Info.png", array("alt" => "modificar", 'width' => '18', 'heigth' => '18', 'title' => 'Nomina', 'url' => array('action' => 'edit', $nomina['Nomina']['id'])));                            
-                            echo $this->Html->link($this->Html->image("file_delete.png", array('alt' => 'delete', 'height' => '18', 'width' => '18')), array('controller' => 'Nominas', 'action' => 'delete',$nomina['Nomina']['id']), array('escape' => false),sprintf('Esta seguro que desea eliminar esta Nomina?'));
+                            <?php
+                            echo $this->Html->image("Button White Info.png", array("alt" => "modificar", 'width' => '18', 'heigth' => '18', 'title' => 'Nomina', 'url' => array('action' => 'edit', $nomina['Nomina']['id'])));
+                            echo $this->Html->link($this->Html->image("file_delete.png", array('alt' => 'delete', 'height' => '18', 'width' => '18')), array('controller' => 'Nominas', 'action' => 'delete', $nomina['Nomina']['id']), array('escape' => false), sprintf('Esta seguro que desea eliminar esta Nomina?'));
                             ?>
                         </td>
                     </tr>

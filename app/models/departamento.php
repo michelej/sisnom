@@ -42,5 +42,12 @@ class Departamento extends AppModel {
          return $data;
      }
      
+     function beforeSave() {
+        if (!empty($this->data['Departamento']['NOMBRE'])) {
+            $this->data['Departamento']['NOMBRE']=strtoupper($this->data['Departamento']['NOMBRE']);            
+        }
+        return true;
+    }
+     
 }
 ?>

@@ -5,7 +5,7 @@
             modal: true,
             zIndex:1500,
             resizable: false,
-            height:250,
+            height:350,
             width:250,
             draggable:false
         });
@@ -77,6 +77,7 @@
     <?php echo $this->Session->flash(); ?>
 </div>
 
+
 <div class="box">
     <div class="title">	<h2>Acciones</h2></div>
     <div class="content form">        
@@ -85,7 +86,7 @@
                 <?php echo $this->Html->link('Generar Nomina', array('action' => 'generar', $nomina['Nomina']['id'])); ?>
             </div>
             <div class="boton">
-            <?php echo $this->Html->link('Nomina Empleados', array('action' => 'mostrar', $nomina['Nomina']['id'], 'pantalla_nomina', 'Empleado'), array('target' => '_blank')); ?>
+                <?php echo $this->Html->link('Nomina Empleados', array('action' => 'mostrar', $nomina['Nomina']['id'], 'pantalla_nomina', 'Empleado'), array('target' => '_blank')); ?>
             </div>
             <div class="boton">
                 <?php echo $this->Html->link('Mostrar Pantalla', array(), array('id' => 'opener-pantalla')); ?>

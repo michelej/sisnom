@@ -64,6 +64,10 @@ class Empleado extends AppModel {
     );
 
     function beforeSave() {
+        if (!empty($this->data['Empleado']['NOMBRE']) && !empty($this->data['Empleado']['APELLIDO'])) {
+            $this->data['Empleado']['NOMBRE']=strtoupper($this->data['Empleado']['NOMBRE']);
+            $this->data['Empleado']['APELLIDO']=strtoupper($this->data['Empleado']['APELLIDO']);
+        }
         if (!empty($this->data['Empleado']['FECHANAC'])) {
             $this->data['Empleado']['FECHANAC'] = formatoFechaBeforeSave($this->data['Empleado']['FECHANAC']);
         }
