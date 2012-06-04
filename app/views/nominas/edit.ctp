@@ -77,10 +77,10 @@
     <?php echo $this->Session->flash(); ?>
 </div>
 
-
 <div class="box">
     <div class="title">	<h2>Acciones</h2></div>
-    <div class="content form">        
+    <div class="content form">      
+
         <div class="row">
             <div class="boton">
                 <?php echo $this->Html->link('Generar Nomina', array('action' => 'generar', $nomina['Nomina']['id'])); ?>
@@ -97,7 +97,7 @@
             <div class="boton">
                 <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
             </div> 
-        </div>                         
+        </div>         
     </div>
 </div>
 

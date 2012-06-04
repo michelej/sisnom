@@ -3,7 +3,7 @@
         <table class="tabla" style="width:1800px;">
             <thead>
                 <tr>
-                    <th rowspan="2" style="width:20%; text-align: center"> Dependencia</th> 
+                    <th rowspan="2" style="width:25%; text-align: center"> Dependencia</th> 
                     <th rowspan="2" style="width:8%; text-align: center"> Sueldos Basicos a personal fijo tiempo completo</th>
                     <?php $count = count(array_keys($resumen['0']['Asignaciones'])); ?>                    
                     <th style="text-align:center;" colspan=<?php echo '"' . $count . '"' ?>>Asignaciones</th>
