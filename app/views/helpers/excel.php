@@ -5,7 +5,7 @@ App::import('Vendor', 'PHPExcelWriter', array('file' => 'excel/Classes/PHPExcel/
 
 class ExcelHelper extends AppHelper {
 
-    var $xls;
+    var $xls;    
     var $sheet;
     var $data;
     var $blacklist = array();
@@ -13,19 +13,42 @@ class ExcelHelper extends AppHelper {
     var $col;
 
     function excelHelper() {
-        $this->xls = new PHPExcel();
-        $this->sheet = $this->xls->getActiveSheet();
-        $this->sheet->getDefaultStyle()->getFont()->setName('Arial');
-        $this->sheet->getDefaultStyle()->getFont()->setSize(10);
-        $this->sheet->getPageSetup()->setFitToPage(true);
-        $this->sheet->getDefaultStyle()->getAlignment()->applyFromArray(
+        //$this->xls = new PHPExcel();
+        $this->xls = new PHPExcel_Reader_Excel2007();        
+        //$this->sheet = $this->xls->getActiveSheet();
+        //$this->sheet->getDefaultStyle()->getFont()->setName('Arial');
+        //$this->sheet->getDefaultStyle()->getFont()->setSize(10);
+        //$this->sheet->getPageSetup()->setFitToPage(true);
+        /*$this->sheet->getDefaultStyle()->getAlignment()->applyFromArray(
                 array(
                     'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_JUSTIFY,
                     'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
                     'rotation' => 0,
                     'wrap' => true
                 )
-        );
+        );*/
+    }   
+    
+    /*function test() {
+        $objReader = PHPExcel_IOFactory::createReader('Excel5');
+        $objPHPExcel = $objReader->load(getcwd() . '/Template.xls');
+
+        $objPHPExcel->getActiveSheet()->setCellValue('D9', 'PRUEBA');
+
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        $objWriter->save('Nomina.xls');
+    }*/
+    
+    function _CargarTemplate(){
+        $path=getcwd();
+        $path=str_replace("app","vendors",$path);
+        $path=str_replace("webroot","excel",$path);
+        $this->sheet = $this->xls->load($path.'/Template.xlsx');
+    }
+    
+    function _ActiveSheet($name){
+        $this->sheet->setActiveSheetIndexByName($name);
     }
 
     function generate(&$data, $title = 'Report') {
@@ -75,7 +98,7 @@ class ExcelHelper extends AppHelper {
         header("Content-type: application/vnd.ms-excel");
         header('Content-Disposition: attachment;filename="' . $title . '.xls"');
         header('Cache-Control: max-age=0');
-        $objWriter = new PHPExcel_Writer_Excel5($this->xls);
+        $objWriter = new PHPExcel_Writer_Excel5($this->sheet);
         $objWriter->setTempDir(TMP);
         $objWriter->save('php://output');
     }
@@ -137,7 +160,7 @@ class ExcelHelper extends AppHelper {
      * @param type $title 
      */
     function _campo($pos, $title) {
-        $this->sheet->setCellValue($pos, $title);
+        $this->sheet->getActiveSheet()->setCellValue($pos, $title);
     }
 
     /**
@@ -162,8 +185,8 @@ class ExcelHelper extends AppHelper {
     /**
      * Los header de la tabla
      * @param type $celdas 
-     */    
-    function _headersTabla($celdas){
+     */
+    function _headersTabla($celdas) {
         $styleArray = array(
             'fill' => array(
                 'type' => PHPExcel_Style_Fill::FILL_SOLID,

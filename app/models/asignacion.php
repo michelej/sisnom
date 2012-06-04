@@ -74,8 +74,13 @@ class Asignacion extends AppModel {
      */
     function calcularAsignaciones($nomina_empleado) {        
         $grupo=$nomina_empleado['GRUPO'];
-        $data = $this->ordenDeAsignaciones($grupo);
-
+        
+        if($nomina_empleado['MODALIDAD']=='Contratado'){
+            $grupo='Todos';
+        }
+        
+        $data = $this->ordenDeAsignaciones($grupo);                
+        
         $sueldo_base = $nomina_empleado['SUELDO_BASE'];
         $sueldo_diario = $nomina_empleado['SUELDO_DIARIO'];
         $sueldo_basico = $nomina_empleado['SUELDO_BASICO'];
@@ -419,7 +424,7 @@ class Asignacion extends AppModel {
         if ($tipo == 'Obrero') {
             $orden = array('7', '8', '1', '3', '4', '5');
         }
-        if ($tipo == array('1' => 'Empleado', '2' => 'Obrero')) {
+        if ($tipo == 'Todos') {
             $orden = array('7', '8', '1', '2', '3', '4', '5', '6');
         }
         foreach ($orden as $value) {

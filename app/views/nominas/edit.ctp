@@ -1,43 +1,33 @@
 <script>
     $(function() {
-        $( "#dialog-pantalla" ).dialog({
+        $( "#dialog" ).dialog({
             autoOpen: false,
             modal: true,
             zIndex:1500,
             resizable: false,
-            height:350,
-            width:250,
+            height:400,
+            width:400,
             draggable:false
-        });
-        $( "#dialog-archivo" ).dialog({
-            autoOpen: false,
-            modal: true,
-            zIndex:1500,
-            resizable: false,
-            height:150,
-            width:250,
-            draggable:false
-        });
-        $( "#opener-pantalla" ).click(function() {
-            $( "#dialog-pantalla" ).dialog( "open" );
+        });        
+        $( "#opener" ).click(function() {
+            $( "#dialog" ).dialog( "open" );
+            return false;
+        });        
+        $( ".closer" ).click(function() {
+            $( "#dialog" ).dialog( "close" );            
+            //var url = $(this).attr("href"); 
+            //windows.open(url);            
             return false;
         });
-        $( "#opener-archivo" ).click(function() {
-            $( "#dialog-archivo" ).dialog( "open" );
-            return false;
+        $("#ordenable").sortable({
+            placeholder: "ui-state-highlight"
+        }); 
+        $("#ordenable").disableSelection(); 
+        $("#ordenable .delete").click(function() { 
+            $(this).parent().remove();
         });
-        $( ".closer-pantalla" ).click(function() {
-            $( "#dialog-pantalla" ).dialog( "close" );            
-            var url = $(this).attr("href"); 
-            windows.open(url);            
-            return false;
-        });
-        $( ".closer-archivo" ).click(function() {
-            $( "#dialog-archivo" ).dialog( "close" );            
-            var url = $(this).attr("href"); 
-            windows.open(url);            
-            return false;
-        });
+
+        
     });
 </script>
 
@@ -79,21 +69,41 @@
 
 <div class="box">
     <div class="title">	<h2>Acciones</h2></div>
-    <div class="content form">      
+    <div class="content form">         
+        <div class="row">
+            <?php
+            echo $this->Form->create(false, array('target' => '_blank', 'url' => array('controller' => 'nominas', 'action' => 'mostrar')));
+            echo "<div style='float:left;width:30%;'>";
+            $options = array('1' => 'Fijo   -   Empleado', '2' => 'Fijo   -   Obrero', '3' => 'Contratado  -  Empleado y Obrero');
+            echo $this->Form->input('nomina_id', array('type' => 'hidden', 'value' => $nomina['Nomina']['id']));
+            echo $this->Form->input('PERSONAL', array('div' => false, 'label' => 'Personal', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
+            echo "</div>";
 
+            echo "<div style='float:left;width:30%;'>";
+            $options = array('Nomina' => 'Nomina', 'Resumen' => 'Resumen');
+            echo $this->Form->input('TIPO', array('div' => false, 'label' => 'Tipo', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
+            echo "</div>";
+
+            echo "<div style='float:left;width:30%;'>";
+            $options = array('Pantalla' => 'Pantalla', 'Archivo' => 'Archivo');
+            echo $this->Form->input('VISUALIZAR', array('div' => false, 'label' => 'Visualizar', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
+            echo "</div>";
+
+            echo "</div>";
+
+            echo "<div class='row'>";
+            echo "<div style='float:left;width:20%;padding-top:16px'>";
+            echo $this->Form->End('Mostrar');
+            echo "</div>";
+            ?>
+        </div>
         <div class="row">
             <div class="boton">
                 <?php echo $this->Html->link('Generar Nomina', array('action' => 'generar', $nomina['Nomina']['id'])); ?>
-            </div>
-            <div class="boton">
-                <?php echo $this->Html->link('Nomina Empleados', array('action' => 'mostrar', $nomina['Nomina']['id'], 'pantalla_nomina', 'Empleado'), array('target' => '_blank')); ?>
-            </div>
-            <div class="boton">
-                <?php echo $this->Html->link('Mostrar Pantalla', array(), array('id' => 'opener-pantalla')); ?>
-            </div>            
-            <div class="boton">
-                <?php echo $this->Html->link('Mostrar Archivo', array(), array('id' => 'opener-archivo')); ?>
             </div> 
+            <div class="boton">
+                <?php echo $this->Html->link('Generar Nomina', array(), array('id' => 'opener')); ?>
+            </div>
             <div class="boton">
                 <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
             </div> 
@@ -101,40 +111,13 @@
     </div>
 </div>
 
-<div id="dialog-pantalla" title="Opciones Pantalla">
-    <div class="row">
-        <div class="boton">
-            <?php echo $this->Html->link('Nomina Empleados', array('action' => 'mostrar', $nomina['Nomina']['id'], 'pantalla_nomina', 'Empleado'), array('target' => '_blank', 'class' => 'closer-pantalla')); ?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="boton">
-            <?php echo $this->Html->link('Resumen Empleados', array('action' => 'mostrar', $nomina['Nomina']['id'], 'pantalla_resumen', 'Empleado'), array('target' => '_blank', 'class' => 'closer-pantalla')); ?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="boton">
-            <?php echo $this->Html->link('Nomina Obreros', array('action' => 'mostrar', $nomina['Nomina']['id'], 'pantalla_nomina', 'Obrero'), array('target' => '_blank', 'class' => 'closer-pantalla')); ?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="boton">
-            <?php echo $this->Html->link('Resumen Obreros', array('action' => 'mostrar', $nomina['Nomina']['id'], 'pantalla_resumen', 'Obrero'), array('target' => '_blank', 'class' => 'closer-pantalla')); ?>
-        </div>
-    </div>
+<div id="dialog" title="Opciones Pantalla">
+    <?php
+    echo "<ul id=ordenable>";
+    foreach ($asignaciones as $value) {
+        echo "<li class='ui-state-default'>$value.<input class='delete' type='submit' value='Delete' />
+        </li>";
+    }
+    echo "</ul>";
+    ?>
 </div>
-
-<div id="dialog-archivo" title="Opciones Archivo">
-    <div class="row">
-        <div class="boton">
-            <?php echo $this->Html->link('Nomina Empleados', array('action' => 'mostrar', $nomina['Nomina']['id'], 'archivo', 'Empleado'), array('target' => '_blank', 'class' => 'closer-archivo')); ?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="boton">
-            <?php echo $this->Html->link('Nomina Obreros', array('action' => 'mostrar', $nomina['Nomina']['id'], 'archivo', 'Obrero'), array('target' => '_blank', 'class' => 'closer-archivo')); ?>
-        </div>
-    </div>
-</div>
-
-

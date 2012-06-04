@@ -255,7 +255,7 @@ class Nomina extends AppModel {
      * @param type $grupo
      * @return type 
      */
-    function mostrarNomina($id, $grupo) {
+    function mostrarNomina($id, $grupo,$modalidad) {
         $ids = $this->Recibo->Empleado->Grupo->find('all', array(
             'conditions' => array(
                 'NOMBRE' => $grupo
@@ -273,7 +273,8 @@ class Nomina extends AppModel {
         $data = $this->Recibo->find('all', array(
             'conditions' => array(
                 'nomina_id' => $id,
-                'empleado_id' => $id_empleados
+                'empleado_id' => $id_empleados,
+                'MODALIDAD'=>$modalidad
             ),
             'contain' => array(
                 'Nomina', 'DetalleRecibo',

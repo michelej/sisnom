@@ -1,6 +1,6 @@
 <div class="box2">
     <div class="content2" >        
-        <table class="tabla" style="width:1800px;">
+        <table class="tabla" style="width:2000px;">
             <thead>
                 <tr>
                     <th rowspan="2" style="width:25%; text-align: center"> Dependencia</th> 

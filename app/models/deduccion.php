@@ -79,7 +79,10 @@ class Deduccion extends AppModel {
         /*$data = $this->find('all', array(
             'recursive' => -1,
                 ));*/
-        $grupo=$nomina_empleado['GRUPO'];
+        $grupo=$nomina_empleado['GRUPO'];        
+        if($nomina_empleado['MODALIDAD']=='Contratado'){
+            $grupo='Todos';
+        }
         $data = $this->ordenDeDeducciones($grupo);        
         
         $id_empleado = $nomina_empleado['ID_EMPLEADO'];
@@ -291,7 +294,7 @@ class Deduccion extends AppModel {
         if ($tipo == 'Obrero') {
             $orden = array('1', '2', '3', '5', '6','8','7');
         }
-        if ($tipo == array('1' => 'Empleado', '2' => 'Obrero')) {
+        if ($tipo == 'Todos') {
             $orden = array('1', '2', '3', '4', '5', '6', '7', '8','9');
         }
         foreach ($orden as $value) {
