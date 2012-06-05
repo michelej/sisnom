@@ -12,6 +12,8 @@ $data = array();
 $i = 1;
 foreach ($empleados as $key => $empleado):
 
+    $data[$key]['Programa'] = $empleado['Nomina_Empleado']['PROGRAMA'];
+    $data[$key]['Actividad o Proyecto'] = $empleado['Nomina_Empleado']['ACTIVIDAD_PROYECTO'];
     $data[$key]['N'] = $i++;
     $data[$key]['Nombres y Apellidos'] = $empleado['Nomina_Empleado']['NOMBRE'] . " " . $empleado['Nomina_Empleado']['APELLIDO'];
     $data[$key]['Cedula de Identidad'] = $empleado['Nomina_Empleado']['CEDULA'];
@@ -39,16 +41,65 @@ endforeach;
 
 $excel->_CargarTemplate();
 $excel->_ActiveSheet("Nomina");
-$n=16;
-foreach ($data as $empleado) {  
+
+
+$asignaciones = array_keys($empleados['0']['Nomina_Empleado']['Asignaciones']);
+$asig = count($asignaciones);
+$marca = 14+(8-$asig);
+foreach ($asignaciones as $asignacion) {
+    $excel->_campo($letras[$marca] . '15', $asignacion);
+    $marca++;    
+}
+
+
+$deducciones = array_keys($empleados['0']['Nomina_Empleado']['Deducciones']);
+$deduc = count($deducciones);
+$marca = 24;
+foreach ($deducciones as $deduccion) {
+    $excel->_campo($letras[$marca] . '15', $deduccion);
+    $marca++;    
+}
+
+$n = 16;
+foreach ($data as $empleado) {
     $excel->_campo('B' . $n, $empleado['N']);
     $excel->_campo('C' . $n, $empleado['Nombres y Apellidos']);
     $excel->_campo('D' . $n, $empleado['Cedula de Identidad']);
-    $excel->_campo('E' . $n, $empleado['Cargo']);    
-    $excel->_campo('F' . $n, $empleado['Sueldo Basico Mensual']);    
+    $excel->_campo('E' . $n, $empleado['Cargo']);
+    $excel->_campo('F' . $n, $empleado['Sueldo Basico Mensual']);
     $excel->_campo('G' . $n, $empleado['Fecha de Ingreso']);
-    $n++;
-}    
+    $excel->_campo('H' . $n, $empleado['Programa']);
+    $excel->_campo('I' . $n, $empleado['Actividad o Proyecto']);
+    $excel->_campo('J' . $n, $empleado['Salario Diario']);
+    $excel->_campo('K' . $n, fechaElegibleNomina($empleado['Desde']));
+    $excel->_campo('L' . $n, fechaElegibleNomina($empleado['Hasta']));
+    $excel->_campo('M' . $n, $empleado['Dias Laborados']);
+    $excel->_campo('N' . $n, $empleado['Sub Total Sueldo Basico']);
 
+    $temp = 14+(8-$asig);
+    foreach ($empleado['Asignaciones'] as $value) {
+        $excel->_campo($letras[$temp] . $n, $value);
+        $temp++;
+    }
+    
+    for ($index = 14; $index < 14+(8-$asig); $index++) {
+        $excel->OcultarColumna($letras[$index]);
+    }    
+
+    $excel->_campo("W" . $n, $empleado['Total Asignaciones']);
+    $excel->_campo("X" . $n, $empleado['Total Sueldo + Asignaciones']);
+
+    $temp = 24;
+    foreach ($empleado['Deducciones'] as $value) {
+        $excel->_campo($letras[$temp] . $n, $value);
+        $temp++;
+    }
+
+    $excel->_campo("AH" . $n, $empleado['Total de Deducciones']);
+    $excel->_campo("AI" . $n, $empleado['Total a Cancelar']);
+    $n++;
+}
+$rango = 'H15:I81';
+$excel->_AutoFilter($rango);
 $excel->_output('Nomina');
 ?>

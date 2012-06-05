@@ -15,6 +15,7 @@ class ExcelHelper extends AppHelper {
     function excelHelper() {
         //$this->xls = new PHPExcel();
         $this->xls = new PHPExcel_Reader_Excel2007();        
+        //$this->xls = new PHPExcel_Reader_Excel5();        
         //$this->sheet = $this->xls->getActiveSheet();
         //$this->sheet->getDefaultStyle()->getFont()->setName('Arial');
         //$this->sheet->getDefaultStyle()->getFont()->setSize(10);
@@ -43,13 +44,36 @@ class ExcelHelper extends AppHelper {
     function _CargarTemplate(){
         $path=getcwd();
         $path=str_replace("app","vendors",$path);
-        $path=str_replace("webroot","excel",$path);
+        $path=str_replace("webroot","excel",$path);        
         $this->sheet = $this->xls->load($path.'/Template.xlsx');
     }
     
     function _ActiveSheet($name){
         $this->sheet->setActiveSheetIndexByName($name);
     }
+    
+    function _AutoFilter($rango){
+        $this->sheet->getActiveSheet()->setAutoFilter($rango);
+    }    
+    
+    function _campo($pos, $title) {
+        $this->sheet->getActiveSheet()->setCellValue($pos, $title);
+    }
+    
+    function _output($title) {
+        header("Content-type: application/vnd.ms-excel");
+        header('Content-Disposition: attachment;filename="' . $title . '.xlsx"');
+        header('Cache-Control: max-age=0');
+        $objWriter = new PHPExcel_Writer_Excel5($this->sheet);
+        $objWriter->setTempDir(TMP);
+        $objWriter->save('php://output');
+    }
+    
+    function _OcultarColumna($columna){
+        $this->sheet->getActiveSheet()->getColumnDimension($columna)->setVisible(false);
+    }
+    
+    //************
 
     function generate(&$data, $title = 'Report') {
         $this->data = & $data;
@@ -94,14 +118,7 @@ class ExcelHelper extends AppHelper {
         }
     }
 
-    function _output($title) {
-        header("Content-type: application/vnd.ms-excel");
-        header('Content-Disposition: attachment;filename="' . $title . '.xls"');
-        header('Cache-Control: max-age=0');
-        $objWriter = new PHPExcel_Writer_Excel5($this->sheet);
-        $objWriter->setTempDir(TMP);
-        $objWriter->save('php://output');
-    }
+    
 
     /**
      *  Centrar el Texto de una Celda
@@ -154,14 +171,7 @@ class ExcelHelper extends AppHelper {
         $this->sheet->mergeCells($celda);
     }
 
-    /**
-     * Agregar un valor a una celda especifica
-     * @param type $pos
-     * @param type $title 
-     */
-    function _campo($pos, $title) {
-        $this->sheet->getActiveSheet()->setCellValue($pos, $title);
-    }
+    
 
     /**
      * Ancho de fila a una fila completa

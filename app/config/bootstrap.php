@@ -91,6 +91,21 @@ function fechaElegible($date) {
     return $fechaLegible;
 }
 
+function fechaElegibleNomina($date) {
+    if ($date == '' || empty($date))
+        return '';
+    $meses = array("Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct",
+        "Nov", "Dic"); //Spanish
+    /* $meses = array("Jan" , "Feb" , "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", 
+      "Nov", "Dec"); */ //English
+
+    list($dia, $mes, $anio) = preg_split('/-/', $date);
+    $month = $meses[((int) $mes) - 1];
+    $fechaLegible = $dia . "-" . $month . "-" . ($anio-2000); //Spanish 
+    /* $fechaLegible = $month.' '.$dia.", ".$anio; */ //English 
+    return $fechaLegible;
+}
+
 /**
  * Verifica que una fecha esté dentro del rango de fechas establecidas
  * @param $start_date fecha de inicio
