@@ -103,7 +103,7 @@ foreach ($data as $empleado) {
     $excel->_campo("AI" . $n, $empleado['Total a Cancelar']);
     $n++;
 }
-$rango = "H15:I15";
-$excel->_autoFilter($rango);
+
+// $excel->_autoFilter("H15:I15"); NO FUNCIONA PARA Excel5 .XLS solo 2007
 $excel->_output('Nomina');
 ?>
