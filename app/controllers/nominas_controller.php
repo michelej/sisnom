@@ -95,7 +95,22 @@ class NominasController extends AppController {
         $this->autoRender = false;
         if (!empty($this->data)) {
             $id = $this->data['nomina_id'];
-
+            $nomina=$this->Nomina->find('first',array(
+                'recursive'=>0,
+                'conditions'=>array(
+                    'id'=>$id
+                )
+            ));
+            
+            list($dia, $mes, $anio) = preg_split('/-/', $nomina['Nomina']['FECHA_INI']);
+            $temp=(((int)$mes)-1)*2;
+            if($nomina['Nomina']['QUINCENA']=='Primera'){
+                $temp=$temp+1;
+            }else{
+                $temp=$temp+2;
+            }
+            $info_extra=array("Quincena"=>$temp);
+            
             if (empty($this->data['PERSONAL']) || empty($this->data['VISUALIZAR']) || empty($this->data['TIPO'])) {
                 $this->Session->setFlash('Debe seleccionar el personal , tipo y el modo de visualizar', 'flash_error');
                 $this->render('error', 'nomina');
@@ -139,7 +154,7 @@ class NominasController extends AppController {
             }
             if ($this->data['VISUALIZAR'] == 'Archivo') {
                 if ($this->data['TIPO'] == 'Nomina') {
-                    $this->set('empleados',$empleados);
+                    $this->set(compact('empleados','nomina','grupo','modalidad','info_extra','resumen'));                                                                                
                     $this->render('archivo_nomina', 'nominaExcel');
                 }
                 if ($this->data['TIPO'] == 'Resumen') {
