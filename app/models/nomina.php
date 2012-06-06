@@ -354,10 +354,12 @@ class Nomina extends AppModel {
             $data[$key]['Asignaciones'] = $asignaciones;
             $data[$key]['Deducciones'] = $deducciones;
             $sueldo = 0;
+            $sueldo_base=0;
             foreach ($programa['Departamento'] as $departamento) {
                 foreach ($nomina_empleado as $empleado) {
                     if ($empleado['Nomina_Empleado']['DEPARTAMENTO'] == $departamento['NOMBRE']) {
                         $sueldo = $sueldo + $empleado['Nomina_Empleado']['SUELDO_BASICO'];
+                        $sueldo_base=$sueldo_base+$empleado['Nomina_Empleado']['SUELDO_BASE'];
                         foreach ($empleado['Nomina_Empleado']['Asignaciones'] as $kk => $asig) {
                             $data[$key]['Asignaciones'][$kk]+=$asig;
                         }
@@ -369,6 +371,7 @@ class Nomina extends AppModel {
             }
             unset($data[$key]['Departamento']);
             $data[$key]['Programa']['TOTAL_SUELDO'] = $sueldo;
+            $data[$key]['Programa']['TOTAL_SUELDO_BASE'] = $sueldo_base;
             $total = 0;
             foreach ($data[$key]['Asignaciones'] as $value) {
                 $total+=$value;
@@ -387,6 +390,7 @@ class Nomina extends AppModel {
             'Programa' => array(
                 'NOMBRE' => 'TOTAL',
                 'TOTAL_SUELDO' => 0,
+                'TOTAL_SUELDO_BASE' => 0,
                 'TOTAL_ASIGNACIONES' => 0,
                 'TOTAL_SUELDO_ASIGNACIONES' => 0,
                 'TOTAL_DEDUCCIONES' => 0,
@@ -402,6 +406,7 @@ class Nomina extends AppModel {
 
         foreach ($data as $value) {
             $temp['Programa']['TOTAL_SUELDO']+=$value['Programa']['TOTAL_SUELDO'];
+            $temp['Programa']['TOTAL_SUELDO_BASE']+=$value['Programa']['TOTAL_SUELDO_BASE'];
             $temp['Programa']['TOTAL_ASIGNACIONES']+=$value['Programa']['TOTAL_ASIGNACIONES'];
             $temp['Programa']['TOTAL_SUELDO_ASIGNACIONES']+=$value['Programa']['TOTAL_SUELDO_ASIGNACIONES'];
             $temp['Programa']['TOTAL_DEDUCCIONES']+=$value['Programa']['TOTAL_DEDUCCIONES'];

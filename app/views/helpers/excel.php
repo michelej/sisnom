@@ -5,7 +5,7 @@ App::import('Vendor', 'PHPExcelWriter', array('file' => 'excel/Classes/PHPExcel/
 
 class ExcelHelper extends AppHelper {
 
-    var $xls;    
+    var $xls;
     var $sheet;
     var $data;
     var $blacklist = array();
@@ -15,66 +15,70 @@ class ExcelHelper extends AppHelper {
     function excelHelper() {
         //$this->xls = new PHPExcel();
         //$this->xls = new PHPExcel_Reader_Excel2007();        
-        $this->xls = new PHPExcel_Reader_Excel5();        
-        
+        $this->xls = new PHPExcel_Reader_Excel5();
+
         //$this->sheet = $this->xls->getActiveSheet();
         //$this->sheet->getDefaultStyle()->getFont()->setName('Arial');
         //$this->sheet->getDefaultStyle()->getFont()->setSize(10);
         //$this->sheet->getPageSetup()->setFitToPage(true);
-        /*$this->sheet->getDefaultStyle()->getAlignment()->applyFromArray(
-                array(
-                    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_JUSTIFY,
-                    'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
-                    'rotation' => 0,
-                    'wrap' => true
-                )
-        );*/
-    }   
-    
-    /*function test() {
-        $objReader = PHPExcel_IOFactory::createReader('Excel5');
-        $objPHPExcel = $objReader->load(getcwd() . '/Template.xls');
-
-        $objPHPExcel->getActiveSheet()->setCellValue('D9', 'PRUEBA');
-
-
-        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-        $objWriter->save('Nomina.xls');
-    }*/
-    
-    function _cargarTemplate(){
-        $path=getcwd();
-        $path=str_replace("app","vendors",$path);
-        $path=str_replace("webroot","excel",$path);        
-        $this->sheet = $this->xls->load($path.'/Template.xls');
+        /* $this->sheet->getDefaultStyle()->getAlignment()->applyFromArray(
+          array(
+          'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_JUSTIFY,
+          'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+          'rotation' => 0,
+          'wrap' => true
+          )
+          ); */
     }
-    
-    function _activeSheet($name){
+
+    /* function test() {
+      $objReader = PHPExcel_IOFactory::createReader('Excel5');
+      $objPHPExcel = $objReader->load(getcwd() . '/Template.xls');
+
+      $objPHPExcel->getActiveSheet()->setCellValue('D9', 'PRUEBA');
+
+
+      $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+      $objWriter->save('Nomina.xls');
+      } */
+
+    function _cargarTemplate() {
+        $path = getcwd();
+        $path = str_replace("app", "vendors", $path);
+        $path = str_replace("webroot", "excel", $path);
+        $this->sheet = $this->xls->load($path . '/Template.xls');
+    }
+
+    function _activeSheet($name) {
         $this->sheet->setActiveSheetIndexByName($name);
     }
-    
-    function _autoFilter($rango){
+
+    function _autoFilter($rango) {
         $this->sheet->getActiveSheet()->setAutoFilter($rango);
-    }    
-    
+    }
+
     function _campo($pos, $title) {
         $this->sheet->getActiveSheet()->setCellValue($pos, $title);
     }
-    
+
     function _output($title) {
         //header('Content-Type: application/vnd.openXMLformats-officedocument.spreadsheetml.sheet'); // Excel2007 
         header("Content-type: application/vnd.ms-excel");        // Excel5
-        header('Content-Disposition: attachment;filename="'.$title.'.xls"'); 
+        header('Content-Disposition: attachment;filename="' . $title . '.xls"');
         header('Cache-Control: max-age=0');
         $objWriter = new PHPExcel_Writer_Excel5($this->sheet);
         $objWriter->setTempDir(TMP);
         $objWriter->save('php://output');
     }
-    
-    function _ocultarColumna($columna){
+
+    function _ocultarColumna($columna) {
         $this->sheet->getActiveSheet()->getColumnDimension($columna)->setVisible(false);
     }
-    
+
+    function _formatoFecha($celda) {        
+        $this->sheet->getActiveSheet()->getStyle($celda)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_DDMMYYYY);        
+    }
+
     //************
 
     function generate(&$data, $title = 'Report') {
@@ -119,8 +123,6 @@ class ExcelHelper extends AppHelper {
             $i++;
         }
     }
-
-    
 
     /**
      *  Centrar el Texto de una Celda
@@ -172,8 +174,6 @@ class ExcelHelper extends AppHelper {
     function _unir($celda) {
         $this->sheet->mergeCells($celda);
     }
-
-    
 
     /**
      * Ancho de fila a una fila completa

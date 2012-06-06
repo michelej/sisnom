@@ -87,7 +87,9 @@ foreach ($data as $empleado) {
     $excel->_campo('I' . $n, $empleado['Actividad o Proyecto']);
     $excel->_campo('J' . $n, $empleado['Salario Diario']);
     $excel->_campo('K' . $n, fechaElegibleNomina($empleado['Desde']));
+    //$excel->_formatoFecha('K' . $n);
     $excel->_campo('L' . $n, fechaElegibleNomina($empleado['Hasta']));
+    //$excel->_formatoFecha('L' . $n);
     $excel->_campo('M' . $n, $empleado['Dias Laborados']);
     $excel->_campo('N' . $n, $empleado['Sub Total Sueldo Basico']);
 
@@ -127,11 +129,52 @@ foreach ($resumen as $value) {
         $tip = strtoupper($value['Programa']['TIPO']);
         $act = $value['Programa']['NUMERO'];
         $excel->_campo("E" . $t, "TOTAL PROGRAMA " . $prg . " " . $tip . " " . $act);
-        $excel->_campo("F".$t,$value['Programa']['TOTAL_SUELDO']);
-        $excel->_campo("H".$t,$prg);
-        $excel->_campo("I".$t,$act);        
-        $excel->_campo("N".$t,$act);
+        $excel->_campo("F" . $t, $value['Programa']['TOTAL_SUELDO_BASE']);
+        $excel->_campo("H" . $t, $prg);
+        $excel->_campo("I" . $t, $act);
+        $excel->_campo("N" . $t, $value['Programa']['TOTAL_SUELDO']);
+
+        $temp = 14 + (8 - $asig);
+        foreach ($value['Asignaciones'] as $as) {
+            $excel->_campo($letras[$temp] . $t, $as);
+            $temp++;
+        }
+
+        $excel->_campo("W" . $t, $value['Programa']['TOTAL_ASIGNACIONES']);
+        $excel->_campo("X" . $t, $value['Programa']['TOTAL_SUELDO_ASIGNACIONES']);
+
+        $temp = 24;
+        foreach ($value['Deducciones'] as $de) {
+            $excel->_campo($letras[$temp] . $t, $de);
+            $temp++;
+        }
+
+        $excel->_campo("AH" . $t, $value['Programa']['TOTAL_DEDUCCIONES']);
+        $excel->_campo("AI" . $t, $value['Programa']['TOTAL_SUELDO_CANCELAR']);
+
         $t++;
+    }else{
+        $excel->_campo("F96", $value['Programa']['TOTAL_SUELDO_BASE']);        
+        $excel->_campo("N96", $value['Programa']['TOTAL_SUELDO']);
+
+        $temp = 14 + (8 - $asig);
+        foreach ($value['Asignaciones'] as $as) {
+            $excel->_campo($letras[$temp] ."96", $as);
+            $temp++;
+        }
+
+        $excel->_campo("W96", $value['Programa']['TOTAL_ASIGNACIONES']);
+        $excel->_campo("X96", $value['Programa']['TOTAL_SUELDO_ASIGNACIONES']);
+
+        $temp = 24;
+        foreach ($value['Deducciones'] as $de) {
+            $excel->_campo($letras[$temp] ."96", $de);
+            $temp++;
+        }
+
+        $excel->_campo("AH96", $value['Programa']['TOTAL_DEDUCCIONES']);
+        $excel->_campo("AI96", $value['Programa']['TOTAL_SUELDO_CANCELAR']);
+        
     }
 }
 

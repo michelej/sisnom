@@ -94,8 +94,8 @@ function fechaElegible($date) {
 function fechaElegibleNomina($date) {
     if ($date == '' || empty($date))
         return '';
-    $meses = array("Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct",
-        "Nov", "Dic"); //Spanish
+    $meses = array("ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct",
+        "nov", "dic"); //Spanish
     /* $meses = array("Jan" , "Feb" , "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", 
       "Nov", "Dec"); */ //English
 
