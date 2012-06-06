@@ -41,18 +41,18 @@ class ExcelHelper extends AppHelper {
         $objWriter->save('Nomina.xls');
     }*/
     
-    function _CargarTemplate(){
+    function _cargarTemplate(){
         $path=getcwd();
         $path=str_replace("app","vendors",$path);
         $path=str_replace("webroot","excel",$path);        
         $this->sheet = $this->xls->load($path.'/Template.xlsx');
     }
     
-    function _ActiveSheet($name){
+    function _activeSheet($name){
         $this->sheet->setActiveSheetIndexByName($name);
     }
     
-    function _AutoFilter($rango){
+    function _autoFilter($rango){
         $this->sheet->getActiveSheet()->setAutoFilter($rango);
     }    
     
@@ -61,15 +61,16 @@ class ExcelHelper extends AppHelper {
     }
     
     function _output($title) {
-        header("Content-type: application/vnd.ms-excel");
-        header('Content-Disposition: attachment;filename="' . $title . '.xlsx"');
+        header('Content-Type: application/vnd.openXMLformats-officedocument.spreadsheetml.sheet'); // Excel2007 
+        //header("Content-type: application/vnd.ms-excel");        // Excel5
+        header('Content-Disposition: attachment;filename="'.$title.'.xlsx"'); 
         header('Cache-Control: max-age=0');
-        $objWriter = new PHPExcel_Writer_Excel5($this->sheet);
-        $objWriter->setTempDir(TMP);
+        $objWriter = new PHPExcel_Writer_Excel2007($this->sheet);
+        //$objWriter->setTempDir(TMP);
         $objWriter->save('php://output');
     }
     
-    function _OcultarColumna($columna){
+    function _ocultarColumna($columna){
         $this->sheet->getActiveSheet()->getColumnDimension($columna)->setVisible(false);
     }
     

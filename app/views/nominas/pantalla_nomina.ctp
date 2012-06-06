@@ -1,6 +1,6 @@
 <div class="box2">
     <div class="content2" >        
-        <table  class="tabla">
+        <table  class="tabla" style="width: 3000px">
             <thead>
                 <tr>
                     <th style="width:2%"></th>

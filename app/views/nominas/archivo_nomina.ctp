@@ -39,8 +39,8 @@ foreach ($empleados as $key => $empleado):
     $data[$key]['Total a Cancelar'] = $empleado['Nomina_Empleado']['TOTAL_SUELDO'];
 endforeach;
 
-$excel->_CargarTemplate();
-$excel->_ActiveSheet("Nomina");
+$excel->_cargarTemplate();
+$excel->_activeSheet("Nomina");
 
 
 $asignaciones = array_keys($empleados['0']['Nomina_Empleado']['Asignaciones']);
@@ -83,7 +83,7 @@ foreach ($data as $empleado) {
     }
     
     for ($index = 14; $index < 14+(8-$asig); $index++) {
-        $excel->OcultarColumna($letras[$index]);
+        $excel->_ocultarColumna($letras[$index]);
     }    
 
     $excel->_campo("W" . $n, $empleado['Total Asignaciones']);
@@ -94,12 +94,16 @@ foreach ($data as $empleado) {
         $excel->_campo($letras[$temp] . $n, $value);
         $temp++;
     }
+    
+    for ($index = 24+$deduc; $index < 24+9; $index++) {
+        $excel->_ocultarColumna($letras[$index]);
+    }
 
     $excel->_campo("AH" . $n, $empleado['Total de Deducciones']);
     $excel->_campo("AI" . $n, $empleado['Total a Cancelar']);
     $n++;
 }
-$rango = 'H15:I81';
-$excel->_AutoFilter($rango);
+$rango = "H15:I15";
+$excel->_autoFilter($rango);
 $excel->_output('Nomina');
 ?>
