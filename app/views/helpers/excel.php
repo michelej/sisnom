@@ -42,11 +42,11 @@ class ExcelHelper extends AppHelper {
       $objWriter->save('Nomina.xls');
       } */
 
-    function _cargarTemplate() {
+    function _cargarTemplate($nombre) {
         $path = getcwd();
         $path = str_replace("app", "vendors", $path);
         $path = str_replace("webroot", "excel", $path);
-        $this->sheet = $this->xls->load($path . '/Template.xls');
+        $this->sheet = $this->xls->load($path . '/' . $nombre);
     }
 
     function _activeSheet($name) {
@@ -75,13 +75,29 @@ class ExcelHelper extends AppHelper {
         $this->sheet->getActiveSheet()->getColumnDimension($columna)->setVisible(false);
     }
 
-    function _formatoFecha($celda) {        
-        $this->sheet->getActiveSheet()->getStyle($celda)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_DDMMYYYY);        
+    function _ocultarFila($fila) {
+        $this->sheet->getActiveSheet()->getRowDimension($fila)->setVisible(false);
     }
-    
-    function _fechaExcel($celda,$fecha){        
+
+    function _formatoFecha($celda) {
+        $this->sheet->getActiveSheet()->getStyle($celda)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_DDMMYYYY);
+    }
+
+    function _fechaExcel($celda, $fecha) {
         $fecha = PHPExcel_Shared_Date::stringToExcel($fecha);
-        $this->sheet->getActiveSheet()->setCellValue($celda, $fecha);        
+        $this->sheet->getActiveSheet()->setCellValue($celda, $fecha);
+    }
+
+    function _groupBold($celdas) {
+        //$this->sheet->getActiveSheet()->getStyle($celda)->getFont()->setBold(true);
+        $styleArray = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 15
+            )
+        );
+        $this->sheet->getActiveSheet()->getStyle($celdas)->applyFromArray($styleArray);
+        unset($styleArray);
     }
 
     //************

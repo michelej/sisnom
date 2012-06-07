@@ -40,7 +40,7 @@ foreach ($empleados as $key => $empleado):
 endforeach;
 
 //--------------------------------------------------------------
-$excel->_cargarTemplate();
+$excel->_cargarTemplate("Template_Nomina.xls");
 $excel->_activeSheet("Nomina");
 //-------------------------------------------------------------
 $text = "NOMINA CORRESPONDIENTE A LA " . strtoupper($nomina['Nomina']['QUINCENA']) . " QUINCENA DEL MES DE " . strtoupper($nomina['Nomina']['MES'] . " " . $nomina['Nomina']['AÑO']);
@@ -175,14 +175,6 @@ foreach ($resumen as $value) {
         
     }
 }
-
-
-
-
-
-
-
-
 // $excel->_autoFilter("H15:I15"); NO FUNCIONA PARA Excel5 .XLS solo 2007
 $excel->_output('Nomina');
 ?>
