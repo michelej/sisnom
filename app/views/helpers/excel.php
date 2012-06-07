@@ -78,6 +78,11 @@ class ExcelHelper extends AppHelper {
     function _formatoFecha($celda) {        
         $this->sheet->getActiveSheet()->getStyle($celda)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_DDMMYYYY);        
     }
+    
+    function _fechaExcel($celda,$fecha){        
+        $fecha = PHPExcel_Shared_Date::stringToExcel($fecha);
+        $this->sheet->getActiveSheet()->setCellValue($celda, $fecha);        
+    }
 
     //************
 

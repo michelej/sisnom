@@ -39,9 +39,9 @@ foreach ($empleados as $key => $empleado):
     $data[$key]['Total a Cancelar'] = $empleado['Nomina_Empleado']['TOTAL_SUELDO'];
 endforeach;
 
+//--------------------------------------------------------------
 $excel->_cargarTemplate();
 $excel->_activeSheet("Nomina");
-
 //-------------------------------------------------------------
 $text = "NOMINA CORRESPONDIENTE A LA " . strtoupper($nomina['Nomina']['QUINCENA']) . " QUINCENA DEL MES DE " . strtoupper($nomina['Nomina']['MES'] . " " . $nomina['Nomina']['AÑO']);
 $text = $text . " (DEL " . $nomina['Nomina']['FECHA_INI'] . " AL " . $nomina['Nomina']['FECHA_FIN'] . ")";
@@ -53,8 +53,8 @@ $excel->_campo("B8", $text);
 $excel->_campo("U12", "15"); // DIAS 15
 $excel->_campo("S13", "2");  // SEMANAS DE LA QUINCENA 2
 
-$excel->_campo("W12", $nomina['Nomina']['FECHA_INI']);
-$excel->_campo("W13", $nomina['Nomina']['FECHA_FIN']);
+$excel->_fechaExcel("W12", $nomina['Nomina']['FECHA_INI']);
+$excel->_fechaExcel("W13", $nomina['Nomina']['FECHA_FIN']);
 $excel->_campo("U13", $info_extra['Quincena']);
 
 //------------------------------------------------------
@@ -85,11 +85,9 @@ foreach ($data as $empleado) {
     $excel->_campo('G' . $n, $empleado['Fecha de Ingreso']);
     $excel->_campo('H' . $n, $empleado['Programa']);
     $excel->_campo('I' . $n, $empleado['Actividad o Proyecto']);
-    $excel->_campo('J' . $n, $empleado['Salario Diario']);
-    $excel->_campo('K' . $n, fechaElegibleNomina($empleado['Desde']));
-    //$excel->_formatoFecha('K' . $n);
-    $excel->_campo('L' . $n, fechaElegibleNomina($empleado['Hasta']));
-    //$excel->_formatoFecha('L' . $n);
+    $excel->_campo('J' . $n, $empleado['Salario Diario']);    
+    $excel->_fechaExcel('K' . $n, $empleado['Desde']);            
+    $excel->_fechaExcel('L' . $n, $empleado['Hasta']);    
     $excel->_campo('M' . $n, $empleado['Dias Laborados']);
     $excel->_campo('N' . $n, $empleado['Sub Total Sueldo Basico']);
 
