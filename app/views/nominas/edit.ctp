@@ -80,7 +80,7 @@
             echo "</div>";
 
             echo "<div style='float:left;width:30%;'>";
-            $options = array('Nomina' => 'Nomina', 'Resumen' => 'Resumen');
+            $options = array('Nomina' => 'Nomina', 'Resumen' => 'Resumen','Completo'=>'Completo');
             echo $this->Form->input('TIPO', array('div' => false, 'label' => 'Tipo', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
             echo "</div>";
 
@@ -103,7 +103,7 @@
             </div> 
             <div class="boton">
                 <?php echo $this->Html->link('Generar Nomina', array(), array('id' => 'opener')); ?>
-            </div>
+            </div>            
             <div class="boton">
                 <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
             </div> 
