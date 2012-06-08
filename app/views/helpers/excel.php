@@ -41,11 +41,15 @@ class ExcelHelper extends AppHelper {
       $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
       $objWriter->save('Nomina.xls');
       } */
-        
-        
-    function _addSheet($sheet){
-        $this->xls->sheet->addExternalSheet($sheet);
+    
+    function _reiniciar(){
+        $this->xls = new PHPExcel_Reader_Excel5();
+        $this->sheet=null;
     }
+                
+    function _addExternalSheet($sheet){
+        $this->sheet->addExternalSheet($sheet);
+    }        
                 
     function _cargarTemplate($nombre) {
         $path = getcwd();
