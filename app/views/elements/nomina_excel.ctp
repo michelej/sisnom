@@ -45,7 +45,6 @@ foreach ($empleados as $key => $empleado):
 endforeach;
 
 //--------------------------------------------------------------
-$excel->_cargarTemplate("Template_Nomina.xls");
 $excel->_activeSheet("Nomina");
 //-------------------------------------------------------------
 $text = "NOMINA CORRESPONDIENTE A LA " . strtoupper($nomina['Nomina']['QUINCENA']) . " QUINCENA DEL MES DE " . strtoupper($nomina['Nomina']['MES'] . " " . $nomina['Nomina']['AÑO']);

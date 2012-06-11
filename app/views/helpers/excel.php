@@ -30,27 +30,7 @@ class ExcelHelper extends AppHelper {
           )
           ); */
     }
-
-    /* function test() {
-      $objReader = PHPExcel_IOFactory::createReader('Excel5');
-      $objPHPExcel = $objReader->load(getcwd() . '/Template.xls');
-
-      $objPHPExcel->getActiveSheet()->setCellValue('D9', 'PRUEBA');
-
-
-      $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-      $objWriter->save('Nomina.xls');
-      } */
-    
-    function _reiniciar(){
-        $this->xls = new PHPExcel_Reader_Excel5();
-        $this->sheet=null;
-    }
-                
-    function _addExternalSheet($sheet){
-        $this->sheet->addExternalSheet($sheet);
-    }        
-                
+                    
     function _cargarTemplate($nombre) {
         $path = getcwd();
         $path = str_replace("app", "vendors", $path);
@@ -95,6 +75,10 @@ class ExcelHelper extends AppHelper {
     function _fechaExcel($celda, $fecha) {
         $fecha = PHPExcel_Shared_Date::stringToExcel($fecha);
         $this->sheet->getActiveSheet()->setCellValue($celda, $fecha);
+    }
+    
+    function _removeSheet($index){
+        $this->sheet->removeSheetByIndex($index);
     }
 
     function _groupBold($celdas) {
