@@ -4,7 +4,6 @@
 $limite_asignaciones=8;
 $limite_deducciones=9;
 
-
 $letras = array('0' => 'A', '1' => 'B', '2' => 'C', '3' => 'D', '4' => 'E', '5' => 'F', '6' => 'G', '7' => 'H', '8' => 'I',
     '9' => 'J', '10' => 'K', '11' => 'L', '12' => 'M', '13' => 'N', '14' => 'O', '15' => 'P', '16' => 'Q',
     '17' => 'R', '18' => 'S', '19' => 'T', '20' => 'U', '21' => 'V', '22' => 'W', '23' => 'X', '24' => 'Y',
@@ -82,7 +81,8 @@ foreach ($deducciones as $deduccion) {
 }
 
 $n = 16;
-foreach ($data as $empleado) {
+foreach ($data as $empleado) {            
+    $excel->_campoString('A' . $n, sprintf("%04d", (string)$empleado['N']));
     $excel->_campo('B' . $n, $empleado['N']);
     $excel->_campo('C' . $n, $empleado['Nombres y Apellidos']);
     $excel->_campo('D' . $n, $empleado['Cedula de Identidad']);

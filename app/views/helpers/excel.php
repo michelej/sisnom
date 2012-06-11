@@ -49,6 +49,10 @@ class ExcelHelper extends AppHelper {
     function _campo($pos, $title) {
         $this->sheet->getActiveSheet()->setCellValue($pos, $title);
     }
+            
+    function _campoString($pos,$title){
+        $this->sheet->getActiveSheet()->setCellValueExplicit($pos, $title, PHPExcel_Cell_DataType::TYPE_STRING);
+    }
 
     function _output($title) {
         //header('Content-Type: application/vnd.openXMLformats-officedocument.spreadsheetml.sheet'); // Excel2007 
@@ -56,10 +60,10 @@ class ExcelHelper extends AppHelper {
         header('Content-Disposition: attachment;filename="' . $title . '.xls"');
         header('Cache-Control: max-age=0');
         $objWriter = new PHPExcel_Writer_Excel5($this->sheet);
-        $objWriter->setTempDir(TMP);
+        $objWriter->setTempDir(TMP);        
         $objWriter->save('php://output');
     }
-
+        
     function _ocultarColumna($columna) {
         $this->sheet->getActiveSheet()->getColumnDimension($columna)->setVisible(false);
     }

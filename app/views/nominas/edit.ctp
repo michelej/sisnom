@@ -80,7 +80,7 @@
             echo "</div>";
 
             echo "<div style='float:left;width:30%;'>";
-            $options = array('Nomina' => 'Nomina', 'Resumen' => 'Resumen','Completo'=>'Completo');
+            $options = array('Nomina' => 'Nomina', 'Resumen' => 'Resumen de Nomina','Recibo'=>'Recibo de Pago','Completo'=>'Completo');
             echo $this->Form->input('TIPO', array('div' => false, 'label' => 'Tipo', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
             echo "</div>";
 

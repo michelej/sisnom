@@ -161,6 +161,10 @@ class NominasController extends AppController {
                     $this->set(compact('resumen','grupo','modalidad'));                    
                     $this->render('archivo_resumen', 'nominaExcel');
                 }
+                if ($this->data['TIPO'] == 'Recibo') {
+                    $this->set(compact('empleados','nomina','grupo','modalidad','info_extra','resumen'));                    
+                    $this->render('archivo_recibo', 'nominaExcel');
+                }
                 if ($this->data['TIPO'] == 'Completo') {
                     $this->set(compact('empleados','nomina','grupo','modalidad','info_extra','resumen'));
                     $this->render('archivo_completo', 'nominaExcel');
