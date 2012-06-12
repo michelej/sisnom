@@ -55,7 +55,7 @@ foreach ($deducciones as $deduccion) {
 
 // TOTAL DEDUCCIONES
 $marca_fila=$marca_fila+($limite_deducciones-$deduc);
-$formula='=VLOOKUP(G5,Nomina!$A$16:$AI$94,'.$marca_fila.')';        
+$formula='=VLOOKUP(G5,Nomina!$A$16:$AI$94,'.$marca_fila.')*(-1)';        
 //debug($formula);
 $excel->_campo('G' . ($marca-1),$formula);    
 
