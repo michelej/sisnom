@@ -74,13 +74,13 @@
             <?php
             echo $this->Form->create(false, array('target' => '_blank', 'url' => array('controller' => 'nominas', 'action' => 'mostrar')));
             echo "<div style='float:left;width:30%;'>";
-            $options = array('1' => 'Fijo   -   Empleado', '2' => 'Fijo   -   Obrero', '3' => 'Contratado  -  Empleado y Obrero');
+            $options = array('1' => 'Empleado - Fijo', '2' => 'Obrero - Fijo', '3' => 'Contratado');
             echo $this->Form->input('nomina_id', array('type' => 'hidden', 'value' => $nomina['Nomina']['id']));
             echo $this->Form->input('PERSONAL', array('div' => false, 'label' => 'Personal', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
             echo "</div>";
 
             echo "<div style='float:left;width:30%;'>";
-            $options = array('Nomina' => 'Nomina', 'Resumen' => 'Resumen de Nomina','Recibo'=>'Recibo de Pago','Completo'=>'Completo');
+            $options = array('Nomina' => 'Nomina', 'Resumen' => 'Resumen de Nomina','Completo'=>'Completo');
             echo $this->Form->input('TIPO', array('div' => false, 'label' => 'Tipo', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
             echo "</div>";
 

@@ -73,10 +73,10 @@ class Asignacion extends AppModel {
      * @return array 
      */
     function calcularAsignaciones($nomina_empleado) {        
-        $grupo=$nomina_empleado['GRUPO'];
+        $grupo=$nomina_empleado['GRUPO'];        
         
         if($nomina_empleado['MODALIDAD']=='Contratado'){
-            $grupo='Todos';
+            $grupo='Contratados';
         }
         
         $data = $this->ordenDeAsignaciones($grupo);                
@@ -424,8 +424,8 @@ class Asignacion extends AppModel {
         if ($tipo == 'Obrero') {
             $orden = array('7', '8', '1', '3', '4', '5');
         }
-        if ($tipo == 'Todos') {
-            $orden = array('7', '8', '1', '2', '3', '4', '5', '6');
+        if ($tipo == 'Contratados') {
+            $orden = array('7', '8');
         }
         foreach ($orden as $value) {
             $resultado[] = $this->constante[$value];

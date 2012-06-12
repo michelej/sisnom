@@ -18,6 +18,21 @@ $data = array();
 $excel->_activeSheet("Resumen");
 //-------------------------------------------------------------
 
+
+if ($modalidad == 'Contratado') {
+    $text = "RESUMEN DE NOMINA DEL PERSONAL " . strtoupper($modalidad);
+    $excel->_campo("A9", $text);
+} else {
+    $text = "RESUMEN DE NOMINA DEL PERSONAL " . strtoupper($grupo) . " " . strtoupper($modalidad);
+    $excel->_campo("A9", $text);
+}
+
+$text = "CORRESPONDIENTE A LA " . strtoupper($nomina['Nomina']['QUINCENA']) . " QUINCENA DEL MES DE " . strtoupper($nomina['Nomina']['MES'] . " " . $nomina['Nomina']['AÑO']);
+$excel->_campo("A10", $text);
+$text = " DEL " . $nomina['Nomina']['FECHA_INI'] . " AL " . $nomina['Nomina']['FECHA_FIN'];
+$excel->_campo("A11", $text);
+
+
 if ($grupo == 'Empleado') {
     $excel->_campo("B14", "Sueldo Básicos a personal Fijo a tiempo completo");
     $excel->_campo("B15", "Partida: 4.01.01.01.00");

@@ -199,10 +199,15 @@ class Nomina extends AppModel {
             $empleados[$key]['Nomina_Empleado']['INGRESO'] = $empleado['Empleado']['INGRESO'];
             $empleados[$key]['Nomina_Empleado']['SUELDO_MINIMO'] = $sueldo_minimo;
             $empleados[$key]['Nomina_Empleado']['DIAS_HABILES'] = $this->nominaDiasHabiles($id);
-            $empleados[$key]['Nomina_Empleado']['CARGO'] = $empleado['Cargo']['NOMBRE'];
             $empleados[$key]['Nomina_Empleado']['DEPARTAMENTO'] = $empleado['Departamento']['NOMBRE'];
             $empleados[$key]['Nomina_Empleado']['MODALIDAD'] = $empleado['Contrato']['MODALIDAD'];
             $empleados[$key]['Nomina_Empleado']['GRUPO'] = $empleado['Empleado']['Grupo']['NOMBRE'];
+            if($empleados[$key]['Nomina_Empleado']['MODALIDAD']=='Contratado'){
+                $empleados[$key]['Nomina_Empleado']['CARGO'] = 'CONTRATADO';
+            }else{
+                $empleados[$key]['Nomina_Empleado']['CARGO'] = $empleado['Cargo']['NOMBRE'];
+            }            
+            
             // -- DIAS LABORADOS --
             if (check_in_range($fecha_ini, $fecha_fin, $empleado['Contrato']['FECHA_FIN'])) {
                 $dias = numeroDeDias($fecha_ini, $empleado['Contrato']['FECHA_FIN']);

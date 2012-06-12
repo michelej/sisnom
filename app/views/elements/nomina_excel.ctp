@@ -1,8 +1,8 @@
 <?php
 
 // Limites que se encuentran en el template usados a la hora de ocultar las filas o columnas en blanco
-$limite_asignaciones=8;
-$limite_deducciones=9;
+$limite_asignaciones = 8;
+$limite_deducciones = 9;
 
 $letras = array('0' => 'A', '1' => 'B', '2' => 'C', '3' => 'D', '4' => 'E', '5' => 'F', '6' => 'G', '7' => 'H', '8' => 'I',
     '9' => 'J', '10' => 'K', '11' => 'L', '12' => 'M', '13' => 'N', '14' => 'O', '15' => 'P', '16' => 'Q',
@@ -50,19 +50,24 @@ $text = "NOMINA CORRESPONDIENTE A LA " . strtoupper($nomina['Nomina']['QUINCENA'
 $text = $text . " (DEL " . $nomina['Nomina']['FECHA_INI'] . " AL " . $nomina['Nomina']['FECHA_FIN'] . ")";
 $excel->_campo("B6", $text);
 
-$text = "PERSONAL " . strtoupper($grupo) . " " . strtoupper($modalidad);
-$excel->_campo("B8", $text);
+if ($modalidad == 'Contratado') {
+    $text = "PERSONAL " . strtoupper($modalidad);
+    $excel->_campo("B8", $text);
+} else {
+    $text = "PERSONAL " . strtoupper($grupo) . " " . strtoupper($modalidad);
+    $excel->_campo("B8", $text);
+}
+
 
 //--------------------------------------------------------
 // 
-$excel->_campo("U12", "15"); // DIAS 15
-$excel->_campo("S13", "2");  // SEMANAS DE LA QUINCENA 2
+$excel->_campo("W12", "15"); // DIAS 15
+$excel->_campo("N13", "2");  // SEMANAS DE LA QUINCENA 2
 
-$excel->_fechaExcel("W12", $nomina['Nomina']['FECHA_INI']);
-$excel->_fechaExcel("W13", $nomina['Nomina']['FECHA_FIN']);
-$excel->_campo("U13", $info_extra['Quincena']);
+$excel->_fechaExcel("Y12", $nomina['Nomina']['FECHA_INI']);
+$excel->_fechaExcel("Y13", $nomina['Nomina']['FECHA_FIN']);
+$excel->_campo("W13", $info_extra['Quincena']);
 //--------------------------------------------------------
-
 //------------------------------------------------------
 $asignaciones = array_keys($empleados['0']['Nomina_Empleado']['Asignaciones']);
 $asig = count($asignaciones);
@@ -74,15 +79,15 @@ foreach ($asignaciones as $asignacion) {
 
 $deducciones = array_keys($empleados['0']['Nomina_Empleado']['Deducciones']);
 $deduc = count($deducciones);
-$marca = $marca+2;
+$marca = $marca + 2;
 foreach ($deducciones as $deduccion) {
     $excel->_campo($letras[$marca] . '15', $deduccion);
     $marca++;
 }
 
 $n = 16;
-foreach ($data as $empleado) {            
-    $excel->_campoString('A' . $n, sprintf("%04d", (string)$empleado['N']));
+foreach ($data as $empleado) {
+    $excel->_campoString('A' . $n, sprintf("%04d", (string) $empleado['N']));
     $excel->_campo('B' . $n, $empleado['N']);
     $excel->_campo('C' . $n, $empleado['Nombres y Apellidos']);
     $excel->_campo('D' . $n, $empleado['Cedula de Identidad']);
@@ -91,9 +96,9 @@ foreach ($data as $empleado) {
     $excel->_campo('G' . $n, $empleado['Fecha de Ingreso']);
     $excel->_campo('H' . $n, $empleado['Programa']);
     $excel->_campo('I' . $n, $empleado['Actividad o Proyecto']);
-    $excel->_campo('J' . $n, $empleado['Salario Diario']);    
-    $excel->_fechaExcel('K' . $n, $empleado['Desde']);            
-    $excel->_fechaExcel('L' . $n, $empleado['Hasta']);    
+    $excel->_campo('J' . $n, $empleado['Salario Diario']);
+    $excel->_fechaExcel('K' . $n, $empleado['Desde']);
+    $excel->_fechaExcel('L' . $n, $empleado['Hasta']);
     $excel->_campo('M' . $n, $empleado['Dias Laborados']);
     $excel->_campo('N' . $n, $empleado['Sub Total Sueldo Basico']);
 
@@ -106,13 +111,13 @@ foreach ($data as $empleado) {
     for ($index = 14; $index < 14 + ($limite_asignaciones - $asig); $index++) {
         $excel->_ocultarColumna($letras[$index]);
     }
-    
+
     $excel->_campo($letras[$temp] . $n, $empleado['Total Asignaciones']);
     $temp++;
     $excel->_campo($letras[$temp] . $n, $empleado['Total Sueldo + Asignaciones']);
     $temp++;
-    
-    $limi=$temp;
+
+    $limi = $temp;
     foreach ($empleado['Deducciones'] as $value) {
         $excel->_campo($letras[$temp] . $n, $value);
         $temp++;
@@ -121,7 +126,7 @@ foreach ($data as $empleado) {
     for ($index = $limi + $deduc; $index < $limi + $limite_deducciones; $index++) {
         $excel->_ocultarColumna($letras[$index]);
     }
-    $temp=$temp+($limite_deducciones-$deduc);
+    $temp = $temp + ($limite_deducciones - $deduc);
     $excel->_campo($letras[$temp] . $n, $empleado['Total de Deducciones']);
     $temp++;
     $excel->_campo($letras[$temp] . $n, $empleado['Total a Cancelar']);
@@ -151,40 +156,40 @@ foreach ($resumen as $value) {
         $temp++;
         $excel->_campo($letras[$temp] . $t, $value['Programa']['TOTAL_SUELDO_ASIGNACIONES']);
         $temp++;
-        
+
         foreach ($value['Deducciones'] as $de) {
             $excel->_campo($letras[$temp] . $t, $de);
             $temp++;
         }
-        $temp=$temp+($limite_deducciones-$deduc);
+        $temp = $temp + ($limite_deducciones - $deduc);
         $excel->_campo($letras[$temp] . $t, $value['Programa']['TOTAL_DEDUCCIONES']);
         $temp++;
-        $excel->_campo($letras[$temp] . $t, $value['Programa']['TOTAL_SUELDO_CANCELAR']);        
+        $excel->_campo($letras[$temp] . $t, $value['Programa']['TOTAL_SUELDO_CANCELAR']);
 
         $t++;
-    }else{
-        $excel->_campo("F96", $value['Programa']['TOTAL_SUELDO_BASE']);        
+    } else {
+        $excel->_campo("F96", $value['Programa']['TOTAL_SUELDO_BASE']);
         $excel->_campo("N96", $value['Programa']['TOTAL_SUELDO']);
 
         $temp = 14 + ($limite_asignaciones - $asig);
         foreach ($value['Asignaciones'] as $as) {
-            $excel->_campo($letras[$temp] ."96", $as);
+            $excel->_campo($letras[$temp] . "96", $as);
             $temp++;
         }
 
-        $excel->_campo($letras[$temp]."96", $value['Programa']['TOTAL_ASIGNACIONES']);
+        $excel->_campo($letras[$temp] . "96", $value['Programa']['TOTAL_ASIGNACIONES']);
         $temp++;
-        $excel->_campo($letras[$temp]."96", $value['Programa']['TOTAL_SUELDO_ASIGNACIONES']);
+        $excel->_campo($letras[$temp] . "96", $value['Programa']['TOTAL_SUELDO_ASIGNACIONES']);
         $temp++;
-        
+
         foreach ($value['Deducciones'] as $de) {
-            $excel->_campo($letras[$temp] ."96", $de);
+            $excel->_campo($letras[$temp] . "96", $de);
             $temp++;
         }
-        $temp=$temp+($limite_deducciones-$deduc);
-        $excel->_campo($letras[$temp]."96", $value['Programa']['TOTAL_DEDUCCIONES']);
+        $temp = $temp + ($limite_deducciones - $deduc);
+        $excel->_campo($letras[$temp] . "96", $value['Programa']['TOTAL_DEDUCCIONES']);
         $temp++;
-        $excel->_campo($letras[$temp]."96", $value['Programa']['TOTAL_SUELDO_CANCELAR']);        
+        $excel->_campo($letras[$temp] . "96", $value['Programa']['TOTAL_SUELDO_CANCELAR']);
     }
 }
 // $excel->_autoFilter("H15:I15"); NO FUNCIONA PARA Excel5 .XLS solo 2007
