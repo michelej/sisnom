@@ -25,6 +25,18 @@
         echo $this->Form->input('CESTATICKET_AÑO', array('div' => false, 'label' => false, 'class' => 'small'));
         echo "</div>";
         echo "</div>";                       
+        
+        echo "<div class='row'>";
+        echo "<div style='float:left;width:30%;'>";
+        echo $this->Form->label('Valor Diario');
+        echo $this->Form->input('VALOR_DIARIO', array('div' => false, 'label' => false, 'class' => 'small'));
+        echo "</div>";
+        
+        echo "<div style='float:left;width:30%;'>";
+        echo $this->Form->label('Sueldo Minimo');
+        echo $this->Form->input('SUELDO_MINIMO', array('div' => false, 'label' => false, 'class' => 'small'));
+        echo "</div>";
+        echo "</div>";           
         ?>
     </div>    
 </div>

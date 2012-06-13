@@ -26,11 +26,13 @@
             <thead>
                 <tr>
                     <th></th>  
-                    <th style="width:15%;"><?php echo $this->Paginator->sort('Mes', 'FECHA_INI'); ?></th>
-                    <th style="width:15%;">Año</th>                    
-                    <th style="width:20%;"><?php echo $this->Paginator->sort('Fecha Inicio', 'FECHA_INI'); ?></th>
-                    <th style="width:20%;"><?php echo $this->Paginator->sort('Fecha Fin', 'FECHA_FIN'); ?></th>                    
-                    <th style="width:15%;"><?php echo $this->Paginator->sort('Fecha de Elaboracion', 'FECHA_ELE'); ?></th>                    
+                    <th style="width:10%;"><?php echo $this->Paginator->sort('Mes', 'FECHA_INI'); ?></th>
+                    <th style="width:10%;">Año</th>                    
+                    <th style="width:10%;"><?php echo $this->Paginator->sort('Fecha Inicio', 'FECHA_INI'); ?></th>
+                    <th style="width:10%;"><?php echo $this->Paginator->sort('Fecha Fin', 'FECHA_FIN'); ?></th>                    
+                    <th style="width:20%;"><?php echo $this->Paginator->sort('Fecha de Elaboracion', 'FECHA_ELE'); ?></th>
+                    <th style="width:10%;"><?php echo $this->Paginator->sort('Valor Diario', 'VALOR_DIARIO'); ?></th>
+                    <th style="width:20%;"><?php echo $this->Paginator->sort('Sueldo Minimo', 'SUELDO_MINIMO'); ?></th>
                     <th style="width:15%; text-align: center"class="actions">Acciones</th>
                 </tr>
             </thead>
@@ -49,7 +51,9 @@
                         <td><?php echo $cestaticket['Cestaticket']['AÑO']; ?></td>                        
                         <td><?php echo fechaElegible($cestaticket['Cestaticket']['FECHA_INI']); ?></td>
                         <td><?php echo fechaElegible($cestaticket['Cestaticket']['FECHA_FIN']); ?></td>                                                
-                        <td><?php echo fechaElegible($cestaticket['Cestaticket']['FECHA_ELA']); ?></td>                        
+                        <td><?php echo fechaElegible($cestaticket['Cestaticket']['FECHA_ELA']); ?></td>
+                        <td><?php echo number_format($cestaticket['Cestaticket']['VALOR_DIARIO'], 2, ',', '.'); ?></td>                        
+                        <td><?php echo number_format($cestaticket['Cestaticket']['SUELDO_MINIMO'], 2, ',', '.'); ?></td>
                         <td class="actions">
                             <?php                            
                             echo $this->Html->image("Button White Info.png", array("alt" => "modificar", 'width' => '18', 'heigth' => '18', 'title' => 'Cestaticket', 'url' => array('action' => 'edit', $cestaticket['Cestaticket']['id'])));                            
@@ -85,7 +89,7 @@
     <div class="content form">
         <div class="row boton">
             <div class="boton">
-                <?php echo $this->Html->link('Nueva Nomina de Cestatickets', array('action' => 'add')); ?>
+                <?php echo $this->Html->link('Nueva Nomina', array('action' => 'add')); ?>
             </div>
         </div>
     </div>

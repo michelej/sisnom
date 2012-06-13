@@ -7,9 +7,23 @@ class Cestaticket extends AppModel {
     var $actsAs = array('ExtendAssociations', 'Containable');
 
     /**
+     *  Validaciones
+     */
+    var $validate = array(
+        'VALOR_DIARIO' => array(
+            'rule' => array('decimal'),
+            'message' => 'Valor Diario Invalido ( ejm: 45.00)',
+        ),
+        'SUELDO_MINIMO' => array(
+            'rule' => array('decimal'),
+            'message' => 'Sueldo Minimo Invalido ( ejm: 1500.00)',
+        ),
+    );
+
+    /**
      *  Relaciones
      */
-    var $hasAndBelongsToMany = 'Empleado';
+    var $hasMany = 'DetalleCestaticket';
 
     function beforeSave() {
         // Cuando esto existe es porque viene del ADD es un nuevo registro
@@ -53,12 +67,12 @@ class Cestaticket extends AppModel {
 
         return true;
     }
+
     /**
      *
      * @param type $results
      * @return type 
      */
-
     function afterFind($results) {
         foreach ($results as $key => $val) {
 
@@ -76,34 +90,34 @@ class Cestaticket extends AppModel {
         }
         return $results;
     }
+
     /**
      *
      * @param type $date
      * @return string 
      */
-
     function getMes($date) {
         $meses = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre",
             "Noviembre", "Diciembre");
         list($dia, $mes, $anio) = preg_split('/-/', $date);
         return $meses[((int) $mes) - 1];
     }
+
     /**
      *
      * @param type $date
      * @return type 
      */
-
     function getAño($date) {
         list($dia, $mes, $anio) = preg_split('/-/', $date);
         return $anio;
     }
+
     /**
      *
      * @param type $data
      * @return boolean 
      */
-
     function existe($data) {
         $conditions['FECHA_INI'] = $data['FECHA_INI'];
         $conditions['FECHA_FIN'] = $data['FECHA_FIN'];
@@ -122,25 +136,26 @@ class Cestaticket extends AppModel {
      * @param type $id 
      */
     function generarCestaticket($id) {
-        $cestaticket = $this->find('first', array(
-            'recursive' => -1,
-            'conditions' => array(
-                'id' => $id),
-            'fields' => array(
-                'FECHA_INI',
-                'FECHA_FIN')
-                ));
-        // Buscamos los contratos que se encontraban activos en esa fecha
-        $contrato = ClassRegistry::init('Contrato');
-        $listado_contratos = $contrato->buscarContratosPorFecha($cestaticket['Cestaticket']['FECHA_INI'], $cestaticket['Cestaticket']['FECHA_FIN']);
-        foreach ($listado_contratos as $contrato) {
-            $empleados[] = $contrato['Contrato']['empleado_id'];
-        }
-        if (!empty($empleados)) {
-            $this->habtmDeleteAll('Empleado', $id);
-            $this->habtmAdd('Empleado', $id, $empleados);
+        $this->DetalleCestaticket->deleteAll(array(
+            'cestaticket_id' => $id
+        ));
+
+        $empleados = $this->calcularCestaticket($id);
+        foreach ($empleados as $empleado) {
+            $data['CARGO'] = $empleado['Cestaticket_Empleado']['CARGO'];
+            $data['DEPARTAMENTO'] = $empleado['Cestaticket_Empleado']['DEPARTAMENTO'];
+            $data['MODALIDAD'] = $empleado['Cestaticket_Empleado']['MODALIDAD'];
+            $data['DIAS_LABORADOS'] = $empleado['Cestaticket_Empleado']['DIAS_LABORADOS'];            
+            $data['DIAS_ADICIONALES'] = 0;
+            $data['DIAS_DESCONTAR'] = $empleado['Cestaticket_Empleado']['DIAS_DESCONTAR'];
+            $data['TOTAL'] = $empleado['Cestaticket_Empleado']['MONTO'];
+            $data['empleado_id'] = $empleado['Cestaticket_Empleado']['ID_EMPLEADO'];
+            $data['cestaticket_id'] = $empleado['Cestaticket_Empleado']['ID_CESTATICKET'];
+            $this->DetalleCestaticket->create();
+            $this->DetalleCestaticket->save($data);
         }
     }
+
     /**
      *
      * @param type $id
@@ -148,9 +163,8 @@ class Cestaticket extends AppModel {
      * @param type $modalidad
      * @return type 
      */
-
-    function calcularCestaticket($id, $grupo, $modalidad) {
-        $empleados = $this->buscarInformacionEmpleados($id, $grupo, $modalidad);
+    function calcularCestaticket($id) {
+        $empleados = $this->buscarInformacionEmpleados($id);
 
         if ($this->verificarSueldos($empleados)) {
             $this->errorMessage = "No existe suficiente informacion para generar esta Nomina <br/>
@@ -168,23 +182,11 @@ class Cestaticket extends AppModel {
         $fecha_ini = formatoFechaBeforeSave($cestaticket['Cestaticket']['FECHA_INI']);
         $fecha_fin = formatoFechaBeforeSave($cestaticket['Cestaticket']['FECHA_FIN']);
 
-        $sueldo_minimo = $this->verificarSueldoMinimo($fecha_ini, $fecha_fin);
-        if (empty($sueldo_minimo)) {
-            $this->errorMessage = "No existe suficiente informacion para generar esta Nomina <br/>
-                - Verifique que exista un Sueldo Minimo definido para este periodo";
-            return array();
-        }
-        
-        $unidad_tributaria = $this->verificarUnidadTributaria($fecha_ini, $fecha_fin);
-        if (empty($unidad_tributaria)) {
-            $this->errorMessage = "No existe suficiente informacion para generar esta Nomina <br/>
-                - Verifique que exista el valor de la Unidad Tributaria definido para este periodo";
-            return array();
-        }
-        
-        $cestaticket_dia=$unidad_tributaria*0.5;
+        $cestaticket_dia = $cestaticket['Cestaticket']['VALOR_DIARIO'];
+        $sueldo_minimo = $cestaticket['Cestaticket']['SUELDO_MINIMO'];        
 
         foreach ($empleados as $key => $empleado) {
+            $dias = 22; // OJO ??????
             $empleados[$key]['Cestaticket_Empleado']['Empleado'] = $empleado['Empleado'];
             $empleados[$key]['Cestaticket_Empleado']['ID_CESTATICKET'] = $id;
             $empleados[$key]['Cestaticket_Empleado']['FECHA_INI'] = $fecha_ini;
@@ -196,23 +198,36 @@ class Cestaticket extends AppModel {
             $empleados[$key]['Cestaticket_Empleado']['INGRESO'] = $empleado['Empleado']['INGRESO'];
             $empleados[$key]['Cestaticket_Empleado']['SUELDO_BASE'] = $empleado['Cargo']['Historial']['0']['SUELDO_BASE'];
             $empleados[$key]['Cestaticket_Empleado']['SUELDO_MINIMO'] = $sueldo_minimo;
-            $empleados[$key]['Cestaticket_Empleado']['UNIDAD_TRIBUTARIA'] = $unidad_tributaria;
+            $empleados[$key]['Cestaticket_Empleado']['CESTATICKET_DIA'] = $cestaticket_dia;
             $empleados[$key]['Cestaticket_Empleado']['DIAS_HABILES'] = $this->nominaDiasHabiles($id);
+            $empleados[$key]['Cestaticket_Empleado']['DIAS_LABORADOS'] = $dias;
             $empleados[$key]['Cestaticket_Empleado']['CARGO'] = $empleado['Cargo']['NOMBRE'];
             $empleados[$key]['Cestaticket_Empleado']['DEPARTAMENTO'] = $empleado['Departamento']['NOMBRE'];
             $empleados[$key]['Cestaticket_Empleado']['MODALIDAD'] = $empleado['Contrato']['MODALIDAD'];
             $empleados[$key]['Cestaticket_Empleado']['GRUPO'] = $empleado['Empleado']['Grupo']['NOMBRE'];
-            
             // CALCULOS DE LOS CESTATICKETS!!!!
-            // el salario no puede exseder 3 salarios minimos
-            $empleados[$key]['Cestaticket_Empleado']['MONTO']=$cestaticket_dia*22;
-            
-            
+            // SI EL SUELDO DE LA PERSONA ES MAYOR A 3 SUELDOS MINIMOS NO RECIBE CESTATICKET ????
+            $aus = 0;
+            if ($empleados[$key]['Cestaticket_Empleado']['SUELDO_BASE'] > ($sueldo_minimo * 3)) {
+                $empleados[$key]['Cestaticket_Empleado']['MONTO'] = 0;
+                $empleados[$key]['Cestaticket_Empleado']['DIAS_DESCONTAR'] = 0;
+            } else {                
+                foreach ($empleado['Empleado']['Ausencia'] as $ausencia) {
+                    // Las ausencias no remuneradas son las que afectan al pago de cestaticket
+                    if ($ausencia['TIPO'] == 'No Remunerada') {
+                        $aus++;
+                    }
+                }
+                $empleados[$key]['Cestaticket_Empleado']['DIAS_DESCONTAR'] = $aus;
+                $dias = $dias - $aus;
+                $empleados[$key]['Cestaticket_Empleado']['MONTO'] = $cestaticket_dia * $dias;
+            }
+
             unset($empleados[$key]['Contrato']);
             unset($empleados[$key]['Cargo']);
             unset($empleados[$key]['Departamento']);
             unset($empleados[$key]['Empleado']);
-            //unset($empleados[$key]['Cestaticket_Empleado']['Empleado']);
+            unset($empleados[$key]['Cestaticket_Empleado']['Empleado']);
         }
 
         if (empty($empleados)) {
@@ -222,6 +237,7 @@ class Cestaticket extends AppModel {
 
         return $empleados;
     }
+
     /**
      *
      * @param type $id
@@ -229,34 +245,21 @@ class Cestaticket extends AppModel {
      * @param type $modalidad
      * @return type 
      */
-
-    function buscarInformacionEmpleados($id,$grupo,$modalidad) {
+    function buscarInformacionEmpleados($id) {
         $cestaticket = $this->find("first", array(
             'conditions' => array(
-                'id' => $id,
-            ),
-            'contain' => array(
-                'Empleado' => array(
-                    'conditions' => array(
-                        'grupo_id' => $grupo
-                    ),
-                    'fields' => array(
-                        'id',
-                    ),
-                    'Grupo'
+                'id' => $id)
                 )
-            )
-                ));
-        
+        );
+
         $fecha_ini = formatoFechaBeforeSave($cestaticket['Cestaticket']['FECHA_INI']);
         $fecha_fin = formatoFechaBeforeSave($cestaticket['Cestaticket']['FECHA_FIN']);
-        $empleados = Set::extract('/Empleado/id', $cestaticket);
 
         // Buscamos los contratos de acuerdo a la fecha de la nomina
         // y el grupo indicado , tambien buscamos el historial de sueldos del
         // cargo correspondiente en la fecha de la nomina , y toda la informacion
         // de los empleados necesaria para las asignaciones y deducciones
-        $contratos = $this->Empleado->Contrato->find('all', array(
+        $contratos = $this->DetalleCestaticket->Empleado->Contrato->find('all', array(
             'conditions' => array(
                 'OR' => array(
                     'FECHA_FIN > ' => $fecha_ini,
@@ -264,13 +267,12 @@ class Cestaticket extends AppModel {
                 ),
                 'AND' => array(
                     'FECHA_INI < ' => $fecha_fin,
-                    'empleado_id' => $empleados,
                 )
             ),
             'contain' => array(
                 'Empleado' => array(
                     'order' => array(
-                        'Empleado.NOMBRE' => 'asc'
+                        'Empleado.ID' => 'asc'
                     ),
                     'Grupo',
                     'Ausencia' => array(
@@ -297,12 +299,12 @@ class Cestaticket extends AppModel {
                 ));
         return $contratos;
     }
+
     /**
      *
      * @param type $empleados
      * @return boolean 
      */
-
     function verificarSueldos($empleados) {
         $error = false;
         foreach ($empleados as $empleado) {
@@ -312,12 +314,12 @@ class Cestaticket extends AppModel {
         }
         return $error;
     }
+
     /**
      *
      * @param type $id_nomina
      * @return type 
      */
-    
     function nominaDiasHabiles($id_cestaticket) {
         $feriado = ClassRegistry::init('Feriado');
         $cantidad = 0;
@@ -344,50 +346,6 @@ class Cestaticket extends AppModel {
             }
         }
         return ($number_of_days + 1) - $cantidad - count($feriados);
-    }
-    /**
-     *
-     * @param type $fecha_ini
-     * @param type $fecha_fin
-     * @return type 
-     */
-    function verificarSueldoMinimo($fecha_ini, $fecha_fin) {
-        $variable = ClassRegistry::init('Variable');
-        $sueldo_minimo = $variable->find('first', array(
-            'conditions' => array(
-                'OR' => array(
-                    'FECHA_FIN > ' => $fecha_ini,
-                    'FECHA_FIN' => NULL,
-                ),
-                'AND' => array(
-                    'FECHA_INI < ' => $fecha_fin,
-                    'NOMBRE' => 'Sueldo Minimo'
-                )
-            )
-                ));
-        return $sueldo_minimo['Variable']['VALOR'];
-    }
-    /**
-     *
-     * @param type $fecha_ini
-     * @param type $fecha_fin
-     * @return type 
-     */
-    function verificarUnidadTributaria($fecha_ini, $fecha_fin) {
-        $variable = ClassRegistry::init('Variable');
-        $unidad_tributaria = $variable->find('first', array(
-            'conditions' => array(
-                'OR' => array(
-                    'FECHA_FIN > ' => $fecha_ini,
-                    'FECHA_FIN' => NULL,
-                ),
-                'AND' => array(
-                    'FECHA_INI < ' => $fecha_fin,
-                    'NOMBRE' => 'Unidad Tributaria'
-                )
-            )
-                ));
-        return $unidad_tributaria['Variable']['VALOR'];
     }
 
 }

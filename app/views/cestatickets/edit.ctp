@@ -53,15 +53,18 @@
             
             echo "<div class='row'>";
             echo "<div style='float:left;width:25%;padding-top:16px'>";
-            echo $this->Form->End('Generar');
+            echo $this->Form->End('Mostrar');
             echo "</div>";            
             ?>
         </div>        
         
-        <div class="row boton">                        
+        <div class="row boton">                                    
+            <div class="boton">
+                <?php echo $this->Html->link('Generar Nomina', array('action' => 'generar', $cestaticket['Cestaticket']['id'])); ?>
+            </div> 
             <div class="boton">
                 <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
-            </div>            
+            </div>  
         </div>        
     </div>
 </div>

@@ -63,6 +63,19 @@ class CestaticketsController extends AppController{
         }
     }
     
+    function generar($id = null) {
+        $this->autoRender = false;
+        $this->Cestaticket->generarCestaticket($id);
+
+        if ($this->Cestaticket->errorMessage != '') {
+            $this->Session->setFlash($this->Cestaticket->errorMessage, 'flash_error');
+        } else {
+            $this->Session->setFlash('Nomina generada con exito', 'flash_success');
+        }
+        $this->redirect('edit/' . $id);
+    }
+
+    
     function calcular(){
          $this->autoRender = false;
         if (!empty($this->data)) {
