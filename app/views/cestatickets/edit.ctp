@@ -37,11 +37,11 @@
         
         <div class="row">
             <?php
-            echo $this->Form->create(false, array('target' => '_blank','url' => array('controller' => 'cestatickets', 'action' => 'calcular')));            
+            echo $this->Form->create(false, array('target' => '_blank','url' => array('controller' => 'cestatickets', 'action' => 'mostrar')));            
             echo "<div style='float:left;width:30%;'>";
             $options = array('1' => 'Empleado - Fijo', '2' => 'Obrero - Fijo','3'=>'Contratado');
             echo $this->Form->input('cestaticket_id', array('type' => 'hidden','value'=>$cestaticket['Cestaticket']['id']));
-            echo $this->Form->input('TIPO', array('div' => false, 'label' => 'Tipo de Nomina', 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una Opcion'));
+            echo $this->Form->input('PERSONAL', array('div' => false, 'label' => 'Tipo de Nomina', 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una Opcion'));
             echo "</div>";            
             
             echo "<div style='float:left;width:30%;'>";

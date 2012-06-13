@@ -289,7 +289,6 @@ class Nomina extends AppModel {
             )
                 ));
 
-
         foreach ($data as $key => $value) {
             $departamento = $this->Recibo->Empleado->Contrato->Departamento->buscarInformacion($value['Recibo']['DEPARTAMENTO']);
             $empleados[$key]['Nomina_Empleado']['PROGRAMA'] = $departamento['Programa']['CODIGO'];

@@ -1,10 +1,12 @@
-<?php 
+<?php
 
-class CestaticketsController extends AppController{
-    
+class CestaticketsController extends AppController {
+
     var $name = 'Cestatickets';
-    
-    function index(){
+    var $helpers = array('Excel', 'Javascript', 'Ajax');
+    var $components = array('RequestHandler');
+
+    function index() {
         $filtro = array();
         if (!empty($this->data)) {
             if (!empty($this->data['AÑO']) && empty($this->data['Fopcion'])) {
@@ -28,8 +30,8 @@ class CestaticketsController extends AppController{
         $data = $this->paginate('Cestaticket', $filtro);
         $this->set('cestatickets', $data);
     }
-    
-    function add(){
+
+    function add() {
         if (!empty($this->data)) {
             if ($this->Cestaticket->save($this->data['Cestaticket'])) {
                 $this->Session->setFlash('Cestaticket creada con exito', 'flash_success');
@@ -44,7 +46,7 @@ class CestaticketsController extends AppController{
             }
         }
     }
-    
+
     function edit($id = null) {
         // TODO: Verificar si existen cambios depues de creada la nomina ??????        
         $cestaticket = $this->Cestaticket->find('first', array(
@@ -55,14 +57,14 @@ class CestaticketsController extends AppController{
 
         $this->set('cestaticket', $cestaticket);
     }
-    
+
     function delete($id) {
         if ($this->Cestaticket->delete($id)) {
             $this->Session->setFlash('Se ha eliminado con exito', 'flash_success');
             $this->redirect('index');
         }
     }
-    
+
     function generar($id = null) {
         $this->autoRender = false;
         $this->Cestaticket->generarCestaticket($id);
@@ -75,61 +77,61 @@ class CestaticketsController extends AppController{
         $this->redirect('edit/' . $id);
     }
 
-    
-    function calcular(){
-         $this->autoRender = false;
-        if (!empty($this->data)) {
+    function mostrar() {
+        $this->autoRender = false;
+        if (!empty($this->data)) {            
             $id = $this->data['cestaticket_id'];
             $cestaticket = $this->Cestaticket->find('first', array(
-                'recursive' => -1,
+                'recursive' => 0,
                 'conditions' => array(
                     'id' => $id)
-                    ));
-            // OJO QUIZAS SEA MALA IDEA!
-            // Para mantener las nominas con los cambios que se hagan
-            $this->Cestaticket->generarCestaticket($id);
-
-
-            if (empty($this->data['TIPO']) || empty($this->data['VISUALIZAR'])) {
-                $this->Session->setFlash('Debe seleccionar el tipo de nomina y un el modo de visualizar', 'flash_error');
+                    )
+            );
+            $mes=$cestaticket['Cestaticket']['MES'];
+            $año=$cestaticket['Cestaticket']['AÑO'];
+            
+            
+            if (empty($this->data['PERSONAL']) || empty($this->data['VISUALIZAR'])) {
+                $this->Session->setFlash('Debe seleccionar el personal y el modo de visualizar', 'flash_error');
                 $this->render('error', 'nomina');
-                return ;
+                return;
             } else {
-                if ($this->data['TIPO'] == '1') {
-                    $grupo = '1';  // Empleado
+                if ($this->data['PERSONAL'] == '1') {
+                    $grupo = 'Empleado';  // Empleado                    
                     $modalidad = 'Fijo';
                 }
-                if ($this->data['TIPO'] == '2') {
-                    $grupo = '2';  // Obrero
+                if ($this->data['PERSONAL'] == '2') {
+                    $grupo = 'Obrero';  // Obrero                    
                     $modalidad = 'Fijo';
                 }
-                if ($this->data['TIPO'] == '3') {
-                    $grupo = array(1, 2);  // Empleado y Obrero
+                if ($this->data['PERSONAL'] == '3') {
+                    $grupo = array('Empleado', 'Obrero');  // Empleado y Obrero                    
                     $modalidad = 'Contratado';
-                }                
-                
-                $empleados = $this->Cestaticket->calcularCestaticket($id, $grupo, $modalidad);                
-                debug($empleados);
-                /*if (empty($empleados)) {
-                    $this->render('error', 'nomina');
-                    if ($this->Nomina->errorMessage == '') {
-                        $this->Session->setFlash('Actualmente no existen datos suficientes para generar esta nomina', 'flash_error');
-                    } else {
-                        $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
-                    }
-                    return ;                    
-                }*/
+                }
+                $empleados = $this->Cestaticket->mostrarCestaticket($id, $grupo, $modalidad);
             }
-            /*            
-            $this->set(compact('empleados','extra'));
+
+            if (empty($empleados)) {
+                $this->render('error', 'nomina');
+                if ($this->Nomina->errorMessage == '') {
+                    $this->Session->setFlash('Actualmente no existen datos relacionados a esta nomina, Genere la Nomina primero', 'flash_error');
+                } else {
+                    $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
+                }
+                return;
+            }
+
             if ($this->data['VISUALIZAR'] == 'Pantalla') {
-                $this->render('pantalla', 'nomina');
+                $this->set('empleados', $empleados);
+                $this->render('pantalla_cestaticket', 'nomina');
             }
             if ($this->data['VISUALIZAR'] == 'Archivo') {
-                $this->render('generar_archivo', 'nominaExcel');
-            }             
-             */
+                $this->set(compact('empleados','modalidad','grupo','mes','año'));
+                $this->render('archivo_cestaticket', 'nominaExcel');
+            }
         }
     }
+
 }
+
 ?>

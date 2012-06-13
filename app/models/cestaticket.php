@@ -200,11 +200,16 @@ class Cestaticket extends AppModel {
             $empleados[$key]['Cestaticket_Empleado']['SUELDO_MINIMO'] = $sueldo_minimo;
             $empleados[$key]['Cestaticket_Empleado']['CESTATICKET_DIA'] = $cestaticket_dia;
             $empleados[$key]['Cestaticket_Empleado']['DIAS_HABILES'] = $this->nominaDiasHabiles($id);
-            $empleados[$key]['Cestaticket_Empleado']['DIAS_LABORADOS'] = $dias;
-            $empleados[$key]['Cestaticket_Empleado']['CARGO'] = $empleado['Cargo']['NOMBRE'];
+            $empleados[$key]['Cestaticket_Empleado']['DIAS_LABORADOS'] = $dias;            
             $empleados[$key]['Cestaticket_Empleado']['DEPARTAMENTO'] = $empleado['Departamento']['NOMBRE'];
             $empleados[$key]['Cestaticket_Empleado']['MODALIDAD'] = $empleado['Contrato']['MODALIDAD'];
             $empleados[$key]['Cestaticket_Empleado']['GRUPO'] = $empleado['Empleado']['Grupo']['NOMBRE'];
+            if($empleados[$key]['Cestaticket_Empleado']['MODALIDAD']=='Contratado'){
+                $empleados[$key]['Cestaticket_Empleado']['CARGO'] = 'CONTRATADO';
+            }else{
+                $empleados[$key]['Cestaticket_Empleado']['CARGO'] = $empleado['Cargo']['NOMBRE'];
+            }                
+            
             // CALCULOS DE LOS CESTATICKETS!!!!
             // SI EL SUELDO DE LA PERSONA ES MAYOR A 3 SUELDOS MINIMOS NO RECIBE CESTATICKET ????
             $aus = 0;
@@ -235,6 +240,59 @@ class Cestaticket extends AppModel {
                 - Verifique que exista algun empleado trabajando para esa fecha o que se encuentre definido algun contrato";
         }
 
+        return $empleados;
+    }
+    
+    function mostrarCestaticket($id,$grupo,$modalidad){
+        $ids = $this->DetalleCestaticket->Empleado->Grupo->find('all', array(
+            'conditions' => array(
+                'NOMBRE' => $grupo
+            ),
+            'contain' => array(
+                'Empleado' => array(
+                    'fields' => array(
+                        'id')
+                )
+            )
+                ));
+        
+        $id_empleados = Set::extract('/Empleado/id', $ids);
+
+        $data = $this->DetalleCestaticket->find('all', array(
+            'conditions' => array(
+                'cestaticket_id' => $id,
+                'empleado_id' => $id_empleados,
+                'MODALIDAD'=>$modalidad
+            ),
+            'contain' => array(
+                'Cestaticket',
+                'Empleado' => array(
+                    'Grupo',
+                )
+            )
+                ));        
+        foreach ($data as $key => $value) {
+            $departamento = $this->DetalleCestaticket->Empleado->Contrato->Departamento->buscarInformacion($value['DetalleCestaticket']['DEPARTAMENTO']);
+            $empleados[$key]['Cestaticket_Empleado']['PROGRAMA'] = $departamento['Programa']['CODIGO'];
+            $empleados[$key]['Cestaticket_Empleado']['ACTIVIDAD_PROYECTO'] = $departamento['Programa']['NUMERO'];            
+            $empleados[$key]['Cestaticket_Empleado']['NOMBRE'] = $value['Empleado']['NOMBRE'];
+            $empleados[$key]['Cestaticket_Empleado']['APELLIDO'] = $value['Empleado']['APELLIDO'];
+            if ($value['Empleado']['NACIONALIDAD'] == 'Venezolano') {
+                $empleados[$key]['Cestaticket_Empleado']['CEDULA'] = "V" . $value['Empleado']['CEDULA'];
+            } else {
+                $empleados[$key]['Cestaticket_Empleado']['CEDULA'] = "E" . $value['Empleado']['CEDULA'];
+            }
+            $empleados[$key]['Cestaticket_Empleado']['INGRESO'] = $value['Empleado']['INGRESO'];
+            $empleados[$key]['Cestaticket_Empleado']['CARGO'] = $value['DetalleCestaticket']['CARGO'];
+            $empleados[$key]['Cestaticket_Empleado']['DEPARTAMENTO'] = $value['DetalleCestaticket']['DEPARTAMENTO'];
+            $empleados[$key]['Cestaticket_Empleado']['TOTAL'] = $value['DetalleCestaticket']['TOTAL'];
+            $empleados[$key]['Cestaticket_Empleado']['DIAS_ADICIONALES'] = $value['DetalleCestaticket']['DIAS_ADICIONALES'];
+            $empleados[$key]['Cestaticket_Empleado']['DIAS_DESCONTAR'] = $value['DetalleCestaticket']['DIAS_DESCONTAR'];
+            $empleados[$key]['Cestaticket_Empleado']['VALOR_DIARIO'] = $value['Cestaticket']['VALOR_DIARIO'];
+            
+            $empleados[$key]['Cestaticket_Empleado']['DIAS_HABILES'] = 22; // OJO PILAS AQUI
+            $empleados[$key]['Cestaticket_Empleado']['DIAS_LABORADOS'] = 22; // OJO PILAS AQUI
+        }        
         return $empleados;
     }
 
