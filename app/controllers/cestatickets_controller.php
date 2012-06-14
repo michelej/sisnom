@@ -35,8 +35,8 @@ class CestaticketsController extends AppController {
         if (!empty($this->data)) {
             if ($this->Cestaticket->save($this->data['Cestaticket'])) {
                 $this->Session->setFlash('Cestaticket creada con exito', 'flash_success');
-                $id = $this->Cestaticket->getLastInsertId();
-                $this->Cestaticket->generarCestaticket($id);
+                //$id = $this->Cestaticket->getLastInsertId();
+                //$this->Cestaticket->generarCestaticket($id);
                 $this->redirect('index');
             }
             if (!empty($this->Cestaticket->errorMessage)) {
@@ -109,6 +109,7 @@ class CestaticketsController extends AppController {
                     $modalidad = 'Contratado';
                 }
                 $empleados = $this->Cestaticket->mostrarCestaticket($id, $grupo, $modalidad);
+                $resumen = $this->Cestaticket->calcularResumen($empleados);                
             }
 
             if (empty($empleados)) {
@@ -126,7 +127,7 @@ class CestaticketsController extends AppController {
                 $this->render('pantalla_cestaticket', 'nomina');
             }
             if ($this->data['VISUALIZAR'] == 'Archivo') {
-                $this->set(compact('empleados','modalidad','grupo','mes','año'));
+                $this->set(compact('empleados','modalidad','grupo','mes','año','resumen'));
                 $this->render('archivo_cestaticket', 'nominaExcel');
             }
         }

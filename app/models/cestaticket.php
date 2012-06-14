@@ -145,7 +145,7 @@ class Cestaticket extends AppModel {
             $data['CARGO'] = $empleado['Cestaticket_Empleado']['CARGO'];
             $data['DEPARTAMENTO'] = $empleado['Cestaticket_Empleado']['DEPARTAMENTO'];
             $data['MODALIDAD'] = $empleado['Cestaticket_Empleado']['MODALIDAD'];
-            $data['DIAS_LABORADOS'] = $empleado['Cestaticket_Empleado']['DIAS_LABORADOS'];            
+            $data['DIAS_LABORADOS'] = $empleado['Cestaticket_Empleado']['DIAS_LABORADOS'];
             $data['DIAS_ADICIONALES'] = 0;
             $data['DIAS_DESCONTAR'] = $empleado['Cestaticket_Empleado']['DIAS_DESCONTAR'];
             $data['TOTAL'] = $empleado['Cestaticket_Empleado']['MONTO'];
@@ -183,7 +183,7 @@ class Cestaticket extends AppModel {
         $fecha_fin = formatoFechaBeforeSave($cestaticket['Cestaticket']['FECHA_FIN']);
 
         $cestaticket_dia = $cestaticket['Cestaticket']['VALOR_DIARIO'];
-        $sueldo_minimo = $cestaticket['Cestaticket']['SUELDO_MINIMO'];        
+        $sueldo_minimo = $cestaticket['Cestaticket']['SUELDO_MINIMO'];
 
         foreach ($empleados as $key => $empleado) {
             $dias = 22; // OJO ??????
@@ -200,23 +200,25 @@ class Cestaticket extends AppModel {
             $empleados[$key]['Cestaticket_Empleado']['SUELDO_MINIMO'] = $sueldo_minimo;
             $empleados[$key]['Cestaticket_Empleado']['CESTATICKET_DIA'] = $cestaticket_dia;
             $empleados[$key]['Cestaticket_Empleado']['DIAS_HABILES'] = $this->nominaDiasHabiles($id);
-            $empleados[$key]['Cestaticket_Empleado']['DIAS_LABORADOS'] = $dias;            
+            $empleados[$key]['Cestaticket_Empleado']['DIAS_LABORADOS'] = $dias;
             $empleados[$key]['Cestaticket_Empleado']['DEPARTAMENTO'] = $empleado['Departamento']['NOMBRE'];
             $empleados[$key]['Cestaticket_Empleado']['MODALIDAD'] = $empleado['Contrato']['MODALIDAD'];
             $empleados[$key]['Cestaticket_Empleado']['GRUPO'] = $empleado['Empleado']['Grupo']['NOMBRE'];
-            if($empleados[$key]['Cestaticket_Empleado']['MODALIDAD']=='Contratado'){
+            if ($empleados[$key]['Cestaticket_Empleado']['MODALIDAD'] == 'Contratado') {
                 $empleados[$key]['Cestaticket_Empleado']['CARGO'] = 'CONTRATADO';
-            }else{
+            } else {
                 $empleados[$key]['Cestaticket_Empleado']['CARGO'] = $empleado['Cargo']['NOMBRE'];
-            }                
-            
+            }
+
             // CALCULOS DE LOS CESTATICKETS!!!!
             // SI EL SUELDO DE LA PERSONA ES MAYOR A 3 SUELDOS MINIMOS NO RECIBE CESTATICKET ????
             $aus = 0;
+            $no_incluir = false;
             if ($empleados[$key]['Cestaticket_Empleado']['SUELDO_BASE'] > ($sueldo_minimo * 3)) {
-                $empleados[$key]['Cestaticket_Empleado']['MONTO'] = 0;
-                $empleados[$key]['Cestaticket_Empleado']['DIAS_DESCONTAR'] = 0;
-            } else {                
+                $no_incluir = true;
+                //$empleados[$key]['Cestaticket_Empleado']['MONTO'] = 0;
+                //$empleados[$key]['Cestaticket_Empleado']['DIAS_DESCONTAR'] = 0;
+            } else {
                 foreach ($empleado['Empleado']['Ausencia'] as $ausencia) {
                     // Las ausencias no remuneradas son las que afectan al pago de cestaticket
                     if ($ausencia['TIPO'] == 'No Remunerada') {
@@ -228,11 +230,15 @@ class Cestaticket extends AppModel {
                 $empleados[$key]['Cestaticket_Empleado']['MONTO'] = $cestaticket_dia * $dias;
             }
 
-            unset($empleados[$key]['Contrato']);
-            unset($empleados[$key]['Cargo']);
-            unset($empleados[$key]['Departamento']);
-            unset($empleados[$key]['Empleado']);
-            unset($empleados[$key]['Cestaticket_Empleado']['Empleado']);
+            if ($no_incluir) {
+                unset($empleados[$key]);
+            } else {
+                unset($empleados[$key]['Contrato']);
+                unset($empleados[$key]['Cargo']);
+                unset($empleados[$key]['Departamento']);
+                unset($empleados[$key]['Empleado']);
+                unset($empleados[$key]['Cestaticket_Empleado']['Empleado']);
+            }
         }
 
         if (empty($empleados)) {
@@ -242,8 +248,8 @@ class Cestaticket extends AppModel {
 
         return $empleados;
     }
-    
-    function mostrarCestaticket($id,$grupo,$modalidad){
+
+    function mostrarCestaticket($id, $grupo, $modalidad) {
         $ids = $this->DetalleCestaticket->Empleado->Grupo->find('all', array(
             'conditions' => array(
                 'NOMBRE' => $grupo
@@ -255,14 +261,14 @@ class Cestaticket extends AppModel {
                 )
             )
                 ));
-        
+
         $id_empleados = Set::extract('/Empleado/id', $ids);
 
         $data = $this->DetalleCestaticket->find('all', array(
             'conditions' => array(
                 'cestaticket_id' => $id,
                 'empleado_id' => $id_empleados,
-                'MODALIDAD'=>$modalidad
+                'MODALIDAD' => $modalidad
             ),
             'contain' => array(
                 'Cestaticket',
@@ -270,11 +276,11 @@ class Cestaticket extends AppModel {
                     'Grupo',
                 )
             )
-                ));        
+                ));
         foreach ($data as $key => $value) {
             $departamento = $this->DetalleCestaticket->Empleado->Contrato->Departamento->buscarInformacion($value['DetalleCestaticket']['DEPARTAMENTO']);
             $empleados[$key]['Cestaticket_Empleado']['PROGRAMA'] = $departamento['Programa']['CODIGO'];
-            $empleados[$key]['Cestaticket_Empleado']['ACTIVIDAD_PROYECTO'] = $departamento['Programa']['NUMERO'];            
+            $empleados[$key]['Cestaticket_Empleado']['ACTIVIDAD_PROYECTO'] = $departamento['Programa']['NUMERO'];
             $empleados[$key]['Cestaticket_Empleado']['NOMBRE'] = $value['Empleado']['NOMBRE'];
             $empleados[$key]['Cestaticket_Empleado']['APELLIDO'] = $value['Empleado']['APELLIDO'];
             if ($value['Empleado']['NACIONALIDAD'] == 'Venezolano') {
@@ -289,11 +295,55 @@ class Cestaticket extends AppModel {
             $empleados[$key]['Cestaticket_Empleado']['DIAS_ADICIONALES'] = $value['DetalleCestaticket']['DIAS_ADICIONALES'];
             $empleados[$key]['Cestaticket_Empleado']['DIAS_DESCONTAR'] = $value['DetalleCestaticket']['DIAS_DESCONTAR'];
             $empleados[$key]['Cestaticket_Empleado']['VALOR_DIARIO'] = $value['Cestaticket']['VALOR_DIARIO'];
-            
             $empleados[$key]['Cestaticket_Empleado']['DIAS_HABILES'] = 22; // OJO PILAS AQUI
             $empleados[$key]['Cestaticket_Empleado']['DIAS_LABORADOS'] = 22; // OJO PILAS AQUI
-        }        
+            $empleados[$key]['Cestaticket_Empleado']['TOTAL_DIAS'] = $value['DetalleCestaticket']['DIAS_ADICIONALES'] + $empleados[$key]['Cestaticket_Empleado']['DIAS_LABORADOS'];
+            $empleados[$key]['Cestaticket_Empleado']['TOTAL_DIAS_EFEC'] = $empleados[$key]['Cestaticket_Empleado']['TOTAL_DIAS'] - $value['DetalleCestaticket']['DIAS_DESCONTAR'];
+        }
         return $empleados;
+    }
+
+    function calcularResumen($nomina_empleado) {
+        $data = $this->DetalleCestaticket->Empleado->Contrato->Departamento->Programa->find("all", array(
+            'contain' => array(
+                'Departamento'
+            )
+                ));
+        // PARA CADA PROGRAMA        
+        foreach ($data as $key => $programa) {
+            // PARA CADA DEPARTAMENTO DE CADA PROGRAMA
+            $total = 0;
+            $dias_habiles = 0;
+            $dias_laborados = 0;
+            $dias_adicionales = 0;
+            $dias_descontar = 0;
+            $total_dias = 0;
+            $total_efec = 0;
+            foreach ($programa['Departamento'] as $departamento) {
+                foreach ($nomina_empleado as $empleado) {
+                    // BUSCAMOS LOS EMPLEADOS QUE PERTENESCAN A DICHO DEPARTAMENTO
+                    if ($empleado['Cestaticket_Empleado']['DEPARTAMENTO'] == $departamento['NOMBRE']) {
+                        $total = $total + $empleado['Cestaticket_Empleado']['TOTAL'];
+                        $dias_habiles = $dias_habiles + $empleado['Cestaticket_Empleado']['DIAS_HABILES'];
+                        $dias_adicionales = $dias_adicionales + $empleado['Cestaticket_Empleado']['DIAS_ADICIONALES'];
+                        $dias_laborados = $dias_laborados + $empleado['Cestaticket_Empleado']['DIAS_LABORADOS'];
+                        $dias_descontar = $dias_descontar + $empleado['Cestaticket_Empleado']['DIAS_DESCONTAR'];
+                        $total_dias = $total_dias + $empleado['Cestaticket_Empleado']['TOTAL_DIAS'];
+                        $total_efec = $total_efec + $empleado['Cestaticket_Empleado']['TOTAL_DIAS_EFEC'];
+                    }
+                }
+            }
+            unset($data[$key]['Departamento']);
+            $data[$key]['Programa']['TOTAL'] = $total;
+            $data[$key]['Programa']['DIAS_HABILES'] = $dias_habiles;
+            $data[$key]['Programa']['DIAS_LABORADOS'] = $dias_laborados;
+            $data[$key]['Programa']['DIAS_ADICIONALES'] = $dias_adicionales;
+            $data[$key]['Programa']['TOTAL_DIAS'] = $total_dias;
+            $data[$key]['Programa']['DIAS_DESCONTAR'] = $dias_descontar;
+            $data[$key]['Programa']['TOTAL_DIAS_EFEC'] = $total_efec;
+        }
+
+        return $data;
     }
 
     /**

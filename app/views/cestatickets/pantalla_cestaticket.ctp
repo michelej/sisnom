@@ -38,12 +38,10 @@
                     echo '<td style="text-align: center;">' . $empleado['Cestaticket_Empleado']['INGRESO'] . '</td>';                    
                     echo '<td style="text-align: center;">' . $empleado['Cestaticket_Empleado']['DIAS_HABILES'] . '</td>';
                     echo '<td style="text-align: center;">' . $empleado['Cestaticket_Empleado']['DIAS_LABORADOS'] . '</td>';
-                    echo '<td style="text-align: center;">' . $empleado['Cestaticket_Empleado']['DIAS_ADICIONALES'] . '</td>';
-                    $total=$empleado['Cestaticket_Empleado']['DIAS_LABORADOS']+$empleado['Cestaticket_Empleado']['DIAS_ADICIONALES'];
-                    echo '<td style="text-align: center;">' . $total . '</td>';
-                    echo '<td style="text-align: center;">' . $empleado['Cestaticket_Empleado']['DIAS_DESCONTAR'] . '</td>';
-                    $efect=$total-$empleado['Cestaticket_Empleado']['DIAS_DESCONTAR'];
-                    echo '<td style="text-align: center;">' . $efect . '</td>';
+                    echo '<td style="text-align: center;">' . $empleado['Cestaticket_Empleado']['DIAS_ADICIONALES'] . '</td>';                    
+                    echo '<td style="text-align: center;">' . $empleado['Cestaticket_Empleado']['TOTAL_DIAS'] . '</td>';
+                    echo '<td style="text-align: center;">' . $empleado['Cestaticket_Empleado']['DIAS_DESCONTAR'] . '</td>';                    
+                    echo '<td style="text-align: center;">' . $empleado['Cestaticket_Empleado']['TOTAL_DIAS_EFEC'] . '</td>';
                     echo '<td style="text-align: center;">' . number_format($empleado['Cestaticket_Empleado']['VALOR_DIARIO'], 2, ',', '.') . '</td>';
                     echo '<td style="text-align: center;">' . number_format($empleado['Cestaticket_Empleado']['TOTAL'], 2, ',', '.') . '</td>';
                     echo '</tr>';
