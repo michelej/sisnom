@@ -1,33 +1,36 @@
-<script>
-    $(function() {
-        $( "#dialog" ).dialog({
+<?php echo $this->Html->script('formwizard.js'); ?>
+<?php echo $this->Html->css('formwizard.css'); ?>
+
+<script type="text/javascript">    
+    var $jql = jQuery.noConflict();
+    $jql(function() { 
+        var myform=new formtowizard({
+                formid: 'editForm',
+                persistsection: true,
+                revealfx: ['slide', 500]
+            })  
+        
+        $jql( "#dialog" ).dialog({
             autoOpen: false,
             modal: true,
             zIndex:1500,
             resizable: false,
-            height:400,
-            width:400,
+            height:500,
+            width:1100,
             draggable:false
-        });        
-        $( "#opener" ).click(function() {
-            $( "#dialog" ).dialog( "open" );
+        });                      
+        
+        $jql( "#opener" ).click(function() {
+            $jql( "#dialog" ).dialog( "open" );                      
             return false;
-        });        
-        $( ".closer" ).click(function() {
-            $( "#dialog" ).dialog( "close" );            
+        });
+             
+        $jql(".closer" ).click(function() {
+            $jql( "#dialog" ).dialog( "close" );
             //var url = $(this).attr("href"); 
             //windows.open(url);            
             return false;
-        });
-        $("#ordenable").sortable({
-            placeholder: "ui-state-highlight"
-        }); 
-        $("#ordenable").disableSelection(); 
-        $("#ordenable .delete").click(function() { 
-            $(this).parent().remove();
-        });
-
-        
+        });           
     });
 </script>
 
@@ -80,7 +83,7 @@
             echo "</div>";
 
             echo "<div style='float:left;width:30%;'>";
-            $options = array('Nomina' => 'Nomina', 'Resumen' => 'Resumen de Nomina','Completo'=>'Completo');
+            $options = array('Nomina' => 'Nomina', 'Resumen' => 'Resumen de Nomina', 'Completo' => 'Completo');
             echo $this->Form->input('TIPO', array('div' => false, 'label' => 'Tipo', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
             echo "</div>";
 
@@ -96,7 +99,7 @@
             echo $this->Form->End('Mostrar');
             echo "</div>";
             ?>
-        </div>
+        </div>        
         <div class="row">
             <div class="boton">
                 <?php echo $this->Html->link('Generar Nomina', array('action' => 'generar', $nomina['Nomina']['id'])); ?>
@@ -111,13 +114,30 @@
     </div>
 </div>
 
+
 <div id="dialog" title="Opciones Pantalla">
-    <?php
-    echo "<ul id=ordenable>";
-    foreach ($asignaciones as $value) {
-        echo "<li class='ui-state-default'>$value.<input class='delete' type='submit' value='Delete' />
-        </li>";
-    }
-    echo "</ul>";
-    ?>
+    <div class="box">
+        <div class="title">	<h2></h2></div>
+        <div class="content form">         
+            <div class="row">                
+                <?php
+                echo $this->Form->create(false, array('url' => array('controller' => 'nominas', 'action' => 'generar', $nomina['Nomina']['id'])));
+                echo "<fieldset class='sectionwrap'>";
+                echo "<legend>Account information</legend>";
+                echo $this->Form->input('PRUEBA1', array('div' => false, 'label' => 'Prueba1', 'class' => 'small'));
+                echo $this->Form->input('PRUEBA2', array('div' => false, 'label' => 'Prueba2', 'class' => 'small'));
+                echo "</fieldset>";
+
+                echo "<fieldset class='sectionwrap'>";
+                echo "<legend>Account information</legend>";
+                echo $this->Form->input('PRUEBA3', array('div' => false, 'label' => 'Prueba3', 'class' => 'small'));
+                echo $this->Form->input('PRUEBA4', array('div' => false, 'label' => 'Prueba4', 'class' => 'small'));
+                echo "</fieldset>";
+
+                //echo $this->Form->End('Generar');
+                echo $this->Form->End(array('label' => 'Generar', 'value' => 'Generar', 'id' => 'formSubmit', 'div' => 'submit'));
+                ?>
+            </div>
+        </div>
+    </div>
 </div>

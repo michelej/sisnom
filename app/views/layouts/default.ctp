@@ -13,7 +13,7 @@
         <?php echo $this->Html->css('messages.css'); ?>
         <?php echo $this->Html->css('jquery-ui-1.8.4.custom.css'); ?>        
         <?php echo $this->Html->script('jquery-1.6.1.min.js'); ?> 
-        <?php echo $this->Html->script('jquery-ui-1.8.14.custom.min.js'); ?>
+        <?php echo $this->Html->script('jquery-ui-1.8.14.custom.min.js'); ?>         
     </head> 
     <body> 
         <!-- INICIO WRAPPER -->  
@@ -114,6 +114,6 @@
         <?php echo $this->Html->script('jquery.filestyle.mini.js'); ?>
         <?php echo $this->Html->script('jquery.price_format.1.5'); ?>
         <?php echo $this->Html->script('inline1.js'); ?>
-        <?php echo $this->Html->script('common.js'); ?>
+        <?php //echo $this->Html->script('common.js'); ?>
     </body> 
 </html> 

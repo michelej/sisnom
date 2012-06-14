@@ -76,15 +76,17 @@ class NominasController extends AppController {
      */
     function generar($id = null) {
         $this->autoRender = false;
-        $this->Nomina->generarNomina($id);
-
-        if ($this->Nomina->errorMessage != '') {
-            $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
-        } else {
-            $this->Session->setFlash('Nomina generada con exito', 'flash_success');
+        if (!empty($this->data)) {
+            debug($this->data);
+            //$this->Nomina->generarNomina($id);
+            if ($this->Nomina->errorMessage != '') {
+                $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
+            } else {
+                $this->Session->setFlash('Nomina generada con exito', 'flash_success');
+            }
+            $this->redirect('edit/' . $id);            
         }
-        $this->redirect('edit/' . $id);
-    }
+    }    
 
     /**
      *
