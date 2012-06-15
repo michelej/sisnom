@@ -4,8 +4,54 @@ class NominasController extends AppController {
 
     var $name = 'Nominas';
     var $helpers = array('Excel', 'Javascript', 'Ajax');
-    var $components = array('RequestHandler');
+    var $components = array('RequestHandler', 'Wizard.Wizard');
 
+    function beforeFilter() {
+        $this->Wizard->steps = array('parte1', 'parte2');
+        $this->Wizard->completeUrl = '/nominas/edit/' . $this->Session->read('Nomina.ID');
+        $this->Wizard->cancelUrl = '/nominas/edit/' . $this->Session->read('Nomina.ID');
+    }
+    
+    function wizard($step = null) {
+        $this->Wizard->process($step);
+    }    
+
+    /**
+     * [Wizard Process Callbacks]
+     */
+    function _processParte1() {        
+        return true;
+    }
+
+    function _processParte2() {
+        return true;
+    }
+    /**
+     * [Wizard Prepare Callbacks]
+     */    
+    function _prepareParte2(){
+        $asignacion = ClassRegistry::init('Asignacion');        
+        $asignaciones = $asignacion->find('list');        
+        $this->set('asignaciones',$asignaciones); 
+    }
+
+    /**
+     * [Wizard Completion Callback]
+     */
+    function _afterComplete() {
+        $wizardData = $this->Wizard->read();
+        //debug($wizardData);
+        $opciones = array(
+            'Nomina_id' => $this->Session->read('Nomina.ID'),
+            'Sueldo_Minimo' => $wizardData['parte1']['SUELDO_MINIMO']
+        );
+        $this->Wizard->reset();
+        $this->_generar($opciones);
+    }
+
+    /**
+     * 
+     */
     function index() {
         $filtro = array();
         if (!empty($this->data)) {
@@ -55,7 +101,6 @@ class NominasController extends AppController {
     }
 
     function edit($id = null) {
-        // TODO: Verificar si existen cambios depues de creada la nomina ??????        
         $asignacion = ClassRegistry::init('Asignacion');
         $deduccion = ClassRegistry::init('Deduccion');
         $asignaciones = $asignacion->find('list');
@@ -66,6 +111,11 @@ class NominasController extends AppController {
             'conditions' => array(
                 'id' => $id)
                 ));
+        // GRABAMOS EN LA SESSION EL ID DE LA NOMINA PARA EL WIZARD
+        if ($this->Session->check('Nomina.ID')) {
+            $this->Session->delete('Nomina');
+        }
+        $this->Session->write('Nomina.ID', $nomina['Nomina']['id']);
 
         $this->set(compact('asignaciones', 'deducciones', 'nomina'));
     }
@@ -77,16 +127,25 @@ class NominasController extends AppController {
     function generar($id = null) {
         $this->autoRender = false;
         if (!empty($this->data)) {
-            debug($this->data);
             //$this->Nomina->generarNomina($id);
             if ($this->Nomina->errorMessage != '') {
                 $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
             } else {
                 $this->Session->setFlash('Nomina generada con exito', 'flash_success');
             }
-            $this->redirect('edit/' . $id);            
+            $this->redirect('edit/' . $id);
         }
-    }    
+    }
+
+    function _generar($opciones) {
+        $this->Nomina->generarNomina($opciones);
+        if ($this->Nomina->errorMessage != '') {
+            $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
+        } else {
+            $this->Session->setFlash('Nomina generada con exito', 'flash_success');
+        }
+        $this->redirect('edit/' . $opciones['Nomina_id']);
+    }
 
     /**
      *

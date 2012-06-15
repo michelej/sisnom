@@ -1,39 +1,3 @@
-<?php echo $this->Html->script('formwizard.js'); ?>
-<?php echo $this->Html->css('formwizard.css'); ?>
-
-<script type="text/javascript">    
-    var $jql = jQuery.noConflict();
-    $jql(function() { 
-        var myform=new formtowizard({
-                formid: 'editForm',
-                persistsection: true,
-                revealfx: ['slide', 500]
-            })  
-        
-        $jql( "#dialog" ).dialog({
-            autoOpen: false,
-            modal: true,
-            zIndex:1500,
-            resizable: false,
-            height:500,
-            width:1100,
-            draggable:false
-        });                      
-        
-        $jql( "#opener" ).click(function() {
-            $jql( "#dialog" ).dialog( "open" );                      
-            return false;
-        });
-             
-        $jql(".closer" ).click(function() {
-            $jql( "#dialog" ).dialog( "close" );
-            //var url = $(this).attr("href"); 
-            //windows.open(url);            
-            return false;
-        });           
-    });
-</script>
-
 <div class="box">
     <div class="title"><h2>Datos de la Nomina</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
@@ -105,39 +69,11 @@
                 <?php echo $this->Html->link('Generar Nomina', array('action' => 'generar', $nomina['Nomina']['id'])); ?>
             </div> 
             <div class="boton">
-                <?php echo $this->Html->link('Generar Nomina', array(), array('id' => 'opener')); ?>
+                <?php echo $this->Html->link('Generar Nomina', array('action'=>'wizard') ); ?>
             </div>            
             <div class="boton">
                 <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
             </div> 
         </div>         
-    </div>
-</div>
-
-
-<div id="dialog" title="Opciones Pantalla">
-    <div class="box">
-        <div class="title">	<h2></h2></div>
-        <div class="content form">         
-            <div class="row">                
-                <?php
-                echo $this->Form->create(false, array('url' => array('controller' => 'nominas', 'action' => 'generar', $nomina['Nomina']['id'])));
-                echo "<fieldset class='sectionwrap'>";
-                echo "<legend>Account information</legend>";
-                echo $this->Form->input('PRUEBA1', array('div' => false, 'label' => 'Prueba1', 'class' => 'small'));
-                echo $this->Form->input('PRUEBA2', array('div' => false, 'label' => 'Prueba2', 'class' => 'small'));
-                echo "</fieldset>";
-
-                echo "<fieldset class='sectionwrap'>";
-                echo "<legend>Account information</legend>";
-                echo $this->Form->input('PRUEBA3', array('div' => false, 'label' => 'Prueba3', 'class' => 'small'));
-                echo $this->Form->input('PRUEBA4', array('div' => false, 'label' => 'Prueba4', 'class' => 'small'));
-                echo "</fieldset>";
-
-                //echo $this->Form->End('Generar');
-                echo $this->Form->End(array('label' => 'Generar', 'value' => 'Generar', 'id' => 'formSubmit', 'div' => 'submit'));
-                ?>
-            </div>
-        </div>
     </div>
 </div>

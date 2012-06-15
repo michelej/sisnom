@@ -119,12 +119,13 @@ class Nomina extends AppModel {
      * de la nomina (QUINCENA) y agregamos sus respectivos empleados
      * @param type $id ID de la Nomina
      */
-    function generarNomina($id) {
+    function generarNomina($opciones) {
+        $id=$opciones['Nomina_id'];
         $this->Recibo->deleteAll(array(
             'nomina_id' => $id
         ));
 
-        $empleados = $this->calcularNomina($id);
+        $empleados = $this->calcularNomina($opciones);
         foreach ($empleados as $empleado) {
             $data['CARGO'] = $empleado['Nomina_Empleado']['CARGO'];
             $data['DEPARTAMENTO'] = $empleado['Nomina_Empleado']['DEPARTAMENTO'];
@@ -158,7 +159,10 @@ class Nomina extends AppModel {
      * Realizamos los Calculos de la Nomina
      * @param type $id 
      */
-    function calcularNomina($id) {
+    function calcularNomina($opciones) {
+        $id=$opciones['Nomina_id'];
+        $sueldo_minimo=$opciones['Sueldo_Minimo'];
+        
         $asignacion = ClassRegistry::init('Asignacion');
         $deduccion = ClassRegistry::init('Deduccion');
 
@@ -179,14 +183,7 @@ class Nomina extends AppModel {
 
         $fecha_ini = formatoFechaBeforeSave($nomina['Nomina']['FECHA_INI']);
         $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);
-
-        $sueldo_minimo = $this->verificarSueldoMinimo($fecha_ini, $fecha_fin);
-        if (empty($sueldo_minimo)) {
-            $this->errorMessage = "No existe suficiente informacion para generar esta Nomina <br/>
-                - Verifique que exista un Sueldo Minimo definido para este periodo";
-            return array();
-        }
-
+        
         foreach ($empleados as $key => $empleado) {
             $empleados[$key]['Nomina_Empleado']['Empleado'] = $empleado['Empleado'];
             $empleados[$key]['Nomina_Empleado']['ID_NOMINA'] = $id;
@@ -571,30 +568,6 @@ class Nomina extends AppModel {
         }
         return $error;
     }
-
-    /**
-     *
-     * @param type $fecha_ini
-     * @param type $fecha_fin
-     * @return type 
-     */
-    function verificarSueldoMinimo($fecha_ini, $fecha_fin) {
-        $variable = ClassRegistry::init('Variable');
-        $sueldo_minimo = $variable->find('first', array(
-            'conditions' => array(
-                'OR' => array(
-                    'FECHA_FIN > ' => $fecha_ini,
-                    'FECHA_FIN' => NULL,
-                ),
-                'AND' => array(
-                    'FECHA_INI < ' => $fecha_fin,
-                    'NOMBRE' => 'Sueldo Minimo'
-                )
-            )
-                ));
-        return $sueldo_minimo['Variable']['VALOR'];
-    }
-
 }
 
 ?>

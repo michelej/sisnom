@@ -15,7 +15,9 @@ class UsersController extends AppController {
             $this->Session->setFlash('Usuario Desconocido o Password Incorrecto');
             return;
         }
-        $redirect=$this->Session->read('loginRedirect');        
+        $redirect=$this->Session->read('loginRedirect');
+        $this->Session->delete('loginRedirect');
+
         $this->redirect($redirect);                
     }
     
