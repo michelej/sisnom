@@ -28,19 +28,20 @@ class Asignacion extends AppModel {
     /**
      * Tabulador de Primas!!
      *  Mas complicado q'l coño :|
-     */    
+     */
     var $tabulador_primas = array(
-        'Prima por Reconocimiento' => array(
-            'Empleado' => array(
-                'VALOR' => '12'),
-            'Obrero' => array(
-                'VALOR' => '5.4')),
-        'Prima Hogar' => array(
-            'Empleado' => array(
-                'VALOR' => '12'),
-            'Obrero' => array(
-                'VALOR' => '12')),
-        'Prima por Antiguedad' => array(
+        '1' => array(
+            'NOMBRE' => 'Prima por Reconocimiento',
+            'Empleado' => '12',
+            'Obrero' => '5.4'
+        ),
+        '2' => array(
+            'NOMBRE' => 'Prima Hogar',
+            'Empleado' => '12',
+            'Obrero' => '12'
+        ),
+        '3' => array(
+            'NOMBRE' => 'Prima por Antiguedad',
             'Empleado' => array(
                 'De 1 año un dia a 2 años' => '12.3',
                 'De 2 años un dia a 4 años' => '24.6',
@@ -64,13 +65,15 @@ class Asignacion extends AppModel {
                 'De 7 año un dia a 11 años' => '21',
                 'De 11 año un dia a 15 años' => '25.5',
                 'Mas de 15' => '45')),
-        'Prima por Transporte' => array(
-            'Empleado' => array(
-                'VALOR' => '60'),
+        '4' => array(
+            'NOMBRE' => 'Prima por Transporte',
+            'Empleado' => '60',
             'Obrero' => array(
                 'mensajero' => '9.15',
-                'otros' => '5.72')),
-        'Prima por Hijos' => array(
+                'otros' => '5.72')
+        ),
+        '5' => array(
+            'NOMBRE'=>'Prima por Hijos',
             'Empleado' => array(
                 'Hijo menor a 18 años' => '12',
                 'Hijo major a 18 TSU' => '15',
@@ -80,23 +83,25 @@ class Asignacion extends AppModel {
                 'Hijo menor a 18 años' => '1.8',
                 'Hijo major a 18 TSU' => '2.5',
                 'Hijo major a 18 pre-grado' => '3.5',
-                'Hijo con invalidez' => '15')),
-        'Nivelacion Profesional' => array(
+                'Hijo con invalidez' => '15')
+        ),
+        '6' => array(
+            'NOMBRE' => 'Nivelacion Profesional',
             'Empleado' => array(
                 'TSU' => '100',
                 'Universitario' => '200',
                 'Post-grado' => '100',
                 'Maestria' => '200',
                 'Doctorado' => '300'),
-            'Obrero' => array()),
-        'Bono Nocturno' => array(
-            'Empleado' => array(),
-            'Obrero' => array(
-                'VALOR'=>'30')),
-        'Recargo por Domingo y Dia Feriado'=>array(
-            'Empleado'=>array(),
-            'Obrero'=>array(
-                'VALOR'=>'150'))
+        ),
+        '7' => array(
+            'NOMBRE' => 'Bono Nocturno',
+            'Obrero' => '30'
+        ),
+        '8' => array(
+            'NOMBRE' => 'Recargo por Domingo y Dia Feriado',
+            'Obrero' => '150'
+        )
     );
 
     /**

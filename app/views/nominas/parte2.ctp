@@ -4,7 +4,8 @@
         <div class="row">  
             <?php echo $this->Form->create(false, array('id' => 'ajaForm', 'url' => Router::normalize($this->here))); ?>
             <h2>Tabulador de Primas</h2>            
-            <?php            
+            <?php      
+            debug($tabulador);
             /* foreach ($asignaciones as $asignacion) {
               echo "<div class='row'>";
               echo "<div style='float:left;width:30%;'>";
@@ -27,18 +28,19 @@
                 <tbody>
                     <?php
                     foreach ($tabulador as $key => $tab) {
-                        if (count($tab['Empleado']) != 0) {
+                        if (isset($tab['Empleado'])) {
                             echo '<tr>';
-                            echo '<td>' . $key . '</td>';
-                            if (count($tab['Empleado']) == 1) {
-                                echo '<td>' .$this->Form->input($key, array('value'=>$tab['Empleado']['VALOR'],'label' => false, 'div' => false, 'class' => 'small')) . '</td>';
+                            echo '<td>' . $tab['NOMBRE'] . '</td>';
+                            if (!is_array($tab['Empleado'])) {
+                                echo $this->Form->input($key.'.NOMBRE', array('value'=>$tab['NOMBRE'],'type'=>'hidden','label' => false, 'div' => false, 'class' => 'small'));
+                                echo '<td>' .$this->Form->input($key.'.Empleado', array('value'=>$tab['Empleado'],'label' => false, 'div' => false, 'class' => 'small')) . '</td>';
                             } else {
                                 echo '<td>  </td>';
                                 echo '</tr>';
                                 foreach ($tab['Empleado'] as $kb=>$tb) {
                                     echo '<tr>';
                                     echo '<td>' . $kb . '</td>';
-                                    echo '<td>' .$this->Form->input($kb, array('value'=>$tb,'label' => false, 'div' => false, 'class' => 'small')) . '</td>';
+                                    echo '<td>' .$this->Form->input('Empleado.'.$kb, array('value'=>$tb,'label' => false, 'div' => false, 'class' => 'small')) . '</td>';
                                     echo '</tr>';
                                 }
                             }
