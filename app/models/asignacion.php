@@ -24,6 +24,81 @@ class Asignacion extends AppModel {
         '7' => array('id' => '7', 'DESCRIPCION' => 'Bono Nocturno'),
         '8' => array('id' => '8', 'DESCRIPCION' => 'Recargo por Domingo y Dia Feriado'),
     );
+
+    /**
+     * Tabulador de Primas!!
+     *  Mas complicado q'l coño :|
+     */    
+    var $tabulador_primas = array(
+        'Prima por Reconocimiento' => array(
+            'Empleado' => array(
+                'VALOR' => '12'),
+            'Obrero' => array(
+                'VALOR' => '5.4')),
+        'Prima Hogar' => array(
+            'Empleado' => array(
+                'VALOR' => '12'),
+            'Obrero' => array(
+                'VALOR' => '12')),
+        'Prima por Antiguedad' => array(
+            'Empleado' => array(
+                'De 1 año un dia a 2 años' => '12.3',
+                'De 2 años un dia a 4 años' => '24.6',
+                'De 4 años un dia a 6 años' => '36.9',
+                'De 6 años un dia a 8 años' => '49.20',
+                'De 8 años un dia a 10 años' => '61.50',
+                'De 10 años un dia a 12 años' => '73.80',
+                'De 12 años un dia a 14 años' => '86.10',
+                'De 14 años un dia a 16 años' => '98.40',
+                'De 16 años un dia a 18 años' => '110.70',
+                'De 18 años un dia a 20 años' => '123.00',
+                'De 20 años un dia a 22 años' => '135.30',
+                'De 22 años un dia a 24 años' => '147.60',
+                'De 24 años un dia a 26 años' => '159.90',
+                'De 26 años un dia a 28 años' => '172.20',
+                'De 28 años un dia a 30 años' => '184.50',
+                'Mas de 30' => '196.80'),
+            'Obrero' => array(
+                'De 1 año un dia a 4 años' => '15',
+                'De 4 año un dia a 7 años' => '19.5',
+                'De 7 año un dia a 11 años' => '21',
+                'De 11 año un dia a 15 años' => '25.5',
+                'Mas de 15' => '45')),
+        'Prima por Transporte' => array(
+            'Empleado' => array(
+                'VALOR' => '60'),
+            'Obrero' => array(
+                'mensajero' => '9.15',
+                'otros' => '5.72')),
+        'Prima por Hijos' => array(
+            'Empleado' => array(
+                'Hijo menor a 18 años' => '12',
+                'Hijo major a 18 TSU' => '15',
+                'Hijo major a 18 pre-grado' => '18',
+                'Hijo con invalidez' => '15'),
+            'Obrero' => array(
+                'Hijo menor a 18 años' => '1.8',
+                'Hijo major a 18 TSU' => '2.5',
+                'Hijo major a 18 pre-grado' => '3.5',
+                'Hijo con invalidez' => '15')),
+        'Nivelacion Profesional' => array(
+            'Empleado' => array(
+                'TSU' => '100',
+                'Universitario' => '200',
+                'Post-grado' => '100',
+                'Maestria' => '200',
+                'Doctorado' => '300'),
+            'Obrero' => array()),
+        'Bono Nocturno' => array(
+            'Empleado' => array(),
+            'Obrero' => array(
+                'VALOR'=>'30')),
+        'Recargo por Domingo y Dia Feriado'=>array(
+            'Empleado'=>array(),
+            'Obrero'=>array(
+                'VALOR'=>'150'))
+    );
+
     /**
      *
      * @param type $queryData
@@ -33,6 +108,7 @@ class Asignacion extends AppModel {
         $this->verificar();
         return true;
     }
+
     /**
      *  Verifica si los datos en la tabla son iguales a los que estan aqui declarados
      *  la idea es trabajar todo desde aqui (el Modelo) si se quiere agregar algo se hace 
@@ -66,21 +142,22 @@ class Asignacion extends AppModel {
             }
         }
     }
+
     /**
      * Calcular las Asignaciones de un Empleado para una Nomina especifica
      * @param type $nomina_empleado El array con los datos del empleado (ver nomina para mas informacion)
      * @param type $grupo El grupo al que pertenece el empleado
      * @return array 
      */
-    function calcularAsignaciones($nomina_empleado) {        
-        $grupo=$nomina_empleado['GRUPO'];        
-        
-        if($nomina_empleado['MODALIDAD']=='Contratado'){
-            $grupo='Contratados';
+    function calcularAsignaciones($nomina_empleado) {
+        $grupo = $nomina_empleado['GRUPO'];
+
+        if ($nomina_empleado['MODALIDAD'] == 'Contratado') {
+            $grupo = 'Contratados';
         }
-        
-        $data = $this->ordenDeAsignaciones($grupo);                
-        
+
+        $data = $this->ordenDeAsignaciones($grupo);
+
         $sueldo_base = $nomina_empleado['SUELDO_BASE'];
         $sueldo_diario = $nomina_empleado['SUELDO_DIARIO'];
         $sueldo_basico = $nomina_empleado['SUELDO_BASICO'];
@@ -150,11 +227,11 @@ class Asignacion extends AppModel {
                         $dias_exp = 0;
                         foreach ($empleado['Empleado']['Experiencia'] as $experiencia) {
                             $dias_exp = $dias_exp + numeroDeDias($experiencia['FECHA_INI'], $experiencia['FECHA_FIN']);
-                        }                                                
+                        }
                         $dias = numeroDeDias($empleado['Empleado']['INGRESO'], $fecha_ini);
-                        $dias=$dias+$dias_exp;
-                        $años = $dias / 365;                        
-                        $numero=round($años * 100) / 100;                         
+                        $dias = $dias + $dias_exp;
+                        $años = $dias / 365;
+                        $numero = round($años * 100) / 100;
                         if ($nomina_empleado['GRUPO'] == 'Empleado') {
                             if ($numero < 1)
                                 $valor = 0;
@@ -223,7 +300,7 @@ class Asignacion extends AppModel {
                         if ($nomina_empleado['GRUPO'] == 'Obrero') {
                             // OJO EL CARGO DEBE LLAMARSE """"Mensajero""""                            
                             $diasHabiles = $nomina_empleado['DIAS_HABILES'];
-                            if ( strtolower($nomina_empleado['CARGO']) == 'mensajero') {
+                            if (strtolower($nomina_empleado['CARGO']) == 'mensajero') {
                                 $valor = 0.416 * $diasHabiles;
                             } else {
                                 $valor = 0.260 * $diasHabiles;
@@ -242,11 +319,11 @@ class Asignacion extends AppModel {
                 case "5":
                     // TODO: Verificar si las combinaciones estan bien o falta alguna
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
-                        $valor = 0;                        
+                        $valor = 0;
                         if ($nomina_empleado['GRUPO'] == 'Empleado') {
                             foreach ($empleado['Empleado']['Familiar'] as $familiar) {
-                                $edad = $this->Ajuste->Empleado->Edad($familiar['FECHA']);                                
-                                
+                                $edad = $this->Ajuste->Empleado->Edad($familiar['FECHA']);
+
                                 // Comparamos con la fecha efectiva no la de nacimiento!! OJO
                                 if (compara_fechas(formatoFechaAfterFind($fecha_ini), $familiar['FECHA_EFEC']) > 0 ||
                                         check_in_range($fecha_ini, $fecha_fin, formatoFechaBeforeSave($familiar['FECHA_EFEC']))) {
@@ -274,11 +351,11 @@ class Asignacion extends AppModel {
                                 // Comparamos con la fecha efectiva no la de nacimiento!! OJO
                                 if (compara_fechas(formatoFechaAfterFind($fecha_ini), $familiar['FECHA_EFEC']) > 0 ||
                                         check_in_range($fecha_ini, $fecha_fin, formatoFechaBeforeSave($familiar['FECHA_EFEC']))) {
-                                    if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'Si') {
-                                        $valor+=15 / 2;
-                                    }
-                                    if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'No') {
+                                    if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)') {
                                         $valor+=1.8 / 2;
+                                    }
+                                    if ($familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'Si') {
+                                        $valor+=15 / 2;
                                     }
                                     if ($edad >= 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['INSTRUCCION'] == 'T.S.U') {
                                         $valor+=2.5 / 2;
@@ -286,8 +363,8 @@ class Asignacion extends AppModel {
                                     if ($edad >= 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['INSTRUCCION'] == 'Pregrado') {
                                         $valor+=3.5 / 2;
                                     }
-                                }else{
-                                    $valor=0;
+                                } else {
+                                    $valor = 0;
                                 }
                             }
                         }
@@ -301,7 +378,7 @@ class Asignacion extends AppModel {
                 //                NIVELACION PROFESIONAL
                 //                
                 //------------------------------------------------------------// 
-                case "6":                    
+                case "6":
                     $valor = 0;
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
                         foreach ($empleado['Empleado']['Titulo'] as $titulo) {
@@ -375,6 +452,7 @@ class Asignacion extends AppModel {
         }
         return $asignaciones;
     }
+
     /**
      * Verificamos si un Empleado posee una Asignacion
      * @param type $id_empleado Id del Empleado
@@ -382,7 +460,7 @@ class Asignacion extends AppModel {
      * @param type $fecha_ini Fecha de Inicio de la Nomina
      * @param type $fecha_fin Fecha de Fin de la Nomina
      * @return boolean Si la tiene o No
-     */    
+     */
     function empleadoTieneAsignacion($id_empleado, $id_asignacion, $fecha_ini, $fecha_fin) {
         $empleado = $this->Ajuste->find("first", array(
             'conditions' => array(

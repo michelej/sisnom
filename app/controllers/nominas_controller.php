@@ -30,9 +30,9 @@ class NominasController extends AppController {
      * [Wizard Prepare Callbacks]
      */    
     function _prepareParte2(){
-        $asignacion = ClassRegistry::init('Asignacion');        
-        $asignaciones = $asignacion->find('list');        
-        $this->set('asignaciones',$asignaciones); 
+        $asignacion = ClassRegistry::init('Asignacion');                
+        $tabulador=$asignacion->tabulador_primas;
+        $this->set('tabulador',$tabulador); 
     }
 
     /**
@@ -40,13 +40,13 @@ class NominasController extends AppController {
      */
     function _afterComplete() {
         $wizardData = $this->Wizard->read();
-        //debug($wizardData);
+        debug($wizardData);
         $opciones = array(
             'Nomina_id' => $this->Session->read('Nomina.ID'),
             'Sueldo_Minimo' => $wizardData['parte1']['SUELDO_MINIMO']
         );
         $this->Wizard->reset();
-        $this->_generar($opciones);
+        //$this->_generar($opciones);
     }
 
     /**
