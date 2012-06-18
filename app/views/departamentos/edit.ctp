@@ -15,18 +15,8 @@
         echo $this->Form->create('Departamento');
         echo $this->Form->input('id', array('type' => 'hidden'));
         echo "<div class='row'>";
-        echo "<div style='float:left;width:25%'>";        
+        echo "<div style='float:left;width:25%'>";
         echo $this->Form->input('NOMBRE', array('div' => false, 'label' => 'Nombre', 'class' => 'medium'));
-        echo "</div>";
-        echo "</div>";        
-        
-        echo "<div class='row'>";
-        echo "<div style='float:left;width:25%'>";        
-        echo $this->Form->input('PROGRAMA', array('div' => false, 'label' => 'Programa', 'class' => 'small'));
-        echo "</div>";
-        
-        echo "<div style='float:left;width:25%'>";        
-        echo $this->Form->input('ACTIVIDAD_PROYECTO', array('div' => false, 'label' => 'Actividad / Proyecto', 'class' => 'small'));
         echo "</div>";
         echo "</div>";        
         ?>
@@ -39,12 +29,12 @@
     </div>
     <div class="content form">
         <div class="row">
-            <?php echo $this->Form->end('Guardar Cambios'); ?>
-        </div>
-        <div class="row boton">
+            <div class="boton">
+                <?php echo $this->Form->end('Guardar Cambios'); ?>
+            </div>
             <div class="boton">
                 <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
             </div>              
-        </div>  
+        </div>
     </div>
 </div>

@@ -86,11 +86,14 @@
     <div class="title">	<h2></h2></div>
     <div class="content form">         
         <div class="row">
-            <div class="submit">
+            <div class="boton">               
                 <?php echo $this->Form->submit('Finalizar', array('div' => false)); ?>
+            </div>
+            <div class="boton">               
                 <?php echo $this->Form->submit('Cancelar', array('name' => 'Cancel', 'div' => false)); ?>
-                <?php echo $this->Form->end(); ?>
-            </div>            
-        </div>
+            </div>
+            <?php echo $this->Form->end(); ?>
+        </div>            
     </div>
+</div>
 </div>

@@ -25,7 +25,7 @@
         echo $this->Form->label('Breve Descripcion');
         echo $this->Form->input('DESCRIPCION', array('div' => false, 'label' => false, 'class' => 'medium'));
         echo "</div>";
-        echo "</div>";                        
+        echo "</div>";
         ?>
     </div>
 </div>
@@ -36,12 +36,12 @@
     </div>
     <div class="content form">
         <div class="row">
-            <?php echo $this->Form->end('Guardar Cambios'); ?>
-        </div>
-        <div class="row boton">
             <div class="boton">
+                <?php echo $this->Form->end('Guardar Cambios'); ?>
+            </div>
+                <div class="boton">
                 <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
             </div>              
-        </div>  
+        </div>        
     </div>
 </div>

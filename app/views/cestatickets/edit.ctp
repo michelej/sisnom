@@ -38,27 +38,23 @@
         <div class="row">
             <?php
             echo $this->Form->create(false, array('target' => '_blank','url' => array('controller' => 'cestatickets', 'action' => 'mostrar')));            
-            echo "<div style='float:left;width:30%;'>";
+            echo "<div style='float:left;width:40%;'>";
             $options = array('1' => 'Empleado - Fijo', '2' => 'Obrero - Fijo','3'=>'Contratado');
             echo $this->Form->input('cestaticket_id', array('type' => 'hidden','value'=>$cestaticket['Cestaticket']['id']));
             echo $this->Form->input('PERSONAL', array('div' => false, 'label' => 'Tipo de Nomina', 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una Opcion'));
             echo "</div>";            
             
-            echo "<div style='float:left;width:30%;'>";
+            echo "<div style='float:left;width:50%;'>";
             $options = array('Pantalla' => 'Pantalla', 'Archivo' => 'Archivo');                        
             echo $this->Form->input('VISUALIZAR', array('div' => false, 'label' => 'Visualizar', 'class' => 'small', 'type' => 'select', 'options' => $options,'empty'=>'Seleccione una Opcion'));
-            echo "</div>";            
-            
-            echo "</div>";
-            
-            echo "<div class='row'>";
-            echo "<div style='float:left;width:25%;padding-top:16px'>";
-            echo $this->Form->End('Mostrar');
-            echo "</div>";            
+            echo "</div>";                        
             ?>
         </div>        
         
-        <div class="row boton">                                    
+        <div class="row">                                    
+            <div class="boton">
+                <?php echo $this->Form->End('Mostrar'); ?>
+            </div>
             <div class="boton">
                 <?php echo $this->Html->link('Generar Nomina', array('action' => 'generar', $cestaticket['Cestaticket']['id'])); ?>
             </div> 

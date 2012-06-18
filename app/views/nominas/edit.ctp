@@ -40,13 +40,13 @@
         <div class="row">
             <?php
             echo $this->Form->create(false, array('target' => '_blank', 'url' => array('controller' => 'nominas', 'action' => 'mostrar')));
-            echo "<div style='float:left;width:30%;'>";
+            echo "<div style='float:left;width:35%;'>";
             $options = array('1' => 'Empleado - Fijo', '2' => 'Obrero - Fijo', '3' => 'Contratado');
             echo $this->Form->input('nomina_id', array('type' => 'hidden', 'value' => $nomina['Nomina']['id']));
             echo $this->Form->input('PERSONAL', array('div' => false, 'label' => 'Personal', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
             echo "</div>";
 
-            echo "<div style='float:left;width:30%;'>";
+            echo "<div style='float:left;width:35%;'>";
             $options = array('Nomina' => 'Nomina', 'Resumen' => 'Resumen de Nomina', 'Completo' => 'Completo');
             echo $this->Form->input('TIPO', array('div' => false, 'label' => 'Tipo', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
             echo "</div>";
@@ -55,18 +55,11 @@
             $options = array('Pantalla' => 'Pantalla', 'Archivo' => 'Archivo');
             echo $this->Form->input('VISUALIZAR', array('div' => false, 'label' => 'Visualizar', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
             echo "</div>";
-
-            //echo "</div>";
-
-            //echo "<div class='row'>";
-            //echo "<div style='float:left;width:20%;padding-top:16px'>";
-            //echo $this->Form->End('Mostrar');
-            //echo "</div>";
             ?>
         </div>        
         <div class="row">            
             <div class="boton">
-                <?php echo $this->Form->End('Mostrar');     ?>
+                <?php echo $this->Form->End('Mostrar');?>
             </div>
             <div class="boton">
                 <?php echo $this->Html->link('Generar Nomina', array('action'=>'wizard') ); ?>

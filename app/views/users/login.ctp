@@ -6,7 +6,7 @@
     </div>
 
     <div class="content forms">
-        
+
         <?php if ($this->Session->check('Message.flash')) { ?>
             <div class="message red">
                 <?php echo $this->Session->flash(); ?>            
@@ -19,13 +19,13 @@
                 <?php echo $this->Form->input('USERNAME', array('label' => 'Usuario', 'div' => false)); ?>
             </div>
             <div class="half">                
-                <?php echo $this->Form->input('PASSWORD', array('label' => 'Contraseña','type'=>'password')); ?>
+                <?php echo $this->Form->input('PASSWORD', array('label' => 'Contraseña', 'type' => 'password')); ?>
             </div>
         </div>
         <div class="row">    
-            <?php
-            echo $this->Form->submit('Ingresar');
-            ?>
+            <div class="boton">
+                <?php echo $this->Form->submit('Ingresar'); ?>
+            </div>
         </div>
     </div>
 </div>

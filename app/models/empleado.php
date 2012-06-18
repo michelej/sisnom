@@ -59,6 +59,26 @@ class Empleado extends AppModel {
             'rule' => 'notEmpty',
             'message' => 'Seleccione una opcion'
         ),
+        'PESO' => array(
+            'rule' => 'numeric',
+            'allowEmpty' => true,
+            'message' => 'Debe ser Numerico'
+        ),
+        'TPANTALOM' => array(
+            'rule' => 'numeric',
+            'allowEmpty' => true,
+            'message' => 'Debe ser Numerico'
+        ),
+        'TCALZADO' => array(
+            'rule' => 'numeric',
+            'allowEmpty' => true,
+            'message' => 'Debe ser Numerico'
+        ),
+        'ESTATURA' => array(
+            'rule' => 'numeric',
+            'allowEmpty' => true,
+            'message' => 'Debe ser un Numero'
+        ),
     );
 
     function beforeSave() {

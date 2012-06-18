@@ -8,7 +8,7 @@
     </div>
     <div class="content form">
         <?php
-        echo $this->Form->create('Contrato',array('url' => array('controller' => 'contratos', 'action' => 'add','empleadoId:'.$empleadoId)));        
+        echo $this->Form->create('Contrato', array('url' => array('controller' => 'contratos', 'action' => 'add', 'empleadoId:' . $empleadoId)));
 
         echo "<div class='row'>";
         echo "<div style='float:left;width:40%'>";
@@ -24,17 +24,17 @@
         echo "<div style='float:left;width:40%'>";
         $options = array('Fijo' => 'Fijo', 'Contratado' => 'Contratado');
         echo $this->Form->input('MODALIDAD', array('div' => false, 'label' => 'Modalidad del Contrato', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una opcion'));
-        echo "</div>";        
+        echo "</div>";
         echo "</div>";
 
         echo "<div class='row'>";
-        echo "<div style='float:left;width:50%'>";        
+        echo "<div style='float:left;width:50%'>";
         echo $this->Form->input('departamento_id', array('div' => false, 'label' => 'Departamento', 'class' => 'medium', 'empty' => "Seleccione una opción"));
         echo "</div>";
         echo "</div>";
-        
+
         echo "<div class='row'>";
-        echo "<div style='float:left;width:50%'>";        
+        echo "<div style='float:left;width:50%'>";
         echo $this->Form->input('cargo_id', array('div' => false, 'label' => 'Cargo', 'class' => 'medium', 'empty' => "Seleccione una opción"));
         echo "</div>";
         echo "</div>";
@@ -49,12 +49,12 @@
     </div>
     <div class="content form">
         <div class="row">
-            <?php echo $this->Form->submit('Agregar'); ?>                        
-        </div>        
-        <div class="row boton">
             <div class="boton">
-                <?php echo $this->Html->link('Regresar', array('action' => 'edit',$empleadoId)); ?>
+                <?php echo $this->Form->submit('Agregar'); ?>                        
             </div>
-        </div>
+            <div class="boton">
+                <?php echo $this->Html->link('Regresar', array('action' => 'edit', $empleadoId)); ?>
+            </div>
+        </div>                
     </div>
 </div>

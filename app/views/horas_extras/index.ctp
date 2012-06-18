@@ -14,7 +14,7 @@
             echo $this->Form->label('Busqueda');
             echo $this->Form->input('valor', array('div' => false, 'label' => false, 'class' => 'small'));
             echo "</div>";
-            echo "<div style='float:left;width:25%;padding-top:16px'>";
+            echo "<div style='float:left;width:15%;padding-top:20px'>";
             echo $this->Form->End('Buscar');
             echo "</div>";
             echo "</div>";

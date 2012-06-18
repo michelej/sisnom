@@ -29,13 +29,13 @@
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content form">            
-        <div class="row">                        
-            <?php echo $this->Form->end('Agregar'); ?>
-        </div>
-        <div class="row boton">
+        <div class="row">   
+            <div class="boton">
+                <?php echo $this->Form->end('Agregar'); ?>
+            </div>
             <div class="boton">
                 <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
             </div>              
-        </div>
+        </div>        
     </div>
 </div>

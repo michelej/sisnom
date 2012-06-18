@@ -15,7 +15,7 @@
             echo $this->Form->label('Año');
             echo $this->Form->input('AÑO', array('div' => false, 'label' => false, 'class' => 'small'));
             echo "</div>";
-            echo "<div style='float:left;width:25%;padding-top:16px'>";
+            echo "<div style='float:left;width:15%;padding-top:20px'>";
             echo $this->Form->End('Buscar');
             echo "</div>";
             echo "</div>";
@@ -88,7 +88,7 @@
 <div class="box">
     <div class="title">	<h2>Acciones</h2></div>
     <div class="content form">
-        <div class="row boton">
+        <div class="row">
             <div class="boton">
                 <?php echo $this->Html->link('Nueva Nomina', array('action' => 'add')); ?>
             </div>
