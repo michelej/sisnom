@@ -46,6 +46,8 @@
     display: inline-block;
     padding: 10px 0;
     width: 100%;
+    border-style:none;
+    padding-top: 8px;
 }
 .row label {
     color: #1C1C1C;

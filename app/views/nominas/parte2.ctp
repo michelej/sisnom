@@ -40,7 +40,7 @@
                     </tbody>
                 </table>
             </div> 
-            
+
             <div style="float: right">
                 <table  class="tabla" style="width: 400px;">
                     <thead>
@@ -77,15 +77,20 @@
                         ?> 
                     </tbody>
                 </table>
-            </div>
+            </div>                        
+        </div>
+    </div>
+</div>
 
-
-            <div class="row"></div>
+<div class="box">
+    <div class="title">	<h2></h2></div>
+    <div class="content form">         
+        <div class="row">
             <div class="submit">
-<?php echo $this->Form->submit('Finalizar', array('div' => false)); ?>                
+                <?php echo $this->Form->submit('Finalizar', array('div' => false)); ?>
                 <?php echo $this->Form->submit('Cancelar', array('name' => 'Cancel', 'div' => false)); ?>
-            </div>
                 <?php echo $this->Form->end(); ?>
+            </div>            
         </div>
     </div>
 </div>

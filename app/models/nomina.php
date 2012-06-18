@@ -221,7 +221,7 @@ class Nomina extends AppModel {
             $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] = redondear($empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] / 30);
             $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] = redondear($empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] * $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS']); // QUINCENA            
             // -- SUELDO --
-            $empleados[$key]['Nomina_Empleado']['Asignaciones'] = $asignacion->calcularAsignaciones($empleados[$key]['Nomina_Empleado']);
+            $empleados[$key]['Nomina_Empleado']['Asignaciones'] = $asignacion->calcularAsignaciones($empleados[$key]['Nomina_Empleado'],$opciones['Primas']);
             $totalasig = 0;
             foreach ($empleados[$key]['Nomina_Empleado']['Asignaciones'] as $value) {
                 $totalasig = $totalasig + $value;

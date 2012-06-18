@@ -64,10 +64,7 @@
             echo "</div>";
             ?>
         </div>        
-        <div class="row">
-            <div class="boton">
-                <?php echo $this->Html->link('Generar Nomina', array('action' => 'generar', $nomina['Nomina']['id'])); ?>
-            </div> 
+        <div class="row">            
             <div class="boton">
                 <?php echo $this->Html->link('Generar Nomina', array('action'=>'wizard') ); ?>
             </div>            

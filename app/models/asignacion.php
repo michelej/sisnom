@@ -76,13 +76,13 @@ class Asignacion extends AppModel {
             'NOMBRE'=>'Prima por Hijos',
             'Empleado' => array(
                 'Hijo menor a 18 años' => '12',
-                'Hijo major a 18 TSU' => '15',
-                'Hijo major a 18 pre-grado' => '18',
+                'Hijo mayor a 18 TSU' => '15',
+                'Hijo mayor a 18 pre-grado' => '18',
                 'Hijo con invalidez' => '15'),
             'Obrero' => array(
                 'Hijo menor a 18 años' => '1.8',
-                'Hijo major a 18 TSU' => '2.5',
-                'Hijo major a 18 pre-grado' => '3.5',
+                'Hijo mayor a 18 TSU' => '2.5',
+                'Hijo mayor a 18 pre-grado' => '3.5',
                 'Hijo con invalidez' => '15')
         ),
         '6' => array(
@@ -154,9 +154,8 @@ class Asignacion extends AppModel {
      * @param type $grupo El grupo al que pertenece el empleado
      * @return array 
      */
-    function calcularAsignaciones($nomina_empleado) {
-        $grupo = $nomina_empleado['GRUPO'];
-
+    function calcularAsignaciones($nomina_empleado,$primas) {
+        $grupo = $nomina_empleado['GRUPO'];        
         if ($nomina_empleado['MODALIDAD'] == 'Contratado') {
             $grupo = 'Contratados';
         }
@@ -185,10 +184,12 @@ class Asignacion extends AppModel {
                 case "1":
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
                         if ($nomina_empleado['GRUPO'] == 'Empleado') {
-                            $valor = 12 / 2;
+                            //$valor = 12 / 2;
+                            $valor=$primas['1']['Empleado']/2;
                         }
                         if ($nomina_empleado['GRUPO'] == 'Obrero') {
-                            $valor = 5.4 / 2;
+                            //$valor = 5.4 / 2;
+                            $valor=$primas['1']['Obrero']/2;
                         }
                     } else {
                         $valor = 0;
@@ -204,7 +205,8 @@ class Asignacion extends AppModel {
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
                         // TODO: Ojo el cambio del estado civil es continuo no tiene variable de tiempo. Deberia Tenerlo?                        
                         if ($empleado['Empleado']['EDOCIVIL'] == 'Casado' || $empleado['Empleado']['EDOCIVIL'] == 'Concubinato') {
-                            $valor = 12 / 2;
+                            //$valor = 12 / 2;
+                            $valor=$primas['2']['Empleado']/2;
                         } else {
                             $valor = 0;
                         }
@@ -214,8 +216,9 @@ class Asignacion extends AppModel {
                                 $hijos++;
                             }
                         }
-                        if ($hijos > 0) {
-                            $valor = 12 / 2;
+                        if ($hijos > 0) {                            
+                            //$valor = 12 / 2;
+                            $valor=$primas['2']['Empleado']/2;
                         }
                     } else {
                         $valor = 0;
@@ -240,52 +243,52 @@ class Asignacion extends AppModel {
                         if ($nomina_empleado['GRUPO'] == 'Empleado') {
                             if ($numero < 1)
                                 $valor = 0;
-                            if ($numero > 1 && $numero <= 2)
-                                $valor = 12.30 / 2;
+                            if ($numero > 1 && $numero <= 2)                                
+                                $valor=$primas['3']['Empleado']['De 1 año un dia a 2 años']/2;
                             if ($numero > 2 && $numero <= 4)
-                                $valor = 24.60 / 2;
+                                $valor=$primas['3']['Empleado']['De 2 años un dia a 4 años']/2;
                             if ($numero > 4 && $numero <= 6)
-                                $valor = 36.90 / 2;
+                                $valor=$primas['3']['Empleado']['De 4 años un dia a 6 años']/2;
                             if ($numero > 6 && $numero <= 8)
-                                $valor = 49.20 / 2;
+                                $valor=$primas['3']['Empleado']['De 6 años un dia a 8 años']/2;
                             if ($numero > 8 && $numero <= 10)
-                                $valor = 61.50 / 2;
+                                $valor=$primas['3']['Empleado']['De 8 años un dia a 10 años']/2;
                             if ($numero > 10 && $numero <= 12)
-                                $valor = 73.80 / 2;
+                                $valor=$primas['3']['Empleado']['De 10 años un dia a 12 años']/2;
                             if ($numero > 12 && $numero <= 14)
-                                $valor = 86.10 / 2;
+                                $valor=$primas['3']['Empleado']['De 12 años un dia a 14 años']/2;
                             if ($numero > 14 && $numero <= 16)
-                                $valor = 98.40 / 2;
+                                $valor=$primas['3']['Empleado']['De 14 años un dia a 16 años']/2;
                             if ($numero > 16 && $numero <= 18)
-                                $valor = 110.70 / 2;
+                                $valor=$primas['3']['Empleado']['De 16 años un dia a 18 años']/2;
                             if ($numero > 18 && $numero <= 20)
-                                $valor = 123 / 2;
+                                $valor=$primas['3']['Empleado']['De 18 años un dia a 20 años']/2;
                             if ($numero > 20 && $numero <= 22)
-                                $valor = 135.30 / 2;
+                                $valor=$primas['3']['Empleado']['De 20 años un dia a 22 años']/2;
                             if ($numero > 22 && $numero <= 24)
-                                $valor = 147.60 / 2;
+                                $valor=$primas['3']['Empleado']['De 22 años un dia a 24 años']/2;
                             if ($numero > 24 && $numero <= 26)
-                                $valor = 159.90 / 2;
+                                $valor=$primas['3']['Empleado']['De 24 años un dia a 26 años']/2;
                             if ($numero > 26 && $numero <= 28)
-                                $valor = 172.20 / 2;
+                                $valor=$primas['3']['Empleado']['De 26 años un dia a 28 años']/2;
                             if ($numero > 28 && $numero <= 30)
-                                $valor = 184.50 / 2;
+                                $valor=$primas['3']['Empleado']['De 28 año un dia a 30 años']/2;
                             if ($numero > 30)
-                                $valor = 196.80 / 2;
+                                $valor=$primas['3']['Empleado']['Mas de 30']/2;
                         }
                         if ($nomina_empleado['GRUPO'] == 'Obrero') {
                             if ($numero < 1)
                                 $valor = 0;
                             if ($numero > 1 && $numero < 4)
-                                $valor = 0.50 * 15;
+                                $valor=$primas['3']['Obrero']['De 1 año un dia a 4 años']/2;
                             if ($numero >= 4 && $numero < 7)
-                                $valor = 0.65 * 15;
+                                $valor=$primas['3']['Obrero']['De 4 años un dia a 7 años']/2;
                             if ($numero >= 7 && $numero < 11)
-                                $valor = 0.700 * 15;
+                                $valor=$primas['3']['Obrero']['De 7 años un dia a 11 años']/2;
                             if ($numero > 11 && $numero < 15)
-                                $valor = 0.850 * 15;
+                                $valor=$primas['3']['Obrero']['De 11 años un dia a 15 años']/2;
                             if ($numero > 15)
-                                $valor = 1.5 * 15;
+                                $valor=$primas['3']['Obrero']['Mas de 15']/2;
                         }
                     } else {
                         $valor = 0;
@@ -300,15 +303,18 @@ class Asignacion extends AppModel {
                 case "4":
                     if ($this->empleadoTieneAsignacion($id_empleado, $value['id'], $fecha_ini, $fecha_fin)) {
                         if ($nomina_empleado['GRUPO'] == 'Empleado') {
-                            $valor = 60 / 2;
+                            //$valor = 60 / 2;
+                            $valor=$primas['4']['Empleado']/2;
                         }
                         if ($nomina_empleado['GRUPO'] == 'Obrero') {
                             // OJO EL CARGO DEBE LLAMARSE """"Mensajero""""                            
                             $diasHabiles = $nomina_empleado['DIAS_HABILES'];
                             if (strtolower($nomina_empleado['CARGO']) == 'mensajero') {
-                                $valor = 0.416 * $diasHabiles;
+                                //$valor = 0.416 * $diasHabiles;
+                                $valor=$primas['4']['Obrero']['mensajero']* $diasHabiles;
                             } else {
-                                $valor = 0.260 * $diasHabiles;
+                                //$valor = 0.260 * $diasHabiles;
+                                $valor=$primas['4']['Obrero']['otros']* $diasHabiles;
                             }
                         }
                     } else {
@@ -333,16 +339,20 @@ class Asignacion extends AppModel {
                                 if (compara_fechas(formatoFechaAfterFind($fecha_ini), $familiar['FECHA_EFEC']) > 0 ||
                                         check_in_range($fecha_ini, $fecha_fin, formatoFechaBeforeSave($familiar['FECHA_EFEC']))) {
                                     if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)') {
-                                        $valor+=12 / 2;
+                                        //$valor+=12 / 2;
+                                        $valor+=$primas['5']['Empleado']['Hijo menor a 18 años']/2;
                                     }
                                     if ($familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'Si') {
-                                        $valor+=15 / 2;
+                                        //$valor+=15 / 2;
+                                        $valor+=$primas['5']['Empleado']['Hijo con invalidez']/2;
                                     }
                                     if ($edad >= 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['INSTRUCCION'] == 'T.S.U') {
-                                        $valor+=15 / 2;
+                                        //$valor+=15 / 2;
+                                        $valor+=$primas['5']['Empleado']['Hijo mayor a 18 TSU']/2;
                                     }
                                     if ($edad >= 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['INSTRUCCION'] == 'Pregrado') {
-                                        $valor+=18 / 2;
+                                        //$valor+=18 / 2;
+                                        $valor+=$primas['5']['Empleado']['Hijo mayor a 18 pre-grado']/2;
                                     }
                                 } else {
                                     $valor = 0;
@@ -357,16 +367,20 @@ class Asignacion extends AppModel {
                                 if (compara_fechas(formatoFechaAfterFind($fecha_ini), $familiar['FECHA_EFEC']) > 0 ||
                                         check_in_range($fecha_ini, $fecha_fin, formatoFechaBeforeSave($familiar['FECHA_EFEC']))) {
                                     if ($edad < 18 && $familiar['PARENTESCO'] == 'Hijo(a)') {
-                                        $valor+=1.8 / 2;
+                                        //$valor+=1.8 / 2;
+                                        $valor+=$primas['5']['Obrero']['Hijo menor a 18 años']/2;
                                     }
                                     if ($familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['DISCAPACIDAD'] == 'Si') {
-                                        $valor+=15 / 2;
+                                        //$valor+=15 / 2;
+                                        $valor+=$primas['5']['Obrero']['Hijo con invalidez']/2;
                                     }
                                     if ($edad >= 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['INSTRUCCION'] == 'T.S.U') {
-                                        $valor+=2.5 / 2;
+                                        //$valor+=2.5 / 2;
+                                        $valor+=$primas['5']['Obrero']['Hijo mayor a 18 TSU']/2;
                                     }
                                     if ($edad >= 18 && $familiar['PARENTESCO'] == 'Hijo(a)' && $familiar['INSTRUCCION'] == 'Pregrado') {
-                                        $valor+=3.5 / 2;
+                                        //$valor+=3.5 / 2;
+                                        $valor+=$primas['5']['Obrero']['Hijo mayor a 18 pre-grado']/2;
                                     }
                                 } else {
                                     $valor = 0;
@@ -391,19 +405,24 @@ class Asignacion extends AppModel {
                             if (compara_fechas(formatoFechaAfterFind($fecha_ini), $titulo['FECHA']) > 0 ||
                                     check_in_range($fecha_ini, $fecha_fin, formatoFechaBeforeSave($titulo['FECHA']))) {
                                 if ($titulo['TITULO'] == 'T.S.U') {
-                                    $valor += 100 / 2;
+                                    //$valor += 100 / 2;
+                                    $valor+=$primas['6']['Empleado']['TSU']/2;
                                 }
                                 if ($titulo['TITULO'] == 'Profesional Universitario') {
-                                    $valor += 200 / 2;
+                                    //$valor += 200 / 2;
+                                    $valor+=$primas['6']['Empleado']['Universitario']/2;
                                 }
                                 if ($titulo['TITULO'] == 'Post-Grado') {
-                                    $valor += 100 / 2;
+                                    //$valor += 100 / 2;
+                                    $valor+=$primas['6']['Empleado']['Post-grado']/2;
                                 }
                                 if ($titulo['TITULO'] == 'Maestria') {
-                                    $valor += 200 / 2;
+                                    //$valor += 200 / 2;
+                                    $valor+=$primas['6']['Empleado']['Maestria']/2;
                                 }
                                 if ($titulo['TITULO'] == 'Doctorado') {
-                                    $valor += 300 / 2;
+                                    //$valor += 300 / 2;
+                                    $valor+=$primas['6']['Empleado']['Doctorado']/2;
                                 }
                             }
                         }
@@ -425,7 +444,8 @@ class Asignacion extends AppModel {
                                 $count++;
                             }
                         }
-                        $valor = $count * $sueldo_diario * 0.30;
+                        //$valor = $count * $sueldo_diario * 0.30;
+                        $valor = $count * $sueldo_diario * ($primas['7']['Obrero']/100);
                     } else {
                         $valor = 0;
                     }
@@ -444,7 +464,8 @@ class Asignacion extends AppModel {
                                 $count++;
                             }
                         }
-                        $valor = $count * $sueldo_diario * 1.50;
+                        //$valor = $count * $sueldo_diario * 1.50;
+                        $valor = $count * $sueldo_diario * ($primas['8']['Obrero']/100);
                     } else {
                         $valor = 0;
                     }

@@ -6,16 +6,17 @@ class NominasController extends AppController {
     var $helpers = array('Excel', 'Javascript', 'Ajax');
     var $components = array('RequestHandler', 'Wizard.Wizard');
 
-    function beforeFilter() {
-        $this->Wizard->steps = array('parte1', 'parte2');
-        $this->Wizard->completeUrl = '/nominas/edit/' . $this->Session->read('Nomina.ID');
-        $this->Wizard->cancelUrl = '/nominas/edit/' . $this->Session->read('Nomina.ID');
+    function beforeFilter() {        
+        $this->Wizard->steps = array('parte1', 'parte2');                
+        $this->Wizard->cancelUrl = '/nominas/edit/' . $this->Session->read('Nomina.ID');            
     }
     
     function wizard($step = null) {
         $this->Wizard->process($step);
-    }    
-
+    }     
+    
+    
+    
     /**
      * [Wizard Process Callbacks]
      */
@@ -23,10 +24,10 @@ class NominasController extends AppController {
         return true;
     }
 
-    function _processParte2() {
-        debug($this);
+    function _processParte2() {        
         return true;
-    }
+    }    
+    
     /**
      * [Wizard Prepare Callbacks]
      */    
@@ -34,20 +35,20 @@ class NominasController extends AppController {
         $asignacion = ClassRegistry::init('Asignacion');                
         $tabulador=$asignacion->tabulador_primas;
         $this->set('tabulador',$tabulador); 
-    }
+    }    
 
     /**
      * [Wizard Completion Callback]
      */
-    function _afterComplete() {
-        $wizardData = $this->Wizard->read();        
-        debug($wizardData);
+    function _afterComplete() {        
+        $wizardData = $this->Wizard->read();                
         $opciones = array(
             'Nomina_id' => $this->Session->read('Nomina.ID'),
-            'Sueldo_Minimo' => $wizardData['parte1']['SUELDO_MINIMO']
+            'Sueldo_Minimo' => $wizardData['parte1']['SUELDO_MINIMO'],
+            'Primas'=>$wizardData['parte2']['PRIMAS']
         );
-        //$this->Wizard->reset();
-        //$this->_generar($opciones);
+        $this->Wizard->reset();
+        $this->_generar($opciones);
     }
 
     /**
@@ -119,26 +120,9 @@ class NominasController extends AppController {
         $this->Session->write('Nomina.ID', $nomina['Nomina']['id']);
 
         $this->set(compact('asignaciones', 'deducciones', 'nomina'));
-    }
+    }    
 
-    /**
-     *  Genera toda la informacion referente a nomina Recibo -> Detalle de Recibo
-     * @param type $id 
-     */
-    function generar($id = null) {
-        $this->autoRender = false;
-        if (!empty($this->data)) {
-            //$this->Nomina->generarNomina($id);
-            if ($this->Nomina->errorMessage != '') {
-                $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
-            } else {
-                $this->Session->setFlash('Nomina generada con exito', 'flash_success');
-            }
-            $this->redirect('edit/' . $id);
-        }
-    }
-
-    function _generar($opciones) {
+    function _generar($opciones) {        
         $this->Nomina->generarNomina($opciones);
         if ($this->Nomina->errorMessage != '') {
             $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
