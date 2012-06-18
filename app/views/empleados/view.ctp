@@ -3,6 +3,7 @@
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content forms">
+        <div class="row"></div>
         <div class="row">
             <div style="float: left; width: 20%;text-align: right;padding-right: 20px">
                 <strong>Nombre Completo</strong>
@@ -46,7 +47,8 @@
             <div style="float: left; width: 75%">
                 <?php echo $empleado['Empleado']['EDOCIVIL']; ?>
             </div>            
-        </div> 
+        </div>         
+        <div class="row"></div>
     </div>
 </div>
 <div class="box small ">
@@ -55,6 +57,7 @@
     </div>
     <div class="content forms">
         <div class="row">
+            <?php echo $this->Html->image("no-user.jpg", array('class' => 'toggle')); ?>
         </div>
     </div>
 </div>

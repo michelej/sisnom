@@ -56,7 +56,9 @@
             echo $this->Form->input('VISUALIZAR', array('div' => false, 'label' => 'Visualizar', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
             echo "</div>";
             ?>
-        </div>        
+        </div>
+        <div class="row"></div>
+             
         <div class="row">            
             <div class="boton">
                 <?php echo $this->Form->End('Mostrar');?>
