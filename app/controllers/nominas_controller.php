@@ -24,6 +24,7 @@ class NominasController extends AppController {
     }
 
     function _processParte2() {
+        debug($this);
         return true;
     }
     /**
@@ -39,13 +40,13 @@ class NominasController extends AppController {
      * [Wizard Completion Callback]
      */
     function _afterComplete() {
-        $wizardData = $this->Wizard->read();
+        $wizardData = $this->Wizard->read();        
         debug($wizardData);
         $opciones = array(
             'Nomina_id' => $this->Session->read('Nomina.ID'),
             'Sueldo_Minimo' => $wizardData['parte1']['SUELDO_MINIMO']
         );
-        $this->Wizard->reset();
+        //$this->Wizard->reset();
         //$this->_generar($opciones);
     }
 
