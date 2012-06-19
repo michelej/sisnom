@@ -3,62 +3,53 @@
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>                
     </div>
     <div class="content pages">
+
         <table cellpadding="0" cellspacing="0">
-            <caption>DEDUCCIONES</caption>
-            <thead>                
-                <tr>
-                    <th></th>  
-                    <th style="width:20%">Codigo</th>
-                    <th style="width:70%">Descripcion</th>                    
-                    <th style="width:10%">Porcentaje</th>                    
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $i = 0;
-                foreach ($ajuste['Deduccion'] as $value):
-                    $class = ' class="even"';
-                    if ($i++ % 2 == 0) {
-                        $class = ' class="odd"';
-                    }                                        
-                    ?>
-                    <tr<?php echo $class; ?>>
-                        <td></td>
-                        <td><?php echo $value['CODIGO']; ?></td>                        
-                        <td><?php echo $value['DESCRIPCION']; ?></td>                        
-                        <td><?php echo $value['PORCENTAJE']; ?></td>                                                
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table> 
-        <br />
-        <table cellpadding="0" cellspacing="0">
-            <caption>ASIGNACIONES</caption>
             <thead>
                 <tr>
-                    <th></th>                      
-                    <th style="width:100%">Descripcion</th>                                        
-                    <th></th>  
-                </tr>
+                    <th style="text-align: center;width: 50%">Asignaciones</th>
+                    <th colspan="3" style="text-align: center;width: 50%">Deducciones</th>
+                </tr>                
             </thead>
             <tbody>                
                 <?php
+                $ta = count($ajuste['Asignacion']);
+                $td = count($ajuste['Deduccion']);
+                if($ta>$td){
+                    $total=$ta;
+                }else{
+                    $total=$td;
+                }
+                
                 $i = 0;
-                foreach ($ajuste['Asignacion'] as $value):
+                for ($ct = 0; $ct < $total; $ct++):
                     $class = ' class="even"';
                     if ($i++ % 2 == 0) {
                         $class = ' class="odd"';
-                    }                    
+                    }
                     ?>
                     <tr<?php echo $class; ?>>
-                        <td></td>                        
-                        <td><?php echo $value['DESCRIPCION']; ?></td>                                                                        
-                        <td></td> 
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-
+                        <?php 
+                         if($ct<$ta){
+                             echo "<td>". $ajuste['Asignacion'][$ct]['DESCRIPCION']."</td>";
+                         }else{
+                             echo "<td>  </td>";
+                         }
+                         
+                         if($ct<$td){
+                             echo "<td>". $ajuste['Deduccion'][$ct]['CODIGO']."</td>";
+                             echo "<td>". $ajuste['Deduccion'][$ct]['DESCRIPCION']."</td>";
+                             echo "<td>". $ajuste['Deduccion'][$ct]['PORCENTAJE']."</td>";
+                         }else{
+                             echo "<td>  </td>";
+                             echo "<td>  </td>";
+                             echo "<td>  </td>";
+                         }
+                        ?>                                                
+                    <?php endfor; ?> 
+                </tr>                
+            </tbody>                                
+        </table>                
     </div>
 </div>
 

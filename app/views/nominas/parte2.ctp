@@ -4,7 +4,7 @@
         <div class="row">  
             <?php echo $this->Form->create(false, array('id' => 'ajaForm', 'url' => Router::normalize($this->here))); ?>                             
             <div style="float: left">
-                <table  class="tabla" style="width: 400px;">
+                <table  class="tabla" cellpadding="0" cellspacing="0" style="width: 400px; ">
                     <thead>
                         <tr>
                             <th colspan="2"> Tabulador Empleados</th>                            
@@ -42,7 +42,7 @@
             </div> 
 
             <div style="float: right">
-                <table  class="tabla" style="width: 400px;">
+                <table  class="tabla" cellpadding="0" cellspacing="0" style="width: 400px;">
                     <thead>
                         <tr>
                             <th colspan="2"> Tabulador Obreros</th>                            

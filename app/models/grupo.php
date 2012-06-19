@@ -13,7 +13,7 @@ class Grupo extends AppModel{
     function verificar(){
         $this->data=array(
             '1'=>array('id'=>'1','NOMBRE'=>'Empleado'),
-            '2'=>array('id'=>'2','NOMBRE'=>'Obrero'),            
+            '2'=>array('id'=>'2','NOMBRE'=>'Obrero'),                                    
         );
         // La misma Validacion que se hizo en Asignacion y Deduccion para verificar
         // que los valores de la tabla siempre sean los que estan aqui declarados

@@ -25,8 +25,8 @@ class AjustesController extends AppController {
                 'Grupo',
                 'Contrato' => array(
                     'Cargo', 'Departamento',
-                    'conditions' => array(
-                        'FECHA_FIN' => NULL),
+                    'order' => array(
+                        'Contrato.FECHA_INI' => 'asc'),
                 )
                 ));
 
@@ -87,11 +87,16 @@ class AjustesController extends AppController {
                         )
                     )
                         ));
-                //$grupo[$data['Grupo']['id']]=$data['Grupo']['nombre'];                
+
                 $grupo = $data['Grupo']['nombre'];
-                if ($data['Contrato']['0']['MODALIDAD'] == 'Contratado') {
-                    $grupo = 'Contratados';
+                if (empty($data['Contrato'])) {
+                    $grupo = "Empleado";
+                } else {
+                    if ($data['Contrato']['0']['MODALIDAD'] == 'Contratado') {
+                        $grupo = 'Contratados';
+                    }
                 }
+
                 $asig = $this->Ajuste->Asignacion->ordenDeAsignaciones($grupo);
                 $dedu = $this->Ajuste->Deduccion->ordenDeDeducciones($grupo);
 

@@ -5,77 +5,80 @@
         <?php echo $this->Form->input("empleado_id", array('type' => 'hidden', 'value' => $ajuste['Ajuste']['empleado_id'])); ?>
     </div>
     <div class="content pages">
+
         <table cellpadding="0" cellspacing="0">
-            <caption>DEDUCCIONES</caption>
-            <thead>                
-                <tr>
-                    <th></th>  
-                    <th style="width:20%">Codigo</th>
-                    <th style="width:60%">Descripcion</th>                    
-                    <th style="width:10%">Porcentaje</th>
-                    <th style="width:10%; text-align: center">Usada</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $i = 0;
-                foreach ($deducciones as $deduccion):
-                    $class = ' class="even"';
-                    if ($i++ % 2 == 0) {
-                        $class = ' class="odd"';
-                    }
-                    $id = $deduccion['Deduccion']['id'];
-                    $checked = false;
-                    foreach ($ajuste['Deduccion'] as $value) {
-                        if ($value['id'] == $id) {
-                            $checked = true;
-                        }
-                    }
-                    ?>
-                    <tr<?php echo $class; ?>>
-                        <td></td>
-                        <td><?php echo $deduccion['Deduccion']['CODIGO']; ?></td>                        
-                        <td><?php echo $deduccion['Deduccion']['DESCRIPCION']; ?></td>                        
-                        <td><?php echo $deduccion['Deduccion']['PORCENTAJE']; ?></td>                        
-                        <td><?php echo $this->Form->input('Deduccion.' . $id, array('type' => 'checkbox', 'label' => false, 'checked' => $checked)); ?></td>                                              
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table> 
-        <br />
-        <table cellpadding="0" cellspacing="0">
-            <caption>ASIGNACIONES</caption>
             <thead>
                 <tr>
-                    <th></th>                      
-                    <th style="width:90%">Descripcion</th>                    
-                    <th style="width:10%; text-align: center">Usada</th>                    
-                </tr>
+                    <th colspan="2" style="text-align: center;width: 50%">Asignaciones</th>
+                    <th colspan="4" style="text-align: center;width: 50%">Deducciones</th>
+                </tr>                
             </thead>
             <tbody>                
                 <?php
+                $ta = count($ajuste['Asignacion']);
+                $td = count($ajuste['Deduccion']);
+                if (count($asignaciones) > count($deducciones)) {
+                    $total = count($asignaciones);
+                } else {
+                    $total = count($deducciones);
+                }
+
                 $i = 0;
-                foreach ($asignaciones as $asignacion):
+                for ($ct = 0; $ct < $total; $ct++):
                     $class = ' class="even"';
                     if ($i++ % 2 == 0) {
                         $class = ' class="odd"';
                     }
-                    $id = $asignacion['Asignacion']['id'];
-                    $checked = false;
-                    foreach ($ajuste['Asignacion'] as $value) {
-                        if ($value['id'] == $id) {
-                            $checked = true;
+                    if ($ct < $td) {
+                        $id_deduccion = $ajuste['Deduccion'][$ct]['id'];
+                        $checked_deduccion = false;
+                        foreach ($ajuste['Deduccion'] as $value_deduccion) {
+                            if ($value_deduccion['id'] == $id_deduccion) {
+                                $checked_deduccion = true;
+                            }
                         }
+                    } else {
+                        $checked_deduccion = false;
                     }
+
+                    if ($ct < $ta) {
+                        $id_asignacion = $ajuste['Asignacion'][$ct]['id'];
+                        $checked_asignacion = false;
+                        foreach ($ajuste['Asignacion'] as $value_asignacion) {
+                            if ($value_asignacion['id'] == $id_asignacion) {
+                                $checked_asignacion = true;
+                            }
+                        }
+                    }else{
+                        $checked_asignacion = false;
+                    }
+                    
                     ?>
                     <tr<?php echo $class; ?>>
-                        <td></td>                        
-                        <td><?php echo $asignacion['Asignacion']['DESCRIPCION']; ?></td>                                                
-                        <td><?php echo $this->Form->input('Asignacion.' . $id, array('type' => 'checkbox', 'label' => false, 'checked' => $checked)); ?></td>                        
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                        <?php
+                        if ($ct < count($asignaciones)) {
+                            echo "<td>" . $asignaciones[$ct]['Asignacion']['DESCRIPCION'] . "</td>";
+                            echo "<td>" . $this->Form->input('Asignacion.' . $id_asignacion, array('type' => 'checkbox', 'label' => false, 'checked' => $checked_asignacion)) . "</td>";
+                        } else {
+                            echo "<td>  </td>";
+                            echo "<td>  </td>";
+                        }
+
+                        if ($ct < count($deducciones)) {
+                            echo "<td>" . $deducciones[$ct]['Deduccion']['CODIGO'] . "</td>";
+                            echo "<td>" . $deducciones[$ct]['Deduccion']['DESCRIPCION'] . "</td>";
+                            echo "<td>" . $deducciones[$ct]['Deduccion']['PORCENTAJE'] . "</td>";
+                            echo "<td>" . $this->Form->input('Deduccion.' . $id_deduccion, array('type' => 'checkbox', 'label' => false, 'checked' => $checked_deduccion)) . "</td>";
+                        } else {
+                            echo "<td>  </td>";
+                            echo "<td>  </td>";
+                            echo "<td>  </td>";
+                        }
+                        ?>                                                
+                    <?php endfor; ?> 
+                </tr>                
+            </tbody>                                
+        </table>          
 
     </div>
 </div>

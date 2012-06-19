@@ -63,12 +63,12 @@
                                 <li><?php echo $this->Html->link($this->Html->image("Drawer Closed.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Administrar Conceptos", array('controller' => 'ajustes', 'action' => 'index'), array('escape' => false)); ?></li>                                    
                                 <li><?php echo $this->Html->link($this->Html->image("Globe Active.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Localizacion Fisica", array('controller' => 'localizaciones', 'action' => 'index'), array('escape' => false)); ?></li>                                  
                                 <li><?php echo $this->Html->link($this->Html->image("Database Add.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Cargar Deducciones", array('controller' => 'prestamos', 'action' => 'index'), array('escape' => false)); ?></li>                                  
-                                <li><?php echo $this->Html->link($this->Html->image("Button Remove.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Cargar Ausencias", array('controller' => 'ausencias', 'action' => 'index'), array('escape' => false)); ?></li>         
-                                <li><?php echo $this->Html->link($this->Html->image("Button White Add.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Cargar Horas Extras", array('controller' => 'horas_extras', 'action' => 'index'), array('escape' => false)); ?></li>                                                                  
-                                <li><?php echo $this->Html->link($this->Html->image("News.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Administrar Nominas", array('controller' => 'nominas', 'action' => 'index'), array('escape' => false)); ?></li>
+                                <li><?php echo $this->Html->link($this->Html->image("Button Remove.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Ausencias", array('controller' => 'ausencias', 'action' => 'index'), array('escape' => false)); ?></li>         
+                                <li><?php echo $this->Html->link($this->Html->image("Button White Add.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Horas Extras", array('controller' => 'horas_extras', 'action' => 'index'), array('escape' => false)); ?></li>                                                                  
+                                <li><?php echo $this->Html->link($this->Html->image("News.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "  Nominas", array('controller' => 'nominas', 'action' => 'index'), array('escape' => false)); ?></li>
                                 <li><?php echo $this->Html->link($this->Html->image("cestaticket.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Cestaticket", array('controller' => 'cestatickets', 'action' => 'index'), array('escape' => false)); ?></li>
-                        </li> 
-                    </ul>             
+                            </ul>    
+                        </li>                     
                     <li>     
                         <?php echo $this->Html->link($this->Html->image("Cog.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Conceptos", array('controller' => 'Pages', 'action' => 'display'), array('escape' => false)); ?>     
                         <ul>          
