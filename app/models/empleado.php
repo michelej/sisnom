@@ -10,7 +10,8 @@ class Empleado extends AppModel {
      */
     var $hasMany = array('DetalleCestaticket','Recibo','Ausencia','Contrato','Familiar','Titulo','HorasExtra','Prestamo','Comercial','Tribunal','Islr','Experiencia','Ajuste');
             
-    var $belongsTo ='Grupo';
+    var $belongsTo =array('Grupo','Localizacion');        
+    
     /**
      *  Validaciones
      */    

@@ -9,7 +9,8 @@
         <?php
         echo $this->Form->create('Departamento', array('url' => array('controller' => 'departamentos', 'action' => 'asignar', $id)));
         echo "<div class='row'>";
-        echo $this->Form->input('programa_id', array('div' => false, 'label' => 'Programa', 'class' => 'medium', 'type' => 'select', 'options' => $programas, 'empty' => 'No pertenece a ningun programa'));
+        echo $this->Form->input('programa_id', array('div' => false, 'label' => 'Programa', 'class' => 'medium', 'type' => 'select', 'options' => $programas,
+            'default'=>$departamento['Departamento']['programa_id'],'empty' => 'No pertenece a ningun programa'));
         echo "</div>";
         ?>
     </div>

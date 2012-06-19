@@ -58,7 +58,12 @@ class EmpleadosController extends AppController {
             $this->Session->setFlash('Empleado Invalido', 'flash_error');
             $this->redirect(array('action' => 'index'));
         }        
-        $empleado=$this->Empleado->findById($id);                        
+        $empleado=$this->Empleado->find('first',array(
+            'recursive'=>-1,
+            'conditions'=>array(
+                'Empleado.id'=>$id
+            )
+        ));                        
         $this->set('empleado',$empleado);
     }
 
