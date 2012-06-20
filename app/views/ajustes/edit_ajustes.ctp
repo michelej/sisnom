@@ -29,11 +29,11 @@
                     if ($i++ % 2 == 0) {
                         $class = ' class="odd"';
                     }
-                    if ($ct < $td) {
-                        $id_deduccion = $ajuste['Deduccion'][$ct]['id'];
+                    if ($ct < count($deducciones)) {
+                        $id_deduccion = $deducciones[$ct]['id'];                        
                         $checked_deduccion = false;
-                        foreach ($ajuste['Deduccion'] as $value_deduccion) {
-                            if ($value_deduccion['id'] == $id_deduccion) {
+                        foreach ($ajuste['Deduccion'] as $value_deduccion) {                            
+                            if ($value_deduccion['id'] == $id_deduccion) {                                
                                 $checked_deduccion = true;
                             }
                         }
@@ -41,10 +41,10 @@
                         $checked_deduccion = false;
                     }
 
-                    if ($ct < $ta) {
-                        $id_asignacion = $ajuste['Asignacion'][$ct]['id'];
+                    if ($ct < count($asignaciones)) {                        
+                        $id_asignacion=$asignaciones[$ct]['id'];                                                
                         $checked_asignacion = false;
-                        foreach ($ajuste['Asignacion'] as $value_asignacion) {
+                        foreach ($ajuste['Asignacion'] as $value_asignacion) {                                                        
                             if ($value_asignacion['id'] == $id_asignacion) {
                                 $checked_asignacion = true;
                             }
@@ -57,7 +57,7 @@
                     <tr<?php echo $class; ?>>
                         <?php
                         if ($ct < count($asignaciones)) {
-                            echo "<td>" . $asignaciones[$ct]['Asignacion']['DESCRIPCION'] . "</td>";
+                            echo "<td>" . $asignaciones[$ct]['DESCRIPCION'] . "</td>";
                             echo "<td>" . $this->Form->input('Asignacion.' . $id_asignacion, array('type' => 'checkbox', 'label' => false, 'checked' => $checked_asignacion)) . "</td>";
                         } else {
                             echo "<td>  </td>";
@@ -65,9 +65,9 @@
                         }
 
                         if ($ct < count($deducciones)) {
-                            echo "<td>" . $deducciones[$ct]['Deduccion']['CODIGO'] . "</td>";
-                            echo "<td>" . $deducciones[$ct]['Deduccion']['DESCRIPCION'] . "</td>";
-                            echo "<td>" . $deducciones[$ct]['Deduccion']['PORCENTAJE'] . "</td>";
+                            echo "<td>" . $deducciones[$ct]['CODIGO'] . "</td>";
+                            echo "<td>" . $deducciones[$ct]['DESCRIPCION'] . "</td>";
+                            echo "<td>" . $deducciones[$ct]['PORCENTAJE'] . "</td>";
                             echo "<td>" . $this->Form->input('Deduccion.' . $id_deduccion, array('type' => 'checkbox', 'label' => false, 'checked' => $checked_deduccion)) . "</td>";
                         } else {
                             echo "<td>  </td>";

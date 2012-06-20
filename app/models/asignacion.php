@@ -174,6 +174,9 @@ class Asignacion extends AppModel {
         $empleado['Empleado'] = $nomina_empleado['Empleado'];
 
         // Realizamos el calculo para cada asignacion
+        // Se hace de esta manera para que no importa el orden en el que un empleado tenga
+        // sus ajustes guardados siempre van a ser los obtenidos por la funcion ordemAsignacion
+        // para asi mantener un orden
         foreach ($data as $value) {
             switch ($value['id']) {
                 //------------------------------------------------------------//
@@ -516,8 +519,7 @@ class Asignacion extends AppModel {
     }
 
     /**
-     *  Aqui podemos determinar el orden que queremos que tengan las asignaciones
-     *  
+     * Orden en el que se van a manejar las Deducciones en ajustes y nomina
      * @param type $tipo
      * @return type El orden de la Asignaciones
      */

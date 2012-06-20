@@ -100,6 +100,10 @@ class Deduccion extends AppModel {
         // OJO CANTIDAD DE LUNES DEL MES O QUINCENA????
         $cant_lunes = cantidadLunes(formatoFechaAfterFind($fecha_ini), formatoFechaAfterFind($fecha_fin));            
         
+        // Realizamos el calculo para cada Deduccion
+        // Se hace de esta manera para que no importa el orden en el que un empleado tenga
+        // sus ajustes guardados siempre van a ser los obtenidos por la funcion ordenDeduccion
+        // para asi manterner un orden
         foreach ($data as $value) {            
             switch ($value['id']) {
                 //------------------------------------------------------------//
@@ -282,20 +286,20 @@ class Deduccion extends AppModel {
         }
     }
     /**
-     *
+     * Orden en el que se van a manejar las Deducciones en ajustes y nomina
      * @param type $tipo
      * @return type 
      */
     
     function ordenDeDeducciones($tipo) {
         if ($tipo == 'Empleado') {
-            $orden = array('1', '2', '3', '4', '5', '6','7','9');
+            $orden = array('1', '2', '3', '4', '5','6','7','8','9');
         }
         if ($tipo == 'Obrero') {
             $orden = array('1', '2', '3', '5', '6','8','7');
         }
         if ($tipo == 'Contratados') {
-            $orden = array('1', '2', '3','5', '6', '7','9');
+            $orden = array('1', '2', '3', '5', '6', '8','7');
         }
         foreach ($orden as $value) {
             $resultado[] = $this->constante[$value];
