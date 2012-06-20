@@ -16,13 +16,13 @@ class Asignacion extends AppModel {
      */
     var $constante = array(
         '1' => array('id' => '1', 'DESCRIPCION' => 'Prima por Reconocimiento'),
-        '2' => array('id' => '2', 'DESCRIPCION' => 'Prima Hogar'),
-        '3' => array('id' => '3', 'DESCRIPCION' => 'Prima por Antiguedad'),
+        '2' => array('id' => '2', 'DESCRIPCION' => 'Prima por Hogar'),
+        '3' => array('id' => '3', 'DESCRIPCION' => 'Prima por Antigüedad'),
         '4' => array('id' => '4', 'DESCRIPCION' => 'Prima por Transporte'),
         '5' => array('id' => '5', 'DESCRIPCION' => 'Prima por Hijos'),
-        '6' => array('id' => '6', 'DESCRIPCION' => 'Nivelacion Profesional'),
+        '6' => array('id' => '6', 'DESCRIPCION' => 'Prima de Nivelación y Eficiencia Profesional'),
         '7' => array('id' => '7', 'DESCRIPCION' => 'Bono Nocturno'),
-        '8' => array('id' => '8', 'DESCRIPCION' => 'Recargo por Domingo y Dia Feriado'),
+        '8' => array('id' => '8', 'DESCRIPCION' => 'Recargo Domingos y Dias Feriados'),
     );
 
     /**

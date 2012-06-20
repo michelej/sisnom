@@ -39,13 +39,13 @@
                     <?php                    
                         $asignaciones=array_keys($empleados['0']['Nomina_Empleado']['Asignaciones']);                        
                         foreach ($asignaciones as $asignacion) {
-                            echo '<th style="width:2.5%; text-align: center; word-wrap: break-word">'.$asignacion."</td>";
+                            echo '<th style="width:2.5%; text-align: center;">'.$asignacion."</td>";
                         }
                     ?>                    
                     <?php                    
                         $deducciones=array_keys($empleados['0']['Nomina_Empleado']['Deducciones']);                        
                         foreach ($deducciones as $deduccion) {
-                            echo '<th style="width:2.5%; text-align: center; word-wrap: break-word">'.$deduccion."</td>";
+                            echo '<th style="width:2.5%; text-align: center;">'.$deduccion."</td>";
                         }
                     ?> 
                 </tr>

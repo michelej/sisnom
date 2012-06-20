@@ -5,10 +5,9 @@
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
-                    <th></th>                      
-                    <th style="width:30%"><?php echo $this->Paginator->sort('Codigo', 'CODIGO'); ?></th>
-                    <th style="width:50%"><?php echo $this->Paginator->sort('Descripcion', 'DESCRIPCION'); ?></th>
-                    <th style="width:20%; text-align: center"><?php echo $this->Paginator->sort('Porcentaje', 'PORCENTAJE'); ?></th>
+                    <th></th>                                          
+                    <th style="width:100%"><?php echo $this->Paginator->sort('Descripcion', 'DESCRIPCION'); ?></th>                    
+                    <th></th>                                          
                 </tr>
             </thead>
             <tbody>
@@ -21,10 +20,9 @@
                     }
                     ?>
                     <tr<?php echo $class; ?>>
-                        <td></td>
-                        <td><?php echo $deduccion['Deduccion']['CODIGO']; ?></td>
+                        <td></td>                        
                         <td><?php echo $deduccion['Deduccion']['DESCRIPCION']; ?></td>
-                        <td><?php echo $deduccion['Deduccion']['PORCENTAJE']; ?></td>
+                        <td></td>                        
                     </tr>
                 <?php endforeach; ?>
             </tbody>

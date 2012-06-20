@@ -10,16 +10,18 @@ class Deduccion extends AppModel {
      *  Relaciones
      */
     var $hasAndBelongsToMany = 'Ajuste';
+    
     var $constante = array(
-        '1' => array('id' => '1', 'CODIGO' => 'S.S.O', 'DESCRIPCION' => 'Seguro Social Obligatorio', 'PORCENTAJE' => '4%'),
-        '2' => array('id' => '2', 'CODIGO' => 'R.P.E', 'DESCRIPCION' => 'Régimen Prestacional de Empleo ', 'PORCENTAJE' => '0.5%'),
-        '3' => array('id' => '3', 'CODIGO' => 'FAOV', 'DESCRIPCION' => 'Fondo de Ahorro Obligatorio de Vivienda', 'PORCENTAJE' => '1%'),
-        '4' => array('id' => '4', 'CODIGO' => 'F.P', 'DESCRIPCION' => 'Fondo de Pensiones', 'PORCENTAJE' => '3%'),
-        '5' => array('id' => '5', 'CODIGO' => 'C.A', 'DESCRIPCION' => 'Caja de Ahorros', 'PORCENTAJE' => '10%'),
-        '6' => array('id' => '6', 'CODIGO' => 'PC', 'DESCRIPCION' => 'Prestamo Caja de Ahorros', 'PORCENTAJE' => ''),
-        '7' => array('id' => '7', 'CODIGO' => 'DC', 'DESCRIPCION' => 'Deducciones Comerciales', 'PORCENTAJE' => ''),
-        '8' => array('id' => '8', 'CODIGO' => 'T', 'DESCRIPCION' => 'Deducciones por Tribunales', 'PORCENTAJE' => ''),
-        '9' => array('id' => '9', 'CODIGO' => 'ISLR', 'DESCRIPCION' => 'Declaracion impuesto sobre la renta', 'PORCENTAJE' => ''),
+        '1' => array('id' => '1', 'DESCRIPCION' => 'S.S.O (4%)'),
+        '2' => array('id' => '2', 'DESCRIPCION' => 'Régimen Prestacional de Empleo (0.50%)'),
+        '3' => array('id' => '3', 'DESCRIPCION' => 'Fondo de Ahorro Obligatorio de Vivienda (FAOV) (1%)'),
+        '4' => array('id' => '4', 'DESCRIPCION' => 'Fondo de Pensiones (3%)'),
+        '5' => array('id' => '5', 'DESCRIPCION' => 'Caja de Ahorros'),
+        '6' => array('id' => '6', 'DESCRIPCION' => 'Préstamo Caja de Ahorros'),
+        '7' => array('id' => '7', 'DESCRIPCION' => 'Deducciones por Créditos Comerciales'),
+        '8' => array('id' => '8', 'DESCRIPCION' => 'Deducciones por Tribunales'),
+        '9' => array('id' => '9', 'DESCRIPCION' => 'Retención del Impuesto Sobre la Renta'),
+        '10' => array('id' => '10', 'DESCRIPCION' => 'Ley de Vivienda y Habitat (1%)'),
     );
 
     /**
@@ -247,6 +249,19 @@ class Deduccion extends AppModel {
                     }
                     $deducciones[$value['DESCRIPCION']] = $valor;
                     break;
+                //------------------------------------------------------------//
+                //
+                //                  LEY DE VIVIENDA Y HABITAT
+                //
+                //------------------------------------------------------------//
+                case "10":
+                    if ($this->empleadoTieneDeduccion($id_empleado, $value['id'],$fecha_ini,$fecha_fin)) {
+                        $valor = ($sueldo_basico + $monto_asignaciones) * 0.01;
+                    } else {
+                        $valor = 0;
+                    }
+                    $deducciones[$value['DESCRIPCION']] = $valor;
+                    break;     
             }
         }
         return $deducciones;
@@ -299,7 +314,7 @@ class Deduccion extends AppModel {
             $orden = array('1', '2', '3', '5', '6','8','7');
         }
         if ($tipo == 'Contratados') {
-            $orden = array('1', '2', '3', '5', '6', '8','7');
+            $orden = array('1', '2', '10', '5', '6', '8','7');
         }
         foreach ($orden as $value) {
             $resultado[] = $this->constante[$value];

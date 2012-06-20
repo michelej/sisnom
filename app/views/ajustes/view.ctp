@@ -8,7 +8,7 @@
             <thead>
                 <tr>
                     <th style="text-align: center;width: 50%">Asignaciones</th>
-                    <th colspan="3" style="text-align: center;width: 50%">Deducciones</th>
+                    <th style="text-align: center;width: 50%">Deducciones</th>
                 </tr>                
             </thead>
             <tbody>                
@@ -36,10 +36,8 @@
                              echo "<td>  </td>";
                          }
                          
-                         if($ct<$td){
-                             echo "<td>". $ajuste['Deduccion'][$ct]['CODIGO']."</td>";
-                             echo "<td>". $ajuste['Deduccion'][$ct]['DESCRIPCION']."</td>";
-                             echo "<td>". $ajuste['Deduccion'][$ct]['PORCENTAJE']."</td>";
+                         if($ct<$td){                             
+                             echo "<td>". $ajuste['Deduccion'][$ct]['DESCRIPCION']."</td>";                             
                          }else{
                              echo "<td>  </td>";
                              echo "<td>  </td>";

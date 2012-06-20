@@ -10,7 +10,7 @@
             <thead>
                 <tr>
                     <th colspan="2" style="text-align: center;width: 50%">Asignaciones</th>
-                    <th colspan="4" style="text-align: center;width: 50%">Deducciones</th>
+                    <th colspan="2" style="text-align: center;width: 50%">Deducciones</th>
                 </tr>                
             </thead>
             <tbody>                
@@ -64,10 +64,8 @@
                             echo "<td>  </td>";
                         }
 
-                        if ($ct < count($deducciones)) {
-                            echo "<td>" . $deducciones[$ct]['CODIGO'] . "</td>";
-                            echo "<td>" . $deducciones[$ct]['DESCRIPCION'] . "</td>";
-                            echo "<td>" . $deducciones[$ct]['PORCENTAJE'] . "</td>";
+                        if ($ct < count($deducciones)) {                            
+                            echo "<td>" . $deducciones[$ct]['DESCRIPCION'] . "</td>";                            
                             echo "<td>" . $this->Form->input('Deduccion.' . $id_deduccion, array('type' => 'checkbox', 'label' => false, 'checked' => $checked_deduccion)) . "</td>";
                         } else {
                             echo "<td>  </td>";
