@@ -45,20 +45,23 @@
                     if ($i++ % 2 == 0) {
                         $class = ' class="odd"';
                     }
+                    if (!empty($empleado['Contrato']['0'])) {
+                        if ($empleado['Contrato']['0']['MODALIDAD'] == 'Contratado') {
+                            $carg="CONTRATADO";
+                        } else {
+                            $carg=$empleado['Contrato']['0']['Cargo']['NOMBRE'];
+                        }
+                    } else {
+                        $carg=" Esta persona se encuentra Inactiva";                        
+                    }
+                    
                     ?>
                     <tr<?php echo $class; ?>>
                         <td></td>
                         <td style="text-align: right"><?php echo $empleado['Empleado']['CEDULA']; ?></td>
                         <td><?php echo mb_convert_case(strtolower($empleado['Empleado']['APELLIDO']), MB_CASE_TITLE, "UTF-8") . ' ' . mb_convert_case(strtolower($empleado['Empleado']['NOMBRE']), MB_CASE_TITLE, "UTF-8"); ?></td>                        
                         <td><?php echo $empleado['Grupo']['NOMBRE']; ?></td>
-                        <td style="text-align: left"><?php
-                if (!empty($empleado['Contrato']['0'])) {
-                    echo $empleado['Contrato']['0']['Cargo']['NOMBRE'];
-                } else {
-                    echo " ";
-                }
-                ?>
-                        </td>                                                                        
+                        <td style="text-align: left"><?php echo $carg; ?></td>                                                                        
                         <td class="actions">
                             <?php
                             echo $this->Html->image("Money Bundle.png", array("alt" => " ", 'width' => '18', 'heigth' => '18', 'title' => 'Prestamos de Caja de Ahorro', 'url' => array('controller' => 'prestamos', 'action' => 'edit', $empleado['Empleado']['id'])));
