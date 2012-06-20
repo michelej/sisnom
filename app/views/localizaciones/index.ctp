@@ -49,7 +49,7 @@
                         <td><?php echo mb_convert_case(strtolower($empleado['Empleado']['APELLIDO']), MB_CASE_TITLE, "UTF-8") . ' ' . mb_convert_case(strtolower($empleado['Empleado']['NOMBRE']), MB_CASE_TITLE, "UTF-8"); ?></td>
                         <td style="text-align: center"><?php
                         if (!empty($empleado['Localizacion']['Departamento'])) {
-                            echo $empleado['Localizacion']['Departamento']['NOMBRE'];
+                            echo normalizarPalabra($empleado['Localizacion']['Departamento']['NOMBRE']);
                         } else {
                             echo " ";
                         }

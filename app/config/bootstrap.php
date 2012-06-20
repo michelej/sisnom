@@ -174,3 +174,19 @@ function redondear($valor) {
    $float_redondeado=round($valor * 100) / 100;
    return $float_redondeado;
 } 
+
+/*
+ *  Funcion para pasar una palabra ya sea un Nombre o un Cargo de como sea que
+ *  se encuentre a una forma mas presentable  Ejm: AUDITOR -> Auditor
+ *  OJO tomando en cuenta los numeros romanos usados en los cargos
+ */
+function normalizarPalabra($palabra){
+    $parte1=mb_convert_case(strtolower($palabra), MB_CASE_TITLE, "UTF-8");
+    $romans=array(" ii"," iii"," iv",);
+    $mas_romans=array(" II"," III"," IV");
+    $final=$parte1;
+    for($i=0;$i<count($romans);$i++){
+        $final=str_ireplace($romans[$i],$mas_romans[$i],$final);
+    }    
+    return $final;
+}

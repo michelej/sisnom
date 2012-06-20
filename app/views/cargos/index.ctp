@@ -29,7 +29,7 @@
                     ?>
                     <tr<?php echo $class; ?>>
                         <td></td>
-                        <td><?php echo $cargo['Cargo']['NOMBRE']; ?></td>                        
+                        <td><?php echo normalizarPalabra($cargo['Cargo']['NOMBRE']); ?></td>                        
                         <td><?php echo $cargo['Cargo']['DESCRIPCION']; ?></td>                        
                         <td><?php
                 if (!empty($cargo['Historial']['0'])) {

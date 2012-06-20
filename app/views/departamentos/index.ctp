@@ -29,7 +29,7 @@
                     ?>
                     <tr<?php echo $class; ?>>
                         <td></td>                                                
-                        <td><?php echo $departamento['Departamento']['NOMBRE']; ?></td>
+                        <td><?php echo normalizarPalabra($departamento['Departamento']['NOMBRE']); ?></td>
                         <td><?php echo $departamento['Programa']['CODIGO']; ?></td>
                         <td><?php echo $departamento['Programa']['TIPO']; ?></td>
                         <td><?php echo $departamento['Programa']['NUMERO']; ?></td>

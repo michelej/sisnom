@@ -60,7 +60,7 @@
                         <td style="text-align: right"><?php echo $empleado['Empleado']['CEDULA']; ?></td>
                         <td><?php echo mb_convert_case(strtolower($empleado['Empleado']['APELLIDO']), MB_CASE_TITLE, "UTF-8") . ' ' . mb_convert_case(strtolower($empleado['Empleado']['NOMBRE']), MB_CASE_TITLE, "UTF-8"); ?></td>                        
                         <td><?php echo $empleado['Grupo']['NOMBRE']; ?></td>
-                        <td style="text-align: left"><?php echo $carg; ?></td>                             
+                        <td style="text-align: left"><?php echo normalizarPalabra($carg); ?></td>                             
                         <td class="actions">
                             <?php
                             echo $this->Html->image("Button Add.png", array("alt" => "Agregar", 'title' => 'Nueva Hora Extra', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $empleado['Empleado']['id'])));
