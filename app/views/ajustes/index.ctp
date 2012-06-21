@@ -47,12 +47,21 @@
                     }
                     if (!empty($empleado['Contrato']['0'])) {
                         if ($empleado['Contrato']['0']['MODALIDAD'] == 'Contratado') {
-                            $carg="CONTRATADO";
+                            $carg = "CONTRATADO";
                         } else {
-                            $carg=$empleado['Contrato']['0']['Cargo']['NOMBRE'];
+                            $carg = $empleado['Contrato']['0']['Cargo']['NOMBRE'];
                         }
+                        $hoy = date("d-m-Y");
+                        $fecha = $empleado['Contrato']['0']['FECHA_FIN'];                        
+                        if ($fecha != null) {
+                            if (compara_fechas($hoy, $fecha) > 0) {
+                                $carg = "Despedido / Renuncia";
+                            } else {
+                                $carg = $empleado['Contrato']['0']['Cargo']['NOMBRE'];
+                            }
+                        } 
                     } else {
-                        $carg=" Esta persona se encuentra Inactiva";                        
+                        $carg = "Sin Contrato";
                     }
                     
                     ?>

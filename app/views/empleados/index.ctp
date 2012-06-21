@@ -49,14 +49,23 @@
                         } else {
                             $carg = $empleado['Contrato']['0']['Cargo']['NOMBRE'];
                         }
+                        $hoy = date("d-m-Y");
+                        $fecha = $empleado['Contrato']['0']['FECHA_FIN'];                        
+                        if ($fecha != null) {
+                            if (compara_fechas($hoy, $fecha) > 0) {
+                                $carg = "Despedido / Renuncia";
+                            } else {
+                                $carg = $empleado['Contrato']['0']['Cargo']['NOMBRE'];
+                            }
+                        } 
                     } else {
-                        $carg = " Esta persona se encuentra Inactiva";
+                        $carg = "Sin Contrato";
                     }
                     ?>
                     <tr<?php echo $class; ?>>
                         <td></td>                        
                         <td style="text-align: right"><?php echo $empleado['Empleado']['CEDULA']; ?></td>
-                        <td><?php echo normalizarPalabra($empleado['Empleado']['APELLIDO']." ".$empleado['Empleado']['NOMBRE']);?></td>                        
+                        <td><?php echo normalizarPalabra($empleado['Empleado']['APELLIDO'] . " " . $empleado['Empleado']['NOMBRE']); ?></td>                        
                         <td style="text-align: left"><?php echo $empleado['Grupo']['NOMBRE']; ?></td>
                         <td style="text-align: left"><?php echo normalizarPalabra($carg); ?></td>                                                                        
                         <td class="actions">

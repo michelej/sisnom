@@ -51,8 +51,17 @@
                         } else {
                             $carg = $empleado['Contrato']['0']['Cargo']['NOMBRE'];
                         }
+                        $hoy = date("d-m-Y");
+                        $fecha = $empleado['Contrato']['0']['FECHA_FIN'];                        
+                        if ($fecha != null) {
+                            if (compara_fechas($hoy, $fecha) > 0) {
+                                $carg = "Despedido / Renuncia";
+                            } else {
+                                $carg = $empleado['Contrato']['0']['Cargo']['NOMBRE'];
+                            }
+                        } 
                     } else {
-                        $carg = " Esta persona se encuentra Inactiva";
+                        $carg = "Sin Contrato";
                     }
                     ?>
                     <tr<?php echo $class; ?>>

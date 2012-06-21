@@ -20,11 +20,18 @@ class LocalizacionesController extends AppController {
             }
         }
         $this->paginate = array(
-            'limit' => 20,
-            'contain' => array(
-                'Grupo',
-                'Localizacion' => array(
-                    'Departamento'
+            'Empleado' => array(
+                'limit' => 20,
+                'contain' => array(
+                    'Grupo',
+                    'Localizacion' => array(
+                        'Departamento'
+                    ),
+                    'Contrato' => array(
+                        'Cargo', 'Departamento',
+                        'order' => array(
+                            'Contrato.FECHA_INI' => 'desc'),
+                    )
                 )
             )
         );
@@ -47,11 +54,11 @@ class LocalizacionesController extends AppController {
         if (!empty($this->data)) {
 
             if (empty($this->data['Localizacion']['departamento_id'])) {
-                $id_loc=$empleado['Empleado']['localizacion_id'];                
+                $id_loc = $empleado['Empleado']['localizacion_id'];
                 //debug($this->data);                
-                $this->Localizacion->Empleado->id=$empleado['Empleado']['id'];
-                $this->Localizacion->Empleado->saveField('localizacion_id',null);                
-                $this->Localizacion->delete($id_loc,false);
+                $this->Localizacion->Empleado->id = $empleado['Empleado']['id'];
+                $this->Localizacion->Empleado->saveField('localizacion_id', null);
+                $this->Localizacion->delete($id_loc, false);
                 $this->Session->setFlash('Localizacion fisica modificada con exito', 'flash_success');
                 $this->redirect(array('action' => 'index'));
                 return;

@@ -42,21 +42,33 @@
                     if ($i++ % 2 == 0) {
                         $class = ' class="odd"';
                     }
+
+                    if (!empty($empleado['Localizacion']['Departamento'])) {
+                        $departamento = normalizarPalabra($empleado['Localizacion']['Departamento']['NOMBRE']);
+                    } else {
+                        $departamento = " ";
+                    }
+
+                    if (!empty($empleado['Contrato']['0'])) {
+                        $hoy = date("d-m-Y");
+                        $fecha = $empleado['Contrato']['0']['FECHA_FIN'];
+                        if ($fecha != null) {
+                            if (compara_fechas($hoy, $fecha) > 0) {
+                                $departamento = "Despedido / Renuncia";
+                            }
+                        }
+                    } else {
+                        $departamento = "Sin Contrato";
+                    }
                     ?>
                     <tr<?php echo $class; ?>>
                         <td></td>                        
                         <td style="text-align: right"><?php echo $empleado['Empleado']['CEDULA']; ?></td>
                         <td><?php echo mb_convert_case(strtolower($empleado['Empleado']['APELLIDO']), MB_CASE_TITLE, "UTF-8") . ' ' . mb_convert_case(strtolower($empleado['Empleado']['NOMBRE']), MB_CASE_TITLE, "UTF-8"); ?></td>
-                        <td style="text-align: center"><?php
-                        if (!empty($empleado['Localizacion']['Departamento'])) {
-                            echo normalizarPalabra($empleado['Localizacion']['Departamento']['NOMBRE']);
-                        } else {
-                            echo " ";
-                        }
-                        ?></td>                        
+                        <td style="text-align: center"><?php echo $departamento; ?></td>                        
                         <td class="actions">
                             <?php
-                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $empleado['Empleado']['id'])));                            
+                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $empleado['Empleado']['id'])));
                             ?>
                         </td>
                     </tr>

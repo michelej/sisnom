@@ -26,8 +26,8 @@ class AusenciasController extends AppController {
                 'Grupo',
                 'Contrato' => array(                    
                     'Cargo', 'Departamento',
-                    'conditions' => array(
-                        'FECHA_FIN' => NULL),                    
+                    'order' => array(
+                        'Contrato.FECHA_INI' => 'desc'),                    
                 )
                 ));
         
