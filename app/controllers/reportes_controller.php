@@ -17,7 +17,7 @@ class ReportesController extends AppController {
                 $modalidad = "Fijo";
             }
             if ($this->data['TIPO'] == '3') {
-                $grupo = array("Empleado","Obrero");
+                $grupo = array("Empleado", "Obrero");
                 $modalidad = "Contratado";
             }
 
@@ -35,10 +35,18 @@ class ReportesController extends AppController {
                     ));
             $id_empleados = Set::extract('/Empleado/id', $ids);
 
+            $hoy = date("d-m-Y");
             $ids = $this->Contrato->find('all', array(
                 'conditions' => array(
-                    'MODALIDAD' => $modalidad,
-                    'empleado_id' => $id_empleados),
+                    'OR' => array(
+                        'FECHA_FIN > ' => $hoy,
+                        'FECHA_FIN' => NULL,
+                    ),
+                    'AND' => array(
+                        'MODALIDAD' => $modalidad,
+                        'empleado_id' => $id_empleados,
+                    )
+                ),
                 'contain' => array(
                     'Empleado' => array(
                         'fields' => array(
@@ -68,7 +76,7 @@ class ReportesController extends AppController {
                 $data = $this->paginate('Empleado');
                 $this->set('empleados', $data);
                 $this->render('pantalla_listado');
-                return ;
+                return;
             }
             if ($this->data['MODO'] == "2") {
                 $data = $this->Empleado->find('all', array(
@@ -88,8 +96,6 @@ class ReportesController extends AppController {
             }
         }
     }
-
-    
 
 }
 
