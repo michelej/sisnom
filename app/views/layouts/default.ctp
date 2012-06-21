@@ -80,10 +80,11 @@
                         <?php echo $this->Html->link($this->Html->image("Chart Bar.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Reportes", array('controller' => 'Pages', 'action' => 'display'), array('escape' => false)); ?>         
                         <ul>          
                             <li>
-                                <?php echo $this->Html->link($this->Html->image("Camembert.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "Personal", array('controller' => 'Pages', 'action' => 'display'), array('escape' => false)); ?>
+                                <?php echo $this->Html->link($this->Html->image("Camembert.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "Listados de Personal", array('controller' => 'Pages', 'action' => 'display'), array('escape' => false)); ?>
                                 <ul>
-                                    <li><?php echo $this->Html->link(" Fijo", array('controller' => 'reportes', 'action' => 'empleados_fijos'), array('escape' => false)); ?></li>
-                                    <li><?php echo $this->Html->link(" Contratado", array('controller' => 'reportes', 'action' => 'empleados_contratados'), array('escape' => false)); ?></li>
+                                    <li><?php echo $this->Html->link($this->Html->image("Document 2.png", array('alt' => '', 'height' => '18', 'width' => '18')) ." Empleados Fijos", array('controller' => 'reportes', 'action' => 'empleados_fijos'), array('escape' => false)); ?></li>
+                                    <li><?php echo $this->Html->link($this->Html->image("Document 2.png", array('alt' => '', 'height' => '18', 'width' => '18')) ." Obreros Fijos", array('controller' => 'reportes', 'action' => 'obreros_fijos'), array('escape' => false)); ?></li>
+                                    <li><?php echo $this->Html->link($this->Html->image("Document 2.png", array('alt' => '', 'height' => '18', 'width' => '18')) ." Contratados", array('controller' => 'reportes', 'action' => 'contratados'), array('escape' => false)); ?></li>
                                 </ul>
                             </li>                            
                         </ul> 

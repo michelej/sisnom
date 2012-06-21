@@ -26,7 +26,7 @@ class EmpleadosController extends AppController {
                 'Contrato' => array(                    
                     'Cargo', 'Departamento',
                     'order' => array(
-                        'Contrato.FECHA_INI' => 'asc'),                    
+                        'Contrato.FECHA_INI' => 'asc'),
                 )
                 ));
         

@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="title"><h2>Listado Empleados Fijos</h2></div>
+    <div class="title"><h2>Listado Obreros Fijos</h2></div>
     <div class="content pages">                
         <table cellpadding="0" cellspacing="0">
             <thead>

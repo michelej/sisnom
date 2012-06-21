@@ -26,13 +26,13 @@
     </div>
     <div class="content form">
         <?php
-        echo $this->Form->create('Contrato',array('url' => array('controller' => 'contratos', 'action' => 'finalizar',$contrato['Contrato']['id'])));                
-        
-        echo "<div class='row'>";        
+        echo $this->Form->create('Contrato', array('url' => array('controller' => 'contratos', 'action' => 'finalizar', $contrato['Contrato']['id'])));
+
+        echo "<div class='row'>";
         echo "<div style='float:left;width:20%'>";
         echo $this->Form->input('FECHA_FIN', array('type' => 'text', 'div' => false, 'label' => 'Fecha de Finalizacion', 'class' => 'datepicker dp-applied')) . "</br>";
         echo "</div>";
-        echo "</div>";       
+        echo "</div>";
         ?>
     </div>    
 </div>
@@ -43,12 +43,12 @@
     </div>
     <div class="content form">
         <div class="row">
-            <?php echo $this->Form->submit('Modificar'); ?>                        
-        </div>        
-        <div class="row boton">
             <div class="boton">
-                <?php echo $this->Html->link('Regresar', array('action' => 'edit',$contrato['Contrato']['empleado_id'])); ?>
+                <?php echo $this->Form->submit('Modificar'); ?>                        
             </div>
-        </div>
+            <div class="boton">
+                <?php echo $this->Html->link('Regresar', array('action' => 'edit', $contrato['Contrato']['empleado_id'])); ?>
+            </div>
+        </div>                
     </div>
 </div>
