@@ -80,12 +80,7 @@
                         <?php echo $this->Html->link($this->Html->image("Chart Bar.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Reportes", array('controller' => 'Pages', 'action' => 'display'), array('escape' => false)); ?>         
                         <ul>          
                             <li>
-                                <?php echo $this->Html->link($this->Html->image("Camembert.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "Listados de Personal", array('controller' => 'Pages', 'action' => 'display'), array('escape' => false)); ?>
-                                <ul>
-                                    <li><?php echo $this->Html->link($this->Html->image("Document 2.png", array('alt' => '', 'height' => '18', 'width' => '18')) ." Empleados Fijos", array('controller' => 'reportes', 'action' => 'empleados_fijos','pantalla'), array('escape' => false)); ?></li>
-                                    <li><?php echo $this->Html->link($this->Html->image("Document 2.png", array('alt' => '', 'height' => '18', 'width' => '18')) ." Obreros Fijos", array('controller' => 'reportes', 'action' => 'obreros_fijos','pantalla'), array('escape' => false)); ?></li>
-                                    <li><?php echo $this->Html->link($this->Html->image("Document 2.png", array('alt' => '', 'height' => '18', 'width' => '18')) ." Contratados", array('controller' => 'reportes', 'action' => 'contratados','pantalla'), array('escape' => false)); ?></li>
-                                </ul>
+                                <?php echo $this->Html->link($this->Html->image("Camembert.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "Listados de Personal", array('controller' => 'reportes', 'action' => 'listados'), array('escape' => false)); ?>                                
                             </li>                            
                         </ul> 
                     </li> 
