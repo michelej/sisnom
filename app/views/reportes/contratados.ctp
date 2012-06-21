@@ -70,7 +70,7 @@
     <div class="content form">
         <div class="row">
             <div class="boton">
-                <?php echo $this->Html->link('Generar Archivo', array('action' => 'add')); ?>
+                <?php echo $this->Html->link('Generar Archivo', array('action' => 'contratados','archivo')); ?>
             </div>
         </div>
     </div>

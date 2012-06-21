@@ -30,7 +30,7 @@ class ExcelHelper extends AppHelper {
           )
           ); */
     }
-                    
+                            
     function _cargarTemplate($nombre) {
         $path = getcwd();
         $path = str_replace("app", "vendors", $path);
@@ -40,6 +40,11 @@ class ExcelHelper extends AppHelper {
 
     function _activeSheet($name) {
         $this->sheet->setActiveSheetIndexByName($name);
+    }
+    
+    function _changeFontSize(){
+        $this->sheet->getActiveSheet()->getDefaultStyle()->getFont()->setName('Arial');
+        $this->sheet->getActiveSheet()->getDefaultStyle()->getFont()->setSize(12);
     }
 
     function _autoFilter($rango) {
@@ -71,9 +76,21 @@ class ExcelHelper extends AppHelper {
     function _ocultarFila($fila) {
         $this->sheet->getActiveSheet()->getRowDimension($fila)->setVisible(false);
     }
+    
+    function _formatoNumero($celda) {
+        $this->sheet->getActiveSheet()->getStyle($celda)->getNumberFormat()->setFormatCode('0000');
+    }
 
     function _formatoFecha($celda) {
         $this->sheet->getActiveSheet()->getStyle($celda)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_DDMMYYYY);
+    }
+    
+    function _autosizeColumna($columna){
+        $this->sheet->getActiveSheet()->getColumnDimension($columna)->setAutoSize(true);
+    }
+    
+    function _centrarTexto($celda) {
+        $this->sheet->getActiveSheet()->getStyle($celda)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
     }
 
     function _fechaExcel($celda, $fecha) {
@@ -85,17 +102,31 @@ class ExcelHelper extends AppHelper {
         $this->sheet->removeSheetByIndex($index);
     }
 
-    function _groupBold($celdas) {
+    function _grupoBold($celdas) {
         //$this->sheet->getActiveSheet()->getStyle($celda)->getFont()->setBold(true);
         $styleArray = array(
             'font' => array(
                 'bold' => true,
-                'size' => 15
+                'size' => 13
             )
         );
         $this->sheet->getActiveSheet()->getStyle($celdas)->applyFromArray($styleArray);
         unset($styleArray);
     }
+    
+    function _anchoFila($fila, $tam) {
+        $this->sheet->getActiveSheet()->getRowDimension($fila)->setRowHeight($tam);
+    }
+    
+    function _grupoAlinear($grupo){
+        $this->sheet->getActiveSheet()->getStyle($grupo)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+    }
+    
+    function _anchoColumna($col, $tam) {
+        $this->sheet->getActiveSheet()->getStyle($col)->getAlignment()->setWrapText(true);
+        $this->sheet->getActiveSheet()->getColumnDimension($col)->setWidth($tam);
+    }
+    
 
     //************
 
@@ -146,17 +177,8 @@ class ExcelHelper extends AppHelper {
      *  Centrar el Texto de una Celda
      * @param type $celda 
      */
-    function _centrarTexto($celda) {
-        $this->sheet->getStyle($celda)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-    }
-
-    /**
-     * Aplicarle formato de numero a una celda
-     * @param type $celda 
-     */
-    function _formatoNumero($celda) {
-        $this->sheet->getStyle($celda)->getNumberFormat()->setFormatCode('#,##0.00');
-    }
+    
+    
 
     /**
      *  Aplicarle a una celda los bordes
@@ -181,7 +203,7 @@ class ExcelHelper extends AppHelper {
                 )
             )
         );
-        $this->sheet->getStyle($celdas)->applyFromArray($styleArray);
+        $this->sheet->getActiveSheet()->getStyle($celdas)->applyFromArray($styleArray);
         unset($styleArray);
     }
 
@@ -198,19 +220,10 @@ class ExcelHelper extends AppHelper {
      * @param type $fila
      * @param type $tam 
      */
-    function _anchoFila($fila, $tam) {
-        $this->sheet->getRowDimension($fila)->setRowHeight($tam);
-    }
+    
 
-    /**
-     * Ancho de columna a una columna completa
-     * @param type $col
-     * @param type $tam 
-     */
-    function _anchoColumna($col, $tam) {
-        $this->sheet->getStyle($col)->getAlignment()->setWrapText(true);
-        $this->sheet->getColumnDimension($col)->setWidth($tam);
-    }
+    
+    
 
     /**
      * Los header de la tabla
