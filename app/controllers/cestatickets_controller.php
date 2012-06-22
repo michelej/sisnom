@@ -79,7 +79,7 @@ class CestaticketsController extends AppController {
 
     function mostrar() {
         $this->autoRender = false;
-        if (!empty($this->data)) {            
+        if (!empty($this->data)) {
             $id = $this->data['cestaticket_id'];
             $cestaticket = $this->Cestaticket->find('first', array(
                 'recursive' => 0,
@@ -87,10 +87,10 @@ class CestaticketsController extends AppController {
                     'id' => $id)
                     )
             );
-            $mes=$cestaticket['Cestaticket']['MES'];
-            $año=$cestaticket['Cestaticket']['AÑO'];
-            
-            
+            $mes = $cestaticket['Cestaticket']['MES'];
+            $año = $cestaticket['Cestaticket']['AÑO'];
+
+
             if (empty($this->data['PERSONAL']) || empty($this->data['VISUALIZAR'])) {
                 $this->Session->setFlash('Debe seleccionar el personal y el modo de visualizar', 'flash_error');
                 $this->render('error', 'nomina');
@@ -109,7 +109,7 @@ class CestaticketsController extends AppController {
                     $modalidad = 'Contratado';
                 }
                 $empleados = $this->Cestaticket->mostrarCestaticket($id, $grupo, $modalidad);
-                $resumen = $this->Cestaticket->calcularResumen($empleados);                
+                $resumen = $this->Cestaticket->calcularResumen($empleados);
             }
 
             if (empty($empleados)) {
@@ -127,10 +127,57 @@ class CestaticketsController extends AppController {
                 $this->render('pantalla_cestaticket', 'nomina');
             }
             if ($this->data['VISUALIZAR'] == 'Archivo') {
-                $this->set(compact('empleados','modalidad','grupo','mes','año','resumen'));
+                $this->set(compact('empleados', 'modalidad', 'grupo', 'mes', 'año', 'resumen'));
                 $this->render('archivo_cestaticket', 'nominaExcel');
             }
         }
+    }
+
+    function dia_adicional($id = null) {
+        $filtro = array();
+        if (!empty($this->data)) {
+            $id=$this->data['cestaticket_id'];
+            if ($this->data['Fopcion'] == 1) {
+                $filtro = array('Empleado.CEDULA LIKE' => $this->data['valor']);
+            }
+            if ($this->data['Fopcion'] == 2) {
+                $filtro = array('Empleado.NOMBRE LIKE' => "%" . $this->data['valor'] . "%");
+            }
+            if ($this->data['Fopcion'] == 3) {
+                $filtro = array('Empleado.APELLIDO LIKE' => "%" . $this->data['valor'] . "%");
+            }
+        } 
+        
+        $ids=$this->Cestaticket->DetalleCestaticket->Empleado->find('all',array(
+            'recursive'=>0,
+            'conditions'=>$filtro,
+            'fields'=>array('id')
+        ));
+        $id_empleados = Set::extract('/Empleado/id', $ids);
+        //debug($id_empleados);
+        //debug($id);
+        $this->paginate = array(
+            'DetalleCestaticket' => array(
+                'limit' => 20,
+                'conditions'=>array(
+                    'cestaticket_id'=>$id,
+                    'empleado_id'=>$id_empleados,
+                ),
+                'contain' => array(
+                    'Empleado' => array(                        
+                        'Grupo',
+                        'Contrato' => array(
+                            'Cargo', 'Departamento',
+                            'order' => array(
+                                'Contrato.FECHA_INI' => 'desc'),
+                        )
+                    )
+                )
+            )
+        );
+
+        $data = $this->paginate('DetalleCestaticket');
+        $this->set('empleados', $data);
     }
 
 }

@@ -60,6 +60,9 @@
                 <?php echo $this->Html->link('Generar Nomina', array('action' => 'generar', $cestaticket['Cestaticket']['id'])); ?>
             </div> 
             <div class="boton">
+                <?php echo $this->Html->link('Dia Adicional', array('action' => 'dia_adicional', $cestaticket['Cestaticket']['id'])); ?>
+            </div> 
+            <div class="boton">
                 <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
             </div>  
         </div>        
