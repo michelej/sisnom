@@ -17,19 +17,19 @@ class ReportesController extends AppController {
                 $modalidad = "Fijo";
             }
             if ($this->data['TIPO'] == '3') {
-                $grupo = array("Empleado", "Obrero");                
+                $grupo = array("Empleado", "Obrero");
                 $modalidad = "Contratado";
             }
 
             if ($this->data['MODO'] == "1") {
-                if(is_array($grupo)){
-                    $grupo="Todos";
+                if (is_array($grupo)) {
+                    $grupo = "Todos";
                 }
                 $this->redirect('pantalla_listado/' . $grupo . "/" . $modalidad);
                 return;
             }
             if ($this->data['MODO'] == "2") {
-                
+
                 $ids = $this->Empleado->Grupo->find('all', array(
                     'conditions' => array(
                         'NOMBRE' => $grupo
@@ -80,7 +80,7 @@ class ReportesController extends AppController {
                         )
                     )
                 );
-                
+
                 $data = $this->Empleado->find('all', array(
                     'conditions' => array(
                         'Empleado.id' => $id_empleados,
@@ -156,6 +156,14 @@ class ReportesController extends AppController {
         );
         $data = $this->paginate('Empleado');
         $this->set('empleados', $data);
+    }
+
+    function generar_reportes() {                
+        if (!empty($this->data)) {                        
+            $data=$this->Empleado->busqueda($this->data);            
+            $this->set('empleados', $data);
+            $this->render('archivo_reporte');
+        }
     }
 
 }
