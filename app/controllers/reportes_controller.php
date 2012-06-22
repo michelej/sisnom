@@ -164,8 +164,8 @@ class ReportesController extends AppController {
         $asignaciones=$this->Asignacion->find('list');
         $deducciones=$this->Deduccion->find('list');
         if (!empty($this->data)) {                        
-            $data=$this->Empleado->busqueda($this->data);            
-            $this->set('empleados', $data);
+            $data=$this->Empleado->busqueda($this->data);                        
+            $this->set('empleados', $data);            
             $this->render('archivo_reporte','nominaExcel');
         }
         $this->set(compact('cargos','departamentos','asignaciones','deducciones'));

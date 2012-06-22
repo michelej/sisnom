@@ -40,8 +40,20 @@ $excel->_campo('I' . $n, "Cargo");
 $excel->_autosizeColumna('J');
 $excel->_centrarTexto('J' . $n);
 $excel->_campo('J' . $n, "Departamento");
+$excel->_autosizeColumna('K');
+$excel->_centrarTexto('K' . $n);
+$excel->_campo('K' . $n, "Nº de Hijos");
+$excel->_autosizeColumna('L');
+$excel->_centrarTexto('L' . $n);
+$excel->_campo('L' . $n, "Localizacion Fisica");
+$excel->_autosizeColumna('M');
+$excel->_centrarTexto('M' . $n);
+$excel->_campo('M' . $n, "Modalidad");
+$excel->_autosizeColumna('N');
+$excel->_centrarTexto('N' . $n);
+$excel->_campo('N' . $n, "Grupo");
 
-$excel->_grupoBold('B9:J9');
+$excel->_grupoBold('B9:N9');
 $excel->_anchoFila($n,'35');
 
 
@@ -61,19 +73,21 @@ foreach ($empleados as $empleado) {
     $excel->_campo('G' . $n, $empleado['Empleado']['INGRESO']);
     $excel->_centrarTexto('G' . $n);
     $excel->_campo('H' . $n, $empleado['Empleado']['EDOCIVIL']);
-    $excel->_centrarTexto('H' . $n);
-
-    
-    
-    $excel->_campo('I' . $n, normalizarPalabra($empleado['Empleado']['CARGO']));
-    //$excel->_centrarTexto('I' . $n);
-    $excel->_campo('J' . $n, normalizarPalabra($empleado['Empleado']['DEPARTAMENTO']));
-    //$excel->_centrarTexto('J' . $n);
+    $excel->_centrarTexto('H' . $n);        
+    $excel->_campo('I' . $n, normalizarPalabra($empleado['Empleado']['CARGO']));    
+    $excel->_campo('J' . $n, normalizarPalabra($empleado['Empleado']['DEPARTAMENTO']));        
+    $excel->_campo('K' . $n, $empleado['Empleado']['HIJOS']);
+    $excel->_centrarTexto('K' . $n);        
+    $excel->_campo('L' . $n, normalizarPalabra($empleado['Empleado']['LOCALIZACION']));        
+    $excel->_campo('M' . $n, $empleado['Empleado']['MODALIDAD']);
+    $excel->_centrarTexto('M' . $n);       
+    $excel->_campo('N' . $n, $empleado['Empleado']['GRUPO']);
+    $excel->_centrarTexto('N' . $n);       
     $n++;
 }
 $n--;
-$excel->_grupoAlinear("B9:J".$n);
-$excel->_bordeGrupo("B9:J".$n);
+$excel->_grupoAlinear("B9:N".$n);
+$excel->_bordeGrupo("B9:N".$n);
 $excel->_output('reporte');
 
 ?>

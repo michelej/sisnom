@@ -268,13 +268,13 @@ class Empleado extends AppModel {
             }
             ////////////////////////////////////////
             if ($parametros['ACTIVO'] == '1') {
-                if (empty($empleado['Contrato'])) {
+                if (empty($empleado['Contrato'])) {                    
                     unset($data[$key]);
                 } else {
                     $hoy = date("d-m-Y");
                     $fecha = $empleado['Contrato']['0']['FECHA_FIN'];
                     if ($fecha != null) {
-                        if (compara_fechas($hoy, $fecha) > 0) {
+                        if (compara_fechas($hoy, $fecha) > 0) {                            
                             unset($data[$key]);
                         }
                     }
@@ -293,34 +293,36 @@ class Empleado extends AppModel {
                     }
                 }
             }
-            $data[$key]['Empleado']['GRUPO'] = $empleado['Grupo']['NOMBRE'];
-            if(isset($empleado['Localizacion']['Departamento'])){
-                $data[$key]['Empleado']['LOCALIZACION'] = $empleado['Localizacion']['Departamento']['NOMBRE'];
-            }else{
-                $data[$key]['Empleado']['LOCALIZACION'] = "";
-            }
-            
-            if (!empty($empleado['Contrato'])) {
-                $data[$key]['Empleado']['MODALIDAD'] = $empleado['Contrato']['0']['MODALIDAD'];
-                $data[$key]['Empleado']['CARGO'] = $empleado['Contrato']['0']['Cargo']['NOMBRE'];
-                $data[$key]['Empleado']['DEPARTAMENTO'] = $empleado['Contrato']['0']['Departamento']['NOMBRE'];
-            }else{
-                $data[$key]['Empleado']['MODALIDAD'] = "";
-                $data[$key]['Empleado']['CARGO'] = "";
-                $data[$key]['Empleado']['DEPARTAMENTO'] ="";
-            }
-            if(!empty($empleado['Familiar'])){
-                $count=0;
-                foreach($empleado['Familiar'] as $famil){
-                    if($famil['PARENTESCO']=="Hijo(a)"){
-                        $count++;
-                    }
-                }
-                $data[$key]['Empleado']['HIJOS']=$count;
-            }else{
-                $data[$key]['Empleado']['HIJOS']=0;
-            }
 
+            if (isset($data[$key]['Empleado'])) {
+                $data[$key]['Empleado']['GRUPO'] = $empleado['Grupo']['NOMBRE'];
+                if (isset($empleado['Localizacion']['Departamento'])) {
+                    $data[$key]['Empleado']['LOCALIZACION'] = $empleado['Localizacion']['Departamento']['NOMBRE'];
+                } else {
+                    $data[$key]['Empleado']['LOCALIZACION'] = "";
+                }
+
+                if (!empty($empleado['Contrato'])) {
+                    $data[$key]['Empleado']['MODALIDAD'] = $empleado['Contrato']['0']['MODALIDAD'];
+                    $data[$key]['Empleado']['CARGO'] = $empleado['Contrato']['0']['Cargo']['NOMBRE'];
+                    $data[$key]['Empleado']['DEPARTAMENTO'] = $empleado['Contrato']['0']['Departamento']['NOMBRE'];
+                } else {
+                    $data[$key]['Empleado']['MODALIDAD'] = "";
+                    $data[$key]['Empleado']['CARGO'] = "";
+                    $data[$key]['Empleado']['DEPARTAMENTO'] = "";
+                }
+                if (!empty($empleado['Familiar'])) {
+                    $count = 0;
+                    foreach ($empleado['Familiar'] as $famil) {
+                        if ($famil['PARENTESCO'] == "Hijo(a)") {
+                            $count++;
+                        }
+                    }
+                    $data[$key]['Empleado']['HIJOS'] = $count;
+                } else {
+                    $data[$key]['Empleado']['HIJOS'] = 0;
+                }
+            }
 
             unset($data[$key]['Grupo']);
             unset($data[$key]['Localizacion']);
