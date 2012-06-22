@@ -119,22 +119,217 @@ class Empleado extends AppModel {
     }
 
     function busqueda($parametros) {
-        $options = array();        
-        
+        $options = array();
+
         if ($parametros['SEXO'] != "0") {
             $options['conditions'][] = array('Empleado.SEXO' => $parametros['SEXO']);
         }
         if ($parametros['EDOCIVIL'] != "0") {
             $options['conditions'][] = array('Empleado.EDOCIVIL' => $parametros['EDOCIVIL']);
         }
-        if($parametros['HIJOS'] == "1"){
-            $options['contain']['Familiar'] = array('conditions'=>array('Familiar.PARENTESCO'=>'Hijo(a)'));
+
+
+        $options['contain'] = array(
+            'Familiar', 'Grupo', 'Titulo',
+            'Localizacion' => array(
+                'Departamento'
+            ),
+            'Contrato' => array(
+                'Cargo', 'Departamento',
+                'order' => array(
+                    'Contrato.FECHA_INI' => 'desc'),
+            ),
+            'Ajuste' => array(
+                'Asignacion', 'Deduccion',
+                'order' => array(
+                    'Ajuste.FECHA_INI' => 'desc')
+            )
+        );
+
+        $data = $this->find('all', $options);
+        //debug($data);        
+        foreach ($data as $key => $empleado) {
+            // SI TIENE HIJOS
+            if ($parametros['HIJOS'] == '1') {
+                if (empty($empleado['Familiar'])) {
+                    unset($data[$key]);
+                } else {
+                    $data[$key]['Empleado']['HIJOS'] = count($empleado['Familiar']);
+                    unset($data[$key]['Familiar']);
+                }
+            }
+            // SI NO TIENE HIJOS
+            if ($parametros['HIJOS'] == '2') {
+                if (!empty($empleado['Familiar'])) {
+                    unset($data[$key]);
+                } else {
+                    unset($data[$key]['Familiar']);
+                }
+            }
+
+            if (!empty($parametros['EDAD'])) {
+                if ($parametros['EDAD_SIGNO'] == '0') {
+                    if ($empleado['Empleado']['EDAD'] != $parametros['EDAD']) {
+                        unset($data[$key]);
+                    }
+                }
+                if ($parametros['EDAD_SIGNO'] == '1') {
+                    if ($empleado['Empleado']['EDAD'] < $parametros['EDAD']) {
+                        unset($data[$key]);
+                    }
+                }
+                if ($parametros['EDAD_SIGNO'] == '2') {
+                    if ($empleado['Empleado']['EDAD'] > $parametros['EDAD']) {
+                        unset($data[$key]);
+                    }
+                }
+            }
+            if (!empty($parametros['CARGO'])) {
+                if (!empty($empleado['Contrato'])) {
+                    if ($empleado['Contrato']['0']['Cargo']['id'] != $parametros['CARGO']) {
+                        unset($data[$key]);
+                    }
+                } else {
+                    unset($data[$key]);
+                }
+            }
+            if (!empty($parametros['DEPARTAMENTO'])) {
+                if (!empty($empleado['Contrato'])) {
+                    if ($empleado['Contrato']['0']['Departamento']['id'] != $parametros['DEPARTAMENTO']) {
+                        unset($data[$key]);
+                    }
+                } else {
+                    unset($data[$key]);
+                }
+            }
+
+            if (!empty($parametros['FISICO'])) {
+                if (isset($empleado['Localizacion']['Departamento'])) {
+                    if ($empleado['Localizacion']['departamento_id'] != $parametros['FISICO']) {
+                        unset($data[$key]);
+                    }
+                } else {
+                    unset($data[$key]);
+                }
+            }
+
+            if (!empty($parametros['MODALIDAD'])) {
+                if (!empty($empleado['Contrato'])) {
+                    if ($empleado['Contrato']['0']['MODALIDAD'] != $parametros['MODALIDAD']) {
+                        unset($data[$key]);
+                    }
+                }
+            }
+
+            if (!empty($parametros['GRUPO'])) {
+                if ($empleado['Grupo']['NOMBRE'] != $parametros['GRUPO']) {
+                    unset($data[$key]);
+                }
+            }
+
+            if (!empty($parametros['DEDUCCIONES'])) {
+                if (empty($empleado['Ajuste'])) {
+                    unset($data[$key]);
+                } else {
+                    $hoy = date("d-m-Y");
+                    $fecha = $empleado['Ajuste']['0']['FECHA_FIN'];
+                    if ($fecha != null) {
+                        if (compara_fechas($hoy, $fecha) > 0) {
+                            unset($data[$key]);
+                        } else {
+                            $flag = false;
+                            foreach ($empleado['Ajuste']['0']['Deduccion'] as $deduc) {
+                                if ($deduc['id'] == $parametros['DEDUCCIONES']) {
+                                    $flag = true;
+                                }
+                            }
+                            if (!$flag) {
+                                unset($data[$key]);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!empty($parametros['TITULO'])) {
+                if (empty($empleado['Titulo'])) {
+                    unset($data[$key]);
+                } else {
+                    foreach ($empleado['Titulo'] as $titulo) {
+                        $flag = false;
+                        if ($titulo['TITULO'] == $parametros['TITULO']) {
+                            $flag = true;
+                        }
+                        if (!$flag) {
+                            unset($data[$key]);
+                        }
+                    }
+                }
+            }
+            ////////////////////////////////////////
+            if ($parametros['ACTIVO'] == '1') {
+                if (empty($empleado['Contrato'])) {
+                    unset($data[$key]);
+                } else {
+                    $hoy = date("d-m-Y");
+                    $fecha = $empleado['Contrato']['0']['FECHA_FIN'];
+                    if ($fecha != null) {
+                        if (compara_fechas($hoy, $fecha) > 0) {
+                            unset($data[$key]);
+                        }
+                    }
+                }
+                // INACTIVOS
+            } else {
+                if (!empty($empleado['Contrato'])) {
+                    $hoy = date("d-m-Y");
+                    $fecha = $empleado['Contrato']['0']['FECHA_FIN'];
+                    if ($fecha != null) {
+                        if (compara_fechas($hoy, $fecha) < 0) {
+                            unset($data[$key]);
+                        }
+                    } else {
+                        unset($data[$key]);
+                    }
+                }
+            }
+            $data[$key]['Empleado']['GRUPO'] = $empleado['Grupo']['NOMBRE'];
+            if(isset($empleado['Localizacion']['Departamento'])){
+                $data[$key]['Empleado']['LOCALIZACION'] = $empleado['Localizacion']['Departamento']['NOMBRE'];
+            }else{
+                $data[$key]['Empleado']['LOCALIZACION'] = "";
+            }
+            
+            if (!empty($empleado['Contrato'])) {
+                $data[$key]['Empleado']['MODALIDAD'] = $empleado['Contrato']['0']['MODALIDAD'];
+                $data[$key]['Empleado']['CARGO'] = $empleado['Contrato']['0']['Cargo']['NOMBRE'];
+                $data[$key]['Empleado']['DEPARTAMENTO'] = $empleado['Contrato']['0']['Departamento']['NOMBRE'];
+            }else{
+                $data[$key]['Empleado']['MODALIDAD'] = "";
+                $data[$key]['Empleado']['CARGO'] = "";
+                $data[$key]['Empleado']['DEPARTAMENTO'] ="";
+            }
+            if(!empty($empleado['Familiar'])){
+                $count=0;
+                foreach($empleado['Familiar'] as $famil){
+                    if($famil['PARENTESCO']=="Hijo(a)"){
+                        $count++;
+                    }
+                }
+                $data[$key]['Empleado']['HIJOS']=$count;
+            }else{
+                $data[$key]['Empleado']['HIJOS']=0;
+            }
+
+
+            unset($data[$key]['Grupo']);
+            unset($data[$key]['Localizacion']);
+            unset($data[$key]['Contrato']);
+            unset($data[$key]['Familiar']);
+            unset($data[$key]['Ajuste']);
+            unset($data[$key]['Titulo']);
         }
-        
-        //$options['recursive']=-1;
-        debug($options);
-        $data = $this->find('all',$options);
-        return $data;    
+        return $data;
     }
 
 }

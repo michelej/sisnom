@@ -238,6 +238,10 @@ img {
 .box.small, .box .small {
     width: 220px;
 }
+
+.box.small2, .box .small2 {
+    width: 40px;
+}
 .box .title {
     background-image: url("../img/title-arrow.gif");
     background-position: left top;
