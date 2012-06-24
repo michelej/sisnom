@@ -106,7 +106,7 @@
 <div class="box">
     <div class="title">	<h2>Acciones</h2></div>
     <div class="content form">
-        <div class="row boton">
+        <div class="row">
             <div class="boton">
                 <?php echo $this->Html->link('Nuevo Empleado', array('action' => 'add')); ?>
             </div>

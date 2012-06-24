@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="title"><h2>Datos de la Nomina</h2>
+    <div class="title"><h2>Datos Generales</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content forms">

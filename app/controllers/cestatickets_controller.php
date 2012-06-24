@@ -179,6 +179,38 @@ class CestaticketsController extends AppController {
         $data = $this->paginate('DetalleCestaticket');
         $this->set('empleados', $data);
     }
+    
+    function add_dia_adicional($id=null){
+        $data=$this->Cestaticket->DetalleCestaticket->find('first',array(            
+            'conditions'=>array(
+                'DetalleCestaticket.id'=>$id
+            ),
+            'contain'=>array(
+                'Cestaticket'
+            )
+        ));
+        
+        $data['DetalleCestaticket']['DIAS_ADICIONALES']++;
+        $data['DetalleCestaticket']['TOTAL']+=$data['Cestaticket']['VALOR_DIARIO'];
+        $this->Cestaticket->DetalleCestaticket->save($data['DetalleCestaticket']);
+        $this->redirect('dia_adicional/'.$data['DetalleCestaticket']['cestaticket_id']);
+    }
+    
+    function remove_dia_adicional($id=null){
+        $data=$this->Cestaticket->DetalleCestaticket->find('first',array(
+            'recursive'=>0,
+            'conditions'=>array(
+                'DetalleCestaticket.id'=>$id
+            )
+        ));
+        if($data['DetalleCestaticket']['DIAS_ADICIONALES']-1>=0){
+            $data['DetalleCestaticket']['DIAS_ADICIONALES']--;    
+            $data['DetalleCestaticket']['TOTAL']-=$data['Cestaticket']['VALOR_DIARIO'];
+            $this->Cestaticket->DetalleCestaticket->save($data['DetalleCestaticket']);
+        }        
+        
+        $this->redirect('dia_adicional/'.$data['DetalleCestaticket']['cestaticket_id']);
+    }
 
 }
 
