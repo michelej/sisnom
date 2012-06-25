@@ -4,18 +4,9 @@
     </div>
     <div class="content forms">
         <div class="row">
-            <?php echo "<div style='float:left;width:10%'>"; ?>            
-            <?php echo $nomina['Nomina']['MES']; ?>
-            <?php echo "</div>"; ?>           
-            <?php echo "<div style='float:left;width:5%'>"; ?>            
-            <?php echo " / " ?>
-            <?php echo "</div>"; ?>           
-            <?php echo "<div style='float:left;width:10%'>"; ?>            
-            <?php echo $nomina['Nomina']['AÑO']; ?>
-            <?php echo "</div>"; ?>
-            <?php echo "<div style='float:left;width:70%'>"; ?>            
-            <?php echo $nomina['Nomina']['QUINCENA'] . " Quincena"; ?>
-            <?php echo "</div>"; ?>           
+            <?php echo "<div style='float:left;width:50%'>"; ?>            
+            <?php echo $nomina['Nomina']['MES']."&nbsp&nbsp&nbsp/&nbsp&nbsp&nbsp".$nomina['Nomina']['AÑO']."&nbsp&nbsp&nbsp&nbsp&nbsp".$nomina['Nomina']['QUINCENA'] . " Quincena"; ?>
+            <?php echo "</div>"; ?>                       
         </div>   
         <div class="row">            
             <?php echo "<div style='float:left;width:20%'>"; ?>

@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="title"><h2>Empleados</h2></div>
+    <div class="title"><h2>Listado de Empleados</h2></div>
     <div class="content pages">
         <div class="row">
             <?php

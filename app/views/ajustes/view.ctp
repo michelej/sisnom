@@ -31,9 +31,9 @@
                     <tr<?php echo $class; ?>>
                         <?php 
                          if($ct<$ta){
-                             echo "<td>". $ajuste['Asignacion'][$ct]['DESCRIPCION']."</td>";
+                             echo "<td style='border: 1px solid #666;'>". $ajuste['Asignacion'][$ct]['DESCRIPCION']."</td>";
                          }else{
-                             echo "<td>  </td>";
+                             echo "<td style='border: 1px solid #666;'>  </td>";
                          }
                          
                          if($ct<$td){                             

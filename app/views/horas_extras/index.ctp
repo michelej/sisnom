@@ -1,10 +1,17 @@
 <div class="box">
-    <div class="title"><h2>Horas Extras</h2></div>
+    <div class="title"><h2>Horas Extra</h2></div>
     <div class="content pages">
         <div class="row">
             <?php
             echo $this->Form->create(false);
             echo "<div>";
+            echo "<div style='float:left;width:30%;'>";
+            $options = array('0' => 'Todos', '1' => 'Vigilantes');            
+            echo $this->Form->input('mostrar', array('div' => false, 'label' => 'Mostrar', 'class' => 'small', 'type' => 'select', 'options' => $options));
+            echo "</div>";
+            echo "</div>";
+            
+            echo "<div class='row'>";
             echo "<div style='float:left;width:30%;'>";
             $options = array('0' => 'Seleccione una opcion', '1' => 'Cedula / Rif', '2' => 'Nombre', '3' => 'Apellido');
             echo $this->Form->label('Opción');
@@ -13,13 +20,14 @@
             echo "<div style='float:left;width:20%'>";
             echo $this->Form->label('Busqueda');
             echo $this->Form->input('valor', array('div' => false, 'label' => false, 'class' => 'small'));
-            echo "</div>";
+            echo "</div>";            
             echo "<div style='float:left;width:15%;padding-top:20px'>";
             echo $this->Form->End('Buscar');
             echo "</div>";
             echo "</div>";
             ?>
         </div>
+        
         <div class="box"></div>
         <div class="pagination">
             <?php echo $this->Paginator->prev(null, array(), null, array('class' => 'disabled')); ?>

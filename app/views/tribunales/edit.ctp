@@ -91,7 +91,7 @@
                 <?php echo $this->Html->link('Ingresar Deduccion por Tribunal', array('action' => 'add','empleadoId:'.$empleado['Empleado']['id'])); ?>
             </div>
             <div class="boton">
-                <?php echo $this->Html->link('Regresar', array('controller'=>'prestamos','action' => 'index')); ?>
+                <?php echo $this->Html->link('Regresar', array('controller'=>'empleados','action' => 'listado')); ?>
             </div>
         </div>
     </div>

@@ -4,15 +4,9 @@
     </div>
     <div class="content forms">
         <div class="row">
-            <?php echo "<div style='float:left;width:10%'>"; ?>            
-            <?php echo $cestaticket['Cestaticket']['MES']; ?>
-            <?php echo "</div>"; ?>           
-            <?php echo "<div style='float:left;width:5%'>"; ?>            
-            <?php echo " / " ?>
-            <?php echo "</div>"; ?>           
-            <?php echo "<div style='float:left;width:10%'>"; ?>            
-            <?php echo $cestaticket['Cestaticket']['AÑO']; ?>
-            <?php echo "</div>"; ?>            
+            <?php echo "<div style='float:left;width:50%'>"; ?>                        
+            <?php echo $cestaticket['Cestaticket']['MES']."&nbsp&nbsp&nbsp/&nbsp&nbsp&nbsp".$cestaticket['Cestaticket']['AÑO']; ?>
+            <?php echo "</div>"; ?>                       
         </div>   
         <div class="row">            
             <?php echo "<div style='float:left;width:20%'>"; ?>

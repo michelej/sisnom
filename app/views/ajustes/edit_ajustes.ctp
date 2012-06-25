@@ -56,21 +56,20 @@
                     ?>
                     <tr<?php echo $class; ?>>
                         <?php
-                        if ($ct < count($asignaciones)) {
+                        if ($ct < count($asignaciones)) {                            
                             echo "<td>" . $asignaciones[$ct]['DESCRIPCION'] . "</td>";
                             echo "<td>" . $this->Form->input('Asignacion.' . $id_asignacion, array('type' => 'checkbox', 'label' => false, 'checked' => $checked_asignacion)) . "</td>";
-                        } else {
-                            echo "<td>  </td>";
-                            echo "<td>  </td>";
+                        } else {                            
+                            echo "<td> </td>"; 
+                            echo "<td> </td>";
                         }
 
-                        if ($ct < count($deducciones)) {                            
+                        if ($ct < count($deducciones)) {                                                        
                             echo "<td>" . $deducciones[$ct]['DESCRIPCION'] . "</td>";                            
                             echo "<td>" . $this->Form->input('Deduccion.' . $id_deduccion, array('type' => 'checkbox', 'label' => false, 'checked' => $checked_deduccion)) . "</td>";
-                        } else {
-                            echo "<td>  </td>";
-                            echo "<td>  </td>";
-                            echo "<td>  </td>";
+                        } else {                            
+                            echo "<td></td>";
+                            echo "<td></td>";                            
                         }
                         ?>                                                
                     <?php endfor; ?> 

@@ -46,11 +46,11 @@ class Cargo extends AppModel {
                 $count++;                
                 $grupo_sueldos[$count]['Sueldo'] = $value['Historial']['SUELDO_BASE'];
                 $grupo_sueldos[$count]['cargos_id'][]=$value['Cargo']['id'];
-                $grupo_sueldos[$count]['cargos_nombres']=$value['Cargo']['NOMBRE'];                
+                $grupo_sueldos[$count]['cargos_nombres']=  normalizarPalabra($value['Cargo']['NOMBRE']);                
                 $sueldo=$value['Historial']['SUELDO_BASE'];                                                                
             }else{
                 $grupo_sueldos[$count]['cargos_id'][]=$value['Cargo']['id'];
-                $grupo_sueldos[$count]['cargos_nombres']=$grupo_sueldos[$count]['cargos_nombres'].' , '.$value['Cargo']['NOMBRE'];                
+                $grupo_sueldos[$count]['cargos_nombres']=$grupo_sueldos[$count]['cargos_nombres'].' , '.normalizarPalabra($value['Cargo']['NOMBRE']);                
             }
         }
         if(empty($grupo_sueldos)){

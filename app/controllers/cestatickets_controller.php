@@ -35,8 +35,6 @@ class CestaticketsController extends AppController {
         if (!empty($this->data)) {
             if ($this->Cestaticket->save($this->data['Cestaticket'])) {
                 $this->Session->setFlash('Cestaticket creada con exito', 'flash_success');
-                //$id = $this->Cestaticket->getLastInsertId();
-                //$this->Cestaticket->generarCestaticket($id);
                 $this->redirect('index');
             }
             if (!empty($this->Cestaticket->errorMessage)) {
@@ -136,7 +134,7 @@ class CestaticketsController extends AppController {
     function dia_adicional($id = null) {
         $filtro = array();
         if (!empty($this->data)) {
-            $id=$this->data['cestaticket_id'];
+            $id = $this->data['cestaticket_id'];
             if ($this->data['Fopcion'] == 1) {
                 $filtro = array('Empleado.CEDULA LIKE' => $this->data['valor']);
             }
@@ -146,25 +144,23 @@ class CestaticketsController extends AppController {
             if ($this->data['Fopcion'] == 3) {
                 $filtro = array('Empleado.APELLIDO LIKE' => "%" . $this->data['valor'] . "%");
             }
-        } 
-        
-        $ids=$this->Cestaticket->DetalleCestaticket->Empleado->find('all',array(
-            'recursive'=>0,
-            'conditions'=>$filtro,
-            'fields'=>array('id')
-        ));
+        }
+
+        $ids = $this->Cestaticket->DetalleCestaticket->Empleado->find('all', array(
+            'recursive' => 0,
+            'conditions' => $filtro,
+            'fields' => array('id')
+                ));
         $id_empleados = Set::extract('/Empleado/id', $ids);
-        //debug($id_empleados);
-        //debug($id);
         $this->paginate = array(
             'DetalleCestaticket' => array(
                 'limit' => 20,
-                'conditions'=>array(
-                    'cestaticket_id'=>$id,
-                    'empleado_id'=>$id_empleados,
+                'conditions' => array(
+                    'cestaticket_id' => $id,
+                    'empleado_id' => $id_empleados,
                 ),
                 'contain' => array(
-                    'Empleado' => array(                        
+                    'Empleado' => array(
                         'Grupo',
                         'Contrato' => array(
                             'Cargo', 'Departamento',
@@ -177,39 +173,44 @@ class CestaticketsController extends AppController {
         );
 
         $data = $this->paginate('DetalleCestaticket');
-        $this->set('empleados', $data);
+        if (!empty($data)) {
+            $this->set('empleados', $data);
+        } else {
+            $this->Session->setFlash('Actualmente no existen datos relacionados a esta nomina, Genere la Nomina primero', 'flash_error');
+            $this->redirect('edit/' . $id);
+        }
     }
-    
-    function add_dia_adicional($id=null){
-        $data=$this->Cestaticket->DetalleCestaticket->find('first',array(            
-            'conditions'=>array(
-                'DetalleCestaticket.id'=>$id
+
+    function add_dia_adicional($id = null) {
+        $data = $this->Cestaticket->DetalleCestaticket->find('first', array(
+            'conditions' => array(
+                'DetalleCestaticket.id' => $id
             ),
-            'contain'=>array(
+            'contain' => array(
                 'Cestaticket'
             )
-        ));
-        
+                ));
+
         $data['DetalleCestaticket']['DIAS_ADICIONALES']++;
         $data['DetalleCestaticket']['TOTAL']+=$data['Cestaticket']['VALOR_DIARIO'];
         $this->Cestaticket->DetalleCestaticket->save($data['DetalleCestaticket']);
-        $this->redirect('dia_adicional/'.$data['DetalleCestaticket']['cestaticket_id']);
+        $this->redirect('dia_adicional/' . $data['DetalleCestaticket']['cestaticket_id']);
     }
-    
-    function remove_dia_adicional($id=null){
-        $data=$this->Cestaticket->DetalleCestaticket->find('first',array(
-            'recursive'=>0,
-            'conditions'=>array(
-                'DetalleCestaticket.id'=>$id
+
+    function remove_dia_adicional($id = null) {
+        $data = $this->Cestaticket->DetalleCestaticket->find('first', array(
+            'recursive' => 0,
+            'conditions' => array(
+                'DetalleCestaticket.id' => $id
             )
-        ));
-        if($data['DetalleCestaticket']['DIAS_ADICIONALES']-1>=0){
-            $data['DetalleCestaticket']['DIAS_ADICIONALES']--;    
+                ));
+        if ($data['DetalleCestaticket']['DIAS_ADICIONALES'] - 1 >= 0) {
+            $data['DetalleCestaticket']['DIAS_ADICIONALES']--;
             $data['DetalleCestaticket']['TOTAL']-=$data['Cestaticket']['VALOR_DIARIO'];
             $this->Cestaticket->DetalleCestaticket->save($data['DetalleCestaticket']);
-        }        
-        
-        $this->redirect('dia_adicional/'.$data['DetalleCestaticket']['cestaticket_id']);
+        }
+
+        $this->redirect('dia_adicional/' . $data['DetalleCestaticket']['cestaticket_id']);
     }
 
 }
