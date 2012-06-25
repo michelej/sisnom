@@ -3,7 +3,7 @@
 </div>
 
 <div class="box">    
-    <div class="title"><h2>Fecha de Inicio</h2>
+    <div class="title"><h2>Quincena en la que inicia</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content form">                
@@ -41,7 +41,7 @@
 </div>
 
 <div class="box">    
-    <div class="title"><h2>Fecha de Finalizacion</h2>
+    <div class="title"><h2>Quincena en la que finaliza</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content form" style="display: none;">

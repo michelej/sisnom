@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="title"><h2>Personal</h2></div>
+    <div class="title"><h2>Empleados</h2></div>
     <div class="content pages">
         <div class="row">
             <?php
@@ -29,10 +29,11 @@
                 <tr>
                     <th></th>  
                     <th style="width:5%;text-align: center"><?php echo $this->Paginator->sort('Cedula / Rif', 'CEDULA'); ?></th>                    
-                    <th style="width:30%;"><?php echo $this->Paginator->sort('Apellido(s) y Nombre(s)', 'NOMBRE'); ?></th>                                        
-                    <th style="width:10%; text-align: left">Grupo</th>
-                    <th style="width:40%; text-align: left">Cargo</th>
-                    <th style="width:15%; text-align: center" class="actions">Acciones</th>
+                    <th style="width:28%;"><?php echo $this->Paginator->sort('Apellido(s) y Nombre(s)', 'NOMBRE'); ?></th>                                        
+                    <th style="width:8%; text-align: left">Grupo</th>
+                    <th style="width:30%; text-align: left">Cargo</th>
+                    <th style="width:12%; text-align: center" class="actions">Asignaciones</th>
+                    <th style="width:15%; text-align: center" class="actions">Deducciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -69,11 +70,18 @@
                         <td style="text-align: left"><?php echo $empleado['Grupo']['NOMBRE']; ?></td>
                         <td style="text-align: left"><?php echo normalizarPalabra($carg); ?></td>                                                                        
                         <td class="actions">
+                            <?php                            
+                            echo $this->Html->image("News Add.png", array("alt" => "Experiencia", 'width' => '18', 'heigth' => '18', 'title' => 'Experiencia Previa', 'url' => array('controller' => 'experiencias', 'action' => 'edit', $empleado['Empleado']['id'])));
+                            echo $this->Html->image("Bookmarks.png", array("alt" => "Nivel Educativo", 'width' => '18', 'heigth' => '18', 'title' => 'Nivel Educativo', 'url' => array('controller' => 'titulos', 'action' => 'edit', $empleado['Empleado']['id'])));
+                            echo $this->Html->image("familia.png", array("alt" => "Familiares", 'width' => '18', 'heigth' => '18', 'title' => 'Familiares', 'url' => array('controller' => 'familiares', 'action' => 'edit', $empleado['Empleado']['id'])));                            
+                            ?>
+                        </td>
+                        <td class="actions">
                             <?php
-                            echo $this->Html->image("Contact.png", array("alt" => "Contratos", 'width' => '18', 'heigth' => '18', 'title' => 'Contratos del Empleado', 'url' => array('controller' => 'contratos', 'action' => 'edit', $empleado['Empleado']['id'])));                            
-                            echo $this->Html->image("file_search.png", array("alt" => "Consultar", 'width' => '18', 'heigth' => '18', 'title' => 'Consultar Empleado', 'url' => array('action' => 'view', $empleado['Empleado']['id'])));
-                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar Empleado', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $empleado['Empleado']['id'])));
-                            echo $this->Html->link($this->Html->image("file_delete.png", array('alt' => 'delete', 'title'=>'Eliminar Empleado','height' => '18', 'width' => '18')), array('controller' => 'Empleados', 'action' => 'delete', $empleado['Empleado']['id']), array('escape' => false), sprintf('Esta seguro que desea eliminar a este Empleado?'));
+                            echo $this->Html->image("Money Bundle.png", array("alt" => " ", 'width' => '18', 'heigth' => '18', 'title' => 'Prestamos de Caja de Ahorro', 'url' => array('controller' => 'prestamos', 'action' => 'edit', $empleado['Empleado']['id'])));
+                            echo $this->Html->image("Credit Card.png", array("alt" => " ", 'width' => '18', 'heigth' => '18', 'title' => 'Deduccion por Creditos Comerciales', 'url' => array('controller' => 'comerciales', 'action' => 'edit', $empleado['Empleado']['id'])));
+                            echo $this->Html->image("Briefcase.png", array("alt" => " ", 'width' => '18', 'heigth' => '18', 'title' => 'Deduccion por Tribunales', 'url' => array('controller' => 'tribunales', 'action' => 'edit', $empleado['Empleado']['id'])));
+                            echo $this->Html->image("islr.png", array("alt" => " ", 'width' => '18', 'heigth' => '18', 'title' => 'Retencion Impuesto sobre la Renta', 'url' => array('controller' => 'islrs', 'action' => 'edit', $empleado['Empleado']['id'])));
                             ?>
                         </td>
                     </tr>
@@ -98,15 +106,4 @@
 
 <div class="box">
     <?php echo $this->Session->flash(); ?>
-</div>
-
-<div class="box">
-    <div class="title">	<h2>Acciones</h2></div>
-    <div class="content form">
-        <div class="row">
-            <div class="boton">
-                <?php echo $this->Html->link('Nuevo Empleado', array('action' => 'add')); ?>
-            </div>
-        </div>
-    </div>
 </div>

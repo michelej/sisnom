@@ -322,12 +322,9 @@ img {
 }*/
 .box .pages td {
     padding:5px;
-    text-align:justify;
-
-
+    text-align:justify;    
     -moz-border-radius:2px;
     -webkit-border-radius:2px;
-
     color:#000;
 }
 .box .pages table thead{
@@ -348,10 +345,14 @@ img {
     font-weight: bold;
 }
 .box .pages table tr.odd  {
-    background-color: #FFF;  
+    background-color: #FFF;
+    border: 1px solid #666;
+    color:#000;
 }
 .box .pages table tr.even  {
     background-color: #EEE;
+    border: 1px solid #666;
+    color:#000;
 }
 
 .box .pages tr:hover {

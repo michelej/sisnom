@@ -5,11 +5,11 @@
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
-                    <th></th>                                          
-                    <th style="width:10%"><?php echo $this->Paginator->sort('Programa', 'CODIGO'); ?></th>
-                    <th style="width:45%"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>
-                    <th style="width:20%"><?php echo $this->Paginator->sort('Tipo', 'TIPO'); ?></th>
-                    <th style="width:10%"><?php echo $this->Paginator->sort('Numero', 'NUMERO'); ?></th>
+                    <th></th>                                                              
+                    <th style="width:65%"><?php echo $this->Paginator->sort('Nombre', 'NOMBRE'); ?></th>
+                    <th style="width:5%;text-align: center"><?php echo $this->Paginator->sort('Programa', 'CODIGO'); ?></th>
+                    <th style="width:10%;text-align: center"><?php echo $this->Paginator->sort('Tipo', 'TIPO'); ?></th>
+                    <th style="width:5%;text-align: center"><?php echo $this->Paginator->sort('Numero', 'NUMERO'); ?></th>
                     <th style="width:15%;text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
@@ -23,11 +23,11 @@
                     }
                     ?>
                     <tr<?php echo $class; ?>>
-                        <td></td>                                                
-                        <td><?php echo $programa['Programa']['CODIGO']; ?></td>
+                        <td></td>                                                                        
                         <td><?php echo $programa['Programa']['NOMBRE']; ?></td>
-                        <td><?php echo $programa['Programa']['TIPO']; ?></td>
-                        <td><?php echo $programa['Programa']['NUMERO']; ?></td>
+                        <td style="text-align: center"><?php echo $programa['Programa']['CODIGO']; ?></td>
+                        <td style="text-align: center"><?php echo $programa['Programa']['TIPO']; ?></td>
+                        <td style="text-align: center"><?php echo $programa['Programa']['NUMERO']; ?></td>
                         <td class="actions">
                             <?php                                                        
                             echo $this->Html->link($this->Html->image("file_delete.png", array('alt' => 'delete', 'height' => '18', 'width' => '18')), array('controller' => 'Programas', 'action' => 'delete',$programa['Programa']['id']), array('escape' => false),sprintf('Esta seguro que desea eliminar este Programa?'));

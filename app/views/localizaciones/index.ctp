@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="title"><h2>Empleados</h2></div>
+    <div class="title"><h2>Localización Fisica</h2></div>
     <div class="content pages">
         <div class="row">
             <?php
@@ -30,7 +30,7 @@
                     <th></th>  
                     <th style="width:5%;text-align: center"><?php echo $this->Paginator->sort('Cedula / Rif', 'CEDULA'); ?></th>                    
                     <th style="width:30%;"><?php echo $this->Paginator->sort('Apellido(s) y Nombre(s)', 'NOMBRE'); ?></th>                                                            
-                    <th style="width:50%; text-align: center"><?php echo $this->Paginator->sort('Localizacion Fisica', 'localizacion_id'); ?></th>
+                    <th style="width:50%; text-align: center"><?php echo $this->Paginator->sort('Localización Fisica', 'localizacion_id'); ?></th>
                     <th style="width:15%; text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
@@ -68,7 +68,7 @@
                         <td style="text-align: center"><?php echo $departamento; ?></td>                        
                         <td class="actions">
                             <?php
-                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $empleado['Empleado']['id'])));
+                            echo $this->Html->image("file_edit.png", array("alt" => "Modificar", 'title' => 'Modificar Localización Fisica', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'edit', $empleado['Empleado']['id'])));
                             ?>
                         </td>
                     </tr>

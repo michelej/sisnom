@@ -25,7 +25,7 @@
 </div>
 
 <div class="box">
-    <div class="title"><h2>Historial del Empleado</h2>
+    <div class="title"><h2>Historial de Contratos del Empleado</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content pages">
@@ -33,11 +33,11 @@
             <thead>
                 <tr>
                     <th></th>  
-                    <th style="width:15%"><?php echo $this->Paginator->sort('Fecha Inicio', 'FECHA_INI') ?></th>                    
-                    <th style="width:15%"><?php echo $this->Paginator->sort('Fecha Final', 'FECHA_FIN') ?></th>                                        
+                    <th style="width:10%"><?php echo $this->Paginator->sort('Fecha Inicio', 'FECHA_INI') ?></th>                    
+                    <th style="width:10%"><?php echo $this->Paginator->sort('Fecha Final', 'FECHA_FIN') ?></th>                                        
                     <th style="width:10%"><?php echo $this->Paginator->sort('Modalidad', 'MODELIDAD') ?></th>                    
-                    <th style="width:25%; text-align: center"><?php echo $this->Paginator->sort('Cargo', 'cargo_id') ?></th>
-                    <th style="width:25%; text-align: center"><?php echo $this->Paginator->sort('Departamento', 'departamento_id') ?></th>
+                    <th style="width:30%; text-align: left"><?php echo $this->Paginator->sort('Cargo', 'cargo_id') ?></th>
+                    <th style="width:30%; text-align: left"><?php echo $this->Paginator->sort('Departamento', 'departamento_id') ?></th>
                     <th style="width:20%; text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
@@ -61,8 +61,8 @@
                 }
                     ?></td>                                                
                         <td><?php echo $contrato['Contrato']['MODALIDAD']; ?></td>                        
-                        <td style="text-align: center"><?php echo $contrato['Cargo']['NOMBRE']; ?></td>
-                        <td style="text-align: center"><?php echo $contrato['Departamento']['NOMBRE']; ?></td>
+                        <td style="text-align: left"><?php echo $contrato['Cargo']['NOMBRE']; ?></td>
+                        <td style="text-align: left"><?php echo $contrato['Departamento']['NOMBRE']; ?></td>
                         <td class="actions">
                             <?php
                             if ($contrato['Contrato']['FECHA_FIN'] == NULL) {

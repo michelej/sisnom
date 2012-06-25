@@ -32,7 +32,7 @@ class AppModel extends Model {
             //return false;
         }
         // Verificar que fecha final sea mayor a fecha inicial , valides del rango        
-        if(compara_fechas($fecha_ini, $fecha_fin)>0){
+        if(compara_fechas($fecha_ini, $fecha_fin)>0 && !$actual){
             $this->errorMessage='Ingrese un rango de fechas valido, la fecha final debe ser mayor a la fecha inicial';
             return false;
         }
@@ -57,11 +57,13 @@ class AppModel extends Model {
                     if ($actual) {
                         // la nueva fecha actual debe estar dentro del rango de la fecha actual que existe
                         // en el historial de lo contrario no nos sirve
-                        if (check_in_range($fecha_i, $fecha_f, $fecha_ini)) {
+                        //if (check_in_range($fecha_i, $fecha_f, $fecha_ini)) {
+                        if(compara_fechas($fecha_ini, $fecha_i) > 0){    
                             $this->updateFecha($tabla,$data['id'],$fecha_ini);                            
                             return true; // listo OJO idealmente el ultimo rango es el que tiene NULL en su fecha final
                         } else {
-                            $this->errorMessage='La fecha inicial debe estar dentro del rango  '.$fecha_i." y ".$fecha_f."  (hoy)";
+                            //$this->errorMessage='La fecha inicial debe estar dentro del rango  '.$fecha_i." y ".$fecha_f."  (hoy)";
+                            $this->errorMessage='La fecha inicial debe ser mayor a '.$fecha_i;
                             return false;
                         }
                         // si no estoy creando un rango actual , osea un rango normal

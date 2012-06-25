@@ -26,12 +26,11 @@
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
-                    <th></th>  
-                    <th style="width:20%"><?php echo $this->Paginator->sort('Fecha Retroactiva', 'FECHA_RET') ?></th>
-                    <th style="width:20%"><?php echo $this->Paginator->sort('Fecha Inicio', 'FECHA_INI') ?></th>                       
-                    <th style="width:20%"><?php echo $this->Paginator->sort('Fecha Final', 'FECHA_FIN') ?></th>
-                    <th style="width:25%"><?php echo $this->Paginator->sort('Sueldo Base', 'SUELDO_BASE') ?></th>                                        
-                    <th style="width:15%; text-align: center" class="actions"><?php __('Acciones'); ?></th>
+                    <th></th>                      
+                    <th style="width:15%"><?php echo $this->Paginator->sort('Fecha Inicio', 'FECHA_INI') ?></th>                       
+                    <th style="width:55%"><?php echo $this->Paginator->sort('Fecha Final', 'FECHA_FIN') ?></th>
+                    <th style="width:15%"><?php echo $this->Paginator->sort('Sueldo Base', 'SUELDO_BASE') ?></th>                                        
+                    <th style="width:15%; text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,14 +43,7 @@
                     }
                     ?>
                     <tr<?php echo $class; ?>>
-                        <td></td>
-                        <td><?php
-                            if ($historia['Historial']['FECHA_RET'] == NULL) {
-                                echo "";
-                            } else {
-                                echo fechaElegible($historia['Historial']['FECHA_RET']);
-                            }?>
-                        </td>
+                        <td></td>                        
                         <td><?php echo fechaElegible($historia['Historial']['FECHA_INI']); ?></td>                         
                         <td><?php
                             if ($historia['Historial']['FECHA_FIN'] == NULL) {
@@ -60,7 +52,7 @@
                                 echo fechaElegible($historia['Historial']['FECHA_FIN']);
                             }?>
                         </td>                                                
-                        <td><?php echo $historia['Historial']['SUELDO_BASE']; ?></td>                        
+                        <td><?php echo number_format($historia['Historial']['SUELDO_BASE'], 2, ',', '.'); ?></td>                        
                         <td class="actions">
                             <?php
                             echo $this->Html->image("file_delete.png", array("alt" => "Borrar", 'title' => 'Eliminar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'delete', $historia['Historial']['id'])));

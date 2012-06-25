@@ -222,7 +222,7 @@ class NominasController extends AppController {
             }
         }
     }
-
+    
 }
 
 ?>
