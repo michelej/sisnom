@@ -167,6 +167,7 @@ class Nomina extends AppModel {
         $deduccion = ClassRegistry::init('Deduccion');
 
         $empleados = $this->buscarInformacionEmpleados($id);
+        $empleados=$this->verificarDuplicados($empleados);
 
         if ($this->verificarSueldos($empleados)) {
             $this->errorMessage = "No existe suficiente informacion para generar esta Nomina <br/>
@@ -652,6 +653,28 @@ class Nomina extends AppModel {
             }
         }
         return $error;
+    }
+    /**
+     * 
+     * @param type $empleados 
+     */
+    function verificarDuplicados($empleados){
+        foreach ($empleados as $key => $empleado) {            
+            foreach ($empleados as $key_comp=>$comparar) {
+                if($empleado['Empleado']['id']==$comparar['Empleado']['id']){                    
+                    if($empleado['Contrato']['FECHA_INI']!=$comparar['Contrato']['FECHA_INI']){                                                
+                        if($empleado['Contrato']['FECHA_INI']<$comparar['Contrato']['FECHA_INI']){
+                            $empleados[$key]['Contrato']['FECHA_FIN']=$comparar['Contrato']['FECHA_FIN'];
+                            unset($empleados[$key_comp]);
+                        }else{
+                            $empleados[$key_comp]['Contrato']['FECHA_FIN']=$empleado['Contrato']['FECHA_FIN'];
+                            unset($empleados[$key]);
+                        }                                                
+                    }
+                }
+            }            
+        }
+        return $empleados;
     }
 
 }

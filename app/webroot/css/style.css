@@ -66,7 +66,7 @@ img {
 
 }
 .top .split h1 {
-    background-image: url("../img/logo.png");
+    /*background-image: url("../img/logo.png");*/
     background-repeat: no-repeat;
     color: #1C1C1C;
     float: left;

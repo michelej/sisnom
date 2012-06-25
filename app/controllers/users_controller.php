@@ -18,7 +18,8 @@ class UsersController extends AppController {
         $redirect=$this->Session->read('loginRedirect');
         $this->Session->delete('loginRedirect');
 
-        $this->redirect($redirect);                
+        //$this->redirect($redirect);                
+        $this->redirect('pages/display');                
     }
     
     public function logout(){

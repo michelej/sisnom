@@ -10,7 +10,6 @@ class Contrato extends AppModel {
      *  Relaciones
      */
     var $belongsTo = array('Cargo', 'Departamento', 'Empleado');
-    
 
     /**
      *  Validaciones     
@@ -95,9 +94,12 @@ class Contrato extends AppModel {
                         }
 
                         if (date('d', strtotime($fecha_ini)) != 1) {
-                            if (check_in_range($quincena_ini, $quincena_fin, $fecha_ini)) {
-                                $this->errorMessage = 'No se puede terminar e iniciar un contrato en medio de una quincena';
-                                return false;
+                            if (check_in_range($quincena_ini, $quincena_fin, $fecha_ini)) {                                
+                                if ($this->data['Contrato']['cargo_id'] != $data['cargo_id'] || $this->data['Contrato']['MODALIDAD'] != $data['MODALIDAD'] ||
+                                        $this->data['Contrato']['departamento_id'] != $data['departamento_id']) {
+                                    $this->errorMessage = 'No se puede terminar e iniciar un contrato que tenga diferente Cargo ,  Departamento o Modalidad';
+                                    return false;
+                                }
                             }
                         }
                     }
@@ -114,9 +116,12 @@ class Contrato extends AppModel {
                         $dd = strftime("%d", mktime(0, 0, 0, $mes + 1, 0, $año));
                         $quincena_fin = $año . '-' . $mes . '-' . $dd;
                     }
-                    if (check_in_range($quincena_ini, $quincena_fin, $fecha_ini)) {
-                        $this->errorMessage = 'No pueden existir dos contratos en una misma quincena';
-                        return false;
+                    if (check_in_range($quincena_ini, $quincena_fin, $fecha_ini)) {                    
+                        if ($this->data['Contrato']['cargo_id'] != $data['cargo_id'] || $this->data['Contrato']['MODALIDAD'] != $data['MODALIDAD'] ||
+                                $this->data['Contrato']['departamento_id'] != $data['departamento_id']) {
+                            $this->errorMessage = 'No se puede terminar e iniciar un contrato que tenga diferente Cargo  /  Departamento y Modalidad';
+                            return false;
+                        }
                     }
                 }
                 //**                              
