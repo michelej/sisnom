@@ -120,7 +120,7 @@ class Nomina extends AppModel {
      * @param type $id ID de la Nomina
      */
     function generarNomina($opciones) {
-        $id=$opciones['Nomina_id'];
+        $id = $opciones['Nomina_id'];
         $this->Recibo->deleteAll(array(
             'nomina_id' => $id
         ));
@@ -160,9 +160,9 @@ class Nomina extends AppModel {
      * @param type $id 
      */
     function calcularNomina($opciones) {
-        $id=$opciones['Nomina_id'];
-        $sueldo_minimo=$opciones['Sueldo_Minimo'];
-        
+        $id = $opciones['Nomina_id'];
+        $sueldo_minimo = $opciones['Sueldo_Minimo'];
+
         $asignacion = ClassRegistry::init('Asignacion');
         $deduccion = ClassRegistry::init('Deduccion');
 
@@ -183,7 +183,8 @@ class Nomina extends AppModel {
 
         $fecha_ini = formatoFechaBeforeSave($nomina['Nomina']['FECHA_INI']);
         $fecha_fin = formatoFechaBeforeSave($nomina['Nomina']['FECHA_FIN']);
-        
+
+
         foreach ($empleados as $key => $empleado) {
             $empleados[$key]['Nomina_Empleado']['Empleado'] = $empleado['Empleado'];
             $empleados[$key]['Nomina_Empleado']['ID_NOMINA'] = $id;
@@ -199,12 +200,12 @@ class Nomina extends AppModel {
             $empleados[$key]['Nomina_Empleado']['DEPARTAMENTO'] = $empleado['Departamento']['NOMBRE'];
             $empleados[$key]['Nomina_Empleado']['MODALIDAD'] = $empleado['Contrato']['MODALIDAD'];
             $empleados[$key]['Nomina_Empleado']['GRUPO'] = $empleado['Empleado']['Grupo']['NOMBRE'];
-            if($empleados[$key]['Nomina_Empleado']['MODALIDAD']=='Contratado'){
+            if ($empleados[$key]['Nomina_Empleado']['MODALIDAD'] == 'Contratado') {
                 $empleados[$key]['Nomina_Empleado']['CARGO'] = 'CONTRATADO';
-            }else{
+            } else {
                 $empleados[$key]['Nomina_Empleado']['CARGO'] = $empleado['Cargo']['NOMBRE'];
-            }            
-            
+            }
+
             // -- DIAS LABORADOS --
             if (check_in_range($fecha_ini, $fecha_fin, $empleado['Contrato']['FECHA_FIN'])) {
                 $dias = numeroDeDias($fecha_ini, $empleado['Contrato']['FECHA_FIN']);
@@ -221,7 +222,7 @@ class Nomina extends AppModel {
             $empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] = redondear($empleados[$key]['Nomina_Empleado']['SUELDO_BASE'] / 30);
             $empleados[$key]['Nomina_Empleado']['SUELDO_BASICO'] = redondear($empleados[$key]['Nomina_Empleado']['SUELDO_DIARIO'] * $empleados[$key]['Nomina_Empleado']['DIAS_LABORADOS']); // QUINCENA            
             // -- SUELDO --
-            $empleados[$key]['Nomina_Empleado']['Asignaciones'] = $asignacion->calcularAsignaciones($empleados[$key]['Nomina_Empleado'],$opciones['Primas']);
+            $empleados[$key]['Nomina_Empleado']['Asignaciones'] = $asignacion->calcularAsignaciones($empleados[$key]['Nomina_Empleado'], $opciones['Primas']);
             $totalasig = 0;
             foreach ($empleados[$key]['Nomina_Empleado']['Asignaciones'] as $value) {
                 $totalasig = $totalasig + $value;
@@ -247,6 +248,90 @@ class Nomina extends AppModel {
             $this->errorMessage = "No existe suficiente informacion para generar esta Nomina <br/>
                 - Verifique que exista algun empleado trabajando para esa fecha o que se encuentre definido algun contrato";
         }
+        $empleados = $this->procesarEventualidades($empleados, $fecha_ini);
+        return $empleados;
+    }
+
+    function procesarEventualidades($empleados, $fecha) {
+        $eventualidad = ClassRegistry::init('Eventualidad');
+
+        $event = $eventualidad->find('all', array(
+            'contain' => array(
+                'DetalleEventualidad' => array(
+                    'conditions' => array(
+                        'DetalleEventualidad.FECHA' => $fecha
+                    )
+                )
+            )
+                ));
+
+        if (!empty($event)) {
+            $grupos = array();
+            foreach ($event as $value_event) {
+                foreach ($empleados as $empleado) {
+                    foreach ($value_event['DetalleEventualidad'] as $eve) {
+                        if ($empleado['Nomina_Empleado']['ID_EMPLEADO'] == $eve['empleado_id']) {
+                            $grupos[] = array('MODALIDAD' => $empleado['Nomina_Empleado']['MODALIDAD'], 'GRUPO' => $empleado['Nomina_Empleado']['GRUPO'],
+                                'EVENTUALIDAD'=>$eve['eventualidad_id']);
+                        }
+                    }
+                }
+            }
+            
+            foreach ($event as $value_event) {
+                if (!empty($value_event['DetalleEventualidad'])) {
+                    foreach ($empleados as $key => $empleado) {
+                        ////////////////////////////////////////////////////
+                        if ($value_event['Eventualidad']['TIPO'] == 'Asignación') {
+                            $flag = false;
+                            foreach ($value_event['DetalleEventualidad'] as $eve) {
+                                if ($eve['empleado_id'] == $empleado['Nomina_Empleado']['ID_EMPLEADO']) {
+                                    $flag = true;
+                                    $empleados[$key]['Nomina_Empleado']['Asignaciones'][$value_event['Eventualidad']['NOMBRE']] = $eve['VALOR'];
+                                }
+                            }
+                            if (!$flag) {                               
+                                foreach ($grupos as $grp) {
+                                    if($grp['GRUPO']==$empleado['Nomina_Empleado']['GRUPO'] && $grp['MODALIDAD']==$empleado['Nomina_Empleado']['MODALIDAD'] 
+                                            && $grp['EVENTUALIDAD']==$eve['eventualidad_id']){
+                                        $empleados[$key]['Nomina_Empleado']['Asignaciones'][$value_event['Eventualidad']['NOMBRE']] = 0;
+                                    }
+                                    // Por si acaso es contratado y el grupo varia
+                                    if($grp['MODALIDAD']==$empleado['Nomina_Empleado']['MODALIDAD'] 
+                                            && $grp['EVENTUALIDAD']==$eve['eventualidad_id'] && $grp['MODALIDAD']=='Contratado'){
+                                        $empleados[$key]['Nomina_Empleado']['Asignaciones'][$value_event['Eventualidad']['NOMBRE']] = 0;
+                                    }
+                                }                                
+                            }
+                        }
+                        /////////////////////////////////////////////////////
+                        if ($value_event['Eventualidad']['TIPO'] == 'Deducción') {
+                            $flag = false;
+                            foreach ($value_event['DetalleEventualidad'] as $eve) {
+                                if ($eve['empleado_id'] == $empleado['Nomina_Empleado']['ID_EMPLEADO']) {
+                                    $flag = true;
+                                    $empleados[$key]['Nomina_Empleado']['Deducciones'][$value_event['Eventualidad']['NOMBRE']] = $eve['VALOR'];
+                                }
+                            }
+                            if (!$flag) {
+                                foreach ($grupos as $grp) {
+                                    if($grp['GRUPO']==$empleado['Nomina_Empleado']['GRUPO'] && $grp['MODALIDAD']==$empleado['Nomina_Empleado']['MODALIDAD'] 
+                                            && $grp['EVENTUALIDAD']==$eve['eventualidad_id']){
+                                        $empleados[$key]['Nomina_Empleado']['Deducciones'][$value_event['Eventualidad']['NOMBRE']] = 0;
+                                    }
+                                    // Por si acaso es contratado y el grupo varia
+                                    if($grp['MODALIDAD']==$empleado['Nomina_Empleado']['MODALIDAD'] 
+                                            && $grp['EVENTUALIDAD']==$eve['eventualidad_id'] && $grp['MODALIDAD']=='Contratado'){
+                                        $empleados[$key]['Nomina_Empleado']['Deducciones'][$value_event['Eventualidad']['NOMBRE']] = 0;
+                                    }
+                                }
+                                
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         return $empleados;
     }
@@ -257,7 +342,7 @@ class Nomina extends AppModel {
      * @param type $grupo
      * @return type 
      */
-    function mostrarNomina($id, $grupo,$modalidad) {
+    function mostrarNomina($id, $grupo, $modalidad) {
         $ids = $this->Recibo->Empleado->Grupo->find('all', array(
             'conditions' => array(
                 'NOMBRE' => $grupo
@@ -276,7 +361,7 @@ class Nomina extends AppModel {
             'conditions' => array(
                 'nomina_id' => $id,
                 'empleado_id' => $id_empleados,
-                'MODALIDAD'=>$modalidad
+                'MODALIDAD' => $modalidad
             ),
             'contain' => array(
                 'Nomina', 'DetalleRecibo',
@@ -355,12 +440,12 @@ class Nomina extends AppModel {
             $data[$key]['Asignaciones'] = $asignaciones;
             $data[$key]['Deducciones'] = $deducciones;
             $sueldo = 0;
-            $sueldo_base=0;
+            $sueldo_base = 0;
             foreach ($programa['Departamento'] as $departamento) {
                 foreach ($nomina_empleado as $empleado) {
                     if ($empleado['Nomina_Empleado']['DEPARTAMENTO'] == $departamento['NOMBRE']) {
                         $sueldo = $sueldo + $empleado['Nomina_Empleado']['SUELDO_BASICO'];
-                        $sueldo_base=$sueldo_base+$empleado['Nomina_Empleado']['SUELDO_BASE'];
+                        $sueldo_base = $sueldo_base + $empleado['Nomina_Empleado']['SUELDO_BASE'];
                         foreach ($empleado['Nomina_Empleado']['Asignaciones'] as $kk => $asig) {
                             $data[$key]['Asignaciones'][$kk]+=$asig;
                         }
@@ -413,19 +498,19 @@ class Nomina extends AppModel {
             $temp['Programa']['TOTAL_DEDUCCIONES']+=$value['Programa']['TOTAL_DEDUCCIONES'];
             $temp['Programa']['TOTAL_SUELDO_CANCELAR']+=$value['Programa']['TOTAL_SUELDO_CANCELAR'];
             $suma = array_map('sumar', $temp['Asignaciones'], $value['Asignaciones']);
-            $temp['Asignaciones']=$suma;
+            $temp['Asignaciones'] = $suma;
             $suma = array_map('sumar', $temp['Deducciones'], $value['Deducciones']);
-            $temp['Deducciones']=$suma;
+            $temp['Deducciones'] = $suma;
         }
         $data[] = $temp;
         // Esto sucede cuando no existe ninguna persona de un departamento en la nomina
         // asi que la eliminamos
-        foreach ($data as $key=>$value){
-            if($value['Programa']['TOTAL_SUELDO']==0){
+        foreach ($data as $key => $value) {
+            if ($value['Programa']['TOTAL_SUELDO'] == 0) {
                 unset($data[$key]);
             }
         }
-        
+
         return $data;
     }
 
@@ -568,6 +653,7 @@ class Nomina extends AppModel {
         }
         return $error;
     }
+
 }
 
 ?>

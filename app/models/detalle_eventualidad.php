@@ -104,7 +104,9 @@ class DetalleEventualidad extends AppModel {
      * @return boolean 
      */
     function existe($data) {
-        $conditions['FECHA'] = $data['FECHA'];        
+        $conditions['FECHA'] = $data['FECHA'];
+        $conditions['empleado_id']=$data['empleado_id'];
+        $conditions['eventualidad_id']=$data['eventualidad_id'];
         $data = $this->find('first', array(
             'conditions' => $conditions
                 ));

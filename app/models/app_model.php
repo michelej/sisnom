@@ -4,6 +4,7 @@ class AppModel extends Model {
 
     protected $sYourPropery = 'property';
     var $errorMessage='';
+    var $actsAs = array('Containable');
 
     /**
      * Es usado por el modelo historial y el de contrato
