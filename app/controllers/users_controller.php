@@ -19,13 +19,13 @@ class UsersController extends AppController {
         $this->Session->delete('loginRedirect');
 
         //$this->redirect($redirect);                
-        $this->redirect('pages/display');                
+        $this->redirect('/Pages/display');                
     }
     
     public function logout(){
         $this->Authsome->logout();
         $this->redirect('/');
-    }
+    }    
 
 }
 

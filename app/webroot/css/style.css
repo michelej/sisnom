@@ -35,8 +35,9 @@ img {
     width: 982px;
 }
 .top {
+    background-color: #bedf5d;
     float: left;
-    height: 48px;
+    height: 100px;
     padding: 0 1px;
     width: 980px;
 }
@@ -70,13 +71,13 @@ img {
     background-repeat: no-repeat;
     color: #1C1C1C;
     float: left;
-    font-size: 0;
+    font-size: 15;
     height: 14px;
     line-height: 0;
     margin: 18px 0 0;
     padding: 0;
     text-align: left;
-    width: 132px;
+    width: 100%;
 }
 .top .split div {
     border-right: 1px solid #656565;

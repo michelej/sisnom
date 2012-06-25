@@ -21,11 +21,11 @@
             <!-- INICIO CONTAINER -->  
             <div class="container"> 
                 <!-- INICIO TOP -->  
-                <div class="top"> 
+                <div class="top">                     
                     <div class="split"><h1>SISTEMA DE RECURSOS HUMANOS</h1></div> 
-                    <div class="split"> 
+                    <div class="split">                         
                         <div class="logout">
-                            <?php echo '( '.Authsome::get('USERNAME').') '.Authsome::get('NOMBRE').' '.Authsome::get('APELLIDO')?>
+                            <?php echo '( ' . Authsome::get('USERNAME') . ') ' . Authsome::get('NOMBRE') . ' ' . Authsome::get('APELLIDO') ?>
                             <?php echo $this->Html->image('icon-logout.gif'); ?>                            
                             <?php echo $html->link('Salir', array('controller' => 'users', 'action' => 'logout')); ?> 
                         </div> 
@@ -59,7 +59,7 @@
                             </ul>
                         </li>
                         <li>
-                              <?php echo $this->Html->link($this->Html->image("disc.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Procesos", array('controller' => 'Pages', 'action' => 'display'), array('escape' => false)); ?> 
+                            <?php echo $this->Html->link($this->Html->image("disc.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Procesos", array('controller' => 'Pages', 'action' => 'display'), array('escape' => false)); ?> 
                             <ul>                             
                                 <li><?php echo $this->Html->link($this->Html->image("Drawer Closed.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Administrar Conceptos", array('controller' => 'ajustes', 'action' => 'index'), array('escape' => false)); ?></li>                                                                    
                                 <li><?php echo $this->Html->link($this->Html->image("Button Remove.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Ausencias", array('controller' => 'ausencias', 'action' => 'index'), array('escape' => false)); ?></li>         
@@ -73,19 +73,19 @@
                                 <li><?php echo $this->Html->link($this->Html->image("cestaticket.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "   Cestaticket", array('controller' => 'cestatickets', 'action' => 'index'), array('escape' => false)); ?></li>
                             </ul>    
                         </li>                     
-                    <li>     
-                        <?php echo $this->Html->link($this->Html->image("Cog.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Conceptos", array('controller' => 'Pages', 'action' => 'display'), array('escape' => false)); ?>     
-                        <ul>          
-                            <li><?php echo $this->Html->link($this->Html->image("News Add.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Asignaciones", array('controller' => 'asignaciones', 'action' => 'index'), array('escape' => false)); ?></li>
-                            <li><?php echo $this->Html->link($this->Html->image("News Remove.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Deducciones", array('controller' => 'deducciones', 'action' => 'index'), array('escape' => false)); ?></li>                            
-                        </ul> 
-                    </li>
-                    <li>     
-                        <?php echo $this->Html->link($this->Html->image("Chart Bar.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Reportes", array('controller' => 'Pages', 'action' => 'display'), array('escape' => false)); ?>         
-                        <ul>                                                                 
-                            <li><?php echo $this->Html->link($this->Html->image("Document Checklist.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "Generar Reportes", array('controller' => 'reportes', 'action' => 'generar_reportes'), array('escape' => false)); ?></li>                            
-                        </ul> 
-                    </li> 
+                        <li>     
+                            <?php echo $this->Html->link($this->Html->image("Cog.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Conceptos", array('controller' => 'Pages', 'action' => 'display'), array('escape' => false)); ?>     
+                            <ul>          
+                                <li><?php echo $this->Html->link($this->Html->image("News Add.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Asignaciones", array('controller' => 'asignaciones', 'action' => 'index'), array('escape' => false)); ?></li>
+                                <li><?php echo $this->Html->link($this->Html->image("News Remove.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Deducciones", array('controller' => 'deducciones', 'action' => 'index'), array('escape' => false)); ?></li>                            
+                            </ul> 
+                        </li>
+                        <li>     
+                            <?php echo $this->Html->link($this->Html->image("Chart Bar.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Reportes", array('controller' => 'Pages', 'action' => 'display'), array('escape' => false)); ?>         
+                            <ul>                                                                 
+                                <li><?php echo $this->Html->link($this->Html->image("Document Checklist.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "Generar Reportes", array('controller' => 'reportes', 'action' => 'generar_reportes'), array('escape' => false)); ?></li>                            
+                            </ul> 
+                        </li>                         
                     </ul> 
                 </div> 
                 <!-- END MENU -->  
@@ -95,7 +95,7 @@
                 </div>
                 <!-- FIN HOLDER -->  
                 <div class="footer">
-                    
+
                 </div> 
             </div> 
             <!-- FIN CONTAINER -->   
