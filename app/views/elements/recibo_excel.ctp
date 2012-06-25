@@ -1,7 +1,7 @@
 <?php
 
-$limite_asignaciones = 8;
-$limite_deducciones = 9;
+$limite_asignaciones = 10;
+$limite_deducciones = 14;
 
 $letras = array('0' => 'A', '1' => 'B', '2' => 'C', '3' => 'D', '4' => 'E', '5' => 'F', '6' => 'G', '7' => 'H', '8' => 'I',
     '9' => 'J', '10' => 'K', '11' => 'L', '12' => 'M', '13' => 'N', '14' => 'O', '15' => 'P', '16' => 'Q',
@@ -23,14 +23,14 @@ $marca_fila++;
 foreach ($asignaciones as $asignacion) {
     $excel->_campo('A' . $marca, $asignacion);
     // PHPExcel en INGLES ASI QUE LAS FORMULAS DE EXCEL SON EN INGLES NO IMPORTA QUE EL EXCEL ESTE EN ESPAÑOL 
-    $formula='=VLOOKUP(G5,Nomina!$A$16:$AI$94,'.$marca_fila.')';        
+    $formula='=VLOOKUP(G5,Nomina!$A$16:$AP$94,'.$marca_fila.')';        
     $excel->_campo('C' . $marca,$formula);    
     $marca_fila++;
     $marca++;
 }
 
 // TOTAL ASIGNACIONES
-$formula='=VLOOKUP(G5,Nomina!$A$16:$AI$94,'.$marca_fila.')';        
+$formula='=VLOOKUP(G5,Nomina!$A$16:$AP$94,'.$marca_fila.')';        
 $excel->_campo('G' . ($marca-1),$formula);    
 $marca_fila=$marca_fila+2;
 
@@ -47,7 +47,7 @@ $deduc = count($deducciones);
 foreach ($deducciones as $deduccion) {
     $excel->_campo('A' . $marca, $deduccion);
     // PHPExcel en INGLES ASI QUE LAS FORMULAS DE EXCEL SON EN INGLES NO IMPORTA QUE EL EXCEL ESTE EN ESPAÑOL 
-    $formula='=VLOOKUP(G5,Nomina!$A$16:$AI$94,'.$marca_fila.')';        
+    $formula='=VLOOKUP(G5,Nomina!$A$16:$AP$94,'.$marca_fila.')';        
     $excel->_campo('E' . $marca,$formula);    
     $marca++;
     $marca_fila++;
@@ -55,13 +55,13 @@ foreach ($deducciones as $deduccion) {
 
 // TOTAL DEDUCCIONES
 $marca_fila=$marca_fila+($limite_deducciones-$deduc);
-$formula='=VLOOKUP(G5,Nomina!$A$16:$AI$94,'.$marca_fila.')*(-1)';        
+$formula='=VLOOKUP(G5,Nomina!$A$16:$AP$94,'.$marca_fila.')*(-1)';        
 //debug($formula);
 $excel->_campo('G' . ($marca-1),$formula);    
 
 //TOTAL SUELDO
 $marca_fila++;
-$formula='=VLOOKUP(G5,Nomina!$A$16:$AI$94,'.$marca_fila.')';        
+$formula='=VLOOKUP(G5,Nomina!$A$16:$AP$94,'.$marca_fila.')';        
 $excel->_campo('G' . ($limite_deducciones + $inicio_plantilla + $limite_asignaciones),$formula);    
 
 // ELIMINO LAS FILAS VACIAS

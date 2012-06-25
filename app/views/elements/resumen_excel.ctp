@@ -1,15 +1,15 @@
 <?php
 
 // Limites que se encuentran en el template usados a la hora de ocultar las filas o columnas en blanco
-$limite_asignaciones = 8;
-$limite_deducciones = 9;
+$limite_asignaciones = 10;
+$limite_deducciones = 14;
 $limite_programas = 9;
 
 $letras = array('0' => 'A', '1' => 'B', '2' => 'C', '3' => 'D', '4' => 'E', '5' => 'F', '6' => 'G', '7' => 'H', '8' => 'I',
     '9' => 'J', '10' => 'K', '11' => 'L', '12' => 'M', '13' => 'N', '14' => 'O', '15' => 'P', '16' => 'Q',
     '17' => 'R', '18' => 'S', '19' => 'T', '20' => 'U', '21' => 'V', '22' => 'W', '23' => 'X', '24' => 'Y',
     '25' => 'Z', '26' => 'AA', '27' => 'AB', '28' => 'AC', '29' => 'AD', '30' => 'AE', '31' => 'AF', '32' => 'AG', '33' => 'AH',
-    '34' => 'AI', '35' => 'AJ', '36' => 'AK', '37' => 'AL', '38' => 'AM');
+    '34' => 'AI', '35' => 'AJ', '36' => 'AK', '37' => 'AL', '38' => 'AM','39','AN','40'=>'AO');
 
 
 $data = array();
@@ -96,7 +96,7 @@ foreach ($resumen as $value) {
         $t++;
         //------------ TOTALES -------------- AL FINAL
     } else {
-        $excel->_groupBold("A" . $t . ":AA" . $t);
+        $excel->_grupoBold("A" . $t . ":AD" . $t);
         $text = $value['Programa']['NOMBRE'];
         $excel->_campo("A" . $t, $text);
         $excel->_campo("B" . $t, $value['Programa']['TOTAL_SUELDO']);
