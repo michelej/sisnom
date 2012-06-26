@@ -22,7 +22,7 @@
             <div class="container"> 
                 <!-- INICIO TOP -->  
                 <div class="top">                     
-                    <div class="split"><h1>SISTEMA DE RECURSOS HUMANOS</h1></div> 
+                    <div class="split"></div> 
                     <div class="split">                         
                         <div class="logout">
                             <?php echo '( ' . Authsome::get('USERNAME') . ') ' . Authsome::get('NOMBRE') . ' ' . Authsome::get('APELLIDO') ?>

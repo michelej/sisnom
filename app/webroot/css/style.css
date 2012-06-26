@@ -35,7 +35,8 @@ img {
     width: 982px;
 }
 .top {
-    background-color: #bedf5d;
+    background-image: url("../img/banner.png");
+    /*background-color: #bedf5d;*/
     float: left;
     height: 100px;
     padding: 0 1px;
@@ -67,7 +68,7 @@ img {
 
 }
 .top .split h1 {
-    /*background-image: url("../img/logo.png");*/
+    /*background-image: url("../img/banner.jpg");*/
     background-repeat: no-repeat;
     color: #1C1C1C;
     float: left;
