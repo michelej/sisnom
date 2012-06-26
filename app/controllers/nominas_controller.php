@@ -6,46 +6,78 @@ class NominasController extends AppController {
     var $helpers = array('Excel', 'Javascript', 'Ajax');
     var $components = array('RequestHandler', 'Wizard.Wizard');
 
-    function beforeFilter() {        
-        $this->Wizard->steps = array('parte1', 'parte2');                
-        $this->Wizard->cancelUrl = '/nominas/edit/' . $this->Session->read('Nomina.ID');            
+    function beforeFilter() {
+        $this->Wizard->steps = array('parte1','parte2');
+        $this->Wizard->cancelUrl = '/nominas/edit/' . $this->Session->read('Nomina.ID');
     }
-    
+
     function wizard($step = null) {
         $this->Wizard->process($step);
-    }     
-    
-    
-    
+    }
+
     /**
      * [Wizard Process Callbacks]
      */
     function _processParte1() {        
+        $flag = false;
+        // Validamos que los valores de las primas sean numeros
+        foreach ($this->data['PRIMAS'] as $prima) {
+            if (isset($prima['Empleado'])) {
+                if (!is_array($prima['Empleado'])) {
+                    if (!is_numeric($prima['Empleado'])) {
+                        $flag = true;
+                    }
+                } else {
+                    foreach ($prima['Empleado'] as $prima_emp) {
+                        if (!is_numeric($prima_emp)) {
+                            $flag = true;
+                        }
+                    }
+                }
+            }
+            if (isset($prima['Obrero'])) {
+                if (!is_array($prima['Obrero'])) {
+                    if (!is_numeric($prima['Obrero'])) {
+                        $flag = true;
+                    }
+                }else {
+                    foreach ($prima['Obrero'] as $prima_obr) {
+                        if (!is_numeric($prima_obr)) {
+                            $flag = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($flag) {
+            $this->Session->setFlash('Ha ocurrido un error, verifique que los valores de las primas sean numeros', 'flash_error');
+            return false;
+        }
+        return true;
+    }
+    
+    function _processParte2(){
         return true;
     }
 
-    function _processParte2() {        
-        return true;
-    }    
-    
     /**
      * [Wizard Prepare Callbacks]
-     */    
-    function _prepareParte2(){
-        $asignacion = ClassRegistry::init('Asignacion');                
-        $tabulador=$asignacion->tabulador_primas;
-        $this->set('tabulador',$tabulador); 
-    }    
+     */
+    function _prepareParte1() {
+        $asignacion = ClassRegistry::init('Asignacion');
+        $tabulador = $asignacion->tabulador_primas;
+        $this->set('tabulador', $tabulador);
+    }
 
     /**
      * [Wizard Completion Callback]
      */
-    function _afterComplete() {        
-        $wizardData = $this->Wizard->read();                
+    function _afterComplete() {
+        $wizardData = $this->Wizard->read();
         $opciones = array(
             'Nomina_id' => $this->Session->read('Nomina.ID'),
-            'Sueldo_Minimo' => $wizardData['parte1']['SUELDO_MINIMO'],
-            'Primas'=>$wizardData['parte2']['PRIMAS']
+            'Primas' => $wizardData['parte1']['PRIMAS']
         );
         $this->Wizard->reset();
         $this->_generar($opciones);
@@ -120,9 +152,9 @@ class NominasController extends AppController {
         $this->Session->write('Nomina.ID', $nomina['Nomina']['id']);
 
         $this->set(compact('asignaciones', 'deducciones', 'nomina'));
-    }    
+    }
 
-    function _generar($opciones) {        
+    function _generar($opciones) {
         $this->Nomina->generarNomina($opciones);
         if ($this->Nomina->errorMessage != '') {
             $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
@@ -212,7 +244,7 @@ class NominasController extends AppController {
                     $this->render('archivo_nomina', 'nominaExcel');
                 }
                 if ($this->data['TIPO'] == 'Resumen') {
-                    $this->set(compact('nomina','resumen', 'grupo', 'modalidad'));
+                    $this->set(compact('nomina', 'resumen', 'grupo', 'modalidad'));
                     $this->render('archivo_resumen', 'nominaExcel');
                 }
                 if ($this->data['TIPO'] == 'Completo') {
@@ -222,7 +254,7 @@ class NominasController extends AppController {
             }
         }
     }
-    
+
 }
 
 ?>

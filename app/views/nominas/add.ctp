@@ -1,10 +1,9 @@
 <div class="box">
-    <?php echo $this->Session->flash(); ?>
+    <?php echo $this->Session->flash(); ?>    
 </div>
 
-
 <div class="box">
-    <div class="title"><h2>Nueva Nomina</h2>
+    <div class="title"><h2>Quincena de la Nomina</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content form">
@@ -30,6 +29,12 @@
         echo "<div style='float:left;width:40%'>";
         $options = array('Primera' => 'Primera', 'Segunda' => 'Segunda');
         echo $this->Form->input('QUINCENA', array('div' => false, 'label' => 'Quincena', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una opcion'));
+        echo "</div>";
+        
+        echo "</div>";
+        echo "<div class='row'>";
+        echo "<div style='float:left;width:40%'>";        
+        echo $this->Form->input('SUELDO_MINIMO', array('div' => false, 'label' => 'Sueldo Minimo', 'class' => 'small'));
         echo "</div>";
         echo "</div>";
         ?>

@@ -132,6 +132,10 @@ input[type="submit"]:hover{
 .row input.small, .row textarea.small {
     width: 156px;
 }
+.row input.smallwiz, .row textarea.smallwiz {
+    width: 156px;
+    height: 10px;
+}
 .row input.xsmall {
     width: 80px;
 }
