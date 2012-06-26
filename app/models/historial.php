@@ -20,10 +20,62 @@ class Historial extends AppModel {
             'message' => 'Fecha Inicial incorrecta',
         ),
         'SUELDO_BASE' => array(
-            'rule' => array('decimal'),
-            'message' => 'Sueldo Base invalido ( ejm: 1500.00)',
+            'rule' => array('numeric'),
+            'message' => 'Sueldo Base invalido',
         ),
+        'QUINCENA_INICIO' => array(
+            'rule' => array('notEmpty'),
+            'message' => 'Seleccione la Quincena',
+        ),
+        'HISTORIAL_MES_INICIO' => array(
+            'rule' => array('notEmpty'),
+            'message' => 'Seleccione un Mes'
+        ),
+        'HISTORIAL_AÑO_INICIO' => array(
+            'histAño-r1' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'Ingrese el año',
+                'last' => true,
+            ),
+            'histAño-r2' => array(
+                'rule' => array('numeric'),
+                'message' => 'El año debe ser un Numero',
+                'last' => true
+            ),
+            'histAño-r3' => array(
+                'rule' => array('histAño'),
+                'message' => 'El año es un valor invalido'
+            )
+        ),
+        'HISTORIAL_AÑO_FIN' => array(            
+            'histAño-r2' => array(
+                'rule' => array('numeric'),
+                'message' => 'El año debe ser un Numero',
+                'last' => true,
+                'allowEmpty' => true
+            ),
+            'histAño-r3' => array(
+                'rule' => array('histAño'),
+                'message' => 'El año es un valor invalido',
+                'allowEmpty' => true
+            )
+        )
     );
+
+    function histAño($check) {
+        if (isset($check['HISTORIAL_AÑO_INICIO'])) {
+            if ($check['HISTORIAL_AÑO_INICIO'] < 1900 || $check['HISTORIAL_AÑO_INICIO'] > 2200) {
+                return false;
+            }
+        }
+         if (isset($check['HISTORIAL_AÑO_FIN'])) {
+            if ($check['HISTORIAL_AÑO_FIN'] < 1900 || $check['HISTORIAL_AÑO_FIN'] > 2200) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     // TODO: Falta validar la fecha final 
     /**
