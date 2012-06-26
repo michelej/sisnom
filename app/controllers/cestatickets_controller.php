@@ -47,11 +47,12 @@ class CestaticketsController extends AppController {
 
     function edit($id = null) {
         // TODO: Verificar si existen cambios depues de creada la nomina ??????        
-        $cestaticket = $this->Cestaticket->find('first', array(
-            'recursive' => -1,
+        $cestaticket = $this->Cestaticket->find('first', array(            
             'conditions' => array(
-                'id' => $id)
-                ));
+                'id' => $id),
+             'contain'=>array(
+                 'DetalleCestaticket'
+             )));
 
         $this->set('cestaticket', $cestaticket);
     }
@@ -62,8 +63,16 @@ class CestaticketsController extends AppController {
             $this->redirect('index');
         }
     }
+    
+    function generar($id=null){
+        $this->autoRender=false;
+        if(!empty($this->data)){
+            $this->_generar($id);
+        }
+        $this->render('/cestatickets/loading');
+    }
 
-    function generar($id = null) {
+    function _generar($id = null) {
         $this->autoRender = false;
         $this->Cestaticket->generarCestaticket($id);
 
@@ -71,6 +80,8 @@ class CestaticketsController extends AppController {
             $this->Session->setFlash($this->Cestaticket->errorMessage, 'flash_error');
         } else {
             $this->Session->setFlash('Nomina generada con exito', 'flash_success');
+            $this->Cestaticket->id = $id;
+            $this->Cestaticket->saveField('FECHA_ELA', date("Y-m-d H:i:s"));
         }
         $this->redirect('edit/' . $id);
     }
@@ -211,8 +222,7 @@ class CestaticketsController extends AppController {
         }
 
         $this->redirect('dia_adicional/' . $data['DetalleCestaticket']['cestaticket_id']);
-    }
-
+    }        
 }
 
 ?>

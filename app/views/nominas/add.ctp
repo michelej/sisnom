@@ -9,7 +9,7 @@
     <div class="content form">
         <?php
         echo $this->Form->create('Nomina', array('url' => array('controller' => 'nominas', 'action' => 'add')));
-        echo $this->Form->input('FECHA_ELA', array('type' => 'hidden', 'value' => date("d-m-Y")));
+        echo $this->Form->input('FECHA_ELA', array('type' => 'hidden', 'value' => date("Y-m-d H:i:s")));
 
         echo "<div class='row'>";
         echo "<div style='float:left;width:30%;'>";

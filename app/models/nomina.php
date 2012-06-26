@@ -15,9 +15,9 @@ class Nomina extends AppModel {
      *  Validaciones     
      */
     var $validate = array(
-        'SUELDO_MINIMO'=>array(
-            'rule'=>array('decimal'),
-            'message' => 'Sueldo Minimo invalido, debe ser decimal ( ejm: 1500.00)',
+        'SUELDO_MINIMO' => array(
+            'rule' => array('numeric'),
+            'message' => 'Sueldo Minimo invalido',
         ),
         'QUINCENA' => array(
             'rule' => array('notEmpty'),
@@ -36,7 +36,7 @@ class Nomina extends AppModel {
             'nominaAño-r2' => array(
                 'rule' => array('numeric'),
                 'message' => 'El año debe ser un Numero',
-                'last'=>true
+                'last' => true
             ),
             'nominaAño-r3' => array(
                 'rule' => array('nominaAño'),
@@ -44,17 +44,19 @@ class Nomina extends AppModel {
             )
         )
     );
+
     /**
      *  Validacion Personalizada
      * @param type $check
      * @return boolean 
      */
-    function nominaAño($check) {        
-        if ($check['NOMINA_AÑO'] < 1900 || $check['NOMINA_AÑO'] > 2200) {            
+    function nominaAño($check) {
+        if ($check['NOMINA_AÑO'] < 1900 || $check['NOMINA_AÑO'] > 2200) {
             return false;
         }
         return true;
     }
+
     /**
      *
      * @return boolean 
@@ -82,18 +84,18 @@ class Nomina extends AppModel {
             $this->data['Nomina']['FECHA_FIN'] = formatoFechaBeforeSave($this->data['Nomina']['FECHA_FIN']);
         }
 
-        if (!empty($this->data['Nomina']['FECHA_ELA'])) {
-            $this->data['Nomina']['FECHA_ELA'] = formatoFechaBeforeSave($this->data['Nomina']['FECHA_ELA']);
+        // Si existe el Nomina -> ID entonces es un update osea un generarNomina (que es donde se agregan los empleados)
+        if (!isset($this->id)) {
+            if ($this->existe($this->data['Nomina']) && !isset($this->data['Nomina']['id'])) {
+                $this->errorMessage = "Ya existe una nomina para ese periodo";
+                return false;
+            }
         }
 
-        // Si existe el Nomina -> ID entonces es un update osea un generarNomina (que es donde se agregan los empleados)
-        if ($this->existe($this->data['Nomina']) && !isset($this->data['Nomina']['id'])) {
-            $this->errorMessage = "Ya existe una nomina para ese periodo";
-            return false;
-        }
 
         return true;
     }
+
     /**
      *
      * @param type $results
@@ -110,11 +112,12 @@ class Nomina extends AppModel {
                 $results[$key]['Nomina']['FECHA_FIN'] = formatoFechaAfterFind($val['Nomina']['FECHA_FIN']);
             }
             if (isset($val['Nomina']['FECHA_ELA'])) {
-                $results[$key]['Nomina']['FECHA_ELA'] = formatoFechaAfterFind($val['Nomina']['FECHA_ELA']);
+                //$results[$key]['Nomina']['FECHA_ELA'] = formatoFechaAfterFind($val['Nomina']['FECHA_ELA']);
             }
         }
         return $results;
     }
+
     /**
      *
      * @param type $date
@@ -126,6 +129,7 @@ class Nomina extends AppModel {
         list($dia, $mes, $anio) = preg_split('/-/', $date);
         return $meses[((int) $mes) - 1];
     }
+
     /**
      *
      * @param type $date
@@ -135,6 +139,7 @@ class Nomina extends AppModel {
         list($dia, $mes, $anio) = preg_split('/-/', $date);
         return $anio;
     }
+
     /**
      *
      * @param type $data
@@ -153,6 +158,7 @@ class Nomina extends AppModel {
             return false;
         }
     }
+
     /**
      * Buscamos los contratos que se encuentran activos en el rango de fechas
      * de la nomina (QUINCENA) y agregamos sus respectivos empleados
@@ -193,17 +199,18 @@ class Nomina extends AppModel {
             }
         }
     }
+
     /**
      * Realizamos los Calculos de la Nomina
      * @param type $id 
      */
     function calcularNomina($opciones) {
         $id = $opciones['Nomina_id'];
-        
+
 
         $asignacion = ClassRegistry::init('Asignacion');
         $deduccion = ClassRegistry::init('Deduccion');
-        
+
         $empleados = $this->buscarInformacionEmpleados($id);
         $empleados = $this->verificarDuplicados($empleados);
 
@@ -290,6 +297,7 @@ class Nomina extends AppModel {
         $empleados = $this->procesarEventualidades($empleados, $fecha_ini);
         return $empleados;
     }
+
     /**
      * Buscamos si en la fecha de la nomina algun empleado tiene una eventualidad definida para 
      * agregarla
@@ -457,6 +465,7 @@ class Nomina extends AppModel {
         }
         return $empleados;
     }
+
     /**
      * Calculo del resumen de la nomina , que en si es la suma de todos los valores den los recibos
      * @param type $nomina_empleado
@@ -467,7 +476,7 @@ class Nomina extends AppModel {
             'contain' => array(
                 'Departamento'
             )
-                ));        
+                ));
         // Asumimos que todas los empleados tiene las mismas asignaciones y deducciones
         $asignaciones = array_keys($nomina_empleado[0]['Nomina_Empleado']['Asignaciones']);
         $deducciones = array_keys($nomina_empleado[0]['Nomina_Empleado']['Deducciones']);
@@ -559,6 +568,7 @@ class Nomina extends AppModel {
         }
         return $data;
     }
+
     /**
      * Devuelve informacion asociada a cada empleado que se encuentra en esta nomina 
      * @param type $id ID de la Nomina
@@ -724,5 +734,7 @@ class Nomina extends AppModel {
         }
         return $empleados;
     }
+
 }
+
 ?>

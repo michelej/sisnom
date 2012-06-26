@@ -31,9 +31,9 @@
             <thead>
                 <tr>
                     <th></th>  
-                    <th style="width:15%;"><?php echo $this->Paginator->sort('Mes', 'FECHA_INI'); ?></th>
-                    <th style="width:15%;">Año</th>
-                    <th style="width:15%;">Quincena</th>
+                    <th style="width:10%;"><?php echo $this->Paginator->sort('Mes', 'FECHA_INI'); ?></th>
+                    <th style="width:10%;">Año</th>
+                    <th style="width:25%;">Quincena</th>
                     <th style="width:20%;"><?php echo $this->Paginator->sort('Fecha Inicio', 'FECHA_INI'); ?></th>
                     <th style="width:20%;"><?php echo $this->Paginator->sort('Fecha Fin', 'FECHA_FIN'); ?></th>                                        
                     <th style="width:15%; text-align: center"class="actions">Acciones</th>

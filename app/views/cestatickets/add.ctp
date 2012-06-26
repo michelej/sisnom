@@ -4,13 +4,13 @@
 
 
 <div class="box">
-    <div class="title"><h2>Nueva Nomina Cestaticket</h2>
+    <div class="title"><h2>Datos de la Nomina de Cestaticket</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content form">
         <?php
         echo $this->Form->create('Cestaticket', array('url' => array('controller' => 'cestatickets', 'action' => 'add')));
-        echo $this->Form->input('FECHA_ELA', array('type' => 'hidden', 'value' => date("d-m-Y")));
+        echo $this->Form->input('FECHA_ELA', array('type' => 'hidden', 'value' => date("Y-m-d H:i:s")));
 
         echo "<div class='row'>";
         echo "<div style='float:left;width:30%;'>";
@@ -25,13 +25,18 @@
         echo $this->Form->input('CESTATICKET_AÑO', array('div' => false, 'label' => false, 'class' => 'small'));
         echo "</div>";
         echo "</div>";
-
+        
+        echo "<div class='row'>";
+        echo "</div>";
+        
         echo "<div class='row'>";
         echo "<div style='float:left;width:30%;'>";
         echo $this->Form->label('Valor Diario');
         echo $this->Form->input('VALOR_DIARIO', array('div' => false, 'label' => false, 'class' => 'small'));
         echo "</div>";
+        echo "</div>";
 
+        echo "<div class='row'>";
         echo "<div style='float:left;width:30%;'>";
         echo $this->Form->label('Sueldo Minimo');
         echo $this->Form->input('SUELDO_MINIMO', array('div' => false, 'label' => false, 'class' => 'small'));

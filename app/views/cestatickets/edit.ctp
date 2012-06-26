@@ -26,6 +26,39 @@
 </div>
 
 <div class="box">
+    <div class="title">	<h2>Resumen</h2></div>
+    <div class="content form">         
+        <div class="row">
+            <?php
+            $fijos = 0;
+            $contra = 0;
+            foreach ($cestaticket['DetalleCestaticket'] as $emp) {
+                if($emp['MODALIDAD']=='Fijo') {
+                    $fijos++;
+                }
+                if($emp['MODALIDAD']=='Contratado') {
+                    $contra++;
+                }
+            }
+
+            if (empty($cestaticket['DetalleCestaticket'])) {
+                echo "Esta nomina no contiene informacion, proceda a la opcion Generar Nomina.";
+            } else {
+                echo "Fecha de elaboración: " . date('d-M-Y h:i:s a', strtotime($cestaticket['Cestaticket']['FECHA_ELA']));
+                echo "<br />";
+                echo "<br />";
+                echo "Contiene: " . count($cestaticket['DetalleCestaticket']) . " Empleados";
+                echo "<br />";
+                echo "Fijos: ".$fijos;
+                echo "<br />";
+                echo "Contratados: ".$contra;
+            }
+            ?>
+        </div>
+    </div>
+</div>
+
+<div class="box">
     <div class="title">	<h2></h2></div>
     <div class="content form">
         

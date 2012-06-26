@@ -140,11 +140,12 @@ class NominasController extends AppController {
         $asignaciones = $asignacion->find('list');
         $deducciones = $deduccion->find('list');
 
-        $nomina = $this->Nomina->find('first', array(
-            'recursive' => -1,
+        $nomina = $this->Nomina->find('first', array(            
             'conditions' => array(
-                'id' => $id)
-                ));
+                'id' => $id),
+            'contain'=>array(
+                'Recibo')
+                ));                
         // GRABAMOS EN LA SESSION EL ID DE LA NOMINA PARA EL WIZARD
         if ($this->Session->check('Nomina.ID')) {
             $this->Session->delete('Nomina');
@@ -158,7 +159,9 @@ class NominasController extends AppController {
         $this->Nomina->generarNomina($opciones);
         if ($this->Nomina->errorMessage != '') {
             $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
-        } else {
+        } else {            
+            $this->Nomina->id = $opciones['Nomina_id'];
+            $this->Nomina->saveField('FECHA_ELA', date("Y-m-d H:i:s"));
             $this->Session->setFlash('Nomina generada con exito', 'flash_success');
         }
         $this->redirect('edit/' . $opciones['Nomina_id']);

@@ -7,41 +7,54 @@ class Cestaticket extends AppModel {
     var $actsAs = array('ExtendAssociations', 'Containable');
 
     /**
-     *  Validaciones
-     */
-    var $validate = array(
-        'VALOR_DIARIO' => array(
-            'rule' => array('decimal'),
-            'message' => 'Valor Diario Invalido ( ejm: 45.00)',
-        ),
-        'SUELDO_MINIMO' => array(
-            'rule' => array('decimal'),
-            'message' => 'Sueldo Minimo Invalido ( ejm: 1500.00)',
-        ),
-    );
-
-    /**
      *  Relaciones
      */
     var $hasMany = 'DetalleCestaticket';
 
+    /**
+     *  Validaciones
+     */
+    var $validate = array(
+        'VALOR_DIARIO' => array(
+            'rule' => array('numeric'),
+            'message' => 'Valor Diario Invalido',
+        ),
+        'SUELDO_MINIMO' => array(
+            'rule' => array('numeric'),
+            'message' => 'Sueldo Minimo Invalido',
+        ),
+        'CESTATICKET_MES' => array(
+            'rule' => array('notEmpty'),
+            'message' => 'Seleccione un Mes'
+        ),
+        'CESTATICKET_AÑO' => array(
+            'cestaAño-r1' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'Ingrese el año',
+                'last' => true,
+            ),
+            'cestaAño-r2' => array(
+                'rule' => array('numeric'),
+                'message' => 'El año debe ser un Numero',
+                'last' => true
+            ),
+            'cestaAño-r3' => array(
+                'rule' => array('cestaAño'),
+                'message' => 'El año es un valor invalido'
+            )
+        )
+    );
+
+    function cestaAño($check) {
+        if ($check['CESTATICKET_AÑO'] < 1900 || $check['CESTATICKET_AÑO'] > 2200) {
+            return false;
+        }
+        return true;
+    }
+
     function beforeSave() {
         // Cuando esto existe es porque viene del ADD es un nuevo registro
         if (isset($this->data['Cestaticket']['CESTATICKET_MES']) && isset($this->data['Cestaticket']['CESTATICKET_AÑO'])) {
-            if (empty($this->data['Cestaticket']['CESTATICKET_MES']) || empty($this->data['Cestaticket']['CESTATICKET_AÑO'])) {
-                $this->errorMessage = 'Seleccione un Mes e ingrese un valor en Año';
-                return false;
-            }
-            if (is_numeric($this->data['Cestaticket']['CESTATICKET_AÑO'])) {
-                if ($this->data['Cestaticket']['CESTATICKET_AÑO'] < 1900 || $this->data['Cestaticket']['CESTATICKET_AÑO'] > 2200) {
-                    $this->errorMessage = "El año es Invalido";
-                    return false;
-                }
-            } else {
-                $this->errorMessage = "El año tiene que ser un numero";
-                return false;
-            }
-
             $this->data['Cestaticket']['FECHA_INI'] = $this->data['Cestaticket']['CESTATICKET_AÑO'] . '-' . $this->data['Cestaticket']['CESTATICKET_MES'] . '-1';
             $dia = strftime("%d", mktime(0, 0, 0, $this->data['Cestaticket']['CESTATICKET_MES'] + 1, 0, $this->data['Cestaticket']['CESTATICKET_AÑO']));
             $this->data['Cestaticket']['FECHA_FIN'] = $this->data['Cestaticket']['CESTATICKET_AÑO'] . '-' . $this->data['Cestaticket']['CESTATICKET_MES'] . '-' . $dia;
@@ -55,14 +68,12 @@ class Cestaticket extends AppModel {
             $this->data['Cestaticket']['FECHA_FIN'] = formatoFechaBeforeSave($this->data['Cestaticket']['FECHA_FIN']);
         }
 
-        if (!empty($this->data['Cestaticket']['FECHA_ELA'])) {
-            $this->data['Cestaticket']['FECHA_ELA'] = formatoFechaBeforeSave($this->data['Cestaticket']['FECHA_ELA']);
-        }
-
         // Si existe el Cestaticket -> ID entonces es un update osea un generarCestaticket (que es donde se agregan los empleados)
-        if ($this->existe($this->data['Cestaticket']) && !isset($this->data['Cestaticket']['id'])) {
-            $this->errorMessage = "Ya existe una nomina para esta fecha.";
-            return false;
+        if (!isset($this->id)) {
+            if ($this->existe($this->data['Cestaticket']) && !isset($this->data['Cestaticket']['id'])) {
+                $this->errorMessage = "Ya existe una nomina para esta fecha.";
+                return false;
+            }
         }
 
         return true;
@@ -75,7 +86,6 @@ class Cestaticket extends AppModel {
      */
     function afterFind($results) {
         foreach ($results as $key => $val) {
-
             if (isset($val['Cestaticket']['FECHA_INI'])) {
                 $results[$key]['Cestaticket']['FECHA_INI'] = formatoFechaAfterFind($val['Cestaticket']['FECHA_INI']);
                 $results[$key]['Cestaticket']['MES'] = $this->getMes($results[$key]['Cestaticket']['FECHA_INI']);
@@ -83,9 +93,6 @@ class Cestaticket extends AppModel {
             }
             if (isset($val['Cestaticket']['FECHA_FIN'])) {
                 $results[$key]['Cestaticket']['FECHA_FIN'] = formatoFechaAfterFind($val['Cestaticket']['FECHA_FIN']);
-            }
-            if (isset($val['Cestaticket']['FECHA_ELA'])) {
-                $results[$key]['Cestaticket']['FECHA_ELA'] = formatoFechaAfterFind($val['Cestaticket']['FECHA_ELA']);
             }
         }
         return $results;
