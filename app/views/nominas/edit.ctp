@@ -43,6 +43,10 @@
             if (empty($nomina['Recibo'])) {
                 echo "Esta nomina no contiene informacion, proceda a la opcion Generar Nomina.";
             } else {
+                if($nomina['Nomina']['BLOQUEAR']==1){
+                    echo "Esta nomina ya no se puede modificar.";                    
+                    echo "<br />";
+                }
                 echo "Fecha de elaboración: " . date('d-M-Y h:i:s a', strtotime($nomina['Nomina']['FECHA_ELA']));
                 echo "<br />";
                 echo "<br />";
@@ -87,8 +91,22 @@
                 <?php echo $this->Form->End('Mostrar'); ?>
             </div>
             <div class="boton">
-                <?php echo $this->Html->link('Generar Nomina', array('action' => 'wizard')); ?>
+                <?php 
+                if($nomina['Nomina']['BLOQUEAR']==0){
+                    echo $this->Html->link('Generar Nomina', array('action' => 'wizard')); 
+                }else{
+                    echo $this->Html->link('Generar Nomina', array('action' => 'edit',$nomina['Nomina']['id']),array('class'=>'disabled')); 
+                }
+                ?>                
             </div>            
+            <div class="boton">
+                <?php 
+                if($nomina['Nomina']['BLOQUEAR']==0){
+                   echo $this->Html->link('Bloquear Nomina', array('action' => 'bloquear',$nomina['Nomina']['id']), array('escape' => false),sprintf('Esta seguro que desea bloquear esta Nomina?'));
+                }else{
+                    echo $this->Html->link('Bloquear Nomina', array('action' => 'edit',$nomina['Nomina']['id']), array('class'=>'disabled'));
+                }?>
+            </div>
             <div class="boton">
                 <?php echo $this->Html->link('Regresar', array('action' => 'index')); ?>
             </div> 

@@ -7,7 +7,7 @@ class NominasController extends AppController {
     var $components = array('RequestHandler', 'Wizard.Wizard');
 
     function beforeFilter() {
-        $this->Wizard->steps = array('parte1','parte2');
+        $this->Wizard->steps = array('parte1', 'parte2');
         $this->Wizard->cancelUrl = '/nominas/edit/' . $this->Session->read('Nomina.ID');
     }
 
@@ -18,7 +18,7 @@ class NominasController extends AppController {
     /**
      * [Wizard Process Callbacks]
      */
-    function _processParte1() {        
+    function _processParte1() {
         $flag = false;
         // Validamos que los valores de las primas sean numeros
         foreach ($this->data['PRIMAS'] as $prima) {
@@ -40,7 +40,7 @@ class NominasController extends AppController {
                     if (!is_numeric($prima['Obrero'])) {
                         $flag = true;
                     }
-                }else {
+                } else {
                     foreach ($prima['Obrero'] as $prima_obr) {
                         if (!is_numeric($prima_obr)) {
                             $flag = true;
@@ -56,8 +56,8 @@ class NominasController extends AppController {
         }
         return true;
     }
-    
-    function _processParte2(){
+
+    function _processParte2() {
         return true;
     }
 
@@ -140,12 +140,12 @@ class NominasController extends AppController {
         $asignaciones = $asignacion->find('list');
         $deducciones = $deduccion->find('list');
 
-        $nomina = $this->Nomina->find('first', array(            
+        $nomina = $this->Nomina->find('first', array(
             'conditions' => array(
                 'id' => $id),
-            'contain'=>array(
+            'contain' => array(
                 'Recibo')
-                ));                
+                ));
         // GRABAMOS EN LA SESSION EL ID DE LA NOMINA PARA EL WIZARD
         if ($this->Session->check('Nomina.ID')) {
             $this->Session->delete('Nomina');
@@ -159,7 +159,7 @@ class NominasController extends AppController {
         $this->Nomina->generarNomina($opciones);
         if ($this->Nomina->errorMessage != '') {
             $this->Session->setFlash($this->Nomina->errorMessage, 'flash_error');
-        } else {            
+        } else {
             $this->Nomina->id = $opciones['Nomina_id'];
             $this->Nomina->saveField('FECHA_ELA', date("Y-m-d H:i:s"));
             $this->Session->setFlash('Nomina generada con exito', 'flash_success');
@@ -256,6 +256,12 @@ class NominasController extends AppController {
                 }
             }
         }
+    }
+
+    function bloquear($id = null) {
+        $this->Nomina->id = $id;
+        $this->Nomina->saveField('BLOQUEAR', 1);
+        $this->redirect('edit/'.$id);
     }
 
 }

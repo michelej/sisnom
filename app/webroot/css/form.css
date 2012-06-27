@@ -109,6 +109,23 @@ input[type="submit"]:hover{
     margin-right: 5px;        
     
 }
+
+.row .boton a.disabled{
+    background-image: url("../img/grey/btn-dis.gif");
+    cursor: pointer;
+    text-decoration:none;
+    height:28px !important;
+    color:#FFF;
+    padding-top: 5px;
+    padding-right: 25px;
+    padding-bottom: 5px;
+    padding-left: 25px;
+    border: 1px solid #566F29;
+    border-radius: 4px 4px 4px 4px;
+    margin-right: 5px;        
+    
+}
+
 .row .boton a:hover {
     background-position: left bottom;
     border: 1px solid #2B2B2B;
