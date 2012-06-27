@@ -52,8 +52,11 @@ $excel->_campo('M' . $n, "Modalidad");
 $excel->_autosizeColumna('N');
 $excel->_centrarTexto('N' . $n);
 $excel->_campo('N' . $n, "Grupo");
+$excel->_autosizeColumna('O');
+$excel->_centrarTexto('O' . $n);
+$excel->_campo('O' . $n, "Sueldo Base");
 
-$excel->_grupoBold('B9:N9');
+$excel->_grupoBold('B9:O9');
 $excel->_anchoFila($n,'35');
 
 
@@ -82,12 +85,14 @@ foreach ($empleados as $empleado) {
     $excel->_campo('M' . $n, $empleado['Empleado']['MODALIDAD']);
     $excel->_centrarTexto('M' . $n);       
     $excel->_campo('N' . $n, $empleado['Empleado']['GRUPO']);
-    $excel->_centrarTexto('N' . $n);       
+    $excel->_centrarTexto('N' . $n);
+    $excel->_campo('O' . $n, $empleado['Empleado']['SUELDO']);
+    $excel->_centrarTexto('O' . $n);
     $n++;
 }
 $n--;
-$excel->_grupoAlinear("B9:N".$n);
-$excel->_bordeGrupo("B9:N".$n);
+$excel->_grupoAlinear("B9:O".$n);
+$excel->_bordeGrupo("B9:O".$n);
 $excel->_output('reporte');
 
 ?>

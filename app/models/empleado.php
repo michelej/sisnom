@@ -9,7 +9,7 @@ class Empleado extends AppModel {
     /**
      *  Relaciones
      */
-    var $hasMany = array('DetalleEventualidad','DetalleCestaticket', 'Recibo', 'Ausencia', 'Contrato', 'Familiar', 'Titulo', 'HorasExtra', 'Prestamo', 'Comercial', 'Tribunal', 'Islr', 'Experiencia', 'Ajuste');
+    var $hasMany = array('DetalleEventualidad', 'DetalleCestaticket', 'Recibo', 'Ausencia', 'Contrato', 'Familiar', 'Titulo', 'HorasExtra', 'Prestamo', 'Comercial', 'Tribunal', 'Islr', 'Experiencia', 'Ajuste');
     var $belongsTo = array('Grupo', 'Localizacion');
 
     /**
@@ -128,14 +128,27 @@ class Empleado extends AppModel {
             $options['conditions'][] = array('Empleado.EDOCIVIL' => $parametros['EDOCIVIL']);
         }
 
-
+        $hoy = date('d-m-Y');
         $options['contain'] = array(
             'Familiar', 'Grupo', 'Titulo',
             'Localizacion' => array(
                 'Departamento'
             ),
             'Contrato' => array(
-                'Cargo', 'Departamento',
+                'Cargo' => array(
+                    'Historial' => array(
+                        'conditions' => array(
+                            'OR' => array(
+                                'FECHA_FIN > ' => $hoy,
+                                'FECHA_FIN' => NULL,
+                            ),
+                            'AND' => array(
+                                'FECHA_INI < ' => $hoy,
+                            )
+                        )
+                    )
+                ),
+                'Departamento',
                 'order' => array(
                     'Contrato.FECHA_INI' => 'desc'),
             ),
@@ -174,12 +187,12 @@ class Empleado extends AppModel {
                     }
                 }
                 if ($parametros['EDAD_SIGNO'] == '1') {
-                    if ($empleado['Empleado']['EDAD'] < $parametros['EDAD']) {
+                    if ($empleado['Empleado']['EDAD'] <= $parametros['EDAD']) {
                         unset($data[$key]);
                     }
                 }
                 if ($parametros['EDAD_SIGNO'] == '2') {
-                    if ($empleado['Empleado']['EDAD'] > $parametros['EDAD']) {
+                    if ($empleado['Empleado']['EDAD'] >= $parametros['EDAD']) {
                         unset($data[$key]);
                     }
                 }
@@ -266,15 +279,37 @@ class Empleado extends AppModel {
                     }
                 }
             }
+
+            if (!empty($parametros['SUELDO'])) {
+                if (!empty($empleado['Contrato']['0']['Cargo']['Historial'])) {
+                    $sueldo = $empleado['Contrato']['0']['Cargo']['Historial']['0']['SUELDO_BASE'];
+
+                    if ($parametros['SUELDO_SIGNO'] == 0) {
+                        if ($sueldo != $parametros['SUELDO']) {
+                            unset($data[$key]);
+                        }
+                    }
+                    if ($parametros['SUELDO_SIGNO'] == 1) {
+                        if ($sueldo <= $parametros['SUELDO']) {
+                            unset($data[$key]);
+                        }
+                    }
+                    if ($parametros['SUELDO_SIGNO'] == 2) {
+                        if ($sueldo >= $parametros['SUELDO']) {
+                            unset($data[$key]);
+                        }
+                    }
+                }
+            }
             ////////////////////////////////////////
             if ($parametros['ACTIVO'] == '1') {
-                if (empty($empleado['Contrato'])) {                    
+                if (empty($empleado['Contrato'])) {
                     unset($data[$key]);
                 } else {
                     $hoy = date("d-m-Y");
                     $fecha = $empleado['Contrato']['0']['FECHA_FIN'];
                     if ($fecha != null) {
-                        if (compara_fechas($hoy, $fecha) > 0) {                            
+                        if (compara_fechas($hoy, $fecha) > 0) {
                             unset($data[$key]);
                         }
                     }
@@ -306,10 +341,12 @@ class Empleado extends AppModel {
                     $data[$key]['Empleado']['MODALIDAD'] = $empleado['Contrato']['0']['MODALIDAD'];
                     $data[$key]['Empleado']['CARGO'] = $empleado['Contrato']['0']['Cargo']['NOMBRE'];
                     $data[$key]['Empleado']['DEPARTAMENTO'] = $empleado['Contrato']['0']['Departamento']['NOMBRE'];
+                    $data[$key]['Empleado']['SUELDO'] = $empleado['Contrato']['0']['Cargo']['Historial']['0']['SUELDO_BASE'];
                 } else {
                     $data[$key]['Empleado']['MODALIDAD'] = "";
                     $data[$key]['Empleado']['CARGO'] = "";
                     $data[$key]['Empleado']['DEPARTAMENTO'] = "";
+                    $data[$key]['Empleado']['SUELDO'] = 0;
                 }
                 if (!empty($empleado['Familiar'])) {
                     $count = 0;

@@ -73,10 +73,18 @@
             echo "</div>";
                        
             echo "<div class='row'>";
-            echo "<div style='float:left;width:50%;'>";
+            echo "<div style='float:left;width:35%;'>";
             $options = array('T.S.U' => 'T.S.U', 'Profesional Universitario' => 'Profesional Universitario', 'Post-Grado' => 'Post-Grado', 'Maestria' => 'Maestria', 'Doctorado' => 'Doctorado');
             echo $this->Form->input('TITULO', array('div' => false, 'label' => 'Titulos Profesionales', 'class' => 'small', 'type' => 'select','options' => $options,'empty'=>'Seleccione una opcion','default'=>0));
             echo "</div>";                        
+            echo "<div style='float:left;width:5%;'>";
+            $options = array('0' => '==', '1' => '>=', '2' => '<=');
+            echo $this->Form->input('SUELDO_SIGNO', array('div' => false, 'label' => 'Signo', 'class' => 'small2', 'type' => 'select', 'options' => $options));
+            echo "</div>";
+            echo "<div style='float:left;width:30%;'>";
+            echo $this->Form->input('SUELDO', array('div' => false, 'label' => 'Sueldo Base', 'class' => 'small'));
+            echo "</div>";
+            
             echo "</div>";
             
             echo "<div class='row'>";
