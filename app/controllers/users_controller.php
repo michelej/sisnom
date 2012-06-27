@@ -26,6 +26,52 @@ class UsersController extends AppController {
         $this->Authsome->logout();
         $this->redirect('/');
     }    
+    
+    function index(){
+        $usuarios=$this->User->find('all',array(
+            'conditions'=>array(
+                'NOT'=>array(
+                    'USERNAME'=>'admin'   
+                )                
+            )
+        ));
+        $this->set(compact('usuarios'));
+    }
+    
+    function add() {
+        if (!empty($this->data)) {   
+            $this->data['User']['PASSWORD']=md5($this->data['User']['PASSWORD']);
+            if ($this->User->save($this->data['User'])) {
+                //$this->Session->setFlash('Usu agregado con exito', 'flash_success');
+                $this->redirect(array('action' => 'index'));
+            }
+            //$this->Session->setFlash('Existen errores corrigalos antes de continuar', 'flash_error');
+        }
+        //$grupos = $this->Empleado->Grupo->find('list');
+        //$this->set('grupos', $grupos);
+    }
+    
+     function delete($id) {
+        if ($this->User->delete($id, true)) {
+            $this->Session->setFlash('Usuario eliminado', 'flash_success');
+            $this->redirect(array('action' => 'index'));
+        }
+    }
+    
+    function cambiar_password(){           
+        if(!empty($this->data)){
+            $pass=Authsome::get('PASSWORD');            
+            if($pass==md5($this->data['User']['OLD_PASSWORD'])){
+                $this->User->id=  Authsome::get('id');
+                $this->User->saveField('PASSWORD',md5($this->data['User']['PASSWORD']));
+                $this->redirect('/Pages/display');
+            }else{
+              $this->Session->setFlash('Password Incorrecto', 'flash_error');  
+              $this->redirect('cambiar_password');
+            }            
+        }
+        
+    }
 
 }
 

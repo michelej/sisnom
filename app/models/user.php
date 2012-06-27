@@ -1,9 +1,11 @@
 <?php
 
 class User extends AppModel {
+    
+    var $name='User';
+    var $displayField = 'USERNAME';
     var $useTable = 'users';
-    
-    
+            
     public function authsomeLogin($type, $credentials = array()) {
         switch ($type) {
             case 'guest':

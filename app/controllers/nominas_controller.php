@@ -7,6 +7,7 @@ class NominasController extends AppController {
     var $components = array('RequestHandler', 'Wizard.Wizard');
 
     function beforeFilter() {
+        parent::beforeFilter();
         $this->Wizard->steps = array('parte1', 'parte2');
         $this->Wizard->cancelUrl = '/nominas/edit/' . $this->Session->read('Nomina.ID');
     }

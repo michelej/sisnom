@@ -29,11 +29,25 @@ class AppController extends Controller {
         // * = todos
         $permisos = array(
             'Todos' => array(
-                'Pages', 'Users'
+                'Pages',
+                'Users'=>array('login','logout','cambiar_password')
             ),
             'Usuario' => array(
                 'Empleados' => array('index', 'view'),
-                'Nominas',
+                'Nominas'=>array('index','edit','mostrar'),
+                'Cestatickets'=>array('index','edit','mostrar'),
+                'Cargos'=>array('index'),
+                'Localizaciones'=>array('index'),
+                'Departamentos'=>array('index'),
+                'Ausencias'=>array('index'),
+                'HorasExtras'=>array('index'),
+                'Asignaciones'=>array('index'),
+                'Deducciones'=>array('index'),
+                'Reportes'
+                
+            ),
+            'Operador'=>array(
+               '*' 
             ),
             'Administrador' => array(
                 '*'
