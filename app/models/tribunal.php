@@ -6,12 +6,40 @@ class Tribunal extends AppModel {
     var $displayField = 'CANTIDAD';
     var $actsAs = array('Containable');
     var $belongsTo = 'Empleado';
+    
     var $validate = array(
         'CANTIDAD' => array(
-            'rule' => array('decimal'),
-            'message' => 'Monto invalido ( ejm: 1500.00)',
+            'rule' => array('numeric'),
+            'message' => 'Ingrese un monto valido',
+        ),
+        'TRIBUNAL_MES' => array(
+            'rule' => array('notEmpty'),
+            'message' => 'Seleccione un Mes'
+        ),
+        'TRIBUNAL_AÑO' => array(
+            'tribunalAño-r1' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'Ingrese el año',
+                'last' => true,
+            ),
+            'tribunalAño-r2' => array(
+                'rule' => array('numeric'),
+                'message' => 'El año debe ser un Numero',
+                'last' => true
+            ),
+            'tribunalAño-r3' => array(
+                'rule' => array('tribunalAño'),
+                'message' => 'El año es un valor invalido'
+            )
         )
     );
+    
+    function tribunalAño($check) {
+        if ($check['TRIBUNAL_AÑO'] < 1900 || $check['TRIBUNAL_AÑO'] > 2200) {
+            return false;
+        }
+        return true;
+    }
 
     function beforeSave() {
         // Cuando esto existe es porque viene del ADD es un nuevo registro

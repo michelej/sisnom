@@ -5,38 +5,46 @@ class DetalleEventualidad extends AppModel {
     var $name = 'DetalleEventualidad';
     var $belongsTo = array('Empleado', 'Eventualidad');
     
-    var $validate = array(
-        'FECHA' => array(
-            'rule' => array('date', 'dmy'),
-            'message' => 'Fecha Inicial incorrecta',
-        ),
+    var $validate = array(        
         'VALOR' => array(
-            'rule' => array('decimal'),
-            'message' => 'Sueldo Base invalido ( ejm: 1500.00)',
+            'rule' => array('numeric'),
+            'message' => 'Ingrese un monto valido',
         ),
+        'QUINCENA' => array(
+            'rule' => array('notEmpty'),
+            'message' => 'Seleccione la Quincena',
+        ),
+        'EVENTO_MES' => array(
+            'rule' => array('notEmpty'),
+            'message' => 'Seleccione un Mes'
+        ),
+        'EVENTO_AÑO' => array(
+            'eventoAño-r1' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'Ingrese el año',
+                'last' => true,
+            ),
+            'eventoAño-r2' => array(
+                'rule' => array('numeric'),
+                'message' => 'El año debe ser un Numero',
+                'last' => true
+            ),
+            'eventoAño-r3' => array(
+                'rule' => array('eventoAño'),
+                'message' => 'El año es un valor invalido'
+            )
+        )
     );
+    
+    function eventoAño($check) {
+        if ($check['EVENTO_AÑO'] < 1900 || $check['EVENTO_AÑO'] > 2200) {
+            return false;
+        }
+        return true;
+    }
 
     function beforeSave() {
         if (isset($this->data['DetalleEventualidad']['EVENTO_MES']) && isset($this->data['DetalleEventualidad']['EVENTO_AÑO'])) {
-            if (empty($this->data['DetalleEventualidad']['EVENTO_MES']) || empty($this->data['DetalleEventualidad']['EVENTO_AÑO'])) {
-                $this->errorMessage = 'Seleccione un Mes e ingrese un valor en Año';
-                return false;
-            }
-            if (is_numeric($this->data['DetalleEventualidad']['EVENTO_AÑO'])) {
-                if ($this->data['DetalleEventualidad']['EVENTO_AÑO'] < 1900 || $this->data['DetalleEventualidad']['EVENTO_AÑO'] > 2200) {
-                    $this->errorMessage = "El año es Invalido";
-                    return false;
-                }
-            } else {
-                $this->errorMessage = "El año tiene que ser un numero";
-                return false;
-            }
-
-            if (empty($this->data['DetalleEventualidad']['QUINCENA'])) {
-                $this->errorMessage = "Seleccione una Quincena";
-                return false;
-            }
-
             // Determinamos las fechas en base a la quincena
             //            
             if ($this->data['DetalleEventualidad']['QUINCENA'] == 'Primera') {

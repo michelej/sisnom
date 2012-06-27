@@ -34,9 +34,9 @@
                 <tr>
                     <th></th>  
                     <th style="width:15%"><?php echo $this->Paginator->sort('Mes', 'FECHA') ?></th>
-                    <th style="width:15%"><?php echo $this->Paginator->sort('Año', 'FECHA') ?></th>
-                    <th style="width:20%"><?php echo $this->Paginator->sort('Porcentaje', 'PORCENTAJE') ?></th>
-                    <th style="width:50%"></th>
+                    <th style="width:40%"><?php echo $this->Paginator->sort('Año', 'FECHA') ?></th>
+                    <th style="width:20%"><?php echo $this->Paginator->sort('Porcentaje Mes', 'CANTIDAD') ?></th>
+                    <th style="width:25%"> Porcentaje Quincenal</th>                    
                     <th style="width:15%; text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
@@ -53,8 +53,8 @@
                         <td></td>
                         <td><?php echo $islr['Islr']['MES']; ?></td>
                         <td><?php echo $islr['Islr']['AÑO']; ?></td>
+                        <td><?php echo number_format($islr['Islr']['PORCENTAJE']*2, 2, ',', '.'); ?></td>
                         <td><?php echo number_format($islr['Islr']['PORCENTAJE'], 2, ',', '.'); ?></td>
-                        <td></td>
                         <td class="actions">
                             <?php
                             echo $this->Html->image("file_delete.png", array("alt" => "Borrar", 'title' => 'Eliminar', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'delete', $islr['Islr']['id'])));

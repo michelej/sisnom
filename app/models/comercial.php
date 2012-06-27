@@ -8,29 +8,42 @@ class Comercial extends AppModel {
     var $belongsTo = 'Empleado';
     var $validate = array(
         'CANTIDAD' => array(
-            'rule' => array('decimal'),
-            'message' => 'Monto invalido ( ejm: 1500.00)',
+            'rule' => array('numeric'),
+            'message' => 'Ingrese un monto valido',
+        ),
+        'COMERCIAL_MES' => array(
+            'rule' => array('notEmpty'),
+            'message' => 'Seleccione un Mes'
+        ),
+        'COMERCIAL_AÑO' => array(
+            'comercialAño-r1' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'Ingrese el año',
+                'last' => true,
+            ),
+            'comercialAño-r2' => array(
+                'rule' => array('numeric'),
+                'message' => 'El año debe ser un Numero',
+                'last' => true
+            ),
+            'comercialAño-r3' => array(
+                'rule' => array('comercialAño'),
+                'message' => 'El año es un valor invalido'
+            )
         )
     );
+    
+    function comercialAño($check) {
+        if ($check['COMERCIAL_AÑO'] < 1900 || $check['COMERCIAL_AÑO'] > 2200) {
+            return false;
+        }
+        return true;
+    }
 
     function beforeSave() {
         // Cuando esto existe es porque viene del ADD es un nuevo registro
         if (isset($this->data['Comercial']['COMERCIAL_MES']) && isset($this->data['Comercial']['COMERCIAL_AÑO'])) {
-            if (empty($this->data['Comercial']['COMERCIAL_MES']) || empty($this->data['Comercial']['COMERCIAL_AÑO'])) {
-                $this->errorMessage = 'Seleccione un Mes e ingrese un valor en Año';
-                return false;
-            }
-            if (is_numeric($this->data['Comercial']['COMERCIAL_AÑO'])) {
-                if ($this->data['Comercial']['COMERCIAL_AÑO'] < 1900 || $this->data['Comercial']['COMERCIAL_AÑO'] > 2200) {
-                    $this->errorMessage = "El año es Invalido";
-                    return false;
-                }
-            } else {
-                $this->errorMessage = "El año tiene que ser un numero";
-                return false;
-            }
-
-
+            
             $this->data['Comercial']['FECHA'] = $this->data['Comercial']['COMERCIAL_AÑO'] . '-' . $this->data['Comercial']['COMERCIAL_MES'] . '-1';
         }
 

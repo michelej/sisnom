@@ -27,7 +27,7 @@
 
         echo "<div class='row'>";
         echo "<div style='float:left;width:40%'>";
-        echo $this->Form->input('PORCENTAJE', array('div' => false, 'label' => 'Porcentaje', 'class' => 'small'));
+        echo $this->Form->input('PORCENTAJE', array('div' => false, 'label' => 'Porcentaje por Quincena', 'class' => 'small'));
         echo "</div>";
         echo "</div>";
         ?>

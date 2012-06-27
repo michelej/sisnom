@@ -6,31 +6,45 @@ class Prestamo extends AppModel {
     var $displayField = 'CANTIDAD';
     var $actsAs = array('Containable');
     var $belongsTo = 'Empleado';
+    
     var $validate = array(
         'CANTIDAD' => array(
-            'rule' => array('decimal'),
-            'message' => 'Monto invalido ( ejm: 1500.00)',
+            'rule' => array('numeric'),
+            'message' => 'Ingrese un monto valido',
+        ),
+        'PRESTAMO_MES' => array(
+            'rule' => array('notEmpty'),
+            'message' => 'Seleccione un Mes'
+        ),
+        'PRESTAMO_AÑO' => array(
+            'prestamoAño-r1' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'Ingrese el año',
+                'last' => true,
+            ),
+            'prestamoAño-r2' => array(
+                'rule' => array('numeric'),
+                'message' => 'El año debe ser un Numero',
+                'last' => true
+            ),
+            'prestamoAño-r3' => array(
+                'rule' => array('prestamoAño'),
+                'message' => 'El año es un valor invalido'
+            )
         )
     );
 
+     function prestamoAño($check) {
+        if ($check['PRESTAMO_AÑO'] < 1900 || $check['PRESTAMO_AÑO'] > 2200) {
+            return false;
+        }
+        return true;
+    }
+    
     function beforeSave() {
         // Cuando esto existe es porque viene del ADD es un nuevo registro
         if (isset($this->data['Prestamo']['PRESTAMO_MES']) && isset($this->data['Prestamo']['PRESTAMO_AÑO'])) {
-            if (empty($this->data['Prestamo']['PRESTAMO_MES']) || empty($this->data['Prestamo']['PRESTAMO_AÑO'])) {
-                $this->errorMessage = 'Seleccione un Mes e ingrese un valor en Año';
-                return false;
-            }
-            if (is_numeric($this->data['Prestamo']['PRESTAMO_AÑO'])) {
-                if ($this->data['Prestamo']['PRESTAMO_AÑO'] < 1900 || $this->data['Prestamo']['PRESTAMO_AÑO'] > 2200) {
-                    $this->errorMessage = "El año es Invalido";
-                    return false;
-                }
-            } else {
-                $this->errorMessage = "El año tiene que ser un numero";
-                return false;
-            }
-
-
+            
             $this->data['Prestamo']['FECHA'] = $this->data['Prestamo']['PRESTAMO_AÑO'] . '-' . $this->data['Prestamo']['PRESTAMO_MES'] . '-1';
         }
 

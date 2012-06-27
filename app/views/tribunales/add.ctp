@@ -27,7 +27,7 @@
 
         echo "<div class='row'>";
         echo "<div style='float:left;width:40%'>";
-        echo $this->Form->input('CANTIDAD', array('div' => false, 'label' => 'Monto del Credito', 'class' => 'small'));
+        echo $this->Form->input('CANTIDAD', array('div' => false, 'label' => 'Monto por Quincena', 'class' => 'small'));
         echo "</div>";
         echo "</div>";
         ?>

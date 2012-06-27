@@ -6,9 +6,7 @@ class Eventualidad extends AppModel{
     var $field='NOMBRE';
     
     var $hasMany=array('DetalleEventualidad');
-    
-       
-     
+                  
       
 }
 ?>

@@ -44,7 +44,7 @@
     <div class="title"><h2>Quincena en la que finaliza</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
-    <div class="content form" style="display: none;">
+    <div class="content form">
         <?php
         echo "<div class='row'>";
         echo "<div style='float:left;width:30%;'>";

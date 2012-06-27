@@ -47,20 +47,53 @@ class Historial extends AppModel {
                 'message' => 'El año es un valor invalido'
             )
         ),
-        'HISTORIAL_AÑO_FIN' => array(            
-            'histAño-r2' => array(
-                'rule' => array('numeric'),
-                'message' => 'El año debe ser un Numero',
-                'last' => true,
-                'allowEmpty' => true
-            ),
-            'histAño-r3' => array(
-                'rule' => array('histAño'),
-                'message' => 'El año es un valor invalido',
-                'allowEmpty' => true
-            )
+        'QUINCENA_FIN' => array(
+            'rule' => array('customValidation'),
+            'message' => 'Seleccione la Quincena',
+        ),
+        'HISTORIAL_MES_FIN' => array(
+            'rule' => array('customValidation'),
+            'message' => 'Seleccione un Mes',
+        ),
+        'HISTORIAL_AÑO_FIN' => array(
+            'rule' => array('customValidation'),
+            'message' => 'Ingrese un valor valido',
         )
     );
+    
+    
+    function customValidation($check) {
+        if (isset($check['QUINCENA_FIN'])) {
+            if (empty($check['QUINCENA_FIN'])) {
+                if (!empty($this->data['Historial']['HISTORIAL_AÑO_FIN']) || !empty($this->data['Historial']['HISTORIAL_MES_FIN'])) {
+                    return false;
+                }
+            }
+        }
+        if (isset($check['HISTORIAL_AÑO_FIN'])) {
+            if (empty($check['HISTORIAL_AÑO_FIN'])) {
+                if (!empty($this->data['Historial']['QUINCENA_FIN']) || !empty($this->data['Historial']['HISTORIAL_MES_FIN'])) {
+                    return false;
+                }
+            } else {
+                if (is_numeric($check['HISTORIAL_AÑO_FIN'])) {
+                    if ($check['HISTORIAL_AÑO_FIN'] < 1900 || $check['HISTORIAL_AÑO_FIN'] > 2200) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
+        }
+        if (isset($check['HISTORIAL_MES_FIN'])) {
+            if (empty($check['HISTORIAL_MES_FIN'])) {
+                if (!empty($this->data['Historial']['HISTORIAL_AÑO_FIN']) || !empty($this->data['Historial']['QUINCENA_FIN'])) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     function histAño($check) {
         if (isset($check['HISTORIAL_AÑO_INICIO'])) {
@@ -68,7 +101,7 @@ class Historial extends AppModel {
                 return false;
             }
         }
-         if (isset($check['HISTORIAL_AÑO_FIN'])) {
+        if (isset($check['HISTORIAL_AÑO_FIN'])) {
             if ($check['HISTORIAL_AÑO_FIN'] < 1900 || $check['HISTORIAL_AÑO_FIN'] > 2200) {
                 return false;
             }
@@ -84,25 +117,6 @@ class Historial extends AppModel {
      */
     function beforeSave() {
         if (isset($this->data['Historial']['HISTORIAL_MES_INICIO']) && isset($this->data['Historial']['HISTORIAL_AÑO_INICIO'])) {
-            if (empty($this->data['Historial']['HISTORIAL_MES_INICIO']) || empty($this->data['Historial']['HISTORIAL_AÑO_INICIO'])) {
-                $this->errorMessage = 'Seleccione un Mes e ingrese un valor en Año';
-                return false;
-            }
-            if (is_numeric($this->data['Historial']['HISTORIAL_AÑO_INICIO'])) {
-                if ($this->data['Historial']['HISTORIAL_AÑO_INICIO'] < 1900 || $this->data['Historial']['HISTORIAL_AÑO_INICIO'] > 2200) {
-                    $this->errorMessage = "El año inicial es Invalido";
-                    return false;
-                }
-            } else {
-                $this->errorMessage = "El año inicial tiene que ser un numero";
-                return false;
-            }
-
-            if (empty($this->data['Historial']['QUINCENA_INICIO'])) {
-                $this->errorMessage = "Seleccione una Quincena";
-                return false;
-            }
-
             // Determinamos las fechas en base a la quincena
             //            
             if ($this->data['Historial']['QUINCENA_INICIO'] == 'Primera') {
@@ -116,16 +130,6 @@ class Historial extends AppModel {
             //
             if (!empty($this->data['Historial']['HISTORIAL_MES_FIN']) && !empty($this->data['Historial']['HISTORIAL_AÑO_FIN'])
                     && !empty($this->data['Historial']['QUINCENA_FIN'])) {
-
-                if (is_numeric($this->data['Historial']['HISTORIAL_AÑO_FIN'])) {
-                    if ($this->data['Historial']['HISTORIAL_AÑO_FIN'] < 1900 || $this->data['Historial']['HISTORIAL_AÑO_FIN'] > 2200) {
-                        $this->errorMessage = "El año final es Invalido";
-                        return false;
-                    }
-                } else {
-                    $this->errorMessage = "El año final tiene que ser un numero";
-                    return false;
-                }
 
                 if ($this->data['Historial']['QUINCENA_FIN'] == 'Primera') {
                     $this->data['Historial']['FECHA_FIN'] = $this->data['Historial']['HISTORIAL_AÑO_FIN'] . '-' . $this->data['Historial']['HISTORIAL_MES_FIN'] . '-15';
