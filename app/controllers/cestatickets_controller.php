@@ -222,7 +222,13 @@ class CestaticketsController extends AppController {
         }
 
         $this->redirect('dia_adicional/' . $data['DetalleCestaticket']['cestaticket_id']);
-    }        
+    }         
+    
+    function bloquear($id = null) {
+        $this->Cestaticket->id = $id;
+        $this->Cestaticket->saveField('BLOQUEAR', 1);
+        $this->redirect('edit/'.$id);
+    }
 }
 
 ?>
