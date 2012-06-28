@@ -16,6 +16,10 @@ class Prestamo extends AppModel {
             'rule' => array('notEmpty'),
             'message' => 'Seleccione un Mes'
         ),
+        'QUINCENA' => array(
+            'rule' => array('notEmpty'),
+            'message' => 'Seleccione una Quincena'
+        ),
         'PRESTAMO_AÑO' => array(
             'prestamoAño-r1' => array(
                 'rule' => array('notEmpty'),
@@ -44,8 +48,14 @@ class Prestamo extends AppModel {
     function beforeSave() {
         // Cuando esto existe es porque viene del ADD es un nuevo registro
         if (isset($this->data['Prestamo']['PRESTAMO_MES']) && isset($this->data['Prestamo']['PRESTAMO_AÑO'])) {
-            
-            $this->data['Prestamo']['FECHA'] = $this->data['Prestamo']['PRESTAMO_AÑO'] . '-' . $this->data['Prestamo']['PRESTAMO_MES'] . '-1';
+            // Determinamos las fechas en base a la quincena
+            //            
+            if ($this->data['Prestamo']['QUINCENA'] == 'Primera') {
+                $this->data['Prestamo']['FECHA'] = $this->data['Prestamo']['PRESTAMO_AÑO'] . '-' . $this->data['Prestamo']['PRESTAMO_MES'] . '-1';
+            }
+            if ($this->data['Prestamo']['QUINCENA'] == 'Segunda') {
+                $this->data['Prestamo']['FECHA'] = $this->data['Prestamo']['PRESTAMO_AÑO'] . '-' . $this->data['Prestamo']['PRESTAMO_MES'] . '-16';
+            }            
         }
 
         if (!empty($this->data['Prestamo']['FECHA'])) {
@@ -65,6 +75,7 @@ class Prestamo extends AppModel {
                 $results[$key]['Prestamo']['FECHA'] = formatoFechaAfterFind($val['Prestamo']['FECHA']);
                 $results[$key]['Prestamo']['MES'] = $this->getMes($results[$key]['Prestamo']['FECHA']);
                 $results[$key]['Prestamo']['AÑO'] = $this->getAño($results[$key]['Prestamo']['FECHA']);
+                $results[$key]['Prestamo']['QUINCENA'] = $this->getQuincena($results[$key]['Prestamo']['FECHA']);
             }            
         }
         return $results;
@@ -80,6 +91,15 @@ class Prestamo extends AppModel {
     function getAño($date) {
         list($dia, $mes, $anio) = preg_split('/-/', $date);
         return $anio;
+    }
+    
+    function getQuincena($date){
+        list($dia, $mes, $anio) = preg_split('/-/', $date);
+        if($dia=='1'){
+            return 'Primera';
+        }else{
+            return 'Segunda';
+        }
     }
     
     function existe($data){

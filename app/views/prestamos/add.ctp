@@ -24,10 +24,17 @@
         echo $this->Form->input('PRESTAMO_AÑO', array('div' => false, 'label' => false, 'class' => 'small'));
         echo "</div>";
         echo "</div>";
+        
+        echo "<div class='row'>";
+        echo "<div style='float:left;width:40%'>";
+        $options = array('Primera' => 'Primera', 'Segunda' => 'Segunda');
+        echo $this->Form->input('QUINCENA', array('div' => false, 'label' => 'Quincena', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una opcion'));        
+        echo "</div>";
+        echo "</div>";
 
         echo "<div class='row'>";
         echo "<div style='float:left;width:40%'>";
-        echo $this->Form->input('CANTIDAD', array('div' => false, 'label' => 'Monto Quincenal', 'class' => 'small'));
+        echo $this->Form->input('CANTIDAD', array('div' => false, 'label' => 'Monto a pagar', 'class' => 'small'));
         echo "</div>";
         echo "</div>";
         ?>

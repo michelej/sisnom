@@ -6,33 +6,64 @@ class Islr extends AppModel {
     var $useTable = 'islr';
     var $displayField = 'CANTIDAD';
     var $actsAs = array('Containable');
+    /**
+     * Relaciones
+     * 
+     */
     var $belongsTo = 'Empleado';
+    /**
+     * Validaciones
+     * 
+     */
     var $validate = array(
         'PORCENTAJE' => array(
-            'rule' => array('decimal'),
-            'message' => 'Porcentaje invalido ( ejm: 5.00)',
+            'rule' => array('range', 0, 100),
+            'message' => 'Porcentaje invalido',
+        ),
+        'ISLR_MES' => array(
+            'rule' => array('notEmpty'),
+            'message' => 'Seleccione un Mes'
+        ),
+        'QUINCENA' => array(
+            'rule' => array('notEmpty'),
+            'message' => 'Seleccione una Quincena'
+        ),
+        'ISLR_AÑO' => array(
+            'islrAño-r1' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'Ingrese el año',
+                'last' => true,
+            ),
+            'islrAño-r2' => array(
+                'rule' => array('numeric'),
+                'message' => 'El año debe ser un Numero',
+                'last' => true
+            ),
+            'islrAño-r3' => array(
+                'rule' => array('islrAño'),
+                'message' => 'El año es un valor invalido'
+            )
         )
     );
+    
+    function islrAño($check) {
+        if ($check['ISLR_AÑO'] < 1900 || $check['ISLR_AÑO'] > 2200) {
+            return false;
+        }
+        return true;
+    }
 
     function beforeSave() {
         // Cuando esto existe es porque viene del ADD es un nuevo registro
         if (isset($this->data['Islr']['ISLR_MES']) && isset($this->data['Islr']['ISLR_AÑO'])) {
-            if (empty($this->data['Islr']['ISLR_MES']) || empty($this->data['Islr']['ISLR_AÑO'])) {
-                $this->errorMessage = 'Seleccione un Mes e ingrese un valor en Año';
-                return false;
+            // Determinamos las fechas en base a la quincena
+            //            
+            if ($this->data['Islr']['QUINCENA'] == 'Primera') {
+                $this->data['Islr']['FECHA'] = $this->data['Islr']['ISLR_AÑO'] . '-' . $this->data['Islr']['ISLR_MES'] . '-1';
             }
-            if (is_numeric($this->data['Islr']['ISLR_AÑO'])) {
-                if ($this->data['Islr']['ISLR_AÑO'] < 1900 || $this->data['Islr']['ISLR_AÑO'] > 2200) {
-                    $this->errorMessage = "El año es Invalido";
-                    return false;
-                }
-            } else {
-                $this->errorMessage = "El año tiene que ser un numero";
-                return false;
-            }
-
-
-            $this->data['Islr']['FECHA'] = $this->data['Islr']['ISLR_AÑO'] . '-' . $this->data['Islr']['ISLR_MES'] . '-1';
+            if ($this->data['Islr']['QUINCENA'] == 'Segunda') {
+                $this->data['Islr']['FECHA'] = $this->data['Islr']['ISLR_AÑO'] . '-' . $this->data['Islr']['ISLR_MES'] . '-16';
+            }                        
         }
 
         if (!empty($this->data['Islr']['FECHA'])) {
@@ -54,6 +85,7 @@ class Islr extends AppModel {
                 $results[$key]['Islr']['FECHA'] = formatoFechaAfterFind($val['Islr']['FECHA']);
                 $results[$key]['Islr']['MES'] = $this->getMes($results[$key]['Islr']['FECHA']);
                 $results[$key]['Islr']['AÑO'] = $this->getAño($results[$key]['Islr']['FECHA']);
+                $results[$key]['Islr']['QUINCENA'] = $this->getQuincena($results[$key]['Islr']['FECHA']);
             }
         }
         return $results;
@@ -69,6 +101,15 @@ class Islr extends AppModel {
     function getAño($date) {
         list($dia, $mes, $anio) = preg_split('/-/', $date);
         return $anio;
+    }    
+    
+    function getQuincena($date){
+        list($dia, $mes, $anio) = preg_split('/-/', $date);
+        if($dia=='1'){
+            return 'Primera';
+        }else{
+            return 'Segunda';
+        }
     }
 
     function existe($data) {

@@ -5,7 +5,16 @@ class Comercial extends AppModel {
     var $name = 'Comercial';
     var $displayField = 'CANTIDAD';
     var $actsAs = array('Containable');
+    
+    /**
+     * Relaciones
+     * 
+     */
     var $belongsTo = 'Empleado';
+    /**
+     * Validaciones
+     * 
+     */
     var $validate = array(
         'CANTIDAD' => array(
             'rule' => array('numeric'),
@@ -14,6 +23,10 @@ class Comercial extends AppModel {
         'COMERCIAL_MES' => array(
             'rule' => array('notEmpty'),
             'message' => 'Seleccione un Mes'
+        ),
+        'QUINCENA' => array(
+            'rule' => array('notEmpty'),
+            'message' => 'Seleccione una Quincena'
         ),
         'COMERCIAL_AÑO' => array(
             'comercialAño-r1' => array(
@@ -41,17 +54,23 @@ class Comercial extends AppModel {
     }
 
     function beforeSave() {
-        // Cuando esto existe es porque viene del ADD es un nuevo registro
+        // Cuando esto existe es porque viene del ADD es un nuevo registro        
         if (isset($this->data['Comercial']['COMERCIAL_MES']) && isset($this->data['Comercial']['COMERCIAL_AÑO'])) {
-            
-            $this->data['Comercial']['FECHA'] = $this->data['Comercial']['COMERCIAL_AÑO'] . '-' . $this->data['Comercial']['COMERCIAL_MES'] . '-1';
+            // Determinamos las fechas en base a la quincena
+            //            
+            if ($this->data['Comercial']['QUINCENA'] == 'Primera') {
+                $this->data['Comercial']['FECHA'] = $this->data['Comercial']['COMERCIAL_AÑO'] . '-' . $this->data['Comercial']['COMERCIAL_MES'] . '-1';
+            }
+            if ($this->data['Comercial']['QUINCENA'] == 'Segunda') {
+                $this->data['Comercial']['FECHA'] = $this->data['Comercial']['COMERCIAL_AÑO'] . '-' . $this->data['Comercial']['COMERCIAL_MES'] . '-16';
+            }                        
         }
 
         if (!empty($this->data['Comercial']['FECHA'])) {
             $this->data['Comercial']['FECHA'] = formatoFechaBeforeSave($this->data['Comercial']['FECHA']);
         }
         
-        if($this->existe($this->data['Comercial'])){
+        if($this->existe($this->data['Comercial'])){            
             $this->errorMessage = "Ya existe una deduccion por credito comercial para esta fecha.";
             return false;
         }
@@ -66,6 +85,7 @@ class Comercial extends AppModel {
                 $results[$key]['Comercial']['FECHA'] = formatoFechaAfterFind($val['Comercial']['FECHA']);
                 $results[$key]['Comercial']['MES'] = $this->getMes($results[$key]['Comercial']['FECHA']);
                 $results[$key]['Comercial']['AÑO'] = $this->getAño($results[$key]['Comercial']['FECHA']);
+                $results[$key]['Comercial']['QUINCENA'] = $this->getQuincena($results[$key]['Comercial']['FECHA']);
             }            
         }
         return $results;
@@ -82,7 +102,15 @@ class Comercial extends AppModel {
         list($dia, $mes, $anio) = preg_split('/-/', $date);
         return $anio;
     }
-    
+        
+    function getQuincena($date){
+        list($dia, $mes, $anio) = preg_split('/-/', $date);
+        if($dia=='1'){
+            return 'Primera';
+        }else{
+            return 'Segunda';
+        }
+    }
     function existe($data){
         $conditions['empleado_id']=$data['empleado_id'];
         $conditions['FECHA']=$data['FECHA'];

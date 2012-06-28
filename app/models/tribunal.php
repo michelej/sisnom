@@ -5,8 +5,15 @@ class Tribunal extends AppModel {
     var $name = 'Tribunal';
     var $displayField = 'CANTIDAD';
     var $actsAs = array('Containable');
+    /**
+     * Relaciones
+     * 
+     */
     var $belongsTo = 'Empleado';
-    
+    /**
+     * Validaciones
+     * 
+     */
     var $validate = array(
         'CANTIDAD' => array(
             'rule' => array('numeric'),
@@ -15,6 +22,10 @@ class Tribunal extends AppModel {
         'TRIBUNAL_MES' => array(
             'rule' => array('notEmpty'),
             'message' => 'Seleccione un Mes'
+        ),
+        'QUINCENA' => array(
+            'rule' => array('notEmpty'),
+            'message' => 'Seleccione una Quincena'
         ),
         'TRIBUNAL_AÑO' => array(
             'tribunalAño-r1' => array(
@@ -44,22 +55,15 @@ class Tribunal extends AppModel {
     function beforeSave() {
         // Cuando esto existe es porque viene del ADD es un nuevo registro
         if (isset($this->data['Tribunal']['TRIBUNAL_MES']) && isset($this->data['Tribunal']['TRIBUNAL_AÑO'])) {
-            if (empty($this->data['Tribunal']['TRIBUNAL_MES']) || empty($this->data['Tribunal']['TRIBUNAL_AÑO'])) {
-                $this->errorMessage = 'Seleccione un Mes e ingrese un valor en Año';
-                return false;
+            // Determinamos las fechas en base a la quincena
+            //            
+            if ($this->data['Tribunal']['QUINCENA'] == 'Primera') {
+                $this->data['Tribunal']['FECHA'] = $this->data['Tribunal']['TRIBUNAL_AÑO'] . '-' . $this->data['Tribunal']['TRIBUNAL_MES'] . '-1';
             }
-            if (is_numeric($this->data['Tribunal']['TRIBUNAL_AÑO'])) {
-                if ($this->data['Tribunal']['TRIBUNAL_AÑO'] < 1900 || $this->data['Tribunal']['TRIBUNAL_AÑO'] > 2200) {
-                    $this->errorMessage = "El año es Invalido";
-                    return false;
-                }
-            } else {
-                $this->errorMessage = "El año tiene que ser un numero";
-                return false;
-            }
-
-
-            $this->data['Tribunal']['FECHA'] = $this->data['Tribunal']['TRIBUNAL_AÑO'] . '-' . $this->data['Tribunal']['TRIBUNAL_MES'] . '-1';
+            if ($this->data['Tribunal']['QUINCENA'] == 'Segunda') {
+                $this->data['Tribunal']['FECHA'] = $this->data['Tribunal']['TRIBUNAL_AÑO'] . '-' . $this->data['Tribunal']['TRIBUNAL_MES'] . '-16';
+            }            
+            
         }
 
         if (!empty($this->data['Tribunal']['FECHA'])) {
@@ -81,6 +85,7 @@ class Tribunal extends AppModel {
                 $results[$key]['Tribunal']['FECHA'] = formatoFechaAfterFind($val['Tribunal']['FECHA']);
                 $results[$key]['Tribunal']['MES'] = $this->getMes($results[$key]['Tribunal']['FECHA']);
                 $results[$key]['Tribunal']['AÑO'] = $this->getAño($results[$key]['Tribunal']['FECHA']);
+                $results[$key]['Tribunal']['QUINCENA'] = $this->getQuincena($results[$key]['Tribunal']['FECHA']);
             }            
         }
         return $results;
@@ -96,6 +101,15 @@ class Tribunal extends AppModel {
     function getAño($date) {
         list($dia, $mes, $anio) = preg_split('/-/', $date);
         return $anio;
+    }
+    
+    function getQuincena($date){
+        list($dia, $mes, $anio) = preg_split('/-/', $date);
+        if($dia=='1'){
+            return 'Primera';
+        }else{
+            return 'Segunda';
+        }
     }
     
     function existe($data) {

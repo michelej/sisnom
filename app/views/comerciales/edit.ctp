@@ -34,9 +34,9 @@
                 <tr>
                     <th></th>  
                     <th style="width:10%"><?php echo $this->Paginator->sort('Mes', 'FECHA') ?></th>
-                    <th style="width:40%"><?php echo $this->Paginator->sort('Año', 'FECHA') ?></th>
-                    <th style="width:20%"><?php echo $this->Paginator->sort('Cantidad', 'CANTIDAD') ?></th>
-                    <th style="width:25%"> Valor Quincenal</th>                    
+                    <th style="width:10%"><?php echo $this->Paginator->sort('Año', 'FECHA') ?></th>
+                    <th style="width:55%"><?php echo $this->Paginator->sort('Quincena', 'FECHA') ?></th>
+                    <th style="width:20%"><?php echo $this->Paginator->sort('Monto a pagar', 'CANTIDAD') ?></th>                                   
                     <th style="width:15%; text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
@@ -53,7 +53,7 @@
                         <td></td>
                         <td><?php echo $comercial['Comercial']['MES']; ?></td>
                         <td><?php echo $comercial['Comercial']['AÑO']; ?></td>                        
-                        <td><?php echo number_format($comercial['Comercial']['CANTIDAD']*2, 2, ',', '.'); ?></td>
+                        <td><?php echo $comercial['Comercial']['QUINCENA']; ?></td>                        
                         <td><?php echo number_format($comercial['Comercial']['CANTIDAD'], 2, ',', '.'); ?></td>                        
                         <td class="actions">
                             <?php

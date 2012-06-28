@@ -611,34 +611,22 @@ class Nomina extends AppModel {
                     ),
                     'Prestamo' => array(
                         'conditions' => array(
-                            'AND' => array(
-                                'DATE_FORMAT(Prestamo.FECHA,"%m") = DATE_FORMAT("' . $fecha_ini . '","%m")',
-                                'DATE_FORMAT(Prestamo.FECHA,"%y") = DATE_FORMAT("' . $fecha_ini . '","%y")'
-                            )
+                            'Prestamo.FECHA'=>$fecha_ini
                         )
                     ),
                     'Comercial' => array(
                         'conditions' => array(
-                            'AND' => array(
-                                'DATE_FORMAT(Comercial.FECHA,"%m") = DATE_FORMAT("' . $fecha_ini . '","%m")',
-                                'DATE_FORMAT(Comercial.FECHA,"%y") = DATE_FORMAT("' . $fecha_ini . '","%y")'
-                            )
+                            'Comercial.FECHA'=>$fecha_ini
                         )
                     ),
                     'Tribunal' => array(
                         'conditions' => array(
-                            'AND' => array(
-                                'DATE_FORMAT(Tribunal.FECHA,"%m") = DATE_FORMAT("' . $fecha_ini . '","%m")',
-                                'DATE_FORMAT(Tribunal.FECHA,"%y") = DATE_FORMAT("' . $fecha_ini . '","%y")'
-                            )
+                            'Tribunal.FECHA'=>$fecha_ini
                         )
                     ),
                     'Islr' => array(
                         'conditions' => array(
-                            'AND' => array(
-                                'DATE_FORMAT(Islr.FECHA,"%m") = DATE_FORMAT("' . $fecha_ini . '","%m")',
-                                'DATE_FORMAT(Islr.FECHA,"%y") = DATE_FORMAT("' . $fecha_ini . '","%y")'
-                            )
+                            'Islr.FECHA'=>$fecha_ini
                         )
                     )
                 ),
