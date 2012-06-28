@@ -11,6 +11,7 @@
         <?php
         echo $this->Form->create('Cestaticket', array('url' => array('controller' => 'cestatickets', 'action' => 'add')));
         echo $this->Form->input('FECHA_ELA', array('type' => 'hidden', 'value' => date("Y-m-d H:i:s")));
+        echo $this->Form->input('SUELDO_MINIMO', array('type'=>'hidden','value'=>0));
 
         echo "<div class='row'>";
         echo "<div style='float:left;width:30%;'>";
@@ -25,10 +26,7 @@
         echo $this->Form->input('CESTATICKET_AÑO', array('div' => false, 'label' => false, 'class' => 'small'));
         echo "</div>";
         echo "</div>";
-        
-        echo "<div class='row'>";
-        echo "</div>";
-        
+                
         echo "<div class='row'>";
         echo "<div style='float:left;width:30%;'>";
         echo $this->Form->label('Valor Diario');
@@ -38,8 +36,8 @@
 
         echo "<div class='row'>";
         echo "<div style='float:left;width:30%;'>";
-        echo $this->Form->label('Sueldo Minimo');
-        echo $this->Form->input('SUELDO_MINIMO', array('div' => false, 'label' => false, 'class' => 'small'));
+        
+        
         echo "</div>";
         echo "</div>";
         ?>

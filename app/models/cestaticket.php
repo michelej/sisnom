@@ -217,35 +217,23 @@ class Cestaticket extends AppModel {
                 $empleados[$key]['Cestaticket_Empleado']['CARGO'] = $empleado['Cargo']['NOMBRE'];
             }
 
-            // CALCULOS DE LOS CESTATICKETS!!!!
-            // SI EL SUELDO DE LA PERSONA ES MAYOR A 3 SUELDOS MINIMOS NO RECIBE CESTATICKET ????
+            // CALCULOS DE LOS CESTATICKETS!!!!           
             $aus = 0;
-            $no_incluir = false;
-            if ($empleados[$key]['Cestaticket_Empleado']['SUELDO_BASE'] > ($sueldo_minimo * 3)) {
-                $no_incluir = true;
-                //$empleados[$key]['Cestaticket_Empleado']['MONTO'] = 0;
-                //$empleados[$key]['Cestaticket_Empleado']['DIAS_DESCONTAR'] = 0;
-            } else {
-                foreach ($empleado['Empleado']['Ausencia'] as $ausencia) {
-                    // Las ausencias no remuneradas son las que afectan al pago de cestaticket
-                    if ($ausencia['TIPO'] == 'No Remunerada') {
-                        $aus++;
-                    }
+            foreach ($empleado['Empleado']['Ausencia'] as $ausencia) {
+                // Las ausencias no remuneradas son las que afectan al pago de cestaticket
+                if ($ausencia['TIPO'] == 'No Remunerada') {
+                    $aus++;
                 }
-                $empleados[$key]['Cestaticket_Empleado']['DIAS_DESCONTAR'] = $aus;
-                $dias = $dias - $aus;
-                $empleados[$key]['Cestaticket_Empleado']['MONTO'] = $cestaticket_dia * $dias;
             }
+            $empleados[$key]['Cestaticket_Empleado']['DIAS_DESCONTAR'] = $aus;
+            $dias = $dias - $aus;
+            $empleados[$key]['Cestaticket_Empleado']['MONTO'] = $cestaticket_dia * $dias;
 
-            if ($no_incluir) {
-                unset($empleados[$key]);
-            } else {
-                unset($empleados[$key]['Contrato']);
-                unset($empleados[$key]['Cargo']);
-                unset($empleados[$key]['Departamento']);
-                unset($empleados[$key]['Empleado']);
-                unset($empleados[$key]['Cestaticket_Empleado']['Empleado']);
-            }
+            unset($empleados[$key]['Contrato']);
+            unset($empleados[$key]['Cargo']);
+            unset($empleados[$key]['Departamento']);
+            unset($empleados[$key]['Empleado']);
+            unset($empleados[$key]['Cestaticket_Empleado']['Empleado']);
         }
 
         if (empty($empleados)) {
