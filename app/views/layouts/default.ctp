@@ -83,7 +83,8 @@
                         <li>     
                             <?php echo $this->Html->link($this->Html->image("Chart Bar.png", array('alt' => '', 'height' => '18', 'width' => '18')) . " Reportes", array('controller' => 'Pages', 'action' => 'display'), array('escape' => false)); ?>         
                             <ul>                                                                 
-                                <li><?php echo $this->Html->link($this->Html->image("Document Checklist.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "Generar Reportes", array('controller' => 'reportes', 'action' => 'generar_reportes'), array('escape' => false)); ?></li>                            
+                                <li><?php echo $this->Html->link($this->Html->image("Document Checklist.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "Generar Reportes", array('controller' => 'reportes', 'action' => 'generar_reportes'), array('escape' => false)); ?></li>
+                                <li><?php echo $this->Html->link($this->Html->image("Finder.png", array('alt' => '', 'height' => '18', 'width' => '18')) . "Reporte Personal", array('controller' => 'reportes', 'action' => 'listado_persona'), array('escape' => false)); ?></li>
                             </ul> 
                         </li>
                         <li style="float:right">
