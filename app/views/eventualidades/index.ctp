@@ -41,7 +41,7 @@
         <div class="pages-bottom">
             <div class="actionbox">
                 <?php
-                echo $this->Paginator->counter(array('format' => 'Mostrando %current% Empleado(s), de un total de  %count% Empleados'));
+                echo $this->Paginator->counter(array('format' => 'Mostrando %current% Eventualidad(es), de un total de  %count% Eventualidades'));
                 ?>
             </div>
             <div class="pagination">

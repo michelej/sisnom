@@ -10,12 +10,12 @@
         <?php
         echo $this->Form->create('User',array('url'=>array('controller'=>'users','action'=>'cambiar_password')));
         echo "<div class='row'>";
-        echo "<div style='float:left;width:25%'>";        
+        echo "<div style='margin-right: auto;margin-left: auto;width:25%'>";        
         echo $this->Form->input('OLD_PASSWORD', array('type'=>'password','div' => false, 'label' => 'Contraseña Actual', 'class' => 'small'));
         echo "</div>";
         echo "</div>";
         echo "<div class='row'>";
-        echo "<div style='float:left;width:25%'>";        
+        echo "<div style='margin-right: auto;margin-left: auto;width:25%'>";        
         echo $this->Form->input('PASSWORD', array('type'=>'password','div' => false, 'label' => 'Contraseña Nueva', 'class' => 'small'));
         echo "</div>";        
         echo "</div>";

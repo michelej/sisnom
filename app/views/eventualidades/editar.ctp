@@ -35,8 +35,8 @@
                     <th></th>  
                     <th style="width:15%"><?php echo $this->Paginator->sort('Quincena', 'FECHA') ?></th>                    
                     <th style="width:10%"><?php echo $this->Paginator->sort('Mes', 'FECHA') ?></th>                                        
-                    <th style="width:10%"><?php echo $this->Paginator->sort('Año', 'FECHA') ?></th>                                        
-                    <th style="width:55%"><?php echo $this->Paginator->sort('Monto', 'VALOR') ?></th>                                                            
+                    <th style="width:30%"><?php echo $this->Paginator->sort('Año', 'FECHA') ?></th>                                        
+                    <th style="width:35%"><?php echo $this->Paginator->sort('Monto', 'VALOR') ?></th>                                                            
                     <th style="width:10%; text-align: center" class="actions">Acciones</th>
                 </tr>
             </thead>
@@ -54,7 +54,7 @@
                         <td><?php echo $eventualidad['DetalleEventualidad']['QUINCENA']." Quincena"; ?></td>                                                
                         <td><?php echo $eventualidad['DetalleEventualidad']['MES']; ?></td>                                                
                         <td><?php echo $eventualidad['DetalleEventualidad']['AÑO']; ?></td>                        
-                        <td style="text-align: left"><?php echo $eventualidad['DetalleEventualidad']['VALOR']; ?></td>                                             
+                        <td style="text-align: left"><?php echo number_format($eventualidad['DetalleEventualidad']['VALOR'], 2, ',', '.'); ?></td>                                             
                         <td class="actions">
                             <?php echo $this->Html->image("file_delete.png", array("alt" => " ", 'title' => 'Eliminar Eventualidad', 'width' => '18', 'heigth' => '18', 'url' => array('action' => 'quitar', $eventualidad['DetalleEventualidad']['id'])));  ?>                            
                         </td>
