@@ -9,7 +9,7 @@
         <?php
         echo $this->Form->create('Departamento');
         echo "<div class='row'>";
-        echo "<div style='float:left;width:25%'>";
+        echo "<div style='margin-right: auto;margin-left: auto;width:50%'>";
         echo $this->Form->input('NOMBRE', array('div' => false, 'label' => 'Nombre', 'class' => 'medium'));
         echo "</div>";
         echo "</div>";

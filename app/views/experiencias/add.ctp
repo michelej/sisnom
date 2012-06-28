@@ -12,7 +12,7 @@
         echo $this->Form->input('empleado_id', array('value' => $empleadoId, 'type' => 'hidden'));
 
         echo "<div class='row'>";
-        echo "<div style='float:left;width:20%'>";
+        echo "<div style='float:left;width:35%'>";
         echo $this->Form->input('FECHA_INI', array('type' => 'text', 'div' => false, 'label' => 'Fecha de Inicio', 'class' => 'datepicker dp-applied')) . "</br>";
         echo "</div>";
 

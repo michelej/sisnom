@@ -5,6 +5,29 @@ class User extends AppModel {
     var $name='User';
     var $displayField = 'USERNAME';
     var $useTable = 'users';
+    
+    var $validate = array(
+        'NOMBRE' => array(
+            'rule' => 'notEmpty',
+            'message' => 'Ingrese el Nombre'
+        ),
+        'APELLIDO' => array(
+            'rule' => 'notEmpty',
+            'message' => 'Ingrese el Apellido'
+        ),
+        'USERNAME' => array(
+            'rule' => 'notEmpty',
+            'message' => 'Ingrese el nombre de Usuario'
+        ),
+        'PASSWORD' => array(
+            'rule' => 'notEmpty',
+            'message' => 'Ingrese una Contraseña'
+        ),
+        'GRUPO' => array(
+            'rule' => 'notEmpty',
+            'message' => 'Seleccione un Grupo'
+        ),
+    );
             
     public function authsomeLogin($type, $credentials = array()) {
         switch ($type) {
