@@ -15,12 +15,9 @@
         <?php echo $this->Html->script('jquery-1.6.1.min.js'); ?> 
         <?php echo $this->Html->script('jquery-ui-1.8.14.custom.min.js'); ?>         
     </head> 
-    <body> 
-        <!-- INICIO WRAPPER -->  
-        <div class="wrapper"> 
-            <!-- INICIO CONTAINER -->  
-            <div class="container"> 
-                <!-- INICIO TOP -->  
+    <body>         
+        <div class="wrapper">             
+            <div class="container">                 
                 <div class="top">                     
                     <div class="split"></div> 
                     <div class="split">                         
@@ -29,11 +26,8 @@
                             <?php echo $this->Html->image('icon-logout.gif'); ?>                            
                             <?php echo $html->link('Salir', array('controller' => 'users', 'action' => 'logout')); ?> 
                         </div> 
-
                     </div> 
-                </div> 
-                <!-- FIN TOP -->  
-                <!-- INICIO MENU -->  
+                </div>                                 
                 <div class="menu">  
                     <ul> 
                         <li class="current" style="height:32px">
@@ -93,20 +87,14 @@
                             </ul> 
                         </li> 
                     </ul> 
-                </div> 
-                <!-- END MENU -->  
-                <!-- INICIO HOLDER -->  
+                </div>                
                 <div class="holder">                    
                     <?php echo $content_for_layout; ?>
-                </div>
-                <!-- FIN HOLDER -->  
+                </div>               
                 <div class="footer">
-
                 </div> 
-            </div> 
-            <!-- FIN CONTAINER -->   
-        </div>
-        <!-- FIN WRAPPER -->                  
+            </div>             
+        </div>        
         <?php echo $this->Html->script('jquery.pngFix.js'); ?>
         <?php echo $this->Html->script('hoverIntent.js'); ?>
         <?php echo $this->Html->script('superfish.js'); ?>
@@ -116,7 +104,6 @@
         <?php echo $this->Html->script('jquery.datepicker.js'); ?>
         <?php echo $this->Html->script('jquery.filestyle.mini.js'); ?>
         <?php echo $this->Html->script('jquery.price_format.1.5'); ?>
-        <?php echo $this->Html->script('inline1.js'); ?>
-        <?php //echo $this->Html->script('common.js'); ?>
+        <?php echo $this->Html->script('inline1.js'); ?>        
     </body> 
 </html> 

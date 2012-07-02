@@ -34,11 +34,10 @@ img {
     position: relative;
     width: 982px;
 }
-.top {
-    background-image: url("../img/banner.png");
-    /*background-color: #bedf5d;*/
-    float: left;
-    height: 100px;
+.top {    
+    background: url("../img/banner.png");
+    height: 101px;
+    float: left;    
     padding: 0 1px;
     width: 980px;
 }
@@ -588,4 +587,29 @@ img {
 }
 .flash_success img, .flash_error img {
     float:right;
+}
+
+.titulo_blue_md{
+    background:url(../img/blue_hdr_mdl.png) repeat-x;
+    height:28px;
+    width:150px;
+    font-size:18px;
+    color:#707070;
+    padding:5px 0 0 12px;
+    text-shadow: 1px 1px 2px #D0D0D0;
+    float: left;
+}
+
+.titulo_blue_lt{
+    background:url(../img/blue_hdr_lft.png) no-repeat;
+    height:33px;
+    width:8px;
+    float: left;
+}
+
+.titulo_blue_rt{
+    background:url(../img/blue_hdr_rht.png) no-repeat;
+    width:8px;
+    height:33px;
+    float: left;
 }
