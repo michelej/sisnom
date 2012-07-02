@@ -128,7 +128,7 @@ class Empleado extends AppModel {
             $options['conditions'][] = array('Empleado.EDOCIVIL' => $parametros['EDOCIVIL']);
         }
 
-        $hoy = date('d-m-Y');
+        $hoy = date('Y-m-d');        
         $options['contain'] = array(
             'Familiar', 'Grupo', 'Titulo',
             'Localizacion' => array(
@@ -138,13 +138,14 @@ class Empleado extends AppModel {
                 'Cargo' => array(
                     'Historial' => array(
                         'conditions' => array(
-                            'OR' => array(
+                            'OR' => array(          
                                 'FECHA_FIN > ' => $hoy,
                                 'FECHA_FIN' => NULL,
                             ),
                             'AND' => array(
                                 'FECHA_INI < ' => $hoy,
                             )
+                            
                         )
                     )
                 ),
@@ -341,7 +342,13 @@ class Empleado extends AppModel {
                     $data[$key]['Empleado']['MODALIDAD'] = $empleado['Contrato']['0']['MODALIDAD'];
                     $data[$key]['Empleado']['CARGO'] = $empleado['Contrato']['0']['Cargo']['NOMBRE'];
                     $data[$key]['Empleado']['DEPARTAMENTO'] = $empleado['Contrato']['0']['Departamento']['NOMBRE'];
-                    $data[$key]['Empleado']['SUELDO'] = $empleado['Contrato']['0']['Cargo']['Historial']['0']['SUELDO_BASE'];
+                    if(!empty($empleado['Contrato']['0']['Cargo']['Historial'])){
+                        $data[$key]['Empleado']['SUELDO'] = $empleado['Contrato']['0']['Cargo']['Historial']['0']['SUELDO_BASE'];
+                    }else{
+                        $data[$key]['Empleado']['SUELDO'] = 0;
+                    }
+                    
+                    
                 } else {
                     $data[$key]['Empleado']['MODALIDAD'] = "";
                     $data[$key]['Empleado']['CARGO'] = "";

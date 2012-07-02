@@ -83,7 +83,7 @@
 input[type="submit"]:hover{
     background-position: left bottom;
     border: 1px solid #2B2B2B;
-} 
+}
 
 .row .boton
 {
@@ -107,7 +107,7 @@ input[type="submit"]:hover{
     border: 1px solid #566F29;
     border-radius: 4px 4px 4px 4px;
     margin-right: 5px;        
-    
+
 }
 
 .row .boton a.disabled{
@@ -123,7 +123,6 @@ input[type="submit"]:hover{
     border: 1px solid #566F29;
     border-radius: 4px 4px 4px 4px;
     margin-right: 5px;        
-    
 }
 
 .row .boton a:hover {
@@ -293,20 +292,33 @@ input[type="submit"]:hover{
     padding: 0;
 }
 .row button {
-    background-color: transparent;
-    background-repeat: repeat-x;
-    border: medium none;
-    border-radius: 4px 4px 4px 4px;
+    background-image: url("../img/grey/btn.gif");
+    border: 1px solid #566F29;
+    width:100%;
+    height:28px !important;
+    color:#FFF;
     cursor: pointer;
-    float: left;
-    margin: 0 4px 0 0;
-    outline: medium none;
-    overflow: visible;
-    padding: 0;
-    text-transform: uppercase;
-    width: auto;
+    margin-top: -6px; 
+    padding-top: 5px;
+    padding-right: 25px;
+    padding-bottom: 5px;
+    padding-left: 25px;
 }
-.row button span {
+.row button.disabled{
+    background-image: url("../img/grey/btn-dis.gif");
+    border: 1px solid #566F29;
+    width:100%;
+    height:28px !important;
+    color:#FFF;
+    cursor: pointer;
+    margin-top: -6px; 
+    padding-top: 5px;
+    padding-right: 25px;
+    padding-bottom: 5px;
+    padding-left: 25px;
+}
+
+/*.row button span {
     background-color: transparent;
     background-repeat: repeat-x;
     border-radius: 4px 4px 4px 4px;
@@ -319,8 +331,8 @@ input[type="submit"]:hover{
     margin: 0;
     padding: 0 15px;
     white-space: nowrap;
-}
-.row button:hover span {
+}*/
+.row button:hover {
     background-position: left bottom;
     border: 1px solid #2B2B2B;
 }

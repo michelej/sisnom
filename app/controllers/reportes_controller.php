@@ -14,7 +14,18 @@ class ReportesController extends AppController {
         if (!empty($this->data)) {                        
             $data=$this->Empleado->busqueda($this->data);                        
             $this->set('empleados', $data);            
-            $this->render('archivo_reporte','nominaExcel');
+            if($this->data['TIPO_REPORTE']=='1'){
+                $this->render('archivo_general','nominaExcel');
+            }
+            if($this->data['TIPO_REPORTE']=='2'){
+                $this->render('archivo_contacto','nominaExcel');
+            }            
+            if($this->data['TIPO_REPORTE']=='3'){
+                $this->render('archivo_direccion','nominaExcel');
+            }            
+            if($this->data['TIPO_REPORTE']=='4'){
+                $this->render('archivo_banco','nominaExcel');
+            }            
         }
         $this->set(compact('cargos','departamentos','asignaciones','deducciones'));
     }     

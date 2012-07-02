@@ -81,8 +81,9 @@
                             </ul> 
                         </li>
                         <li style="float:right">
-                            <?php echo $this->Html->link($this->Html->image("User.png", array('alt' => 'Usuario', 'height' => '18', 'width' => '18')) . " Usuarios", array('controller' => 'users', 'action' => 'index'), array('escape' => false)); ?>
-                            <ul>                                                                 
+                            <?php echo $this->Html->link($this->Html->image("User.png", array('alt' => 'Usuario', 'height' => '18', 'width' => '18')) . " Usuarios", array('controller' => 'Pages', 'action' => 'display'), array('escape' => false)); ?>
+                            <ul>
+                                <li><?php echo $this->Html->link($this->Html->image("User.png", array('alt' => 'Usuario', 'height' => '18', 'width' => '18')) . "Listado Usuarios", array('controller' => 'users', 'action' => 'index'), array('escape' => false)); ?></li>
                                 <li><?php echo $this->Html->link($this->Html->image("icon-logout.gif", array('alt' => '', 'height' => '18', 'width' => '18')) . "Cambiar Contraseña", array('controller' => 'users', 'action' => 'cambiar_password'), array('escape' => false)); ?></li>                            
                             </ul> 
                         </li> 

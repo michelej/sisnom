@@ -87,7 +87,13 @@ class ContratosController extends AppController {
             }
         }
         $cargos = $this->Contrato->Cargo->find('list');
-        $departamentos = $this->Contrato->Departamento->find('list');
+        $departamentos = $this->Contrato->Departamento->find('list',array(
+            'conditions'=>array(
+                'NOT'=>array(
+                    'programa_id'=>null
+                )
+            )
+        ));
         $this->set("empleadoId", $this->params['named']['empleadoId']);
         $this->set(compact('cargos', 'departamentos'));
     }

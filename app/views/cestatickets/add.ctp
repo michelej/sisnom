@@ -16,21 +16,18 @@
         echo "<div class='row'>";
         echo "<div style='float:left;width:30%;'>";
         $options = array('1' => 'Enero', '2' => 'Febrero', '3' => 'Marzo', '4' => 'Abril', '5' => 'Mayo', '6' => 'Junio', '7' => 'Julio'
-            , '8' => 'Agosto', '9' => 'Septiembre', '10' => 'Octubre', '11' => 'Noviembre', '12' => 'Diciembre');
-        echo $this->Form->label('Mes');
-        echo $this->Form->input('CESTATICKET_MES', array('div' => false, 'label' => false, 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione el Opcion'));
+            , '8' => 'Agosto', '9' => 'Septiembre', '10' => 'Octubre', '11' => 'Noviembre', '12' => 'Diciembre');        
+        echo $this->Form->input('CESTATICKET_MES', array('div' => false, 'label' => 'Mes', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione el Opcion'));
         echo "</div>";
 
-        echo "<div style='float:left;width:30%;'>";
-        echo $this->Form->label('Año');
-        echo $this->Form->input('CESTATICKET_AÑO', array('div' => false, 'label' => false, 'class' => 'small'));
+        echo "<div style='float:left;width:30%;'>";        
+        echo $this->Form->input('CESTATICKET_AÑO', array('div' => false, 'label' => 'Año', 'class' => 'small'));
         echo "</div>";
         echo "</div>";
                 
         echo "<div class='row'>";
-        echo "<div style='float:left;width:30%;'>";
-        echo $this->Form->label('Valor Diario');
-        echo $this->Form->input('VALOR_DIARIO', array('div' => false, 'label' => false, 'class' => 'small'));
+        echo "<div style='float:left;width:30%;'>";        
+        echo $this->Form->input('VALOR_DIARIO', array('div' => false, 'label' => 'Valor Diario  (UT 50%)', 'class' => 'small'));
         echo "</div>";
         echo "</div>";
 

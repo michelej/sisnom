@@ -29,7 +29,7 @@
 
         echo "<div class='row'>";
         echo "<div style='float:left;width:50%'>";
-        echo $this->Form->input('departamento_id', array('div' => false, 'label' => 'Departamento', 'class' => 'medium', 'empty' => "Seleccione una opción"));
+        echo $this->Form->input('departamento_id', array('div' => false, 'label' => 'Departamento (Localización Financiera)', 'class' => 'medium', 'empty' => "Seleccione una opción"));
         echo "</div>";
         echo "</div>";
 
