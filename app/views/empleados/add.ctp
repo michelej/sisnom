@@ -14,7 +14,7 @@
                 <a href="#tab1">Datos Personales</a>
             </li>
             <li class="ui-state-default ui-corner-top">
-                <a href="#tab2">Laboral</a>
+                <a href="#tab2">Banco</a>
             </li>
             <li class="ui-state-default ui-corner-top">
                 <a href="#tab3">Curriculum</a>
@@ -71,7 +71,21 @@
             echo $this->Form->input('EDOCIVIL', array('div' => false, 'label' => 'Estado Civil', 'class' => 'small', 'type' => 'select', 'options' => $options, 'empty' => 'Seleccione una Opcion'));
             echo "</div>";
             echo "</div>";
+            
+            echo "<div class='row'>";            
+            echo "<div style='float:left;width:35%'>";
+            echo $this->Form->input('grupo_id', array('div' => false, 'label' => 'Empleado o Obrero', 'class' => 'small', 'empty' => 'Seleccione una Opcion'));
+            echo "</div>";
+            
+            echo "<div style='float:left;width:25%'>";
+            echo $this->Form->input('INGRESO', array('type' => 'text', 'div' => false, 'label' => 'Fecha de Ingreso', 'class' => 'datepicker dp-applied')) . "</br>";
+            echo "</div>";            
+            echo "</div>";
             // END ROW
+            echo "<div class='row'>";            
+            echo "</div>";
+            echo "<div class='row'>";            
+            echo "</div>";
             // INI ROW
             echo "<div class='row'>";
             echo "<div style='float:left;width:20%'>";
@@ -115,17 +129,7 @@
         </div> 
 
         <div id="tab2" class="tabdiv ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" style="">
-            <?php
-            // INI ROW
-            echo "<div class='row'>";            
-            echo "<div style='float:left;width:50%'>";
-            echo $this->Form->input('grupo_id', array('div' => false, 'label' => 'Empleado o Obrero', 'class' => 'small', 'empty' => 'Seleccione una Opcion'));
-            echo "</div>";
-            
-            echo "<div style='float:left;width:25%'>";
-            echo $this->Form->input('INGRESO', array('type' => 'text', 'div' => false, 'label' => 'Fecha de Ingreso', 'class' => 'datepicker dp-applied')) . "</br>";
-            echo "</div>";            
-            echo "</div>";
+            <?php                        
             // END ROW
             // INI ROW
             echo "<div class='row'>";
