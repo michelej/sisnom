@@ -25,7 +25,16 @@ class HorasExtra extends AppModel {
     function beforeSave() {
         if (!empty($this->data['HorasExtra']['FECHA'])) {
             $this->data['HorasExtra']['FECHA'] = formatoFechaBeforeSave($this->data['HorasExtra']['FECHA']);
-        }        
+        }   
+        
+         // Si existe el Nomina -> ID entonces es un update osea un generarNomina (que es donde se agregan los empleados)
+        
+        if (!isset($this->data['HorasExtra']['id'])) {            
+            if ($this->existe($this->data['HorasExtra'])) {
+                $this->errorMessage = "Ya existe una Hora Extra para esta fecha.";
+                return false;
+            }
+        }    
         return true;
     }
 
@@ -41,6 +50,19 @@ class HorasExtra extends AppModel {
             }                       
         }
         return $results;
+    }
+    
+    
+    function existe($data){        
+        $conditions['FECHA'] = $data['FECHA'];        
+        $data = $this->find('first', array(
+            'conditions' => $conditions
+                ));
+        if (!empty($data)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

@@ -14,7 +14,7 @@ class Nomina extends AppModel {
     /**
      *  Validaciones     
      */
-    var $validate = array(
+    var $validate = array(        
         'SUELDO_MINIMO' => array(
             'rule' => array('numeric'),
             'message' => 'Sueldo Minimo invalido',
@@ -85,8 +85,9 @@ class Nomina extends AppModel {
         }
 
         // Si existe el Nomina -> ID entonces es un update osea un generarNomina (que es donde se agregan los empleados)
-        if (!isset($this->id)) {
-            if ($this->existe($this->data['Nomina']) && !isset($this->data['Nomina']['id'])) {
+        
+        if (!isset($this->data['Nomina']['id'])) {            
+            if ($this->existe($this->data['Nomina'])) {
                 $this->errorMessage = "Ya existe una nomina para ese periodo";
                 return false;
             }
@@ -611,22 +612,22 @@ class Nomina extends AppModel {
                     ),
                     'Prestamo' => array(
                         'conditions' => array(
-                            'Prestamo.FECHA'=>$fecha_ini
+                            'Prestamo.FECHA' => $fecha_ini
                         )
                     ),
                     'Comercial' => array(
                         'conditions' => array(
-                            'Comercial.FECHA'=>$fecha_ini
+                            'Comercial.FECHA' => $fecha_ini
                         )
                     ),
                     'Tribunal' => array(
                         'conditions' => array(
-                            'Tribunal.FECHA'=>$fecha_ini
+                            'Tribunal.FECHA' => $fecha_ini
                         )
                     ),
                     'Islr' => array(
                         'conditions' => array(
-                            'Islr.FECHA'=>$fecha_ini
+                            'Islr.FECHA' => $fecha_ini
                         )
                     )
                 ),

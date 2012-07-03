@@ -69,8 +69,8 @@ class Cestaticket extends AppModel {
         }
 
         // Si existe el Cestaticket -> ID entonces es un update osea un generarCestaticket (que es donde se agregan los empleados)
-        if (!isset($this->id)) {
-            if ($this->existe($this->data['Cestaticket']) && !isset($this->data['Cestaticket']['id'])) {
+        if (!isset($this->data['Cestaticket']['id'])) {
+            if ($this->existe($this->data['Cestaticket'])) {
                 $this->errorMessage = "Ya existe una nomina para esta fecha.";
                 return false;
             }

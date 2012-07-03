@@ -97,7 +97,11 @@ class HorasExtrasController extends AppController {
                 $this->Session->setFlash('Hora Extra agregada con exito', 'flash_success');
                 $this->redirect('edit/' . $this->data['HorasExtra']['empleado_id']);
             }
-            $this->Session->setFlash("Existen errores corrigalos antes de continuar", 'flash_error');
+            if (!empty($this->HorasExtra->errorMessage)) {
+                $this->Session->setFlash($this->HorasExtra->errorMessage, 'flash_error');
+            } else {
+                $this->Session->setFlash("Existen errores corrigalos antes de continuar", 'flash_error');
+            }            
         }
     }
 
