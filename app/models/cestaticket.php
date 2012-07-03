@@ -153,7 +153,7 @@ class Cestaticket extends AppModel {
             $data['DEPARTAMENTO'] = $empleado['Cestaticket_Empleado']['DEPARTAMENTO'];
             $data['MODALIDAD'] = $empleado['Cestaticket_Empleado']['MODALIDAD'];
             $data['DIAS_LABORADOS'] = $empleado['Cestaticket_Empleado']['DIAS_LABORADOS'];
-            $data['DIAS_ADICIONALES'] = 0;
+            $data['DIAS_ADICIONALES'] = $empleado['Cestaticket_Empleado']['DIAS_ADICIONALES'];
             $data['DIAS_DESCONTAR'] = $empleado['Cestaticket_Empleado']['DIAS_DESCONTAR'];
             $data['TOTAL'] = $empleado['Cestaticket_Empleado']['MONTO'];
             $data['empleado_id'] = $empleado['Cestaticket_Empleado']['ID_EMPLEADO'];
@@ -206,8 +206,33 @@ class Cestaticket extends AppModel {
             $empleados[$key]['Cestaticket_Empleado']['SUELDO_BASE'] = $empleado['Cargo']['Historial']['0']['SUELDO_BASE'];
             $empleados[$key]['Cestaticket_Empleado']['SUELDO_MINIMO'] = $sueldo_minimo;
             $empleados[$key]['Cestaticket_Empleado']['CESTATICKET_DIA'] = $cestaticket_dia;
+           
             $empleados[$key]['Cestaticket_Empleado']['DIAS_HABILES'] = $this->nominaDiasHabiles($id);
-            $empleados[$key]['Cestaticket_Empleado']['DIAS_LABORADOS'] = $dias;
+ 
+
+            $total_dias=$dias-$empleados[$key]['Cestaticket_Empleado']['DIAS_HABILES'];                        
+            $empleados[$key]['Cestaticket_Empleado']['DIAS_DESCONTAR']=0;
+            
+            if($total_dias<0){
+                $empleados[$key]['Cestaticket_Empleado']['DIAS_ADICIONALES']=0;
+                $empleados[$key]['Cestaticket_Empleado']['DIAS_DESCONTAR']=$total_dias*-1;
+            }else{
+                $empleados[$key]['Cestaticket_Empleado']['DIAS_ADICIONALES']=$total_dias;                
+            }            
+            
+            // -- DIAS LABORADOS --            
+            if (check_in_range($fecha_ini, $fecha_fin, $empleado['Contrato']['FECHA_FIN'])) {                
+                $dd = $this->diasHabilesFechas($fecha_ini, $empleado['Contrato']['FECHA_FIN']);
+                $empleados[$key]['Cestaticket_Empleado']['DIAS_LABORADOS'] = $dd;
+            } elseif (check_in_range($fecha_ini, $fecha_fin, $empleado['Contrato']['FECHA_INI'])) {                
+                $dd = $this->diasHabilesFechas($empleado['Contrato']['FECHA_INI'], $fecha_fin);
+                $empleados[$key]['Cestaticket_Empleado']['DIAS_LABORADOS'] = $dd;
+            } else {
+                $empleados[$key]['Cestaticket_Empleado']['DIAS_LABORADOS'] = $empleados[$key]['Cestaticket_Empleado']['DIAS_HABILES'];
+            }
+            // -- DIAS LABORADOS --
+            
+            //$empleados[$key]['Cestaticket_Empleado']['DIAS_LABORADOS'] = $dias;
             $empleados[$key]['Cestaticket_Empleado']['DEPARTAMENTO'] = $empleado['Departamento']['NOMBRE'];
             $empleados[$key]['Cestaticket_Empleado']['MODALIDAD'] = $empleado['Contrato']['MODALIDAD'];
             $empleados[$key]['Cestaticket_Empleado']['GRUPO'] = $empleado['Empleado']['Grupo']['NOMBRE'];
@@ -225,9 +250,9 @@ class Cestaticket extends AppModel {
                     $aus++;
                 }
             }
-            $empleados[$key]['Cestaticket_Empleado']['DIAS_DESCONTAR'] = $aus;
-            $dias = $dias - $aus;
-            $empleados[$key]['Cestaticket_Empleado']['MONTO'] = $cestaticket_dia * $dias;
+            $empleados[$key]['Cestaticket_Empleado']['DIAS_DESCONTAR'] = $empleados[$key]['Cestaticket_Empleado']['DIAS_DESCONTAR']+ $aus;
+            $dias_efectivo = $empleados[$key]['Cestaticket_Empleado']['DIAS_LABORADOS'] + $empleados[$key]['Cestaticket_Empleado']['DIAS_ADICIONALES'] - $empleados[$key]['Cestaticket_Empleado']['DIAS_DESCONTAR'];
+            $empleados[$key]['Cestaticket_Empleado']['MONTO'] = $cestaticket_dia * $dias_efectivo;
 
             unset($empleados[$key]['Contrato']);
             unset($empleados[$key]['Cargo']);
@@ -289,9 +314,9 @@ class Cestaticket extends AppModel {
             $empleados[$key]['Cestaticket_Empleado']['TOTAL'] = $value['DetalleCestaticket']['TOTAL'];
             $empleados[$key]['Cestaticket_Empleado']['DIAS_ADICIONALES'] = $value['DetalleCestaticket']['DIAS_ADICIONALES'];
             $empleados[$key]['Cestaticket_Empleado']['DIAS_DESCONTAR'] = $value['DetalleCestaticket']['DIAS_DESCONTAR'];
-            $empleados[$key]['Cestaticket_Empleado']['VALOR_DIARIO'] = $value['Cestaticket']['VALOR_DIARIO'];
-            $empleados[$key]['Cestaticket_Empleado']['DIAS_HABILES'] = 22; // OJO PILAS AQUI
-            $empleados[$key]['Cestaticket_Empleado']['DIAS_LABORADOS'] = 22; // OJO PILAS AQUI
+            $empleados[$key]['Cestaticket_Empleado']['VALOR_DIARIO'] = $value['Cestaticket']['VALOR_DIARIO'];                        
+            $empleados[$key]['Cestaticket_Empleado']['DIAS_HABILES'] = $this->nominaDiasHabiles($id);            
+            $empleados[$key]['Cestaticket_Empleado']['DIAS_LABORADOS'] = $value['DetalleCestaticket']['DIAS_LABORADOS'];
             $empleados[$key]['Cestaticket_Empleado']['TOTAL_DIAS'] = $value['DetalleCestaticket']['DIAS_ADICIONALES'] + $empleados[$key]['Cestaticket_Empleado']['DIAS_LABORADOS'];
             $empleados[$key]['Cestaticket_Empleado']['TOTAL_DIAS_EFEC'] = $empleados[$key]['Cestaticket_Empleado']['TOTAL_DIAS'] - $value['DetalleCestaticket']['DIAS_DESCONTAR'];
         }
@@ -434,6 +459,26 @@ class Cestaticket extends AppModel {
         $fecha_ini = formatoFechaBeforeSave($cestaticket['Cestaticket']['FECHA_INI']);
         $fecha_fin = formatoFechaBeforeSave($cestaticket['Cestaticket']['FECHA_FIN']);
 
+        $feriados = $feriado->find('all', array(
+            'conditions' => array(
+                '(FECHA BETWEEN ? AND ?)' => array($fecha_ini, $fecha_fin)
+            )
+                ));
+
+        $number_of_days = numeroDeDias($fecha_ini, $fecha_fin);
+
+        for ($i = 0; $i <= $number_of_days; $i++) {
+            $day = Date('l', mktime(0, 0, 0, date('m', strtotime($fecha_ini)), date('d', strtotime($fecha_ini)) + $i, date('y', strtotime($fecha_ini))));
+            if ($day == 'Saturday' || $day == 'Sunday') {
+                $cantidad++;
+            }
+        }
+        return ($number_of_days + 1) - $cantidad - count($feriados);
+    }
+
+    function diasHabilesFechas($fecha_ini, $fecha_fin) {
+        $feriado = ClassRegistry::init('Feriado');
+        $cantidad = 0;
         $feriados = $feriado->find('all', array(
             'conditions' => array(
                 '(FECHA BETWEEN ? AND ?)' => array($fecha_ini, $fecha_fin)
