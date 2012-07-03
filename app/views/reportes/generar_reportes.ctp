@@ -98,7 +98,7 @@
 </div>
 
 <div class="box">
-    <div class="title"><h2>Reportes</h2></div>
+    <div class="title"><h2>Acciones</h2></div>
     <div class="content pages">
         <div class="row">
             <?php

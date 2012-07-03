@@ -54,11 +54,19 @@ class UsersController extends AppController {
         //$this->set('grupos', $grupos);
     }
 
-    function delete($id) {
-        if ($this->User->delete($id, true)) {
-            $this->Session->setFlash('Usuario eliminado', 'flash_success');
+    function delete($id) {         
+        if(Authsome::get('GRUPO')!='Administrador'){
+            $this->Session->setFlash('Solo el Administrador puede eliminar cuentas de usuario', 'flash_error');
             $this->redirect(array('action' => 'index'));
+            return ;
+        }else{                        
+            if ($this->User->delete($id, true)) {
+                $this->Session->setFlash('Usuario eliminado', 'flash_success');
+                $this->redirect(array('action' => 'index'));
+            }
         }
+        
+        
     }
 
     function cambiar_password() {
