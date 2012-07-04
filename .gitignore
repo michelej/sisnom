@@ -1,5 +1,10 @@
 /nbproject
-*.htaccess
-/app/tmp
+/app/tmp/tests/*
+/app/tmp/sessions/*
+/app/tmp/logs/*
+/app/tmp/cache/views/*
+/app/tmp/cache/models/*
+/app/tmp/cache/persistent/*
 /cake
 /app/config/database.php
+!.gitignore
