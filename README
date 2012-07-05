@@ -1,28 +1,34 @@
-CakePHP is a rapid development framework for PHP which uses commonly known design patterns like Active Record, Association Data Mapping, Front Controller and MVC. Our primary goal is to provide a structured framework that enables PHP users at all levels to rapidly develop robust web applications, without any loss to flexibility.
+Sistema de Gestion de Personal y Calculo de Nomina desarrollado en el framework CakePHP
 
-The Cake Software Foundation - promoting development related to CakePHP
-http://cakefoundation.org/
+	El Sistema maneja la siguiente información:
+	- Todo lo referente a los Empleados.
+	- Los Cargos y Dependencias.
+	- Historial de Sueldos en base al Cargo.
+	- Ajustes en el Tiempo (Asignaciones y Deducciones por Ley)
+	- Ausencias y Horas Extras.
+	- Generacion de Nominas y Nomina de Bono de Alimentacion (Permite su exportacion a Excel).	
+	- Reportes.
+	
+	
+	        Usuario  -  admin / admin
+	DataBase script  -  bdsn_prueba.sql
+	
+	Configurar conexion a la DB en:
+	/app/config/database.php.default   <- Renombrar a database.php
+	
+	Modificar:	
+	
+	var $default = array(
+		'driver' => 'mysql',
+		'persistent' => false,
+		'host' => 'localhost',         <- host
+		'login' => 'root',             <- login
+		'password' => 'root',          <- password
+		'database' => 'BDSN_PRUEBA',   <- si se cambia el nombre de la DB
+		'prefix' => '',
+		'encoding' => 'utf8',
+	);	
 
-CakePHP - the rapid development PHP framework
-http://www.cakephp.org
-
-Cookbook - user documentation for learning about CakePHP
-http://book.cakephp.org
-
-API - quick reference to CakePHP
-http://api.cakephp.org
-
-The Bakery - everything CakePHP
-http://bakery.cakephp.org
-
-The Show - live and archived podcasts about CakePHP and more
-http://live.cakephp.org
-
-CakePHP TV - screen casts from events and video tutorials
-http://tv.cakephp.org
-
-CakePHP Google Group - community mailing list and forum
-http://groups.google.com/group/cake-php
-
-#cakephp on irc.freenode.net - chat with CakePHP developers
-irc://irc.freenode.net/cakephp
+	Probado en la version de CakePHP 1.3.14 (que viene incluida), ademas el sistema fue desarrollado y probado en los navegadores 
+	Mozilla Firefox y Google Chrome a pedido de los usuarios.
+	
