@@ -70,7 +70,7 @@
                         <td style="text-align: left"><?php echo normalizarPalabra($carg); ?></td>                                                                        
                         <td class="actions">
                             <?php
-                            echo $this->Html->image("Button White Add.png", array("alt" => "Editar", 'width' => '18', 'heigth' => '18', 'title' => 'Editar', 'url' => array('controller' => 'eventualidades', 'action' => 'editar', $eventualidad['Eventualidad']['id'], $empleado['Empleado']['id'])));
+                            echo $this->Html->image("file_edit.png", array("alt" => "Editar", 'width' => '18', 'heigth' => '18', 'title' => 'Editar', 'url' => array('controller' => 'eventualidades', 'action' => 'editar', $eventualidad['Eventualidad']['id'], $empleado['Empleado']['id'])));
                             ?>
                         </td>
                     </tr>

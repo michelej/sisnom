@@ -67,19 +67,24 @@ class DepartamentosController extends AppController {
             }
             $this->Session->setFlash("Existen errores corrigalos antes de continuar", 'flash_error');
         }
-        $departamento=$this->Departamento->find('first',array(
-            'recursive'=>-1,
-            'conditions'=>array(
-                'id'=>$id
+        $departamento = $this->Departamento->find('first', array(
+            'recursive' => -1,
+            'conditions' => array(
+                'id' => $id
             )
-        ));
+                ));
         $data = $this->Departamento->Programa->find('all', array(
             'recursive' => -1)
         );
-        foreach ($data as $value) {
-            $programas[$value['Programa']['id']] = "Programa " . $value['Programa']['CODIGO'] . " / " . $value['Programa']['TIPO'] . " " . $value['Programa']['NUMERO'] . " - " . $value['Programa']['NOMBRE'];
+        if (empty($data)) {
+            $programas = array();
+        } else {
+            foreach ($data as $value) {
+                $programas[$value['Programa']['id']] = "Programa " . $value['Programa']['CODIGO'] . " / " . $value['Programa']['TIPO'] . " " . $value['Programa']['NUMERO'] . " - " . $value['Programa']['NOMBRE'];
+            }
         }
-        $this->set(compact("programas", "id","departamento"));
+
+        $this->set(compact("programas", "id", "departamento"));
     }
 
 }

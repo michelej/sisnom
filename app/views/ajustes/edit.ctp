@@ -25,7 +25,7 @@
 </div>
 
 <div class="box">
-    <div class="title"><h2>Historial de Ajustes del Empleado</h2>
+    <div class="title"><h2>Historial de Conceptos</h2>
         <?php echo $this->Html->image("title-hide.gif", array('class' => 'toggle')); ?>
     </div>
     <div class="content pages">
@@ -94,7 +94,7 @@
     <div class="content form">
         <div class="row boton">
             <div class="boton">
-                <?php echo $this->Html->link('Nuevo Ajuste', array('action' => 'add','empleadoId:'.$empleado['Empleado']['id'])); ?>
+                <?php echo $this->Html->link('Nuevo Concepto', array('action' => 'add','empleadoId:'.$empleado['Empleado']['id'])); ?>
             </div>
             <div class="boton">
                 <?php echo $this->Html->link('Regresar', array('controller' => 'ajustes', 'action' => 'index')); ?>
