@@ -1,4 +1,4 @@
-**## Sistema de Gestion de Personal y Calculo de Nomina** 
+## **Sistema de Gestion de Personal y Calculo de Nomina**
 
 Continuacion del trabajo ya realizado en el departamento de informatica,dDesarrollado en el framework CakePHP.
 
