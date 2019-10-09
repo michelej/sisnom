@@ -22,6 +22,7 @@ El Sistema maneja la siguiente información:
 
 Probado en la version de CakePHP 1.3.14 (que viene incluida), ademas el sistema fue desarrollado y probado en los navegadores Mozilla Firefox y Google Chrome a pedido de los usuarios.
 
+Version de PHP 4/5
 
 
 Nota: Este proyecto demuestra mis habilidades como desarrollador de hace 4 años!.
