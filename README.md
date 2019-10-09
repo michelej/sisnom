@@ -25,4 +25,4 @@ Probado en la version de CakePHP 1.3.14 (que viene incluida), ademas el sistema 
 Version de PHP 4/5
 
 
-Nota: Este proyecto demuestra mis habilidades como desarrollador de hace 4 años!.
+Nota: Este proyecto demuestra mis habilidades como desarrollador de hace 8 años!.
